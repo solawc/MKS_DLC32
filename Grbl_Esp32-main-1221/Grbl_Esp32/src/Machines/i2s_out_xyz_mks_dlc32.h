@@ -66,7 +66,7 @@
 
 #define LCD_EN					I2SO(5)
 // #define LCD_RST					I2SO(6)
-#define LCD_RST					GPIO_NUM_4
+#define LCD_RST					GPIO_NUM_39
 
 #define TOUCH_CS				I2SO(3)
 #define BEEPER					I2SO(7)
@@ -82,8 +82,8 @@
 #define GRBL_SPI_SCK 			GPIO_NUM_14
 #define GRBL_SPI_FREQ 			4000000
 
-#define SDCARD_DET_PIN 			GPIO_NUM_39
-
+// #define SDCARD_DET_PIN 			GPIO_NUM_39
+    #define SDCARD_DET_PIN 			I2SO(7)
 //#define TMC_X_UART			GPIO_NUM_18
 //#define TMC_Y_UART			GPIO_NUM_23
 //#define TMC_Z_UART			GPIO_NUM_27

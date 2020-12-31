@@ -106,11 +106,6 @@ void system_ini() {  // Renamed from system_init() due to conflict with esp32 fi
     SPI.begin(GRBL_SPI_SCK, GRBL_SPI_MISO, GRBL_SPI_MOSI, GRBL_SPI_SS);   // HSPI
 #endif
 
-#define USE_LCD_TS 
-#if defined(USE_LCD_TS)
-	TS32_Init();
-#endif 
-
     // Setup M62,M63,M64,M65 pins
     myDigitalOutputs[0] = new UserOutput::DigitalOutput(0, USER_DIGITAL_PIN_0);
     myDigitalOutputs[1] = new UserOutput::DigitalOutput(1, USER_DIGITAL_PIN_1);
@@ -122,6 +117,11 @@ void system_ini() {  // Renamed from system_init() due to conflict with esp32 fi
     myAnalogOutputs[1] = new UserOutput::AnalogOutput(1, USER_ANALOG_PIN_1, USER_ANALOG_PIN_1_FREQ);
     myAnalogOutputs[2] = new UserOutput::AnalogOutput(2, USER_ANALOG_PIN_2, USER_ANALOG_PIN_2_FREQ);
     myAnalogOutputs[3] = new UserOutput::AnalogOutput(3, USER_ANALOG_PIN_3, USER_ANALOG_PIN_3_FREQ);
+
+    #define USE_LCD_TS 
+    #if defined(USE_LCD_TS)
+        TS32_Init();
+    #endif 
 }
 
 #ifdef ENABLE_CONTROL_SW_DEBOUNCE

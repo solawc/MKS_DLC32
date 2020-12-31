@@ -5,7 +5,6 @@ static void LCD_WR_REG(uint8_t cmd) {
     digitalWrite(LCD_CS, LOW); 
     digitalWrite(LCD_RS, LOW); 
     LCD_SPI.transfer(cmd);
-    digitalWrite(LCD_RS, HIGH);
     digitalWrite(LCD_CS, HIGH); 
 }
 
@@ -17,6 +16,12 @@ static void LCD_WR_DATA(uint8_t data) {
     digitalWrite(LCD_CS, HIGH); 
 }
 
+static uint8_t LCD_Read(uint8_t sdata) {
+
+    uint16_t data;
+    return  LCD_SPI.transfer(sdata);;
+}
+
 void LCD_Clear(void) {
 
 }
@@ -24,7 +29,6 @@ void LCD_Clear(void) {
 void TS32_Init(void) {
 
     LCD_SPI.begin(LCD_SCK,LCD_MISO,LCD_MOSI,LCD_CS);     
-
     /* Init GPIO Pin */
     // pinMode(LCD_CS,OUTPUT);  // LCD CS
     pinMode(LCD_RS,OUTPUT);  // LCD RS
@@ -57,8 +61,9 @@ void TS32_Init(void) {
     LCD_WR_REG(0xF0);
     LCD_WR_DATA(0x96);
 
-     LCD_WR_REG(0x36);
-        // LCD_WR_DATA(0xE8);
+    LCD_WR_REG(0x36);
+    // LCD_WR_DATA(0xE8);
+    LCD_WR_DATA(0xe8);
     LCD_WR_DATA(0x28);
     LCD_WR_REG(0x3A);
     LCD_WR_DATA(0x55);
@@ -115,15 +120,15 @@ void TS32_Init(void) {
     LCD_WR_DATA(0x3C);
     LCD_WR_REG(0xF0);
     LCD_WR_DATA(0x69);
-    delay_ms(120);     // Delay 120ms
-    LCD_WR_REG(0x29);     // Display ON
+    delay_ms(120);          // Delay 120ms
+    LCD_WR_REG(0x29);        // Display ON
   
     // LCD_SPI.endTransaction();
     LCD_Clear();
     digitalWrite(LCD_EN, HIGH);
     delay_ms(2000);
-
-    TFT_Fill(0,0,10,10,TFT_COLOR_GREEN); 
+    // TFT_Fill(0,10,0,10,TFT_COLOR_GREEN); 
+    TFT_DrawPoint(100,100,TFT_COLOR_GREEN);
 }
 
 void LCD_Address_Set(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2)
@@ -136,27 +141,26 @@ void LCD_Address_Set(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2)
     LCD_WR_DATA(x1);
     LCD_WR_DATA(x2>>8);
     LCD_WR_DATA(x2);
+
     LCD_WR_REG(0x2b);//行地址设置
     LCD_WR_DATA(y1>>8);
     LCD_WR_DATA(y1);
     LCD_WR_DATA(y2>>8);
     LCD_WR_DATA(y2);
-    LCD_WR_REG(0x2c);//储存器写
+
+    // LCD_WR_REG(0x2c);//储存器写
 }
 
-uint16_t LCD_RD_ID()
-{
-	u8 id1,id2;
-	
-    TFT_CS_RESET;
-    TFT_DC_RESET;
-	SPI1_ReadWriteByte(0xd3);
-    TFT_DC_SET;
-	SPI1_ReadWriteByte(0xff);
-	id1 = SPI1_ReadWriteByte(0xff);
-	id2 = SPI1_ReadWriteByte(0xff);
-	TFT_CS_SET
-		
+uint16_t LCD_RD_ID(void) {
+	uint8_t id1,id2;
+    digitalWrite(LCD_CS, LOW); 
+    digitalWrite(LCD_RS, LOW); 
+	LCD_WR_DATA(0xd3);
+    digitalWrite(LCD_RS, HIGH); 
+	LCD_Read(0xff);
+	id1 = LCD_Read(0xff);
+	id2 = LCD_Read(0xff);
+	digitalWrite(LCD_CS, HIGH); 
 	return (id1<<8|id2);
 }
 
@@ -179,7 +183,6 @@ void TFT_DrawPoint(uint16_t x,uint16_t y,uint16_t color)
 void TFT_Fill(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2,uint16_t color)
 {
     uint16_t x,y;
-	
 	
     LCD_Address_Set(x1,y1,x2,y2);      //设置光标位置
 	
