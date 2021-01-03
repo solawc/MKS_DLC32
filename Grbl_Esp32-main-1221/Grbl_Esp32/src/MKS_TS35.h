@@ -4,8 +4,8 @@
 #include "Grbl.h"
 #include "SPI.h" 
 
-#define LCD_WIDTH       480
-#define LCD_HEIGHT      320
+#define LCD_WIDTH       320
+#define LCD_HEIGHT      480
 
 
 #define TFT_COLOR_RED		0xF800
@@ -22,5 +22,6 @@ void TFT_DisplayOn(void);
 void TFT_DisplayOff(void);
 void TFT_DrawPoint(uint16_t x,uint16_t y,uint16_t color);
 void TFT_Fill(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2,uint16_t color);
+void TFT_Clear(void);
 #endif
 

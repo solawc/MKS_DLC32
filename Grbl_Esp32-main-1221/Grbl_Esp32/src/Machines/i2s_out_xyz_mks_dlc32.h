@@ -52,7 +52,8 @@
 #define LASER_OUTPUT_PIN        GPIO_NUM_19
 
 #define X_LIMIT_PIN             GPIO_NUM_33
-#define Y_LIMIT_PIN             GPIO_NUM_26
+// #define Y_LIMIT_PIN             GPIO_NUM_26
+#define Y_LIMIT_PIN             GPIO_NUM_25
 #define Z_LIMIT_PIN             GPIO_NUM_25
 
 #define PROBE_PIN               GPIO_NUM_32
@@ -66,7 +67,7 @@
 
 #define LCD_EN					I2SO(5)
 // #define LCD_RST					I2SO(6)
-#define LCD_RST					GPIO_NUM_39
+#define LCD_RST					GPIO_NUM_26
 
 #define TOUCH_CS				I2SO(3)
 #define BEEPER					I2SO(7)

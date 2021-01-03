@@ -23,7 +23,7 @@ static uint8_t LCD_Read(uint8_t sdata) {
 }
 
 void LCD_Clear(void) {
-
+    TFT_Clear();
 }
 
 void TS32_Init(void) {
@@ -39,22 +39,24 @@ void TS32_Init(void) {
     digitalWrite(LCD_CS, HIGH); 
     digitalWrite(LCD_RS, HIGH); 
 
-    digitalWrite(LCD_EN, LOW);      //ENABLED LCD BackLight
+    digitalWrite(LCD_EN, HIGH);      //ENABLED LCD BackLight
 
     digitalWrite(LCD_RST, HIGH);
-    delay_ms(150);
+    delay_ms(20);
     digitalWrite(LCD_RST, LOW);
-    delay_ms(150);
+    delay_ms(20);
     digitalWrite(LCD_RST, HIGH);
 
     // TP_SPI.begin(LCD_SCK,LCD_MISO,LCD_MOSI,TOUCH_CS);         
-    LCD_SPI.setFrequency(1000000);     //set SPI Freq = 10M
-    LCD_SPI.setClockDivider(SPI_CLOCK_DIV16);
-    LCD_SPI.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE1));
+    LCD_SPI.setFrequency(8000000);     //set SPI Freq = 10M
+    LCD_SPI.setClockDivider(SPI_CLOCK_DIV2);
+    LCD_SPI.beginTransaction(SPISettings(8000000, MSBFIRST, SPI_MODE1));
 
     delay_ms(120);
     LCD_WR_REG(0x11);
     delay_ms(120);
+
+    LCD_WR_REG(0x36);
 
     LCD_WR_REG(0xF0);
     LCD_WR_DATA(0xC3);
@@ -62,8 +64,8 @@ void TS32_Init(void) {
     LCD_WR_DATA(0x96);
 
     LCD_WR_REG(0x36);
-    // LCD_WR_DATA(0xE8);
-    LCD_WR_DATA(0xe8);
+    LCD_WR_DATA(0xE8);
+    // LCD_WR_DATA(0x28);
     LCD_WR_DATA(0x28);
     LCD_WR_REG(0x3A);
     LCD_WR_DATA(0x55);
@@ -127,8 +129,8 @@ void TS32_Init(void) {
     LCD_Clear();
     digitalWrite(LCD_EN, HIGH);
     delay_ms(2000);
-    // TFT_Fill(0,10,0,10,TFT_COLOR_GREEN); 
-    TFT_DrawPoint(100,100,TFT_COLOR_GREEN);
+    TFT_Fill(0,0,100,100,TFT_COLOR_GREEN); 
+    // TFT_DrawPoint(100,100,TFT_COLOR_GREEN);
 }
 
 void LCD_Address_Set(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2)
@@ -148,7 +150,7 @@ void LCD_Address_Set(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2)
     LCD_WR_DATA(y2>>8);
     LCD_WR_DATA(y2);
 
-    // LCD_WR_REG(0x2c);//储存器写
+    LCD_WR_REG(0x2c);//储存器写
 }
 
 uint16_t LCD_RD_ID(void) {
@@ -192,6 +194,11 @@ void TFT_Fill(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2,uint16_t color)
 			LCD_WR_DATA(color); //设置光标位置
 		}
     }
+}
+
+void TFT_Clear(void)
+{
+    TFT_Fill(0,0,LCD_WIDTH,LCD_HEIGHT,TFT_COLOR_BLACK);
 }
 
 void TS35_Test(void) {
