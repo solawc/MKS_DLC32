@@ -1,5 +1,7 @@
 #include "MKS_TS35.h"
 
+TS35_DEF ESP_TS35;
+
 static void LCD_WR_REG(uint8_t cmd) {
     
     digitalWrite(LCD_CS, LOW); 
@@ -31,13 +33,18 @@ void LCD_Clear(void) {
 }
 
 void TS32_Init(void) {
-
+    
     LCD_SPI.begin(LCD_SCK,LCD_MISO,LCD_MOSI,LCD_CS);     
     /* Init GPIO Pin */
     // pinMode(LCD_CS,OUTPUT);  // LCD CS
     // pinMode(LCD_RS,OUTPUT);  // LCD RS
     // pinMode(LCD_EN,OUTPUT);  // LCD EN
     // pinMode(LCD_RST,OUTPUT); // LCD RST 
+
+    ESP_TS35.LCD_H = LCD_HEIGHT;
+    ESP_TS35.LCD_W = LCD_WIDTH;
+    ESP_TS35.LCD_COLOR = TFT_COLOR_RED;
+
 
     /* Set GPIO pin status */
     digitalWrite(LCD_CS, HIGH); 
@@ -52,9 +59,9 @@ void TS32_Init(void) {
     digitalWrite(LCD_RST, HIGH);
 
     // TP_SPI.begin(LCD_SCK,LCD_MISO,LCD_MOSI,TOUCH_CS);         
-    LCD_SPI.setFrequency(8000000);     //set SPI Freq = 10M
-    LCD_SPI.setClockDivider(SPI_CLOCK_DIV2);
-    LCD_SPI.beginTransaction(SPISettings(8000000, MSBFIRST, SPI_MODE1));
+    LCD_SPI.setFrequency(1000000);     //set SPI Freq = 2M
+    LCD_SPI.setClockDivider(SPI_CLOCK_DIV16);
+    LCD_SPI.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE1));
 
     delay_ms(120);
     LCD_WR_REG(0x11);
@@ -198,7 +205,7 @@ void TFT_Fill(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2,uint16_t color)
 
 void TFT_Clear(void)
 {
-    TFT_Fill(0,0,LCD_WIDTH,LCD_HEIGHT,TFT_COLOR_RED);
+    TFT_Fill(0,0,LCD_WIDTH,LCD_HEIGHT,TFT_COLOR_GREEN);
 }
 
 void TS35_Test(void) {
@@ -208,5 +215,62 @@ void TS35_Test(void) {
     digitalWrite(LCD_CS, HIGH); 
     LCD_SPI.endTransaction();
 }
+
+/**************************************************TOUCH****************************************************/
+void ts35_touch_init(void) {
+
+    ESP_TS35.TOUCH_X = 0;
+    ESP_TS35.TOUCH_Y = 0;
+}
+
+uint8_t touch_read_write_byte(uint8_t sdata) {
+
+    uint8_t rdata = 0;
+
+    TFT_LCD_CS_H;
+    TFT_TOUCH_CS_L;
+    delayMicroseconds(6);
+    rdata = LCD_SPI.transfer(sdata);
+    TFT_TOUCH_CS_H;
+    delayMicroseconds(6);
+    return rdata;
+}
+
+// uint16_t X_Addata=0,Y_Addata=0;
+void XPT2046_Rd_Addata(void)
+{
+    uint16_t temp;
+    //delay_ms(1);
+    touch_read_write_byte( CHX ) ;
+    //delay_ms(1);
+    temp=0;//相当于简短的延时啦
+    temp= touch_read_write_byte(0x00) ;
+    ESP_TS35.TOUCH_Y = temp<<8;
+    temp= touch_read_write_byte(0x00) ;
+    ESP_TS35.TOUCH_Y |=temp;
+    ESP_TS35.TOUCH_Y >>=3;
+    ESP_TS35.TOUCH_Y &= 0XFFF;
+    //GPIO_SetBits(GPIOC, GPIO_Pin_9);
+    
+    //GPIO_ResetBits(GPIOC, GPIO_Pin_9);
+    //delay_ms(1);
+    touch_read_write_byte( CHY) ;
+    temp=0;
+    //delay_ms(1);
+    temp= touch_read_write_byte(0x00);
+    ESP_TS35.TOUCH_X=temp<<8;
+    temp= touch_read_write_byte(0x00);
+    ESP_TS35.TOUCH_X |=temp;
+    ESP_TS35.TOUCH_X >>=3;
+    ESP_TS35.TOUCH_X &=0XFFF;
+}
+
+
+
+
+
+
+
+
 
 

@@ -116,10 +116,7 @@ void system_ini() {  // Renamed from system_init() due to conflict with esp32 fi
     myAnalogOutputs[2] = new UserOutput::AnalogOutput(2, USER_ANALOG_PIN_2, USER_ANALOG_PIN_2_FREQ);
     myAnalogOutputs[3] = new UserOutput::AnalogOutput(3, USER_ANALOG_PIN_3, USER_ANALOG_PIN_3_FREQ);
 
-    #define USE_LCD_TS 
-    #if defined(USE_LCD_TS)
-        TS32_Init();
-    #endif 
+    // TS32_Init();
 }
 
 #ifdef ENABLE_CONTROL_SW_DEBOUNCE

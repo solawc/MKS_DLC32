@@ -23,6 +23,7 @@
 */
 
 #include "Grbl.h"
+#include "MKS_TS35.h"
 
 static void protocol_exec_rt_suspend();
 
@@ -136,6 +137,7 @@ void protocol_main_loop() {
     // This is also where Grbl idles while waiting for something to do.
     // ---------------------------------------------------------------------------------
     uint8_t c;
+
     for (;;) {
 #ifdef ENABLE_SD_CARD
         if (SD_ready_next) {
@@ -198,6 +200,7 @@ void protocol_main_loop() {
                 motors_set_disable(true);
             }
         }
+        XPT2046_Rd_Addata();
     }
     return; /* Never reached */
 }

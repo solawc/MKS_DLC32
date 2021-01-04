@@ -20,6 +20,7 @@
 
 #include "Grbl.h"
 #include <WiFi.h>
+#include "MKS_TS35.h"
 
 void grbl_init() {
 #ifdef USE_I2S_OUT
@@ -108,6 +109,8 @@ static void reset_variables() {
     plan_sync_position();
     gc_sync_position();
     report_init_message(CLIENT_ALL);
+    TS32_Init();
+    ts35_touch_init();
 }
 
 void run_once() {

@@ -73,9 +73,9 @@
 #define BTN_ENC					GPIO_NUM_36
 
 //sd card spi
-#define GRBL_SPI_SS 			GPIO_NUM_13
-#define GRBL_SPI_MOSI 			GPIO_NUM_15
-#define GRBL_SPI_MISO 			GPIO_NUM_2
+#define GRBL_SPI_SS 			GPIO_NUM_15
+#define GRBL_SPI_MOSI 			GPIO_NUM_13
+#define GRBL_SPI_MISO 			GPIO_NUM_12
 #define GRBL_SPI_SCK 			GPIO_NUM_14
 #define GRBL_SPI_FREQ 			4000000
 
