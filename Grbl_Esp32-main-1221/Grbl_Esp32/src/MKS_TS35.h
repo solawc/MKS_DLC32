@@ -4,8 +4,8 @@
 #include "Grbl.h"
 #include "SPI.h" 
 
-#define LCD_WIDTH       320
-#define LCD_HEIGHT      480
+#define LCD_WIDTH       480
+#define LCD_HEIGHT      320
 
 
 #define TFT_COLOR_RED		0xF800

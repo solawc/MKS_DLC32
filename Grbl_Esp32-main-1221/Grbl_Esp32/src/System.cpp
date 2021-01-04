@@ -45,8 +45,6 @@ UserOutput::DigitalOutput* myDigitalOutputs[MaxUserDigitalPin];
 xQueueHandle control_sw_queue;    // used by control switch debouncing
 bool         debouncing = false;  // debouncing in process
 
-/* Write by mks */
-// Adafruit_ST7796 tft = Adafruit_ST7796(LCD_CS,LCD_RS,LCD_RST);
 
 /*-------------------------------------------------------------------------*/
 

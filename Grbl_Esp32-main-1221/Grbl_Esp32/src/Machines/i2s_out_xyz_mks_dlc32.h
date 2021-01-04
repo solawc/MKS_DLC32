@@ -49,11 +49,10 @@
 #define Z_STEP_PIN              I2SO(12)
 
 #define SPINDLE_TYPE            SpindleType::LASER // only one spindle at a time
-#define LASER_OUTPUT_PIN        GPIO_NUM_19
+#define LASER_OUTPUT_PIN        GPIO_NUM_22
 
 #define X_LIMIT_PIN             GPIO_NUM_33
-// #define Y_LIMIT_PIN             GPIO_NUM_26
-#define Y_LIMIT_PIN             GPIO_NUM_25
+#define Y_LIMIT_PIN             GPIO_NUM_26
 #define Z_LIMIT_PIN             GPIO_NUM_25
 
 #define PROBE_PIN               GPIO_NUM_32
@@ -62,12 +61,9 @@
 #define LCD_MOSI				GPIO_NUM_23
 #define LCD_SCK				    GPIO_NUM_18
 #define LCD_CS					I2SO(1)
-// #define LCD_RS					I2SO(2)
-#define LCD_RS                  GPIO_NUM_27
-
+#define LCD_RS					I2SO(2)
 #define LCD_EN					I2SO(5)
-// #define LCD_RST					I2SO(6)
-#define LCD_RST					GPIO_NUM_26
+#define LCD_RST					I2SO(6)
 
 #define TOUCH_CS				I2SO(3)
 #define BEEPER					I2SO(7)
@@ -83,8 +79,8 @@
 #define GRBL_SPI_SCK 			GPIO_NUM_14
 #define GRBL_SPI_FREQ 			4000000
 
-// #define SDCARD_DET_PIN 			GPIO_NUM_39
-    #define SDCARD_DET_PIN 			I2SO(7)
+#define SDCARD_DET_PIN 			GPIO_NUM_39
+
 //#define TMC_X_UART			GPIO_NUM_18
 //#define TMC_Y_UART			GPIO_NUM_23
 //#define TMC_Z_UART			GPIO_NUM_27
