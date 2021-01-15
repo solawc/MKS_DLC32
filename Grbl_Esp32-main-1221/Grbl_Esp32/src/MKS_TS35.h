@@ -4,18 +4,44 @@
 #include "Grbl.h"
 #include "SPI.h" 
 
-#define LCD_WIDTH       480
-#define LCD_HEIGHT      320
+#include <Arduino.h>
+#include <SPI.h>
+#include <driver/spi_master.h>
+#include <deque>
 
-#define	CHX 	        0x90
-#define	CHY 	        0xD0
+#define LCD_WIDTH               480
+#define LCD_HEIGHT              320
 
-#define TFT_COLOR_RED		0xF800
-#define TFT_COLOR_GREEN		0x07E0
-#define TFT_COLOR_BLUE		0x001F
-#define TFT_COLOR_BLACK		0x0000
-#define TFT_COLOR_WHITE		0xFFFF
-#define TFT_COLOR_YELLOW    0xFFE0
+#define	CHX 	                  0x90
+#define	CHY 	                  0xD0
+
+#define XPT2046_DFR_MODE        0x00
+#define XPT2046_SER_MODE        0x04
+#define XPT2046_CONTROL         0x80
+
+#if !defined(XPT2046_Z1_THRESHOLD)
+  #define XPT2046_Z1_THRESHOLD      10
+#endif
+
+#ifndef TOUCH_CALIBRATION_X
+  #define TOUCH_CALIBRATION_X           -17253
+#endif
+#ifndef TOUCH_CALIBRATION_Y
+  #define TOUCH_CALIBRATION_Y            11579
+#endif
+#ifndef TOUCH_OFFSET_X
+  #define TOUCH_OFFSET_X                   514
+#endif
+#ifndef TOUCH_OFFSET_Y
+  #define TOUCH_OFFSET_Y                   -24
+#endif
+
+#define TFT_COLOR_RED		        0xF800
+#define TFT_COLOR_GREEN		      0x07E0
+#define TFT_COLOR_BLUE		      0x001F
+#define TFT_COLOR_BLACK		      0x0000
+#define TFT_COLOR_WHITE		      0xFFFF
+#define TFT_COLOR_YELLOW        0xFFE0
 
 #define TFT_LCD_CS_H        digitalWrite(LCD_CS, HIGH)
 #define TFT_LCD_CS_L        digitalWrite(LCD_CS, LOW)
@@ -23,15 +49,25 @@
 #define TFT_TOUCH_CS_H      digitalWrite(TOUCH_CS, HIGH)
 #define TFT_TOUCH_CS_L      digitalWrite(TOUCH_CS, LOW)
 
+#define TFT_LCD_BK_ON
+#define TFT_LCD_BK_OFF
+
 typedef struct {
 
     uint32_t LCD_W;
     uint32_t LCD_H;
     uint32_t LCD_COLOR;
 
-    uint16_t TOUCH_X;
-    uint16_t TOUCH_Y;
+    int16_t TOUCH_X;
+    int16_t TOUCH_Y;
 }TS35_DEF;
+
+enum XPTCoordinate : uint8_t {
+  XPT2046_X  = 0x10 | XPT2046_CONTROL | XPT2046_DFR_MODE,
+  XPT2046_Y  = 0x50 | XPT2046_CONTROL | XPT2046_DFR_MODE,
+  XPT2046_Z1 = 0x30 | XPT2046_CONTROL | XPT2046_DFR_MODE,
+  XPT2046_Z2 = 0x40 | XPT2046_CONTROL | XPT2046_DFR_MODE,
+};
 
 
 // LCD Driver
@@ -41,10 +77,13 @@ void TFT_DisplayOff(void);
 void TFT_DrawPoint(uint16_t x,uint16_t y,uint16_t color);
 void TFT_Fill(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2,uint16_t color);
 void TFT_Clear(void);
-
+void TS35_Test(void);
 // Touch Driver
 void ts35_touch_init(void);
 uint8_t touch_read_write_byte(uint8_t sdata);
 void XPT2046_Rd_Addata(void);
+uint16_t touch_getRawData(uint8_t sdata);
+bool getRawPoint(int16_t *x, int16_t *y);
+void ts32_touch_read(void);
 #endif
 

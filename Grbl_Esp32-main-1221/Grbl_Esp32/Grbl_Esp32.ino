@@ -1,5 +1,3 @@
-#include <TFT_eSPI.h>
-
 /*
   Grbl_ESP32.ino - Header for system level commands and real-time processes
   Part of Grbl
@@ -21,7 +19,6 @@
 */
 
 #include "src/Grbl.h"
-
 
 void setup() {
     grbl_init();

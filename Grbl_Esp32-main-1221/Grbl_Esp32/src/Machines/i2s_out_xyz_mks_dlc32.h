@@ -27,6 +27,10 @@
 #endif
 #define N_AXIS 3
 
+#ifdef ENABLE_SD_CARD
+    #undef ENABLE_SD_CARD
+#endif
+
 // I2S (steppers & other output-only pins)
 #define USE_I2S_OUT
 #define USE_I2S_STEPS
@@ -36,9 +40,9 @@
 #define I2S_OUT_WS              GPIO_NUM_17
 #define I2S_OUT_DATA            GPIO_NUM_21
 
-#define X_DISABLE_PIN           I2SO(8)
+#define X_DISABLE_PIN           I2SO(9)
 #define X_DIRECTION_PIN         I2SO(10)
-#define X_STEP_PIN              I2SO(9)
+#define X_STEP_PIN              I2SO(8)
 
 #define Y_DISABLE_PIN           I2SO(13)
 #define Y_DIRECTION_PIN         I2SO(15)
@@ -51,9 +55,9 @@
 #define SPINDLE_TYPE            SpindleType::LASER // only one spindle at a time
 #define LASER_OUTPUT_PIN        GPIO_NUM_22
 
-#define X_LIMIT_PIN             GPIO_NUM_33
-#define Y_LIMIT_PIN             GPIO_NUM_26
-#define Z_LIMIT_PIN             GPIO_NUM_25
+#define X_LIMIT_PIN             I2SO(1)//GPIO_NUM_33
+#define Y_LIMIT_PIN             I2SO(1)//GPIO_NUM_26
+#define Z_LIMIT_PIN             I2SO(1)//GPIO_NUM_25
 
 #define PROBE_PIN               GPIO_NUM_32
 
@@ -62,11 +66,14 @@
 #define LCD_SCK				    GPIO_NUM_18
 #define LCD_CS					I2SO(1)
 #define LCD_RS					I2SO(2)
-#define LCD_EN					I2SO(5)
-#define LCD_RST					I2SO(6)
+#define LCD_EN					GPIO_NUM_27 //I2SO(5)
+#define LCD_RST					GPIO_NUM_5  //I2SO(6)
 
 #define TOUCH_CS				I2SO(3)
 #define BEEPER					I2SO(7)
+
+#define IIC_SCL                 GPIO_NUM_4
+#define IIC_SDA                 GPIO_NUM_0
 
 #define BTN_EN1					GPIO_NUM_34
 #define BTN_EN2					GPIO_NUM_35
@@ -80,6 +87,8 @@
 #define GRBL_SPI_FREQ 			4000000
 
 #define SDCARD_DET_PIN 			GPIO_NUM_39
+
+#define PWM_OUT                 GPIO_NUM_2
 
 //#define TMC_X_UART			GPIO_NUM_18
 //#define TMC_Y_UART			GPIO_NUM_23

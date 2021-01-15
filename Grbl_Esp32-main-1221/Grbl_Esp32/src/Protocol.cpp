@@ -200,7 +200,7 @@ void protocol_main_loop() {
                 motors_set_disable(true);
             }
         }
-        XPT2046_Rd_Addata();
+        ts32_touch_read();
     }
     return; /* Never reached */
 }

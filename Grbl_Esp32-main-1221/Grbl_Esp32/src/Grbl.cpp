@@ -21,11 +21,13 @@
 #include "Grbl.h"
 #include <WiFi.h>
 #include "MKS_TS35.h"
-
+#include "MKS_I2C.h"
+#include "lvgl/lvgl.h"
 void grbl_init() {
 #ifdef USE_I2S_OUT
     i2s_out_init();  // The I2S out must be initialized before it can access the expanded GPIO port
 #endif
+    
 	/* Wifi initialized */
     WiFi.persistent(false);
     WiFi.disconnect(true);
@@ -110,7 +112,10 @@ static void reset_variables() {
     gc_sync_position();
     report_init_message(CLIENT_ALL);
     TS32_Init();
+    // I2C_init();
     ts35_touch_init();
+    lv_init();
+    
 }
 
 void run_once() {
