@@ -24,6 +24,7 @@
 
 #include "Grbl.h"
 #include "MKS_TS35.h"
+#include "lvgl/lvgl.h"
 
 static void protocol_exec_rt_suspend();
 
@@ -200,7 +201,8 @@ void protocol_main_loop() {
                 motors_set_disable(true);
             }
         }
-        ts32_touch_read();
+        // ts32_touch_read();
+        lv_task_handler();
     }
     return; /* Never reached */
 }

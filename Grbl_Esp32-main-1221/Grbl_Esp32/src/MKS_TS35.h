@@ -4,10 +4,10 @@
 #include "Grbl.h"
 #include "SPI.h" 
 
-#include <Arduino.h>
-#include <SPI.h>
-#include <driver/spi_master.h>
-#include <deque>
+// #include <Arduino.h>
+// #include <SPI.h>
+// #include <driver/spi_master.h>
+// #include <deque>
 
 #define LCD_WIDTH               480
 #define LCD_HEIGHT              320
@@ -43,11 +43,13 @@
 #define TFT_COLOR_WHITE		      0xFFFF
 #define TFT_COLOR_YELLOW        0xFFE0
 
+
 #define TFT_LCD_CS_H        digitalWrite(LCD_CS, HIGH)
 #define TFT_LCD_CS_L        digitalWrite(LCD_CS, LOW)
 
 #define TFT_TOUCH_CS_H      digitalWrite(TOUCH_CS, HIGH)
 #define TFT_TOUCH_CS_L      digitalWrite(TOUCH_CS, LOW)
+
 
 #define TFT_LCD_BK_ON
 #define TFT_LCD_BK_OFF
@@ -61,6 +63,7 @@ typedef struct {
     int16_t TOUCH_X;
     int16_t TOUCH_Y;
 }TS35_DEF;
+extern TS35_DEF ESP_TS35;
 
 enum XPTCoordinate : uint8_t {
   XPT2046_X  = 0x10 | XPT2046_CONTROL | XPT2046_DFR_MODE,
@@ -85,5 +88,6 @@ void XPT2046_Rd_Addata(void);
 uint16_t touch_getRawData(uint8_t sdata);
 bool getRawPoint(int16_t *x, int16_t *y);
 void ts32_touch_read(void);
+
 #endif
 

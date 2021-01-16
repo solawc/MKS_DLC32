@@ -1,9 +1,8 @@
 #include "MKS_TS35.h"
 #include "lvgl/lvgl.h"
-#include "ESP32DMASPIMaster.h"
-
+// #include "ESP32DMASPIMaster.h"
+// #include <SPI.h>
 TS35_DEF ESP_TS35;
-ESP32DMASPI::Master master;
 
 static const uint32_t TS_SPI_BUF_SIZE = 8192;
 uint8_t *spi_master_tx_buf;
@@ -14,6 +13,8 @@ uint8_t *spi_master_tx_buf;
 #define LCD_SPI_SPEED       80000000        // 80M
 #define TOUCH_SPI_SPEED      1000000        //  1M
 #define DELAY_LCD           4
+
+
 
 
 typedef struct {
@@ -31,7 +32,7 @@ static void LCD_TOUCH_CS_CTRL(uint8_t LCD_CS1) {
 
 static void LCD_WR_REG(uint8_t cmd) {
     
-    digitalWrite(LCD_CS, LOW); 
+    digitalWrite(LCD_CS, LOW);
     digitalWrite(LCD_RS, LOW); 
     delayMicroseconds(DELAY_LCD);
     LCD_SPI.beginTransaction(SPISettings(LCD_SPI_SPEED, MSBFIRST, SPI_MODE0));
@@ -254,7 +255,7 @@ void TFT_DrawPoint(uint16_t x,uint16_t y,uint16_t color)
 }
 
 void TFT_Fill(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2,uint16_t color)
-{
+{  
     uint32_t x,y;
     y = (x2-x1)*(y2-y1);
     LCD_Address_Set(x1,y1,x2,y2);      //设置光标位置
@@ -273,6 +274,9 @@ void TFT_Fill(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2,uint16_t color)
     LCD_SPI.endTransaction();
     digitalWrite(LCD_CS, HIGH); 
 }
+
+
+
 
 void TFT_Clear(void) {
     TFT_Fill(0,0,LCD_WIDTH,LCD_HEIGHT,TFT_COLOR_GREEN);
