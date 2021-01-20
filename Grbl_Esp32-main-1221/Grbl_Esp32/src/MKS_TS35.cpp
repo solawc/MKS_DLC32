@@ -257,21 +257,27 @@ void TFT_DrawPoint(uint16_t x,uint16_t y,uint16_t color)
 void TFT_Fill(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2,uint16_t color)
 {  
     uint32_t x,y;
+    uint8_t color_h = (color >> 8);
+    uint8_t color_l = color;
     y = (x2-x1)*(y2-y1);
+    uint8_t color_buf[y];
+
+    
     LCD_Address_Set(x1,y1,x2,y2);      //设置光标位置
     digitalWrite(LCD_CS, LOW); 
     digitalWrite(LCD_RS, HIGH); 
     delayMicroseconds(DELAY_LCD);
-    // for(x=x1; x<(x2); x++) {
-    //     for(y=y1; y<(y2); y++){
-    //         LCD_WR_DATA_16_COLOR(color);
-	// 	}
+    // LCD_SPI.beginTransaction(SPISettings(LCD_SPI_SPEED, MSBFIRST, SPI_MODE0));
+    // for(x=0; x<y; x++)  {
+    //     LCD_WR_DATA_16_COLOR(color);
     // }
-    LCD_SPI.beginTransaction(SPISettings(LCD_SPI_SPEED, MSBFIRST, SPI_MODE0));
-    for(x=0; x<y; x++)  {
-        LCD_WR_DATA_16_COLOR(color);
-    }
-    LCD_SPI.endTransaction();
+    // LCD_SPI.endTransaction();
+
+    // for(x=0;x<y;x++) {
+
+    // }
+
+    LCD_SPI.transfer(color_buf,y);
     digitalWrite(LCD_CS, HIGH); 
 }
 
