@@ -49,7 +49,7 @@
 #define Y_DIRECTION_PIN             I2SO(6)
 #define Y_STEP_PIN                  I2SO(5)
     
-#define Z_DISABLE_PIN               I2SO(7)
+#define Z_DISABLE_PIN               I2SO(0)
 #define Z_DIRECTION_PIN             I2SO(4)
 #define Z_STEP_PIN                  I2SO(3)
 
@@ -60,7 +60,7 @@
 #define Y_LIMIT_PIN                 GPIO_NUM_35
 #define Z_LIMIT_PIN                 GPIO_NUM_34
 
-#define PROBE_PIN                   GPIO_NUM_2//GPIO_NUM_32
+#define PROBE_PIN                   GPIO_NUM_2      //GPIO_NUM_32
 
 #define LCD_SCK				        GPIO_NUM_18
 #define LCD_MISO				    GPIO_NUM_19
@@ -82,8 +82,8 @@
 
 //sd card spi
 #define GRBL_SPI_SCK 			    GPIO_NUM_14
-#define GRBL_SPI_MISO 			    GPIO_NUM_13
-#define GRBL_SPI_MOSI 			    GPIO_NUM_12
+#define GRBL_SPI_MISO 			    GPIO_NUM_12
+#define GRBL_SPI_MOSI 			    GPIO_NUM_13
 #define GRBL_SPI_SS 			    GPIO_NUM_15
 #define GRBL_SPI_FREQ 			    4000000
 #define SDCARD_DET_PIN 			    GPIO_NUM_39

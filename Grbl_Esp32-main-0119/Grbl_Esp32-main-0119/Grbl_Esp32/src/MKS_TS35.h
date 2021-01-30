@@ -3,8 +3,6 @@
 
 #include "Grbl.h"
 #include "SPI.h" 
-#include "TFT_eSPI.h"
-#include "TFT_Touch.h"
 
 #define LCD_WIDTH               480
 #define LCD_HEIGHT              320
@@ -61,8 +59,6 @@ typedef struct {
     int16_t TOUCH_Y;
 }TS35_DEF;
 extern TS35_DEF ESP_TS35;
-extern TFT_eSPI tft;          /* TFT instance */
-extern TFT_Touch touch;
 
 enum XPTCoordinate : uint8_t {
   XPT2046_X  = 0x10 | XPT2046_CONTROL | XPT2046_DFR_MODE,
@@ -71,8 +67,6 @@ enum XPTCoordinate : uint8_t {
   XPT2046_Z2 = 0x40 | XPT2046_CONTROL | XPT2046_DFR_MODE,
 };
 
-void mks_ts35_lcd_init(void);
-void mks_ts35_fill();
 
 // LCD Driver
 void TS35_init(void);

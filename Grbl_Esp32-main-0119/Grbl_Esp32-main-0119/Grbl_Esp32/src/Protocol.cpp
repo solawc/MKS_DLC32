@@ -168,6 +168,10 @@ void protocol_main_loop() {
                     case Error::Eol:
                         protocol_execute_realtime();  // Runtime command check point.
                         if (sys.abort) {
+                            while(1) {
+                                Serial.printf("system rebooting-------LINE:172\n");
+                                while(1);
+                            }
                             return;  // Bail to calling function upon system abort
                         }
                         line = client_lines[client].buffer;
@@ -193,6 +197,10 @@ void protocol_main_loop() {
         protocol_auto_cycle_start();
         protocol_execute_realtime();  // Runtime command check point.
         if (sys.abort) {
+            while(1) {
+                Serial.printf("system rebooting-------LINE:201\n");
+                while(1);
+            }
             return;  // Bail to main() program loop to reset system.
         }
         // check to see if we should disable the stepper drivers ... esp32 work around for disable in main loop.
@@ -201,8 +209,10 @@ void protocol_main_loop() {
                 motors_set_disable(true);
             }
         }
-        // ts32_touch_read();
-        lv_task_handler();
+    }
+    while(1) {
+        Serial.printf("system rebooting\n");
+        while(1);
     }
     return; /* Never reached */
 }

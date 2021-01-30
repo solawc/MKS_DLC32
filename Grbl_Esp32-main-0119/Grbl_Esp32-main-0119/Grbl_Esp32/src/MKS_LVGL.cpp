@@ -1,41 +1,18 @@
 #include "MKS_LVGL.h"
 
+#define LV_BUF_SIZE             10 * LV_HOR_RES_MAX
+lv_disp_buf_t  disp_buf;
+lv_color_t  bmp_public_buf[LV_BUF_SIZE];
 
-/* LVGL TIMER DEF */
-hw_timer_t *timer = NULL;
-#define ESP_LVGL_TIMER                  0
-#define ESP_LVGL_TIMER_FRQE             240
-
-static lv_disp_buf_t disp_buf;
-static lv_color_t bmp_public_buf[14 * LV_HOR_RES_MAX];
 /* Function */
-void   IRAM_ATTR Timer_ESP_LVGL_TIMER_CallBack();
 void my_disp_flush(lv_disp_drv_t * disp, const lv_area_t * area, lv_color_t * color_p);
 bool my_indev_touch(struct _lv_indev_drv_t * indev_drv, lv_indev_data_t * data);
 
 // 1ms
-void ESP_TIM_Init(void) {
-
-    timer = timerBegin(ESP_LVGL_TIMER, ESP_LVGL_TIMER_FRQE, true);          //set time div 80, count_mode_up
-    timerAttachInterrupt(timer,Timer_ESP_LVGL_TIMER_CallBack, true );       // function callback
-    timerAlarmWrite(timer, 1000, false);                                     // Handle time : 1ms
-    timerAlarmEnable(timer);                                                // begin count
-}   
-
-void IRAM_ATTR Timer_ESP_LVGL_TIMER_CallBack() {
-
-    // lv_tick_inc(1); // Jump 1ms
-    printf("\r\n enter tim handle\n\r");
-}
-
 void mks_lvgl_init(void) {
 
-    TS35_init();
-    TS35_touch_init();
-    printf("TS35 Init succeed\n");
-
-    lv_disp_buf_init(&disp_buf, bmp_public_buf, nullptr, LV_HOR_RES_MAX * 14); // Initialize the display buffer
-    printf("lv men init succeed\n");
+    lv_init();
+    lv_disp_buf_init(&disp_buf, bmp_public_buf, nullptr, LV_BUF_SIZE); // Initialize the display buffer
 
     /* display driver register */
     lv_disp_drv_t disp_drv;
@@ -45,7 +22,6 @@ void mks_lvgl_init(void) {
     disp_drv.flush_cb = my_disp_flush;
     disp_drv.buffer = &disp_buf;
     lv_disp_drv_register(&disp_drv);
-    printf("lv disp init succeed\n");
 
     lv_indev_drv_t indev_drv;
     lv_indev_drv_init(&indev_drv);  
@@ -73,3 +49,29 @@ bool my_indev_touch(struct _lv_indev_drv_t * indev_drv, lv_indev_data_t * data) 
     return false;
 }   
 
+lv_obj_t *lable1;   
+lv_obj_t *lable2;
+
+
+// void event_hander(lv_obj_t *obj, lv_event_t event) {
+
+//     // 按键释放
+//     if(event == LV_EVENT_RELEASED) {
+        
+//         lv_label_set_long_mode(lable1, LV_LABEL_LONG_EXPAND);
+
+//     }
+// }
+
+
+void lvgl_test(void) {
+    lv_obj_t *scr = lv_scr_act();   //获取当前活跃的屏幕对象
+    lable1 = lv_label_create(scr, NULL); // 创建标签
+    lv_label_set_long_mode(lable1, LV_LABEL_LONG_BREAK); //设置长文本模式
+    lv_obj_set_width(lable1, 200);
+    lv_obj_set_height(lable1,200);
+    lv_obj_set_pos(lable1, 50, 50);
+    lv_label_set_recolor(lable1, true);
+    lv_label_set_text(lable1, "#ff0000 Setting#");
+    lv_label_set_align(lable1, LV_LABEL_ALIGN_CENTER); //中间对齐
+}   

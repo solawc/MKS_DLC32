@@ -1,21 +1,20 @@
 #include "MKS_TS35.h"
 #include "lvgl.h"
 
+// SPIClass LCD_SPI(VSPI);
+
+SPIClass * LCD_SPI = NULL;
+
 TS35_DEF ESP_TS35;
 static const uint32_t TS_SPI_BUF_SIZE = 8192;
 uint8_t *spi_master_tx_buf;
 
-TFT_eSPI tft = TFT_eSPI(320, 480); /* TFT instance */
-TFT_Touch touch = TFT_Touch(LCD_CS, LCD_SCK, LCD_MISO, LCD_MOSI);
-
-
-
 #define SPI_DMA_CHANNAL     1
-#define LCD_SPI_SPEED       40000000        // 80M
+#define LCD_SPI_SPEED       80000000        // 80M
 #define TOUCH_SPI_SPEED     1000000        //  1M
+#define LCD_SPI_MODE        SPI_MODE0
 
 static void LCD_TOUCH_CS_CTRL(uint8_t LCD_CS1) {
-
     digitalWrite(LCD_CS, LCD_CS1);
     digitalWrite(TOUCH_CS, !LCD_CS1);
 }
@@ -24,9 +23,9 @@ static void LCD_WR_REG(uint8_t cmd) {
     
     digitalWrite(LCD_CS, LOW);
     digitalWrite(LCD_RS, LOW); 
-    LCD_SPI.beginTransaction(SPISettings(LCD_SPI_SPEED, MSBFIRST, SPI_MODE0));
-    LCD_SPI.transfer(cmd);
-    LCD_SPI.endTransaction();
+    LCD_SPI->beginTransaction(SPISettings(LCD_SPI_SPEED, MSBFIRST, LCD_SPI_MODE));
+    LCD_SPI->transfer(cmd);
+    LCD_SPI->endTransaction();
     digitalWrite(LCD_CS, HIGH);
 }
 
@@ -34,20 +33,19 @@ static void LCD_WR_DATA(uint8_t data) {
 
     digitalWrite(LCD_CS, LOW); 
     digitalWrite(LCD_RS, HIGH); 
-    LCD_SPI.beginTransaction(SPISettings(LCD_SPI_SPEED, MSBFIRST, SPI_MODE0));
-    LCD_SPI.transfer(data);
-    LCD_SPI.endTransaction();
+    LCD_SPI->beginTransaction(SPISettings(LCD_SPI_SPEED, MSBFIRST, LCD_SPI_MODE));
+    LCD_SPI->transfer(data);
+    LCD_SPI->endTransaction();
     digitalWrite(LCD_CS, HIGH); 
 }
-
 
 static void LCD_WR_REG_16(uint16_t cmd) {
     
     digitalWrite(LCD_CS, LOW); 
     digitalWrite(LCD_RS, LOW); 
-    LCD_SPI.beginTransaction(SPISettings(LCD_SPI_SPEED, MSBFIRST, SPI_MODE0));
-    LCD_SPI.transfer16(cmd);
-    LCD_SPI.endTransaction();
+    LCD_SPI->beginTransaction(SPISettings(LCD_SPI_SPEED, MSBFIRST, LCD_SPI_MODE));
+    LCD_SPI->transfer16(cmd);
+    LCD_SPI->endTransaction();
     digitalWrite(LCD_CS, HIGH); 
 }
 
@@ -55,48 +53,24 @@ static void LCD_WR_DATA_16(uint16_t data) {
 
     digitalWrite(LCD_CS, LOW); 
     digitalWrite(LCD_RS, HIGH); 
-    LCD_SPI.beginTransaction(SPISettings(LCD_SPI_SPEED, MSBFIRST, SPI_MODE0));
-    LCD_SPI.transfer16(data);
-    LCD_SPI.endTransaction();
+    LCD_SPI->beginTransaction(SPISettings(LCD_SPI_SPEED, MSBFIRST, LCD_SPI_MODE));
+    LCD_SPI->transfer16(data);
+    LCD_SPI->endTransaction();
     digitalWrite(LCD_CS, HIGH); 
 }
 
 static void LCD_WR_DATA_16_COLOR(uint16_t data) {
-    LCD_SPI.transfer16(data);
+    LCD_SPI->transfer16(data);
 }
 
 static void LCD_WR_DATA_32_COLOR(uint32_t data) {
-    LCD_SPI.beginTransaction(SPISettings(LCD_SPI_SPEED, MSBFIRST, SPI_MODE0));
-    LCD_SPI.transfer32((data<<16)|data);
-    LCD_SPI.endTransaction();
+    LCD_SPI->transfer32((data<<16)|data);
 }
 
 
 static uint8_t LCD_Read(uint8_t sdata) {
     uint16_t data;
-    return  LCD_SPI.transfer(sdata);
-}
-
-void mks_ts35_fill() {
-    tft.fillRect(0,0,480,320,TFT_COLOR_RED);
-}
-
-void mks_ts35_lcd_init(void) {
-
-    pinMode(LCD_EN, OUTPUT);
-    pinMode(LCD_RST,OUTPUT);
-    digitalWrite(LCD_RST, LOW);
-    delay_ms(150);
-    digitalWrite(LCD_RST, HIGH);
-
-    tft.begin();
-    tft.setRotation(1);
-
-    touch.setCal(10,10,10,10,10,10,10);
-    touch.setRotation(3);
-
-    digitalWrite(LCD_EN, HIGH);
-    mks_ts35_fill();
+    return  LCD_SPI->transfer(sdata);
 }
 
 void LCD_Clear(void) {
@@ -105,7 +79,8 @@ void LCD_Clear(void) {
 
 void TS35_init(void) {
 
-    grbl_msg_sendf(CLIENT_SERIAL, MsgLevel::Info, "Init LCD TS35");
+    LCD_SPI = new SPIClass(VSPI);
+    LCD_SPI->begin(LCD_SCK,LCD_MISO,LCD_MOSI,LCD_CS);   //VSPI
 
     /* Init GPIO Pin */
     pinMode(LCD_CS,OUTPUT);  // LCD CS
@@ -118,7 +93,6 @@ void TS35_init(void) {
     digitalWrite(Y_DISABLE_PIN,HIGH);
     digitalWrite(Z_DISABLE_PIN,HIGH);
     digitalWrite(BEEPER,LOW);
-    delay_ms(500);
 
     ESP_TS35.LCD_H = LCD_HEIGHT;
     ESP_TS35.LCD_W = LCD_WIDTH;
@@ -131,9 +105,9 @@ void TS35_init(void) {
     digitalWrite(LCD_EN, LOW);      //Disable LCD BackLight
     digitalWrite(LCD_RST, HIGH);
 
-    delay_ms(150);
+    delay_ms(50);
     digitalWrite(LCD_RST, LOW);
-    delay_ms(150);
+    delay_ms(50);
     digitalWrite(LCD_RST, HIGH);
     delay_ms(20);
     
@@ -223,20 +197,6 @@ void LCD_Address_Set(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2)
     LCD_WR_REG(0x2c);//储存器写
 }
 
-uint16_t LCD_RD_ID(void) {
-	uint8_t id1,id2;
-    digitalWrite(LCD_CS, LOW); 
-    digitalWrite(LCD_RS, LOW); 
-	LCD_WR_DATA(0xd3);
-    digitalWrite(LCD_RS, HIGH); 
-	LCD_Read(0xff);
-	id1 = LCD_Read(0xff);
-	id2 = LCD_Read(0xff);
-	digitalWrite(LCD_CS, HIGH); 
-	return (id1<<8|id2);
-}
-
-
 void TFT_DisplayOn(void) {
 	LCD_WR_REG(0x29);
 }
@@ -257,18 +217,18 @@ void LCD_Color_Fill(uint16_t sx,uint16_t sy,uint16_t ex,uint16_t ey,uint16_t *co
 	uint16_t i,j;			
 	uint16_t width=ex-sx+1; 		//得到填充的宽度
 	uint16_t height=ey-sy+1;		//高度
+
+    LCD_Address_Set(sx,sy,ex,ey);      //设置光标位置
+
     digitalWrite(LCD_CS, LOW); 
     digitalWrite(LCD_RS, HIGH); 
-	// LCD_SetWindows(sx,sy,ex,ey);//设置显示窗口
-     LCD_Address_Set(sx,sy,ex,ey);      //设置光标位置
+    LCD_SPI->beginTransaction(SPISettings(LCD_SPI_SPEED, MSBFIRST, LCD_SPI_MODE));
 	for(i=0;i<height;i++)
 	{
 		for(j=0;j<width;j++)
-		// Lcd_WriteData_16Bit(color[i*width+j]);	//写入数据
-        LCD_WR_DATA_16_COLOR(color[i*width+j]);
+            LCD_WR_DATA_16_COLOR(color[i*width+j]);
 	}
-    LCD_SPI.endTransaction();
-	// LCD_SetWindows(0,0,lcddev.width-1,lcddev.height-1);//恢复窗口设置为全屏
+    LCD_SPI->endTransaction();
 } 
 
 
@@ -279,17 +239,12 @@ void TFT_Fill(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2,uint16_t color)
     LCD_Address_Set(x1,y1,x2,y2);      //设置光标位置
     digitalWrite(LCD_CS, LOW); 
     digitalWrite(LCD_RS, HIGH); 
-    // delayMicroseconds(DELAY_LCD);
-    // for(x=x1; x<(x2); x++) {
-    //     for(y=y1; y<(y2); y++){
-    //         LCD_WR_DATA_16_COLOR(color);
-	// 	}
-    // }
-    LCD_SPI.beginTransaction(SPISettings(LCD_SPI_SPEED, MSBFIRST, SPI_MODE0));
+
+    LCD_SPI->beginTransaction(SPISettings(LCD_SPI_SPEED, MSBFIRST, LCD_SPI_MODE));
     for(x=0; x<y; x++)  {
         LCD_WR_DATA_16_COLOR(color);
     }
-    LCD_SPI.endTransaction();
+    LCD_SPI->endTransaction();
     digitalWrite(LCD_CS, HIGH); 
 }
 
@@ -325,9 +280,9 @@ uint8_t touch_read_write_byte(uint8_t sdata) {
     TFT_LCD_CS_H;
     TFT_TOUCH_CS_L;
     // delayMicroseconds(DELAY_LCD);
-    LCD_SPI.beginTransaction(SPISettings(TOUCH_SPI_SPEED, MSBFIRST, SPI_MODE0));
-    rdata = LCD_SPI.transfer(sdata);
-    LCD_SPI.endTransaction();
+    LCD_SPI->beginTransaction(SPISettings(TOUCH_SPI_SPEED, MSBFIRST, SPI_MODE0));
+    rdata = LCD_SPI->transfer(sdata);
+    LCD_SPI->endTransaction();
     TFT_TOUCH_CS_H;
     // delayMicroseconds(DELAY_LCD);
     return rdata;
@@ -335,9 +290,9 @@ uint8_t touch_read_write_byte(uint8_t sdata) {
 
 uint16_t IO(uint16_t sdata) {
     uint8_t rdata = 0;
-    LCD_SPI.beginTransaction(SPISettings(TOUCH_SPI_SPEED, MSBFIRST, SPI_MODE0));
-    rdata = LCD_SPI.transfer(sdata);
-    LCD_SPI.endTransaction();
+    LCD_SPI->beginTransaction(SPISettings(TOUCH_SPI_SPEED, MSBFIRST, SPI_MODE0));
+    rdata = LCD_SPI->transfer(sdata);
+    LCD_SPI->endTransaction();
     return rdata;
 }
 uint16_t delta(uint16_t a, uint16_t b) { return a > b ? a - b : b - a; }

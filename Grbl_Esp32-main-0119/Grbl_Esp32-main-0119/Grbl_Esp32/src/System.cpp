@@ -23,6 +23,7 @@
 #include "SPI.h"
 #include "MKS_TS35.h"
 #include "lvgl.h"
+#include "SDCard.h"
 
 // Declare system global variable structure
 system_t               sys;
@@ -45,6 +46,7 @@ UserOutput::DigitalOutput* myDigitalOutputs[MaxUserDigitalPin];
 
 xQueueHandle control_sw_queue;    // used by control switch debouncing
 bool         debouncing = false;  // debouncing in process
+
 
 
 /*-------------------------------------------------------------------------*/
@@ -105,9 +107,9 @@ void system_ini() {  // Renamed from system_init() due to conflict with esp32 fi
     SPI.begin(GRBL_SPI_SCK, GRBL_SPI_MISO, GRBL_SPI_MOSI, GRBL_SPI_SS);   // HSPI
 #endif
 
-#if 1
-    LCD_SPI.begin(LCD_SCK,LCD_MISO,LCD_MOSI,LCD_CS);   //VSPI
-#endif
+// #if 1
+//     LCD_SPI.begin(LCD_SCK,LCD_MISO,LCD_MOSI,LCD_CS);   //VSPI
+// #endif
     // Setup M62,M63,M64,M65 pins
     myDigitalOutputs[0] = new UserOutput::DigitalOutput(0, USER_DIGITAL_PIN_0);
     myDigitalOutputs[1] = new UserOutput::DigitalOutput(1, USER_DIGITAL_PIN_1);

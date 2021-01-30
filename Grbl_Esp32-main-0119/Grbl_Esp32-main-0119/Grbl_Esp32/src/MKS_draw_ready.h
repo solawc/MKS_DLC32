@@ -8,7 +8,7 @@
 
 
 
-
+void lv_draw_ready(void);
 
 
 #endif

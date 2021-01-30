@@ -5,7 +5,8 @@
 #include "lvgl.h"
 #include "MKS_FREERTOS_TASK.h"
 
-void ESP_TIM_Init(void);
+
 void mks_lvgl_init(void);
+void lvgl_test(void);
 
 #endif

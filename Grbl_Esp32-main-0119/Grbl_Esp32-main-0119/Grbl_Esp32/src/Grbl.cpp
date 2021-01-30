@@ -24,6 +24,7 @@
 #include "MKS_I2C.h"
 #include "lvgl.h"
 #include "MKS_LVGL.h"
+#include "MKS_draw_ready.h"
 
 void grbl_init() {
 #ifdef USE_I2S_OUT
@@ -113,18 +114,11 @@ static void reset_variables() {
     plan_sync_position();
     gc_sync_position();
     report_init_message(CLIENT_ALL);
-
-    // ESP_TIM_Init();
-    // printf("\nInit Begin\n");
-    // mks_lvgl_init();  
-    // printf("\nLCD Succeed\n");
-    // I2C_init();
-    // lv_init();
-    // printf("\nInit Succeed\n");
     
-    printf("\ntask Init\n");
-    disp_task_init(); 
-    printf("\ntask init Succeed\n");
+    /*LCD---GUI*/
+    TS35_init();
+    // TS35_touch_init();
+    disp_task_init();
 }
 
 void run_once() {
