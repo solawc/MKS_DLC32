@@ -123,6 +123,8 @@ static void reset_variables() {
     }else {
         tft_TS35_SPI_begin();
     }
+
+    mks_motor_unclock();
 }
 
 void run_once() {

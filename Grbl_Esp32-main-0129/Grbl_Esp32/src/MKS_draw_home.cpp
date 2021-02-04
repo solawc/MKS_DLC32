@@ -1,5 +1,8 @@
 #include "MKS_draw_home.h"
-
+#include "Grbl.h"
+#include "Report.h"
+#include "GCode.h"
+#include "System.h"
 /* Screan Build */
 static lv_obj_t* scr;
 
@@ -10,9 +13,9 @@ lv_obj_t* y_home;
 static lv_obj_t* Back;
 
 /* Label */
-lv_obj_t* Label_homg_xy;
-lv_obj_t* Label_x_home;
-lv_obj_t* Label_y_home;
+static lv_obj_t* Label_homg_xy;
+static lv_obj_t* Label_x_home;
+static lv_obj_t* Label_y_home;
 static lv_obj_t* Label_Back;
 
 LV_IMG_DECLARE(Home_XY);		//先申明此图片
@@ -23,7 +26,10 @@ LV_IMG_DECLARE(back);			//先申明此图片
 static void event_handler_homg_xy(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-
+		if(sys.state == State::Idle) {
+			Serial.printf("enter lv home xy, state:idle");
+			gc_execute_line((char *)"G0 X100" ,CLIENT_INPUT);
+		}
 	}
 }
 

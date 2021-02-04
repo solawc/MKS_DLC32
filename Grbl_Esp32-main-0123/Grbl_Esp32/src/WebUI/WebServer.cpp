@@ -1114,7 +1114,7 @@ namespace WebUI {
                     //Upload write
                     //**************
                 } else if (upload.status == UPLOAD_FILE_WRITE) {
-                    vTaskDelay(1 / portTICK_RATE_MS);
+                    vTaskDelay(1 / portTICK_RATE_MS);  
                     //check if no error
                     if (_upload_status == UploadStatusType::ONGOING) {
                         if (((100 * upload.totalSize) / maxSketchSpace) != last_upload_update) {

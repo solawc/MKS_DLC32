@@ -96,5 +96,7 @@ void LCD_Clear(void);
 
 void tft_TS35_init();
 void tft_TS35_SPI_begin(void);
+
+void mks_motor_unclock(void);
 #endif
 

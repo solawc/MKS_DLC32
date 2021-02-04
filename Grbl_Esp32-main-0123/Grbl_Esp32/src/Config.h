@@ -109,7 +109,7 @@ const int MAX_N_AXIS = 6;
 #endif
 
 #define ENABLE_HTTP                //enable HTTP and all related services
-#define ENABLE_OTA                 //enable OTA
+// #define ENABLE_OTA                 //enable OTA
 #define ENABLE_TELNET              //enable telnet
 #define ENABLE_TELNET_WELCOME_MSG  //display welcome string when connect to telnet
 #define ENABLE_MDNS                //enable mDNS discovery

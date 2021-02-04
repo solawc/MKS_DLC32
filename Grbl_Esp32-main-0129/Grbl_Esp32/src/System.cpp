@@ -108,9 +108,10 @@ void system_ini() {  // Renamed from system_init() due to conflict with esp32 fi
     SPI.setFrequency(GRBL_SPI_FREQ);
 #endif
 
-// #if 1
-//     LCD_SPI.begin(LCD_SCK,LCD_MISO,LCD_MOSI,LCD_CS);   //VSPI
-// #endif
+    // #if 1
+    //     LCD_SPI.begin(LCD_SCK,LCD_MISO,LCD_MOSI,LCD_CS);   //VSPI
+    // #endif
+
     // Setup M62,M63,M64,M65 pins
     myDigitalOutputs[0] = new UserOutput::DigitalOutput(0, USER_DIGITAL_PIN_0);
     myDigitalOutputs[1] = new UserOutput::DigitalOutput(1, USER_DIGITAL_PIN_1);

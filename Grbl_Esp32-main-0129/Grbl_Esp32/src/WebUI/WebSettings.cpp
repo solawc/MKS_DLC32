@@ -978,6 +978,12 @@ namespace WebUI {
     }
 #endif
 
+    static Error showdata(char* parameter, AuthenticationLevel auth_level) {
+
+
+
+    }
+
     static Error showWebHelp(char* parameter, AuthenticationLevel auth_level) {  // ESP0
         webPrintln("Persistent web settings - $name to show, $name=value to set");
         webPrintln("ESPname FullName         Description");
@@ -1069,6 +1075,7 @@ namespace WebUI {
 #ifdef WEB_COMMON
         new WebCommand(NULL, WEBCMD, WG, "ESP0", "WebUI/Help", showWebHelp);
         new WebCommand(NULL, WEBCMD, WG, "ESP", "WebUI/Help", showWebHelp);
+        new WebCommand(NULL, WEBCMD, WG, "ESP777", "get data",showdata);
 #endif
         // WebUI Settings
         // Standard WEBUI authentication is user+ to get, admin to set unless otherwise specified

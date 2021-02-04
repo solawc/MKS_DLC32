@@ -153,7 +153,8 @@ void protocol_main_loop() {
                 closeFile();  // close file and clear SD ready/running flags
             }
         }
-#endif
+#endif  
+
         // Receive one line of incoming serial data, as the data becomes available.
         // Filtering, if necessary, is done later in gc_execute_line(), so the
         // filtering is the same with serial and file input.
@@ -193,10 +194,6 @@ void protocol_main_loop() {
         protocol_auto_cycle_start();
         protocol_execute_realtime();  // Runtime command check point.
         if (sys.abort) {
-            // while(1) {
-            //     Serial.printf("system rebooting-------LINE:201\n");
-            //     while(1);
-            // }
             return;  // Bail to main() program loop to reset system.
         }
         // check to see if we should disable the stepper drivers ... esp32 work around for disable in main loop.
