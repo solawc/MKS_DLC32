@@ -1281,9 +1281,11 @@ Error gc_execute_line(char* line, uint8_t client) {
         // Only distance and unit modal commands and G53 absolute override command are allowed.
         // NOTE: Feed rate word and axis word checks have already been performed in STEP 3.
         if (command_words & ~(bit(ModalGroup::MG3) | bit(ModalGroup::MG6) | bit(ModalGroup::MG0))) {
+            // Serial.printf("here jog 1 error\n");
             FAIL(Error::InvalidJogCommand)
         };
         if (!(gc_block.non_modal_command == NonModal::AbsoluteOverride || gc_block.non_modal_command == NonModal::NoAction)) {
+            // Serial.printf("here jog 2 error\n");
             FAIL(Error::InvalidJogCommand);
         }
         // Initialize planner data to current spindle and coolant modal state.

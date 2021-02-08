@@ -23,12 +23,15 @@ LV_IMG_DECLARE(X_home);			//先申明此图片
 LV_IMG_DECLARE(Y_home);			//先申明此图片
 LV_IMG_DECLARE(back);			//先申明此图片
 
+
 static void event_handler_homg_xy(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
 		if(sys.state == State::Idle) {
-			Serial.printf("enter lv home xy, state:idle");
-			gc_execute_line((char *)"G0 X100" ,CLIENT_INPUT);
+			
+			// Serial.printf("enter lv home xy, state:idle\n");
+			serila_write_into_buffer((uint8_t *)"$J=G91X10.0F300\n");
+			Serial.printf("Parsing complete\n");
 		}
 	}
 }
@@ -69,8 +72,8 @@ void mks_draw_home(void) {
 	mks_lvgl_label_set(scr, Label_x_home, 140, 120, "#ffffff Positioning#");
 	mks_lvgl_label_set(scr, Label_y_home, 280, 120, "#ffffff Move#");
 	mks_lvgl_label_set(scr, Label_Back, 390, 300, "#ffffff Back#");
-}
 
+}
 void mks_clean_home(void) {
 	lv_obj_clean(scr);
 }

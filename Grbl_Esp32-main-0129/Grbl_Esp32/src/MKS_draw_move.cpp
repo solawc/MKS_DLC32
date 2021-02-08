@@ -37,27 +37,28 @@ LV_IMG_DECLARE(back);			//先申明此图片
 static void event_handler_x_n(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-
+		serila_write_into_buffer((uint8_t *)"$J=G91X10.0F300\n");
 	}
 }
 
 static void event_handler_x_p(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-
+		serila_write_into_buffer((uint8_t *)"$J=G91X-10.0F300\n");
 	}
 }
 
 static void event_handler_y_n(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-
+		serila_write_into_buffer((uint8_t *)"$J=G91Y10.0F300\n");
 	}
 }
 
 static void event_handler_y_p(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
+		serila_write_into_buffer((uint8_t *)"$J=G91Y10.0F300\n");
 	}
 }
 

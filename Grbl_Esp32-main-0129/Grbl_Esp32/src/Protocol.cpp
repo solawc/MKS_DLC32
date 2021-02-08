@@ -64,6 +64,7 @@ Error add_char_to_line(char c, uint8_t client) {
         return Error::Ok;
     }
     if (cl->len == (LINE_BUFFER_SIZE - 1)) {
+        // Serial.printf("here prorocol overflow\n");
         return Error::Overflow;
     }
     if (c == '\r' || c == '\n') {

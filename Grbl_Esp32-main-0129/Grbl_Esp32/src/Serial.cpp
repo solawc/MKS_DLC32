@@ -211,12 +211,20 @@ uint8_t serial_read(uint8_t client) {
     if (client_buffer[client].available()) {
         data = client_buffer[client].read();
         vTaskExitCritical(&myMutex);
-        //Serial.write((char)data);
         return data;
     } else {
         vTaskExitCritical(&myMutex);
         return SERIAL_NO_DATA;
     }
+}
+
+void serila_write_into_buffer(uint8_t *data) {
+
+    uint16_t k=0;
+    do{
+        client_buffer[CLIENT_SERIAL].write(data[k]);
+        k++;
+    }while((data[k] != '\0') && k != 255);
 }
 
 bool any_client_has_data() {
