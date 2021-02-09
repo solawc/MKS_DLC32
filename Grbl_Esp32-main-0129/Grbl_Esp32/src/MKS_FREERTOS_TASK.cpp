@@ -1,6 +1,6 @@
 #include "MKS_FREERTOS_TASK.h"
 
-#define DISP_TASK_STACK             4096*4
+#define DISP_TASK_STACK             4096
 #define DISP_TASK_PRO               1
 #define DISP_TASK_CORE              CONFIG_ARDUINO_RUNNING_CORE
 

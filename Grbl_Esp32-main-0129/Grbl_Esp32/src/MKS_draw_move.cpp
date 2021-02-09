@@ -24,41 +24,42 @@ lv_obj_t* Label_len;
 lv_obj_t* Label_back;
 
 LV_IMG_DECLARE(X_N);			//先申明此图片
-LV_IMG_DECLARE(X_P);		//先申明此图片
+LV_IMG_DECLARE(X_P);			//先申明此图片
 LV_IMG_DECLARE(Y_N);			//先申明此图片
 LV_IMG_DECLARE(Y_P);			//先申明此图片
 LV_IMG_DECLARE(Z_N);			//先申明此图片
-LV_IMG_DECLARE(Z_P);		//先申明此图片
-LV_IMG_DECLARE(Len_0_1mm);			//先申明此图片
-LV_IMG_DECLARE(Len_1mm);			//先申明此图片
-LV_IMG_DECLARE(Len_10mm);			//先申明此图片
+LV_IMG_DECLARE(Z_P);			//先申明此图片
+LV_IMG_DECLARE(Len_0_1mm);		//先申明此图片
+LV_IMG_DECLARE(Len_1mm);		//先申明此图片
+LV_IMG_DECLARE(Len_10mm);		//先申明此图片
 LV_IMG_DECLARE(back);			//先申明此图片
 
 static void event_handler_x_n(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-		serila_write_into_buffer((uint8_t *)"$J=G91X10.0F300\n");
+		// serila_write_into_buffer((uint8_t *)"$J=G91X10.0F300\n");
+		MKS_GRBL_CMD_SEND("$J=G91X10.0F300\n");
 	}
 }
 
 static void event_handler_x_p(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-		serila_write_into_buffer((uint8_t *)"$J=G91X-10.0F300\n");
+		MKS_GRBL_CMD_SEND((uint8_t *)"$J=G91X-10.0F300\n");
 	}
 }
 
 static void event_handler_y_n(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-		serila_write_into_buffer((uint8_t *)"$J=G91Y10.0F300\n");
+		MKS_GRBL_CMD_SEND((uint8_t *)"$J=G91Y10.0F300\n");
 	}
 }
 
 static void event_handler_y_p(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-		serila_write_into_buffer((uint8_t *)"$J=G91Y10.0F300\n");
+		MKS_GRBL_CMD_SEND((uint8_t *)"$J=G91Y-10.0F300\n");
 	}
 }
 

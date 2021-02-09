@@ -82,6 +82,15 @@ void lv_imgbtn_creat_mks(lv_obj_t *scr ,lv_obj_t *imgbtn, const void * img_pr, c
     lv_obj_set_event_cb(imgbtn, event_cb);
 }
 
+/* 
+ * Author   :MKS
+ * Describe :Create Img button
+ * Data     :2021/02/09
+*/
+void lv_imgbtn_img_set(lv_obj_t *scr, lv_obj_t *imgbtn, const void * img_pr, const void * img_rel) {
+    lv_imgbtn_set_src(imgbtn, LV_BTN_STATE_PR, img_pr);
+    lv_imgbtn_set_src(imgbtn, LV_BTN_STATE_REL, img_rel);
+}
 
 
 

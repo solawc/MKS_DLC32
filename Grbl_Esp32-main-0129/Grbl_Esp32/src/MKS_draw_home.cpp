@@ -27,26 +27,21 @@ LV_IMG_DECLARE(back);			//先申明此图片
 static void event_handler_homg_xy(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-		if(sys.state == State::Idle) {
-			
-			// Serial.printf("enter lv home xy, state:idle\n");
-			serila_write_into_buffer((uint8_t *)"$J=G91X10.0F300\n");
-			Serial.printf("Parsing complete\n");
-		}
+		MKS_GRBL_CMD_SEND("$J=G90X0Y0F346\n");
 	}
 }
 
 static void event_handler_x_home(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-
+		MKS_GRBL_CMD_SEND("$J=G90X0F346\n");
 	}
 }
 
 static void event_handler_y_home(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-
+		MKS_GRBL_CMD_SEND("$J=G90Y0F346\n");
 	}
 }
 

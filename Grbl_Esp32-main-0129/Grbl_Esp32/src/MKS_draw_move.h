@@ -3,9 +3,7 @@
 
 
 #include "MKS_draw_lvgl.h"
-
-
-
+#include "MKS_LVGL.h"
 
 
 

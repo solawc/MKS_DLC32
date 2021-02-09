@@ -5,6 +5,9 @@
 
 #define LV_BUF_SIZE             10 * LV_HOR_RES_MAX
 
+GRBL_CRTL mks_grbl;
+
+
 static lv_disp_buf_t    disp_buf;
 static lv_color_t       bmp_public_buf[LV_BUF_SIZE];
 
@@ -59,14 +62,14 @@ bool my_indev_touch(struct _lv_indev_drv_t * indev_drv, lv_indev_data_t * data) 
     touchX = 480 - touchX;
     touchY = 320 - touchY;
     if( touched != false ) {
-        Serial.print("touchX:");
-        Serial.print(touchX);
-        Serial.print("\n");
+        
+        // Serial.print("touchX:");
+        // Serial.print(touchX);
+        // Serial.print("\n");
 
-        Serial.print("touchY:");
-        Serial.print(touchY);
-        Serial.print("\n");
-
+        // Serial.print("touchY:");
+        // Serial.print(touchY);
+        // Serial.print("\n");
         last_x = touchX;
         last_y = touchY;
         data->point.x = last_x;
@@ -91,18 +94,11 @@ void my_print(lv_log_level_t level, const char * file, uint32_t line, const char
 }
 #endif
 
-lv_obj_t *lable1;   
-lv_obj_t *lable2;
+void mks_grbl_parg_init(void) {
+    mks_grbl.language = SimpleChinese;
+    mks_grbl.light_status = GRBL_Light_Off;
+    mks_grbl.move_dis = M_0_1_MM;
+    mks_grbl.power_length = P_1_PERSEN;
+    mks_grbl.power_persen = 0;
+}
 
-void lvgl_test(void) {
-    // lv_obj_t *scr = lv_scr_act();   //获取当前活跃的屏幕对象
-    // lable1 = lv_label_create(scr, NULL); // 创建标签
-    // lv_label_set_long_mode(lable1, LV_LABEL_LONG_BREAK); //设置长文本模式
-    // lv_obj_set_width(lable1, 200);
-    // lv_obj_set_height(lable1,200);
-    // lv_obj_set_pos(lable1, 50, 50);
-    // lv_label_set_recolor(lable1, true);
-    // lv_label_set_text(lable1, "#ff0000 Setting#");
-    // lv_label_set_align(lable1, LV_LABEL_ALIGN_CENTER); //中间对齐
-    // lv_test_theme_1(lv_theme_night_init(210, NULL));
-}   
