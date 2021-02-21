@@ -6,7 +6,7 @@
 #define LV_BUF_SIZE             10 * LV_HOR_RES_MAX
 
 GRBL_CRTL mks_grbl;
-
+MKS_SD_t mks_sd;
 
 static lv_disp_buf_t    disp_buf;
 static lv_color_t       bmp_public_buf[LV_BUF_SIZE];
@@ -100,5 +100,40 @@ void mks_grbl_parg_init(void) {
     mks_grbl.move_dis = M_0_1_MM;
     mks_grbl.power_length = P_1_PERSEN;
     mks_grbl.power_persen = 0;
+}
+
+
+/* MKS SD FILE */
+
+uint8_t mks_sd_file_init() { 
+
+    return 0;
+}
+
+uint8_t mks_get_sd_file_name() { 
+    return 0;
+}
+
+uint8_t mks_upDir(void) {
+    return 0;
+}
+
+uint8_t mks_nextDir(void) { 
+    return 0;
+}
+
+uint8_t mks_operation_File() { 
+    return 0;
+}
+
+uint8_t mks_stopSD() { 
+    return 0;
+}
+
+uint8_t mks_readSD_Status(void) { 
+    
+    uint8_t sd_status = SDCARD_IDLE;
+    sd_status = get_sd_state(true);
+    return sd_status;
 }
 

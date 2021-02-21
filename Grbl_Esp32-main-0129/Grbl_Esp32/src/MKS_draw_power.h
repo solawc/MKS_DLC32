@@ -11,5 +11,5 @@
 
 void mks_draw_power(void);
 void mks_clear_power(void);
-
+void mks_power_set(uint8_t val);
 #endif

@@ -19,6 +19,7 @@
 */
 
 #include "SDCard.h"
+#include "MKS_LVGL.h"
 
 File                       myFile;
 bool                       SD_ready_next = false;  // Grbl has processed a line and is waiting for another
@@ -60,6 +61,37 @@ void listDir(fs::FS& fs, const char* dirname, uint8_t levels, uint8_t client) {
             grbl_sendf(CLIENT_ALL, "[FILE:%s|SIZE:%d]\r\n", file.name(), file.size());
         }
         file = root.openNextFile();
+    }
+}
+
+void mks_listDir(fs::FS& fs, const char* dirname, uint8_t levels) { 
+
+    File root = fs.open(dirname);    //建立文件根目录并打开文件系统
+    
+    // root 为空时判断为文件系统打开失败
+    if(!root) {
+        //...提示文件系统打开失败
+        return;
+    }
+
+    if (!root.isDirectory()) {
+        // ...找不到文件夹（根文件夹）
+        return;
+    }
+
+    File file = root.openNextFile(); //进入下一级文件目录
+
+    while(file) {
+        if (root.isDirectory()) {
+            if (levels) {
+                //listDir(fs, file.name(), levels - 1, client);
+                grbl_sendf(CLIENT_ALL, "[FILE:%s]\r\n", file.name());
+            }
+        } else {
+            //grbl_sendf(CLIENT_ALL, "[FILE:%s|SIZE:%d]\r\n", file.name(), file.size());
+            grbl_sendf(CLIENT_ALL, "[FILE:%s]\r\n", file.name());
+        }
+       file =  root.openNextFile();
     }
 }
 

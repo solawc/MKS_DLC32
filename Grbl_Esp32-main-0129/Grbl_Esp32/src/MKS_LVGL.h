@@ -39,7 +39,21 @@ typedef struct{
 }GRBL_CRTL;
 extern GRBL_CRTL mks_grbl;
 
+
+#define SD_FILE_NAME_LENGTH     64      //文件名长度
+#define SD_FILE_PAGE_NUM        6       //一页能显示的文件个数
+#define SD_FILE_PAGE            50*6    //允许最多50页，每页6个文件，允许总文件数为 50*6 = 300个 
+
+typedef struct {
+    char sd_file_name[SD_FILE_PAGE];                            //建立非文件夹二维数组
+    char sd_dir_num[255];                                       //文件夹下标（最大允许255个文件夹）
+    char sd_file_num;                                           //文件个数
+}MKS_SD_t;
+extern MKS_SD_t mks_sd;
+
+
+
 void mks_lvgl_init(void);
 void lvgl_test(void);
-
+uint8_t mks_readSD_Status(void);
 #endif

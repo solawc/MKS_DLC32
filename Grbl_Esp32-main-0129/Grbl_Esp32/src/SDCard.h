@@ -20,6 +20,7 @@
 #include <SD.h>
 #include <SPI.h>
 
+
 //#define SDCARD_DET_PIN -1
 
 const int SDCARD_DET_VAL = 0;  // for now, CD is close to ground
@@ -47,3 +48,5 @@ void     readFile(fs::FS& fs, const char* path);
 float    sd_report_perc_complete();
 uint32_t sd_get_current_line_number();
 void     sd_get_current_filename(char* name);
+
+void mks_listDir(fs::FS& fs, const char* dirname, uint8_t levels);
