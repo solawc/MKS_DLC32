@@ -590,7 +590,7 @@ const LV_ATTRIBUTE_MEM_ALIGN uint8_t File_map[] = {
 #endif
 };
 
-const lv_img_dsc_t File = {
+const lv_img_dsc_t Files = {
     .header.always_zero = 0,
     .header.w = 117,
     .header.h = 140,

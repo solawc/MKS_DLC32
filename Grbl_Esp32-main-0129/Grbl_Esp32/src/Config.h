@@ -199,6 +199,8 @@ enum class Cmd : uint8_t {
     SpindleOvrStop        = 0x9E,
     CoolantFloodOvrToggle = 0xA0,
     CoolantMistOvrToggle  = 0xA1,
+    CarveStops            = 0xA2,   //MKS
+    CarveSTART            = 0xA3,   //MKS
 };
 
 // If homing is enabled, homing init lock sets Grbl into an alarm state upon power up. This forces

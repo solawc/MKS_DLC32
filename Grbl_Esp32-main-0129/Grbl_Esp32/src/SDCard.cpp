@@ -85,11 +85,11 @@ void mks_listDir(fs::FS& fs, const char* dirname, uint8_t levels) {
         if (root.isDirectory()) {
             if (levels) {
                 //listDir(fs, file.name(), levels - 1, client);
-                grbl_sendf(CLIENT_ALL, "[FILE:%s]\r\n", file.name());
+                grbl_sendf(CLIENT_ALL, "%s\r\n", file.name());
             }
         } else {
             //grbl_sendf(CLIENT_ALL, "[FILE:%s|SIZE:%d]\r\n", file.name(), file.size());
-            grbl_sendf(CLIENT_ALL, "[FILE:%s]\r\n", file.name());
+            grbl_sendf(CLIENT_ALL, "%s\r\n", file.name());
         }
        file =  root.openNextFile();
     }

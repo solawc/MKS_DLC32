@@ -98,9 +98,9 @@ void mks_draw_power(void) {
 	lv_imgbtn_creat_mks(scr, Back, &back, &back, LV_ALIGN_CENTER, 180, 90, event_handler_Back);
 
 	if(mks_grbl.power_length == P_1_PERSEN)
-		pwr_len = lv_imgbtn_creat_mks(scr, pwr_len, &Pwr_1, &Pwr_1, LV_ALIGN_CENTER, -60, 90, event_handler_pwr_set);
+		pwr_len = lv_imgbtn_creat_mks(scr, pwr_len, &Pwr_1, &Pwr_1, LV_ALIGN_CENTER, -180, 90, event_handler_pwr_set);
 	else if (mks_grbl.power_length == P_10_PERSEN)
-		pwr_len = lv_imgbtn_creat_mks(scr, pwr_len, &Pwr_10, &Pwr_10, LV_ALIGN_CENTER, -60, 90, event_handler_pwr_set);
+		pwr_len = lv_imgbtn_creat_mks(scr, pwr_len, &Pwr_10, &Pwr_10, LV_ALIGN_CENTER, -180, 90, event_handler_pwr_set);
 
 	mks_lvgl_label_set(scr, Label_add, 40, 140, "#ffffff Add#");
 	mks_lvgl_label_set(scr, Label_dec, 390, 140, "#ffffff Dec#");
@@ -115,9 +115,9 @@ void mks_draw_power(void) {
 	}
 
 	if(mks_grbl.power_length == P_1_PERSEN)
-		Label_pwr_persen = mks_lvgl_label_set(scr, Label_pwr_persen, 160, 280, "#ffffff 1%#");
+		Label_pwr_persen = mks_lvgl_label_set(scr, Label_pwr_persen, 40, 280, "#ffffff 1%#");
 	else if(mks_grbl.power_length == P_10_PERSEN)
-		Label_pwr_persen = mks_lvgl_label_set(scr, Label_pwr_persen, 160, 280, "#ffffff 10%#");
+		Label_pwr_persen = mks_lvgl_label_set(scr, Label_pwr_persen, 40, 280, "#ffffff 10%#");
 } 
 
 void mks_power_set(uint8_t val) { 

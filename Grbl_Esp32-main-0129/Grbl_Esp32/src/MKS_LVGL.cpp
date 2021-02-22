@@ -104,7 +104,6 @@ void mks_grbl_parg_init(void) {
 
 
 /* MKS SD FILE */
-
 uint8_t mks_sd_file_init() { 
 
     return 0;
@@ -137,3 +136,6 @@ uint8_t mks_readSD_Status(void) {
     return sd_status;
 }
 
+float mks_caving_persen(void) { 
+    return sd_report_perc_complete();
+}

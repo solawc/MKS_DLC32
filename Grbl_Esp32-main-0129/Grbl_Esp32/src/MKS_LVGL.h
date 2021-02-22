@@ -56,4 +56,5 @@ extern MKS_SD_t mks_sd;
 void mks_lvgl_init(void);
 void lvgl_test(void);
 uint8_t mks_readSD_Status(void);
+float mks_caving_persen(void);
 #endif
