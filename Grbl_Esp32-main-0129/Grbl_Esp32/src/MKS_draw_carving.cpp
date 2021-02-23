@@ -199,8 +199,8 @@ void mks_draw_caving_popup(void) {
 	lv_obj_set_pos(caving_Popup, 80,50);
 
 	lv_style_copy(&popup_style, &lv_style_scr);
-	popup_style.body.main_color = LV_COLOR_GREEN;
-	popup_style.body.grad_color = LV_COLOR_GREEN;
+	popup_style.body.main_color = LV_COLOR_GRAY;
+	popup_style.body.grad_color = LV_COLOR_GRAY;
 	lv_obj_set_style(caving_Popup, &popup_style);
 
 	btn_popup_cancle = lv_btn_create(caving_Popup,NULL);

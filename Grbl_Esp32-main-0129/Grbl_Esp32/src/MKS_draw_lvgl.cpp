@@ -47,6 +47,22 @@ lv_obj_t* mks_lvgl_label_set(lv_obj_t *scr, lv_obj_t *lab, lv_coord_t x, lv_coor
 
 /* 
  * Author   :MKS
+ * Describe :Set wrap label
+ * Data     :2021/01/30
+*/
+lv_obj_t* mks_lvgl_label_with_long_set(lv_obj_t *scr, lv_obj_t *lab, lv_coord_t x, lv_coord_t y, const char *text, lv_coord_t w) {
+    lab = lv_label_create(scr, NULL);                                                          
+    lv_label_set_long_mode(lab, LV_LABEL_LONG_BREAK);                                    
+    lv_obj_set_width(lab, 80);
+    lv_obj_set_height(lab,20);
+    lv_obj_set_pos(lab, x, y);
+    lv_label_set_recolor(lab, true);                                                  
+    lv_label_set_text(lab, text);
+    return lab;
+}
+
+/* 
+ * Author   :MKS
  * Describe :Set the label to scroll back and forth
  * Data     :2021/01/30
 */
