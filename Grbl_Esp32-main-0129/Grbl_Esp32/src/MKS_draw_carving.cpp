@@ -7,36 +7,36 @@ static lv_obj_t* scr;
 static lv_obj_t* caving_Popup;
 
 /* style */
-lv_style_t popup_style;
+static lv_style_t popup_style;
 
 /* BTN */
-lv_obj_t* btn_popup_cancle;
-lv_obj_t* btn_popup_sure;
+static lv_obj_t* btn_popup_cancle;
+static lv_obj_t* btn_popup_sure;
 
 /* imgbtn */
-lv_obj_t* up;
-lv_obj_t* next;
-lv_obj_t* Cback;
+static lv_obj_t* up;
+static lv_obj_t* next;
+static lv_obj_t* Cback;
 
-lv_obj_t* file_0;
-lv_obj_t* file_1;
-lv_obj_t* file_2;
-lv_obj_t* file_3;
-lv_obj_t* file_4;
-lv_obj_t* file_5;
+static lv_obj_t* file_0;
+static lv_obj_t* file_1;
+static lv_obj_t* file_2;
+static lv_obj_t* file_3;
+static lv_obj_t* file_4;
+static lv_obj_t* file_5;
 
 /* Label */
-lv_obj_t* Label_file_0;
-lv_obj_t* Label_file_1;
-lv_obj_t* Label_file_2;
-lv_obj_t* Label_file_3;
-lv_obj_t* Label_file_4;
-lv_obj_t* Label_file_5;
-lv_obj_t* Label_NoFile;
-lv_obj_t* Label_popup_cancel;
-lv_obj_t* Label_popup_sure;
-lv_obj_t* Label_popup;
-lv_obj_t* Label_popup_file_name;
+static lv_obj_t* Label_file_0;
+static lv_obj_t* Label_file_1;
+static lv_obj_t* Label_file_2;
+static lv_obj_t* Label_file_3;
+static lv_obj_t* Label_file_4;
+static lv_obj_t* Label_file_5;
+static lv_obj_t* Label_NoFile;
+static lv_obj_t* Label_popup_cancel;
+static lv_obj_t* Label_popup_sure;
+static lv_obj_t* Label_popup;
+static lv_obj_t* Label_popup_file_name;
 
 LV_IMG_DECLARE(Up);			//先申明此图片
 LV_IMG_DECLARE(Next);		//先申明此图片
@@ -118,7 +118,6 @@ void mks_draw_craving(void) {
 	lv_imgbtn_creat_mks(scr, Cback, &cback, &cback, LV_ALIGN_CENTER, 180, 110, event_handler_cback);
 
 	
-	
 	if(mks_readSD_Status() == SDCARD_NOT_PRESENT) 
 	{
 		mks_lvgl_long_sroll_label_set(scr, Label_NoFile, 200, 150, "#ffffff No SD Card#");
@@ -188,10 +187,10 @@ static void event_btn_sure(lv_obj_t* obj, lv_event_t event) {
 
     if (event == LV_EVENT_RELEASED) {
         lv_obj_del(caving_Popup);
+		mks_clear_craving();
+		mks_draw_print();
 	}
 }
-
-
 
 void mks_draw_caving_popup(void) {
 	caving_Popup = lv_obj_create(scr, NULL);
@@ -212,14 +211,12 @@ void mks_draw_caving_popup(void) {
 	btn_popup_sure = lv_btn_create(caving_Popup,NULL);
     lv_obj_set_size(btn_popup_sure, 100,50);
     lv_obj_set_pos(btn_popup_sure, 10,130);
-    lv_obj_set_event_cb(btn_popup_sure, event_btn_cancle);
+    lv_obj_set_event_cb(btn_popup_sure, event_btn_sure);
 	mks_lvgl_label_set(caving_Popup, Label_popup_sure, 20, 150, "Yes");
 
-	mks_lvgl_label_set(caving_Popup, Label_popup, 40, 70, "Is Caving this File?");
-	
-	
+	mks_lvgl_long_sroll_label_with_wight_set(caving_Popup, Label_popup_file_name, 100, 40, "File:lib04xxxxxxxxxxxxxx00000xxxx.nc",150);
+	mks_lvgl_long_sroll_label_with_wight_set(caving_Popup, Label_popup, 100, 80, "Is Caving this File?",150);
 }
-
 
 void mks_clear_craving(void) {
 	lv_obj_clean(scr);

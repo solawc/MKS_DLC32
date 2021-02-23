@@ -31,13 +31,38 @@ typedef enum {
 }GRBL_POWER;
 
 typedef struct{
-    GRBL_MOVE_DIS               move_dis;
-    GRBL_Language               language;
-    GRBL_LIGHT_STATUS           light_status;
-    GRBL_POWER                  power_length;
-    uint8_t                     power_persen;
+    GRBL_MOVE_DIS               move_dis;           // 移动距离
+    GRBL_Language               language;           // 语言设置
+    GRBL_LIGHT_STATUS           light_status;       // 灯状态
+    GRBL_POWER                  power_length;       // 功率步长设置
+    uint8_t                     power_persen;       // 功率百分比
+    uint16_t                    cave_speed;         // 雕刻速度
+    uint16_t                    move_speed;         // 移动速度
+    uint16_t                    X_Pos;              // x坐标
+    uint16_t                    Y_Pos;              // y坐标
 }GRBL_CRTL;
 extern GRBL_CRTL mks_grbl;
+
+
+
+// typedef enum {
+
+//     ui_main_imgbtn_first_pos_x = -170,
+//     ui_main_imgbtn_first_pos_y = 0,
+
+//     ui_main_imgbtn_second_pos_x = 0,
+//     ui_main_imgbtn_second_pos_y = 0,
+
+//     ui_main_imgbtn_third_pos_x = 170,
+//     ui_main_imgbtn_third_pos_y = 0,
+
+// }MKS_UI_POS_t;
+
+// typedef struct {
+//     MKS_UI_POS_t ui_pos;
+
+
+// }MKS_LV_DRAW_UI_t;
 
 
 #define SD_FILE_NAME_LENGTH     64      //文件名长度

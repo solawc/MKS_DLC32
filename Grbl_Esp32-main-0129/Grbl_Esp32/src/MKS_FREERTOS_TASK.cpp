@@ -7,16 +7,14 @@
 // portMUX_TYPE lvMutex = portMUX_INITIALIZER_UNLOCKED;
 
 void lvgl_disp_task(void *parg) {
-    Serial.printf("Enter LVGL");
+    //Serial.printf("Enter LVGL");
     mks_lvgl_init();
-    // lvgl_test();
     lv_draw_ready();
-
     while(1) {
         if(!SPI.is_spi_inTranscation()) {
             lv_task_handler();
         }
-        vTaskDelay(10);
+        vTaskDelay(5); // 5ms
     }
 }
 

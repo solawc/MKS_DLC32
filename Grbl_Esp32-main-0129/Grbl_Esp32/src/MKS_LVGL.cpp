@@ -100,6 +100,9 @@ void mks_grbl_parg_init(void) {
     mks_grbl.move_dis = M_0_1_MM;
     mks_grbl.power_length = P_1_PERSEN;
     mks_grbl.power_persen = 0;
+    mks_grbl.cave_speed = 100;
+    mks_grbl.X_Pos = 0;
+    mks_grbl.Y_Pos = 0;
 }
 
 

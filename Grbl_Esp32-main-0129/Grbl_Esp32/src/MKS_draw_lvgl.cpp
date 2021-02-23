@@ -53,7 +53,7 @@ lv_obj_t* mks_lvgl_label_set(lv_obj_t *scr, lv_obj_t *lab, lv_coord_t x, lv_coor
 lv_obj_t* mks_lvgl_label_with_long_set(lv_obj_t *scr, lv_obj_t *lab, lv_coord_t x, lv_coord_t y, const char *text, lv_coord_t w) {
     lab = lv_label_create(scr, NULL);                                                          
     lv_label_set_long_mode(lab, LV_LABEL_LONG_BREAK);                                    
-    lv_obj_set_width(lab, 80);
+    lv_obj_set_width(lab, w);
     lv_obj_set_height(lab,20);
     lv_obj_set_pos(lab, x, y);
     lv_label_set_recolor(lab, true);                                                  
@@ -70,6 +70,22 @@ lv_obj_t* mks_lvgl_long_sroll_label_set(lv_obj_t* scr, lv_obj_t* lab, lv_coord_t
     lab = lv_label_create(scr, NULL);
     lv_label_set_long_mode(lab, LV_LABEL_LONG_SROLL);
     lv_obj_set_width(lab, 200);
+    lv_obj_set_height(lab, 20);
+    lv_obj_set_pos(lab, x, y);
+    lv_label_set_recolor(lab, true);
+    lv_label_set_text(lab, text);
+    return lab;
+}
+
+/* 
+ * Author   :MKS
+ * Describe :Set the label to scroll back and forth
+ * Data     :2021/01/30
+*/
+lv_obj_t* mks_lvgl_long_sroll_label_with_wight_set(lv_obj_t* scr, lv_obj_t* lab, lv_coord_t x, lv_coord_t y, const char* text, lv_coord_t w) {
+    lab = lv_label_create(scr, NULL);
+    lv_label_set_long_mode(lab, LV_LABEL_LONG_SROLL);
+    lv_obj_set_width(lab, w);
     lv_obj_set_height(lab, 20);
     lv_obj_set_pos(lab, x, y);
     lv_label_set_recolor(lab, true);
@@ -102,6 +118,35 @@ lv_obj_t* lv_imgbtn_creat_mks(lv_obj_t *scr ,lv_obj_t *imgbtn, const void * img_
     lv_obj_align(imgbtn, NULL, align,x_mod, y_mod);
     lv_obj_set_event_cb(imgbtn, event_cb);
     return imgbtn;
+}
+
+/* 
+ * Author   :MKS
+ * Describe :Create Img button
+ * Data     :2021/02/23
+*/
+lv_obj_t* mks_lv_btn_set(lv_obj_t* scr, lv_obj_t* btn, lv_coord_t btn_w, lv_coord_t btn_h, lv_coord_t x, lv_coord_t y, lv_event_cb_t event_cb) {
+
+    btn = lv_btn_create(scr, NULL);
+    lv_obj_set_size(btn, btn_w, btn_h);
+    lv_obj_set_pos(btn, x, y);
+    lv_obj_set_event_cb(btn, event_cb);
+    return btn;
+}
+
+/* 
+ * Author   :MKS
+ * Describe :Create Img button
+ * Data     :2021/02/23
+*/
+lv_obj_t* mks_lv_bar_set(lv_obj_t* scr, lv_obj_t* bar, lv_coord_t bar_w, lv_coord_t bar_h, lv_coord_t x, lv_coord_t y, uint8_t val) {
+
+    bar = lv_bar_create(scr, NULL);
+    lv_obj_set_size(bar, 200, 30);
+    lv_obj_align(bar, NULL, LV_ALIGN_CENTER, x, y);
+    //lv_bar_set_anim_time(bar, 1000);
+    lv_bar_set_value(bar, val, LV_ANIM_ON);
+    return bar;
 }
 
 
