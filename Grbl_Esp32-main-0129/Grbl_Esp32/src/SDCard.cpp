@@ -55,6 +55,7 @@ void listDir(fs::FS& fs, const char* dirname, uint8_t levels, uint8_t client) {
     while (file) {
         if (file.isDirectory()) {
             if (levels) {
+                printf("enter dir\n");
                 listDir(fs, file.name(), levels - 1, client);
             }
         } else {
@@ -67,7 +68,11 @@ void listDir(fs::FS& fs, const char* dirname, uint8_t levels, uint8_t client) {
 void mks_listDir(fs::FS& fs, const char* dirname, uint8_t levels) { 
 
     File root = fs.open(dirname);    //建立文件根目录并打开文件系统
-    
+    uint16_t times = 0;
+    uint16_t times_count = 0;
+    uint8_t  file_status;
+    uint8_t times_file_num=0;
+    bool enter_status = false;
     // root 为空时判断为文件系统打开失败
     if(!root) {
         //...提示文件系统打开失败
@@ -81,16 +86,54 @@ void mks_listDir(fs::FS& fs, const char* dirname, uint8_t levels) {
 
     File file = root.openNextFile(); //进入下一级文件目录
 
+    times = mks_grbl.mks_sd_file_times * 6; //从第0个文件开始
+    if(times == 0) {
+        times = 6;
+    }
+
     while(file) {
         if (root.isDirectory()) {
             if (levels) {
-                //listDir(fs, file.name(), levels - 1, client);
-                grbl_sendf(CLIENT_ALL, "%s\r\n", file.name());
+                // if(levels - 1) {
+                //     mks_listDir(fs, file.name(), levels-1);
+                //     return;
+                // } 
+                if(file.isDirectory()) 
+                    file_status = 0;
+                else 
+                    file_status = 1;
+                
+                grbl_sendf(CLIENT_ALL, ":%s\r\n", file.name());
             }
         } else {
-            //grbl_sendf(CLIENT_ALL, "[FILE:%s|SIZE:%d]\r\n", file.name(), file.size());
-            grbl_sendf(CLIENT_ALL, "%s\r\n", file.name());
+            
         }
+
+        if(times_count == (times-6) && (enter_status == false)) {
+            enter_status = true;
+        }
+        if((enter_status == true) && (times_count < times)) {
+           mks_draw_sd_file(file_status,times_file_num, file.name());
+        //    switch(times_file_num) {
+        //        case 0: file0_name = (char *)file.name();
+        //        break;
+        //        case 1: file1_name = (char *)file.name();
+        //        break;
+        //        case 2: file2_name = (char *)file.name();
+        //        break;
+        //        case 3: file3_name = (char *)file.name();
+        //        break;
+        //        case 4: file4_name = (char *)file.name();
+        //        break;
+        //        case 5: file5_name = (char *)file.name();
+        //        break;
+        //    }
+           times_file_num++;
+           if(times_file_num == 6) {
+               return;
+           }
+       }
+       times_count++;
        file =  root.openNextFile();
     }
 }

@@ -69,12 +69,12 @@ static void event_handler_pwr_set(lv_obj_t* obj, lv_event_t event) {
 			mks_grbl.power_length = P_10_PERSEN;
 			lv_imgbtn_set_src(pwr_len, LV_BTN_STATE_PR, &Pwr_10);
     		lv_imgbtn_set_src(pwr_len, LV_BTN_STATE_REL, &Pwr_10);
-			lv_label_set_text(Label_pwr_persen, "#ffffff 10%#");
+			lv_label_set_text(Label_pwr_persen, "10%");
 		}else if(mks_grbl.power_length == P_10_PERSEN) {
 			mks_grbl.power_length = P_1_PERSEN;
 			lv_imgbtn_set_src(pwr_len, LV_BTN_STATE_PR, &Pwr_1);
     		lv_imgbtn_set_src(pwr_len, LV_BTN_STATE_REL, &Pwr_1);
-			lv_label_set_text(Label_pwr_persen, "#ffffff 1%#");
+			lv_label_set_text(Label_pwr_persen, "1%");
 		}
 	}
 }

@@ -107,14 +107,14 @@ void mks_draw_move(void) {
 	lv_imgbtn_creat_mks(scr, len, &Len_0_1mm, &Len_0_1mm, LV_ALIGN_CENTER, 180, -70, event_handler_len);
 	lv_imgbtn_creat_mks(scr, Back, &back, &back, LV_ALIGN_CENTER, 180, 90, event_handler_back);
 
-	mks_lvgl_label_set(scr, Label_x_n, 50, 120, "#ffffff X+#");
-	mks_lvgl_label_set(scr, Label_x_p, 50, 280, "#ffffff X-#");
-	mks_lvgl_label_set(scr, Label_y_n, 160, 120, "#ffffff Y+#");
-	mks_lvgl_label_set(scr, Label_y_p, 160, 280, "#ffffff Y-#");
-	mks_lvgl_label_set(scr, Label_z_n, 290, 120, "#ffffff Z+#");
-	mks_lvgl_label_set(scr, Label_z_p, 290, 280, "#ffffff Z-#");
-	mks_lvgl_label_set(scr, Label_len, 390, 120, "#ffffff 0.1mm#");
-	mks_lvgl_label_set(scr, Label_back, 390, 280, "#ffffff Back#");
+	mks_lvgl_label_set(scr, Label_x_n, 50, 120, "X+");
+	mks_lvgl_label_set(scr, Label_x_p, 50, 280, "X-");
+	mks_lvgl_label_set(scr, Label_y_n, 160, 120, "Y+");
+	mks_lvgl_label_set(scr, Label_y_p, 160, 280, "Y-");
+	mks_lvgl_label_set(scr, Label_z_n, 290, 120, "Z+");
+	mks_lvgl_label_set(scr, Label_z_p, 290, 280, "Z-");
+	mks_lvgl_label_set(scr, Label_len, 390, 120, "0.1mm");
+	mks_lvgl_label_set(scr, Label_back, 390, 280, "Back");
 }
 
 void mks_clear_move(void) {

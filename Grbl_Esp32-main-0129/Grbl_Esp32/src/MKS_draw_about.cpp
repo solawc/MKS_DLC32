@@ -31,8 +31,8 @@ void mks_draw_about(void) {
 
 	lv_imgbtn_creat_mks(scr, Back, &back, &back, LV_ALIGN_CENTER, 180, 90, event_handler_back);
 
-	mks_lvgl_long_sroll_label_set(scr, Label_board_version, 120, 120, "#ff0000 Board:MKS DLC32 V1.03#");
-	mks_lvgl_long_sroll_label_set(scr, Label_Firmware_version, 120, 140, "#ff0000 Firmware:MKS DLC32 V1.0 SDK-1.3.0#");
+	mks_lvgl_long_sroll_label_set(scr, Label_board_version, 120, 120, "Board:MKS DLC32 V1.03");
+	mks_lvgl_long_sroll_label_set(scr, Label_Firmware_version, 120, 140, "Firmware:MKS DLC32 V1.0 SDK-1.3.0");
 }
 
 void mks_clear_about(void) {

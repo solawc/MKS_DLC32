@@ -62,14 +62,6 @@ bool my_indev_touch(struct _lv_indev_drv_t * indev_drv, lv_indev_data_t * data) 
     touchX = 480 - touchX;
     touchY = 320 - touchY;
     if( touched != false ) {
-        
-        // Serial.print("touchX:");
-        // Serial.print(touchX);
-        // Serial.print("\n");
-
-        // Serial.print("touchY:");
-        // Serial.print(touchY);
-        // Serial.print("\n");
         last_x = touchX;
         last_y = touchY;
         data->point.x = last_x;
@@ -103,6 +95,8 @@ void mks_grbl_parg_init(void) {
     mks_grbl.cave_speed = 100;
     mks_grbl.X_Pos = 0;
     mks_grbl.Y_Pos = 0;
+    mks_grbl.mks_sd_file_times = 0;
+    mks_grbl.mks_sd_status = 0;
 }
 
 

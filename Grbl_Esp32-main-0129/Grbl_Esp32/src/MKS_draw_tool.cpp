@@ -104,28 +104,28 @@ void lv_draw_tool(void) {
     lv_imgbtn_creat_mks(scr, power, &Power, &Power, LV_ALIGN_CENTER,-180,90, event_handler_power);
     lv_imgbtn_creat_mks(scr, Back, &back, &back, LV_ALIGN_CENTER, 180, 90, event_handler_back);
 
-    mks_lvgl_label_set(scr, Label_home,             30, 120,    "#ffffff Home#");
-    mks_lvgl_label_set(scr, Label_positioning,      140, 120,   "#ffffff Positioning#");
-    mks_lvgl_label_set(scr, Label_move,             280, 120,   "#ffffff Move#"  );
-    mks_lvgl_label_set(scr, Label_power,            30, 280,    "#ffffff Power#");
-    mks_lvgl_label_set(scr, Label_back,             400, 280,   "#ffffff Back#");
+    mks_lvgl_label_set(scr, Label_home,             30, 120,    "Home");
+    mks_lvgl_label_set(scr, Label_positioning,      140, 120,   "Positioning");
+    mks_lvgl_label_set(scr, Label_move,             280, 120,   "Move"  );
+    mks_lvgl_label_set(scr, Label_power,            30, 280,    "Power");
+    mks_lvgl_label_set(scr, Label_back,             400, 280,   "Back");
 
     if(mks_grbl.light_status == GRBL_Light_On) 
-        Label_light_on = mks_lvgl_label_set(scr, Label_light_on, 390, 120, "#ffffff Light_on#");
+        Label_light_on = mks_lvgl_label_set(scr, Label_light_on, 390, 120, "Light_on");
     else 
-        Label_light_on = mks_lvgl_label_set(scr, Label_light_on, 390, 120, "#ffffff Light_off#");
+        Label_light_on = mks_lvgl_label_set(scr, Label_light_on, 390, 120, "Light_off");
 }
 
 void light_img_change(uint8_t status) {
     if(status == 0) {
         lv_imgbtn_set_src(light_on, LV_BTN_STATE_PR, &Light_off);
         lv_imgbtn_set_src(light_on, LV_BTN_STATE_REL, &Light_off);
-        lv_label_set_text(Label_light_on,"#ffffff Light_off#");
+        lv_label_set_text(Label_light_on,"Light_off");
     }
     else if (status == 1) {
         lv_imgbtn_set_src(light_on, LV_BTN_STATE_PR, &Light_on);
         lv_imgbtn_set_src(light_on, LV_BTN_STATE_REL, &Light_on);
-        lv_label_set_text(Label_light_on, "#ffffff Light_on#");
+        lv_label_set_text(Label_light_on, "Light_on");
     }
 }
 

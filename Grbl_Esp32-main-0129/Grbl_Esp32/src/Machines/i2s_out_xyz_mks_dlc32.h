@@ -142,16 +142,24 @@
 #define DEFAULT_Y_STEPS_PER_MM 80.0
 #define DEFAULT_Z_STEPS_PER_MM 80.0
 
-#define DEFAULT_X_MAX_RATE 30000.0 // mm/min
-#define DEFAULT_Y_MAX_RATE 30000.0 // mm/min
-#define DEFAULT_Z_MAX_RATE 30000.0 // mm/min
+#define DEFAULT_X_MAX_RATE 30000.0 // mm/s
+#define DEFAULT_Y_MAX_RATE 30000.0 // mm/s
+#define DEFAULT_Z_MAX_RATE 30000.0 // mm/s
 
-#define DEFAULT_X_ACCELERATION 1000.0 // mm/sec^2
-#define DEFAULT_Y_ACCELERATION 1000.0 // mm/sec^2
-#define DEFAULT_Z_ACCELERATION 100.0 // mm/sec^2
+// #define DEFAULT_X_ACCELERATION 1000.0 // mm/sec^2
+// #define DEFAULT_Y_ACCELERATION 1000.0 // mm/sec^2
+// #define DEFAULT_Z_ACCELERATION 100.0 // mm/sec^2
 
-#define DEFAULT_X_MAX_TRAVEL 240.0 // mm NOTE: Must be a positive value.
-#define DEFAULT_Y_MAX_TRAVEL 240.0 // mm NOTE: Must be a positive value.
+#define DEFAULT_X_ACCELERATION 500.0 // mm/sec^2
+#define DEFAULT_Y_ACCELERATION 500.0 // mm/sec^2
+#define DEFAULT_Z_ACCELERATION 500.0 // mm/sec^2
+
+// #define DEFAULT_X_MAX_TRAVEL 240.0 // mm NOTE: Must be a positive value.
+// #define DEFAULT_Y_MAX_TRAVEL 240.0 // mm NOTE: Must be a positive value.
+// #define DEFAULT_Z_MAX_TRAVEL 80.0 // mm NOTE: Must be a positive value.
+
+#define DEFAULT_X_MAX_TRAVEL 390 // mm NOTE: Must be a positive value.
+#define DEFAULT_Y_MAX_TRAVEL 320 // mm NOTE: Must be a positive value.
 #define DEFAULT_Z_MAX_TRAVEL 80.0 // mm NOTE: Must be a positive value.
 
-#define DEFAULT_SPINDLE_FREQ    1000.0
+#define DEFAULT_SPINDLE_FREQ    8000.0

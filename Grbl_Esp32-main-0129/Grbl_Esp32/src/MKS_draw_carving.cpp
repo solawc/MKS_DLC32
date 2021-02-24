@@ -44,10 +44,18 @@ LV_IMG_DECLARE(cback);		//先申明此图片
 LV_IMG_DECLARE(Files);		//先申明此图片
 LV_IMG_DECLARE(FileDir);		//先申明此图片
 
+char *file0_name = 0;
+char *file1_name = 0;
+char *file2_name = 0;
+char *file3_name = 0;
+char *file4_name = 0;
+char *file5_name = 0;
+char *file_print_send = 0;
+
 static void event_handler_up(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-		MKS_GRBL_CMD_SEND("[ESP220] /lib4.nc\n");
+		//MKS_GRBL_CMD_SEND("[ESP220] /lib4.nc\n");
 	}
 }
 
@@ -64,49 +72,42 @@ static void event_handler_cback(lv_obj_t* obj, lv_event_t event) {
 	}
 }
 
-
 static void event_handler_file0(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
-		mks_draw_caving_popup();
+		grbl_sendf(CLIENT_SERIAL, "file0_name111:%s\n",file0_name);
+		mks_draw_caving_popup(file0_name);
 	}
 }
-
 
 static void event_handler_file1(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
-		mks_draw_caving_popup();
+		mks_draw_caving_popup(file1_name);
 	}
 }
-
 
 static void event_handler_file2(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
-		mks_draw_caving_popup();
+		mks_draw_caving_popup(file2_name);
 	}
 }
-
 
 static void event_handler_file3(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
-		mks_draw_caving_popup();
+		mks_draw_caving_popup(file3_name);
 	}
 }
 
-
 static void event_handler_file4(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
-		mks_draw_caving_popup();
+		mks_draw_caving_popup(file4_name);
 	}
 }
 
 static void event_handler_file5(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
-		mks_draw_caving_popup();
+		mks_draw_caving_popup(file5_name);
 	}
 }
-
-
-
 
 void mks_draw_craving(void) {
 
@@ -117,23 +118,17 @@ void mks_draw_craving(void) {
 	lv_imgbtn_creat_mks(scr, next, &Next, &Next, LV_ALIGN_CENTER, 180, 20, event_handler_next);
 	lv_imgbtn_creat_mks(scr, Cback, &cback, &cback, LV_ALIGN_CENTER, 180, 110, event_handler_cback);
 
-	
 	if(mks_readSD_Status() == SDCARD_NOT_PRESENT) 
 	{
-		mks_lvgl_long_sroll_label_set(scr, Label_NoFile, 200, 150, "#ffffff No SD Card#");
+		mks_grbl.mks_sd_status = 0;	// no sd insert
+		mks_lvgl_long_sroll_label_set(scr, Label_NoFile, 200, 150, "No SD Card#");
 	}else {
-
+		mks_grbl.mks_sd_status = 1; // sd had inserted
 		mks_listDir(SD, "/",1);
 	}	
-
-	for(uint8_t i=0;i<6;i++) {
-
-		mks_draw_sd_file(1,i);
-	}
 }
 
-
-void mks_draw_sd_file(uint8_t status, uint8_t file_num) { 
+void mks_draw_sd_file(uint8_t status, uint8_t file_num, const char *filename) { 
 
 	switch(file_num) {
 		case 0: 
@@ -141,36 +136,47 @@ void mks_draw_sd_file(uint8_t status, uint8_t file_num) {
 				file_0 = lv_imgbtn_creat_mks(scr, file_0, &FileDir, &FileDir, LV_ALIGN_CENTER, -180, -70, event_handler_file0);
 			else 
 				file_0 = lv_imgbtn_creat_mks(scr, file_0, &Files, &Files, LV_ALIGN_CENTER, -180, -70, event_handler_file0);
+			mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_0, 20, 110, filename, 100);
 		break;
+
 		case 1:
 			if(status == 0) 
-				file_1 = lv_imgbtn_creat_mks(scr, file_0, &FileDir, &FileDir, LV_ALIGN_CENTER, -60, -70, event_handler_file1);
+				file_1 = lv_imgbtn_creat_mks(scr, file_1, &FileDir, &FileDir, LV_ALIGN_CENTER, -60, -70, event_handler_file1);
 			else 
-				file_1 = lv_imgbtn_creat_mks(scr, file_0, &Files, &Files, LV_ALIGN_CENTER, -60, -70, event_handler_file1);
+				file_1 = lv_imgbtn_creat_mks(scr, file_1, &Files, &Files, LV_ALIGN_CENTER, -60, -70, event_handler_file1);
+			mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_1, 150, 110, filename, 100);
 		break;
+
 		case 2:
 			if(status == 0) 
-				file_2 = lv_imgbtn_creat_mks(scr, file_0, &FileDir, &FileDir, LV_ALIGN_CENTER, 60, -70, event_handler_file2);
+				file_2 = lv_imgbtn_creat_mks(scr, file_2, &FileDir, &FileDir, LV_ALIGN_CENTER, 60, -70, event_handler_file2);
 			else 
-				file_2 = lv_imgbtn_creat_mks(scr, file_0, &Files, &Files, LV_ALIGN_CENTER, 60, -70, event_handler_file2);
+				file_2 = lv_imgbtn_creat_mks(scr, file_2, &Files, &Files, LV_ALIGN_CENTER, 60, -70, event_handler_file2);
+			mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_2, 260, 110, filename, 100);
 		break;
+
 		case 3:
 			if(status == 0) 
-				file_3 = lv_imgbtn_creat_mks(scr, file_0, &FileDir, &FileDir, LV_ALIGN_CENTER, -180, 90, event_handler_file3);
+				file_3 = lv_imgbtn_creat_mks(scr, file_3, &FileDir, &FileDir, LV_ALIGN_CENTER, -180, 90, event_handler_file3);
 			else 
-				file_3 = lv_imgbtn_creat_mks(scr, file_0, &Files, &Files, LV_ALIGN_CENTER, -180, 90, event_handler_file3);
+				file_3 = lv_imgbtn_creat_mks(scr, file_3, &Files, &Files, LV_ALIGN_CENTER, -180, 90, event_handler_file3);
+			mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_3, 20, 280, filename, 100);
 		break;
+
 		case 4:
 			if(status == 0) 
-				file_4 = lv_imgbtn_creat_mks(scr, file_0, &FileDir, &FileDir, LV_ALIGN_CENTER, -60, 90, event_handler_file4);
+				file_4 = lv_imgbtn_creat_mks(scr, file_4, &FileDir, &FileDir, LV_ALIGN_CENTER, -60, 90, event_handler_file4);
 			else 
-				file_4 = lv_imgbtn_creat_mks(scr, file_0, &Files, &Files, LV_ALIGN_CENTER, -60, 90, event_handler_file4);
+				file_4 = lv_imgbtn_creat_mks(scr, file_4, &Files, &Files, LV_ALIGN_CENTER, -60, 90, event_handler_file4);
+			mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_4, 150, 280, filename, 100);
 		break;
+
 		case 5:
 			if(status == 0) 
-				file_5 = lv_imgbtn_creat_mks(scr, file_0, &FileDir, &FileDir, LV_ALIGN_CENTER, 60, 90, event_handler_file5);
+				file_5 = lv_imgbtn_creat_mks(scr, file_5, &FileDir, &FileDir, LV_ALIGN_CENTER, 60, 90, event_handler_file5);
 			else 
-				file_5 = lv_imgbtn_creat_mks(scr, file_0, &Files, &Files, LV_ALIGN_CENTER, 60, 90, event_handler_file5);
+				file_5 = lv_imgbtn_creat_mks(scr, file_5, &Files, &Files, LV_ALIGN_CENTER, 60, 90, event_handler_file5);
+			mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_5, 260, 280, filename, 100);
 		break;
 	}
 }
@@ -184,15 +190,18 @@ static void event_btn_cancle(lv_obj_t* obj, lv_event_t event) {
 }
 
 static void event_btn_sure(lv_obj_t* obj, lv_event_t event) {
-
+	char str_cmd[255] = "[ESP220]";
     if (event == LV_EVENT_RELEASED) {
         lv_obj_del(caving_Popup);
 		mks_clear_craving();
+		strcat(str_cmd,file_print_send);
+		MKS_GRBL_CMD_SEND(str_cmd);
+		grbl_send(CLIENT_SERIAL, str_cmd);
 		mks_draw_print();
 	}
 }
 
-void mks_draw_caving_popup(void) {
+void mks_draw_caving_popup(char* text) {
 	caving_Popup = lv_obj_create(scr, NULL);
 	lv_obj_set_size(caving_Popup ,350, 200);
 	lv_obj_set_pos(caving_Popup, 80,50);
@@ -214,7 +223,10 @@ void mks_draw_caving_popup(void) {
     lv_obj_set_event_cb(btn_popup_sure, event_btn_sure);
 	mks_lvgl_label_set(caving_Popup, Label_popup_sure, 20, 150, "Yes");
 
-	mks_lvgl_long_sroll_label_with_wight_set(caving_Popup, Label_popup_file_name, 100, 40, "File:lib04xxxxxxxxxxxxxx00000xxxx.nc",150);
+	file_print_send = text;
+	grbl_sendf(CLIENT_SERIAL, "text:%s\n",text);
+	grbl_sendf(CLIENT_SERIAL, "file_print_send:%s\n",file_print_send);
+	mks_lvgl_long_sroll_label_with_wight_set(caving_Popup, Label_popup_file_name, 100, 40, text,150);
 	mks_lvgl_long_sroll_label_with_wight_set(caving_Popup, Label_popup, 100, 80, "Is Caving this File?",150);
 }
 

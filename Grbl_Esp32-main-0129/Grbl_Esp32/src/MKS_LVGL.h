@@ -40,6 +40,8 @@ typedef struct{
     uint16_t                    move_speed;         // 移动速度
     uint16_t                    X_Pos;              // x坐标
     uint16_t                    Y_Pos;              // y坐标
+    uint8_t                     mks_sd_status;      // sd卡是否插入, 0:没检测到SD卡， 1:检测到SD卡
+    uint16_t                    mks_sd_file_times;  // 读取时，以6个文件为基础，从times*6开始显示文件名
 }GRBL_CRTL;
 extern GRBL_CRTL mks_grbl;
 

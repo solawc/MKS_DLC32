@@ -63,10 +63,10 @@ void mks_draw_home(void) {
 	lv_imgbtn_creat_mks(scr, y_home, &Y_home, &Y_home, LV_ALIGN_CENTER, 60, -70, event_handler_y_home);
 	lv_imgbtn_creat_mks(scr, Back, &back, &back, LV_ALIGN_CENTER, 180, 90, event_handler_back);
 
-	mks_lvgl_label_set(scr, Label_homg_xy, 30, 120, "#ffffff Home#");
-	mks_lvgl_label_set(scr, Label_x_home, 140, 120, "#ffffff Positioning#");
-	mks_lvgl_label_set(scr, Label_y_home, 280, 120, "#ffffff Move#");
-	mks_lvgl_label_set(scr, Label_Back, 390, 300, "#ffffff Back#");
+	mks_lvgl_label_set(scr, Label_homg_xy, 30, 120, "Home");
+	mks_lvgl_label_set(scr, Label_x_home, 140, 120, "Positioning");
+	mks_lvgl_label_set(scr, Label_y_home, 280, 120, "Move");
+	mks_lvgl_label_set(scr, Label_Back, 390, 300, "Back");
 
 }
 void mks_clean_home(void) {

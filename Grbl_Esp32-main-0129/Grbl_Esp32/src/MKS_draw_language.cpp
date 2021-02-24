@@ -38,8 +38,8 @@ void mks_draw_language(void) {
 	lv_imgbtn_creat_mks(scr, simple_chinese, &SimpleChinene, &SimpleChinene, LV_ALIGN_CENTER, -180, -70, event_handler_sch);
 	lv_imgbtn_creat_mks(scr, Back, &back, &back, LV_ALIGN_CENTER, 180, 90, event_handler_back);
 
-	mks_lvgl_label_set(scr, Label_simple_chinese, 20, 120, "#ffffff Simple_CH#");
-	mks_lvgl_label_set(scr, Label_back, 400, 280, "#ffffff Back#");
+	mks_lvgl_label_set(scr, Label_simple_chinese, 20, 120, "Simple_CH");
+	mks_lvgl_label_set(scr, Label_back, 400, 280, "Back");
 }
 
 void mks_clear_language(void) {
