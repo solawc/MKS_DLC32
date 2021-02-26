@@ -97,6 +97,7 @@ void mks_grbl_parg_init(void) {
     mks_grbl.Y_Pos = 0;
     mks_grbl.mks_sd_file_times = 0;
     mks_grbl.mks_sd_status = 0;
+    mks_grbl.run_status = GRBL_STOP;
 }
 
 

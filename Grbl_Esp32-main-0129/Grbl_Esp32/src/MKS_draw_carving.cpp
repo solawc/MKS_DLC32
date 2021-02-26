@@ -44,13 +44,14 @@ LV_IMG_DECLARE(cback);		//先申明此图片
 LV_IMG_DECLARE(Files);		//先申明此图片
 LV_IMG_DECLARE(FileDir);		//先申明此图片
 
-char *file0_name = 0;
-char *file1_name = 0;
-char *file2_name = 0;
-char *file3_name = 0;
-char *file4_name = 0;
-char *file5_name = 0;
-char *file_print_send = 0;
+char file0_name[40];
+char file1_name[40];
+char file2_name[40];
+char file3_name[40];
+char file4_name[40];
+char file5_name[40];
+char file_print_send[40];
+
 
 static void event_handler_up(lv_obj_t* obj, lv_event_t event) {
 
@@ -137,6 +138,7 @@ void mks_draw_sd_file(uint8_t status, uint8_t file_num, const char *filename) {
 			else 
 				file_0 = lv_imgbtn_creat_mks(scr, file_0, &Files, &Files, LV_ALIGN_CENTER, -180, -70, event_handler_file0);
 			mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_0, 20, 110, filename, 100);
+			memcpy(file0_name, filename, 40);
 		break;
 
 		case 1:
@@ -145,6 +147,7 @@ void mks_draw_sd_file(uint8_t status, uint8_t file_num, const char *filename) {
 			else 
 				file_1 = lv_imgbtn_creat_mks(scr, file_1, &Files, &Files, LV_ALIGN_CENTER, -60, -70, event_handler_file1);
 			mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_1, 150, 110, filename, 100);
+			memcpy(file1_name, filename, 40);
 		break;
 
 		case 2:
@@ -153,6 +156,7 @@ void mks_draw_sd_file(uint8_t status, uint8_t file_num, const char *filename) {
 			else 
 				file_2 = lv_imgbtn_creat_mks(scr, file_2, &Files, &Files, LV_ALIGN_CENTER, 60, -70, event_handler_file2);
 			mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_2, 260, 110, filename, 100);
+			memcpy(file2_name, filename, 40);
 		break;
 
 		case 3:
@@ -161,6 +165,7 @@ void mks_draw_sd_file(uint8_t status, uint8_t file_num, const char *filename) {
 			else 
 				file_3 = lv_imgbtn_creat_mks(scr, file_3, &Files, &Files, LV_ALIGN_CENTER, -180, 90, event_handler_file3);
 			mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_3, 20, 280, filename, 100);
+			memcpy(file3_name, filename, 40);
 		break;
 
 		case 4:
@@ -169,6 +174,7 @@ void mks_draw_sd_file(uint8_t status, uint8_t file_num, const char *filename) {
 			else 
 				file_4 = lv_imgbtn_creat_mks(scr, file_4, &Files, &Files, LV_ALIGN_CENTER, -60, 90, event_handler_file4);
 			mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_4, 150, 280, filename, 100);
+			memcpy(file4_name, filename, 40);
 		break;
 
 		case 5:
@@ -177,8 +183,14 @@ void mks_draw_sd_file(uint8_t status, uint8_t file_num, const char *filename) {
 			else 
 				file_5 = lv_imgbtn_creat_mks(scr, file_5, &Files, &Files, LV_ALIGN_CENTER, 60, 90, event_handler_file5);
 			mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_5, 260, 280, filename, 100);
+			memcpy(file5_name, filename, 40);
 		break;
 	}
+}
+
+char get_print_file_name() {
+
+
 }
 
 
@@ -192,11 +204,14 @@ static void event_btn_cancle(lv_obj_t* obj, lv_event_t event) {
 static void event_btn_sure(lv_obj_t* obj, lv_event_t event) {
 	char str_cmd[255] = "[ESP220]";
     if (event == LV_EVENT_RELEASED) {
+		mks_grbl.run_status = GRBL_RUN;
         lv_obj_del(caving_Popup);
 		mks_clear_craving();
 		strcat(str_cmd,file_print_send);
 		MKS_GRBL_CMD_SEND(str_cmd);
+		MKS_GRBL_CMD_SEND("\n");
 		grbl_send(CLIENT_SERIAL, str_cmd);
+		grbl_send(CLIENT_SERIAL, "\n");
 		mks_draw_print();
 	}
 }
@@ -223,7 +238,7 @@ void mks_draw_caving_popup(char* text) {
     lv_obj_set_event_cb(btn_popup_sure, event_btn_sure);
 	mks_lvgl_label_set(caving_Popup, Label_popup_sure, 20, 150, "Yes");
 
-	file_print_send = text;
+	memcpy(file_print_send, text,40);
 	grbl_sendf(CLIENT_SERIAL, "text:%s\n",text);
 	grbl_sendf(CLIENT_SERIAL, "file_print_send:%s\n",file_print_send);
 	mks_lvgl_long_sroll_label_with_wight_set(caving_Popup, Label_popup_file_name, 100, 40, text,150);

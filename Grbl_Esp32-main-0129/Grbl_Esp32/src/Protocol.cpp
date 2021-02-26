@@ -141,6 +141,7 @@ void protocol_main_loop() {
     uint8_t c;
     
     for (;;) {
+        
 #ifdef ENABLE_SD_CARD
         if (SD_ready_next) {
             char fileLine[255];

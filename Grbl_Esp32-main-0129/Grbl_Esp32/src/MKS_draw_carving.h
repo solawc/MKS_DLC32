@@ -3,14 +3,13 @@
 
 #include "MKS_draw_lvgl.h"
 
-extern char *file0_name;
-extern char *file1_name;
-extern char *file2_name;
-extern char *file3_name;
-extern char *file4_name;
-extern char *file5_name;
-extern char *file_print_send;
-
+extern char file0_name[40];
+extern char file1_name[40];
+extern char file2_name[40];
+extern char file3_name[40];
+extern char file4_name[40];
+extern char file5_name[40];
+extern char file_print_send[40];
 
 
 void mks_draw_craving(void);

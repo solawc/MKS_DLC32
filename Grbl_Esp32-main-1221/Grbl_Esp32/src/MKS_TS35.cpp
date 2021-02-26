@@ -35,9 +35,9 @@ static void LCD_WR_REG(uint8_t cmd) {
     digitalWrite(LCD_CS, LOW);
     digitalWrite(LCD_RS, LOW); 
     delayMicroseconds(DELAY_LCD);
-    LCD_SPI.beginTransaction(SPISettings(LCD_SPI_SPEED, MSBFIRST, SPI_MODE0));
-    LCD_SPI.transfer(cmd);
-    LCD_SPI.endTransaction();
+    // LCD_SPI.beginTransaction(SPISettings(LCD_SPI_SPEED, MSBFIRST, SPI_MODE0));
+    // LCD_SPI.transfer(cmd);
+    // LCD_SPI.endTransaction();
     digitalWrite(LCD_CS, HIGH);
     // delayMicroseconds(DELAY_LCD);
 }
@@ -47,9 +47,9 @@ static void LCD_WR_DATA(uint8_t data) {
     digitalWrite(LCD_CS, LOW); 
     digitalWrite(LCD_RS, HIGH); 
     delayMicroseconds(DELAY_LCD);
-    LCD_SPI.beginTransaction(SPISettings(LCD_SPI_SPEED, MSBFIRST, SPI_MODE0));
-    LCD_SPI.transfer(data);
-    LCD_SPI.endTransaction();
+    // LCD_SPI.beginTransaction(SPISettings(LCD_SPI_SPEED, MSBFIRST, SPI_MODE0));
+    // LCD_SPI.transfer(data);
+    // LCD_SPI.endTransaction();
     digitalWrite(LCD_CS, HIGH); 
     // delayMicroseconds(DELAY_LCD);
 }
@@ -60,9 +60,9 @@ static void LCD_WR_REG_16(uint16_t cmd) {
     digitalWrite(LCD_CS, LOW); 
     digitalWrite(LCD_RS, LOW); 
     delayMicroseconds(DELAY_LCD);
-    LCD_SPI.beginTransaction(SPISettings(LCD_SPI_SPEED, MSBFIRST, SPI_MODE0));
-    LCD_SPI.transfer16(cmd);
-    LCD_SPI.endTransaction();
+    // LCD_SPI.beginTransaction(SPISettings(LCD_SPI_SPEED, MSBFIRST, SPI_MODE0));
+    // LCD_SPI.transfer16(cmd);
+    // LCD_SPI.endTransaction();
     digitalWrite(LCD_CS, HIGH); 
     // delayMicroseconds(DELAY_LCD);
 }
@@ -71,28 +71,28 @@ static void LCD_WR_DATA_16(uint16_t data) {
 
     digitalWrite(LCD_CS, LOW); 
     digitalWrite(LCD_RS, HIGH); 
-    delayMicroseconds(DELAY_LCD);
-    LCD_SPI.beginTransaction(SPISettings(LCD_SPI_SPEED, MSBFIRST, SPI_MODE0));
-    LCD_SPI.transfer16(data);
-    LCD_SPI.endTransaction();
+    // delayMicroseconds(DELAY_LCD);
+    // LCD_SPI.beginTransaction(SPISettings(LCD_SPI_SPEED, MSBFIRST, SPI_MODE0));
+    // LCD_SPI.transfer16(data);
+    // LCD_SPI.endTransaction();
     digitalWrite(LCD_CS, HIGH); 
     // delayMicroseconds(DELAY_LCD);
 }
 
 static void LCD_WR_DATA_16_COLOR(uint16_t data) {
-    LCD_SPI.transfer16(data);
+    // LCD_SPI.transfer16(data);
 }
 
 static void LCD_WR_DATA_32_COLOR(uint32_t data) {
-    LCD_SPI.beginTransaction(SPISettings(LCD_SPI_SPEED, MSBFIRST, SPI_MODE0));
-    LCD_SPI.transfer32((data<<16)|data);
-    LCD_SPI.endTransaction();
+    // LCD_SPI.beginTransaction(SPISettings(LCD_SPI_SPEED, MSBFIRST, SPI_MODE0));
+    // LCD_SPI.transfer32((data<<16)|data);
+    // LCD_SPI.endTransaction();
 }
 
 
 static uint8_t LCD_Read(uint8_t sdata) {
     uint16_t data;
-    return  LCD_SPI.transfer(sdata);;
+    // return  LCD_SPI.transfer(sdata);;
 }
 
 
@@ -277,7 +277,7 @@ void TFT_Fill(uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2,uint16_t color)
 
     // }
 
-    LCD_SPI.transfer(color_buf,y);
+    // LCD_SPI.transfer(color_buf,y);
     digitalWrite(LCD_CS, HIGH); 
 }
 
@@ -315,9 +315,9 @@ uint8_t touch_read_write_byte(uint8_t sdata) {
     TFT_LCD_CS_H;
     TFT_TOUCH_CS_L;
     delayMicroseconds(DELAY_LCD);
-    LCD_SPI.beginTransaction(SPISettings(TOUCH_SPI_SPEED, MSBFIRST, SPI_MODE0));
-    rdata = LCD_SPI.transfer(sdata);
-    LCD_SPI.endTransaction();
+    // LCD_SPI.beginTransaction(SPISettings(TOUCH_SPI_SPEED, MSBFIRST, SPI_MODE0));
+    // rdata = LCD_SPI.transfer(sdata);
+    // LCD_SPI.endTransaction();
     TFT_TOUCH_CS_H;
     delayMicroseconds(DELAY_LCD);
     return rdata;
@@ -325,9 +325,9 @@ uint8_t touch_read_write_byte(uint8_t sdata) {
 
 uint16_t IO(uint16_t sdata) {
     uint8_t rdata = 0;
-    LCD_SPI.beginTransaction(SPISettings(TOUCH_SPI_SPEED, MSBFIRST, SPI_MODE0));
-    rdata = LCD_SPI.transfer(sdata);
-    LCD_SPI.endTransaction();
+    // LCD_SPI.beginTransaction(SPISettings(TOUCH_SPI_SPEED, MSBFIRST, SPI_MODE0));
+    // rdata = LCD_SPI.transfer(sdata);
+    // LCD_SPI.endTransaction();
     return rdata;
 }
 uint16_t delta(uint16_t a, uint16_t b) { return a > b ? a - b : b - a; }

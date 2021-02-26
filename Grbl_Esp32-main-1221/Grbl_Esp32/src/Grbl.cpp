@@ -117,8 +117,8 @@ static void reset_variables() {
     // I2C_init();
     // ts35_touch_init();
     // ESP_TIM_Init();
-    mks_lvgl_init();
-    lv_init();
+    // mks_lvgl_init();
+    // lv_init();
     
 }
 

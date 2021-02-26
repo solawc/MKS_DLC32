@@ -114,20 +114,7 @@ void mks_listDir(fs::FS& fs, const char* dirname, uint8_t levels) {
         }
         if((enter_status == true) && (times_count < times)) {
            mks_draw_sd_file(file_status,times_file_num, file.name());
-        //    switch(times_file_num) {
-        //        case 0: file0_name = (char *)file.name();
-        //        break;
-        //        case 1: file1_name = (char *)file.name();
-        //        break;
-        //        case 2: file2_name = (char *)file.name();
-        //        break;
-        //        case 3: file3_name = (char *)file.name();
-        //        break;
-        //        case 4: file4_name = (char *)file.name();
-        //        break;
-        //        case 5: file5_name = (char *)file.name();
-        //        break;
-        //    }
+
            times_file_num++;
            if(times_file_num == 6) {
                return;

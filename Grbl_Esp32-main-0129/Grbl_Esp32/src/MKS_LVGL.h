@@ -7,6 +7,7 @@
 #include "Serial.h"
 
 #define MKS_GRBL_CMD_SEND(A)        serila_write_into_buffer((uint8_t *)A)
+#define MKS_GRBL_WEB_CMD_SEND(A)    serial_web_input_into_buffer((uint8_t *)A)
 
 typedef enum {
     M_0_1_MM,           // move 0.1mm
@@ -30,11 +31,18 @@ typedef enum {
     P_10_PERSEN,
 }GRBL_POWER;
 
+typedef enum {
+    GRBL_RUN,
+    GRBL_PAUSE,
+    GRBL_STOP,
+}GRBL_RUN_STATUS_t;
+
 typedef struct{
     GRBL_MOVE_DIS               move_dis;           // 移动距离
     GRBL_Language               language;           // 语言设置
     GRBL_LIGHT_STATUS           light_status;       // 灯状态
     GRBL_POWER                  power_length;       // 功率步长设置
+    GRBL_RUN_STATUS_t           run_status;         // 运行状态
     uint8_t                     power_persen;       // 功率百分比
     uint16_t                    cave_speed;         // 雕刻速度
     uint16_t                    move_speed;         // 移动速度

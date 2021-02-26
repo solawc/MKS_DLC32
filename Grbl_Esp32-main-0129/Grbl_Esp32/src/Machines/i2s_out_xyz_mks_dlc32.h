@@ -103,8 +103,9 @@
 //#define INVERT_CONTROL_PIN_MASK B1110
 
 
-#define DEFAULT_STEP_PULSE_MICROSECONDS     10
-#define DEFAULT_STEPPER_IDLE_LOCK_TIME      255 //  255 = Keep steppers on
+#define DEFAULT_STEP_PULSE_MICROSECONDS     20
+// #define DEFAULT_STEPPER_IDLE_LOCK_TIME      255 //  255 = Keep steppers on
+#define DEFAULT_STEPPER_IDLE_LOCK_TIME      5
 
 #define DEFAULT_STEPPING_INVERT_MASK    	0 // uint8_t
 #define DEFAULT_DIRECTION_INVERT_MASK   	0 // uint8_t
@@ -126,7 +127,7 @@
 #define DEFAULT_HOMING_FEED_RATE        	100.0 // mm/min
 #define DEFAULT_HOMING_SEEK_RATE        	200.0 // mm/min
 #define DEFAULT_HOMING_DEBOUNCE_DELAY   	250 // msec (0-65k)
-#define DEFAULT_HOMING_PULLOFF          	2.0 // mm
+#define DEFAULT_HOMING_PULLOFF          	1.0 // mm
 
 #ifdef USE_SPINDLE_RELAY
     #define DEFAULT_SPINDLE_RPM_MAX 1.0 // must be 1 so PWM duty is alway 100% to prevent relay damage
@@ -146,9 +147,9 @@
 #define DEFAULT_Y_MAX_RATE 30000.0 // mm/s
 #define DEFAULT_Z_MAX_RATE 30000.0 // mm/s
 
-// #define DEFAULT_X_ACCELERATION 1000.0 // mm/sec^2
-// #define DEFAULT_Y_ACCELERATION 1000.0 // mm/sec^2
-// #define DEFAULT_Z_ACCELERATION 100.0 // mm/sec^2
+// #define DEFAULT_X_ACCELERATION 10.0 // mm/sec^2
+// #define DEFAULT_Y_ACCELERATION 10.0 // mm/sec^2
+// #define DEFAULT_Z_ACCELERATION 10.0 // mm/sec^2
 
 #define DEFAULT_X_ACCELERATION 500.0 // mm/sec^2
 #define DEFAULT_Y_ACCELERATION 500.0 // mm/sec^2
@@ -162,4 +163,4 @@
 #define DEFAULT_Y_MAX_TRAVEL 320 // mm NOTE: Must be a positive value.
 #define DEFAULT_Z_MAX_TRAVEL 80.0 // mm NOTE: Must be a positive value.
 
-#define DEFAULT_SPINDLE_FREQ    8000.0
+#define DEFAULT_SPINDLE_FREQ    1000.0
