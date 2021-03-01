@@ -4,6 +4,7 @@
 static lv_obj_t* scr;
 static lv_obj_t* stop_popup;
 static lv_obj_t* scr_op;
+static lv_obj_t* finsh_popup;
 
 /* style */
 lv_style_t popup_style;
@@ -14,6 +15,9 @@ lv_obj_t* bar_print;  //打印进度条
 /* btn */
 static lv_obj_t* btn_popup_cancle;
 static lv_obj_t* btn_popup_sure;
+
+// static lv_obj_t* btn_finsh_popup_cancle;
+static lv_obj_t* btn_finsh_popup_sure;
 
 static lv_obj_t* btn_suspend;
 static lv_obj_t* btn_stop;
@@ -48,21 +52,12 @@ static void event_handler_suspend(lv_obj_t* obj, lv_event_t event) {
     char begin_str[] = "!\n";
     char stop_str[] = "~\n";
     if (event == LV_EVENT_RELEASED) {
-
         if(mks_grbl.run_status == GRBL_RUN) {
             mks_grbl.run_status = GRBL_PAUSE;
             lv_label_set_text(Label_suspend, "Run");
-            // MKS_GRBL_CMD_SEND("!\n");  
-            // MKS_GRBL_CMD_SEND(begin_str);
-            MKS_GRBL_WEB_CMD_SEND(begin_str);
-            grbl_send(CLIENT_SERIAL, begin_str);
         } else if(mks_grbl.run_status == GRBL_PAUSE) {
             mks_grbl.run_status = GRBL_RUN;
             lv_label_set_text(Label_suspend, "Pause");
-            // MKS_GRBL_CMD_SEND("~\n"); 
-            // MKS_GRBL_CMD_SEND(stop_str);
-            MKS_GRBL_WEB_CMD_SEND(stop_str);
-            grbl_send(CLIENT_SERIAL, stop_str);
         }
     }
 }
@@ -95,7 +90,7 @@ static void event_handle_power_mAdd(lv_obj_t* obj, lv_event_t event) {
 
 static void event_handle_power_mDec(lv_obj_t* obj, lv_event_t event) {
     char str[20];
-    if (event == LV_EVENT_RELEASED) {
+    if (event == LV_EVENT_RELEASED) { 
         if (mks_grbl.power_length == P_1_PERSEN) {
             mks_grbl.power_persen--;
             if ((mks_grbl.power_persen < 0) || (mks_grbl.power_persen > 100)) {
@@ -187,16 +182,24 @@ static void event_btn_cancle(lv_obj_t* obj, lv_event_t event) {
 static void event_btn_sure(lv_obj_t* obj, lv_event_t event) {
     if (event == LV_EVENT_RELEASED) {
         
-        char begin_str[] = "!\n";
-        // char stop_str[] = "~\n";
-        MKS_GRBL_WEB_CMD_SEND(begin_str);
-        grbl_send(CLIENT_SERIAL, begin_str);
-
+        // char begin_str[] = "!\n";
+        // // char stop_str[] = "~\n";
+        // MKS_GRBL_WEB_CMD_SEND(begin_str);
+        // grbl_send(CLIENT_SERIAL, begin_str);
+        closeFile();
+        mks_grbl.run_status = GRBL_STOP;
         lv_obj_del(stop_popup);
         mks_clear_print();
         lv_draw_ready();
     }
 }
+
+static void event_btn_printdon(lv_obj_t* obj, lv_event_t event) {
+    if (event == LV_EVENT_RELEASED) {
+        lv_obj_del(stop_popup);
+    }
+}
+
 
 void mks_draw_print_popup(const char* text) {
     stop_popup = lv_obj_create(scr, NULL);
@@ -223,11 +226,42 @@ void mks_draw_print_popup(const char* text) {
     mks_lvgl_long_sroll_label_with_wight_set(stop_popup, Label_popup, 100, 80, "Is Caving this File?", 150);
 }
 
+void mks_draw_finsh_pupop(void) { 
+
+    finsh_popup = lv_obj_create(scr, NULL);
+    lv_obj_set_size(finsh_popup, 350, 200);
+    lv_obj_set_pos(finsh_popup, 80, 50);
+
+    lv_style_copy(&popup_style, &lv_style_scr);
+    popup_style.body.main_color = LV_COLOR_GRAY;
+    popup_style.body.grad_color = LV_COLOR_GRAY;
+    lv_obj_set_style(finsh_popup, &popup_style);
+
+    btn_finsh_popup_sure = lv_btn_create(finsh_popup, NULL);
+    lv_obj_set_size(btn_finsh_popup_sure, 100, 50);
+    lv_obj_set_pos(btn_finsh_popup_sure, 50, 130);
+    lv_obj_set_event_cb(btn_finsh_popup_sure, event_btn_sure);
+    mks_lvgl_label_set(finsh_popup, Label_popup_sure, 20, 150, "Yes");
+
+    mks_lvgl_long_sroll_label_with_wight_set(finsh_popup, Label_popup, 100, 80, "File is print done!", 150);
+}
+
+void mks_x_y_pos_updata() { 
+
+
+    
+}
+
+void mks_print_bar_updata(void) {
+
+    uint16_t val = 50;  
+    bar_print = mks_lv_bar_updata(bar_print, (uint16_t)sd_report_perc_complete());
+}
 
 void mks_draw_operation(void) {
     scr_op = lv_obj_create(scr, NULL);
     lv_obj_set_size(stop_popup, 480, 320);
-    //lv_obj_set_pos(stop_popup, 80, 50);
+    // lv_obj_set_pos(stop_popup, 80, 50);
 }
 
 void mks_clear_print(void) {

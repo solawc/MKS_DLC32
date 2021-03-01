@@ -25,6 +25,7 @@
 #include "Grbl.h"
 #include "MKS_TS35.h"
 #include "lvgl.h"
+#include "MKS_draw_print.h"
 
 static void protocol_exec_rt_suspend();
 
@@ -146,11 +147,24 @@ void protocol_main_loop() {
         if (SD_ready_next) {
             char fileLine[255];
             if (readFileLine(fileLine, 255)) {
-                SD_ready_next = false;
-                report_status_message(execute_line(fileLine, SD_client, SD_auth_level), SD_client);
+
+                if(mks_grbl.run_status == GRBL_PAUSE) {
+                    
+                }else {
+                    
+                    SD_ready_next = false;
+                    report_status_message(execute_line(fileLine, SD_client, SD_auth_level), SD_client);
+                    /* 进度条更新 */
+                    mks_print_bar_updata();
+                /*...*/
+                }
+                
             } else {
                 char temp[50];
                 sd_get_current_filename(temp);
+                /* 打印完成显示 */
+                mks_draw_finsh_pupop();
+                /*...*/
                 grbl_notifyf("SD print done", "%s print is successful", temp);
                 closeFile();  // close file and clear SD ready/running flags
             }

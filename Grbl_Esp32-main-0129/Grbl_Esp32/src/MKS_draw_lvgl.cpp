@@ -149,6 +149,17 @@ lv_obj_t* mks_lv_bar_set(lv_obj_t* scr, lv_obj_t* bar, lv_coord_t bar_w, lv_coor
     return bar;
 }
 
+/* 
+ * Author   :MKS
+ * Describe :Updata bar value
+ * Data     :2021/03/11
+*/
+lv_obj_t* mks_lv_bar_updata(lv_obj_t* bar, int16_t value) { 
+
+    lv_bar_set_value(bar, value, LV_ANIM_ON);
+    return bar;
+}
+
 
 
 
