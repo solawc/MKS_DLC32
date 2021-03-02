@@ -26,10 +26,11 @@
 #include "MKS_draw_ready.h"
 
 void grbl_init() {
+    pinMode(LCD_EN, OUTPUT);
+    LCD_BLK_OFF;
 #ifdef USE_I2S_OUT
     i2s_out_init();  // The I2S out must be initialized before it can access the expanded GPIO port
 #endif
-    
 	/* Wifi initialized */
     WiFi.persistent(false);
     WiFi.disconnect(true);
@@ -123,7 +124,6 @@ static void reset_variables() {
     }else {
         tft_TS35_SPI_begin();
     }
-
     mks_motor_unclock();
 }
 

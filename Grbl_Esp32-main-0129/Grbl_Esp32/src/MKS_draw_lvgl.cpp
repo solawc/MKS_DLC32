@@ -48,6 +48,24 @@ lv_obj_t* mks_lvgl_label_set(lv_obj_t *scr, lv_obj_t *lab, lv_coord_t x, lv_coor
 /* 
  * Author   :MKS
  * Describe :Set wrap label
+ * Data     :2021/03/02
+*/
+lv_obj_t* mks_lvgl_label_set_align_center(lv_obj_t *scr, lv_obj_t *lab, lv_coord_t x, lv_coord_t y, const char *text) {
+    lab = lv_label_create(scr, NULL);                                                          
+    lv_label_set_long_mode(lab, LV_LABEL_LONG_BREAK);  
+    lv_label_set_recolor(lab,true);                                  
+    lv_obj_set_width(lab, 80);
+    lv_obj_set_height(lab,20);
+    lv_label_set_align(lab, LV_ALIGN_CENTER);
+    lv_obj_set_pos(lab, x, y);
+    lv_label_set_recolor(lab, true);                                                  
+    lv_label_set_text(lab, text);
+    return lab;
+}
+
+/* 
+ * Author   :MKS
+ * Describe :Set wrap label
  * Data     :2021/01/30
 */
 lv_obj_t* mks_lvgl_label_with_long_set(lv_obj_t *scr, lv_obj_t *lab, lv_coord_t x, lv_coord_t y, const char *text, lv_coord_t w) {
@@ -136,13 +154,13 @@ lv_obj_t* mks_lv_btn_set(lv_obj_t* scr, lv_obj_t* btn, lv_coord_t btn_w, lv_coor
 
 /* 
  * Author   :MKS
- * Describe :Create Img button
+ * Describe :Create Bar
  * Data     :2021/02/23
 */
 lv_obj_t* mks_lv_bar_set(lv_obj_t* scr, lv_obj_t* bar, lv_coord_t bar_w, lv_coord_t bar_h, lv_coord_t x, lv_coord_t y, uint8_t val) {
 
     bar = lv_bar_create(scr, NULL);
-    lv_obj_set_size(bar, 200, 30);
+    lv_obj_set_size(bar, bar_w, bar_h);
     lv_obj_align(bar, NULL, LV_ALIGN_CENTER, x, y);
     //lv_bar_set_anim_time(bar, 1000);
     lv_bar_set_value(bar, val, LV_ANIM_ON);

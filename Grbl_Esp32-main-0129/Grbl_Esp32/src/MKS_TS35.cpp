@@ -7,8 +7,8 @@ TFT_eSPI tft = TFT_eSPI(); /* TFT instance */
 
 SPIClass * LCD_SPI = NULL;
 TS35_DEF ESP_TS35;
-static const uint32_t TS_SPI_BUF_SIZE = 8192;
-uint8_t *spi_master_tx_buf;
+//static const uint32_t TS_SPI_BUF_SIZE = 8192;
+// uint8_t *spi_master_tx_buf;
 
 #define SPI_DMA_CHANNAL     1
 #define LCD_SPI_SPEED       80000000        // 80M
@@ -26,11 +26,12 @@ void tft_LCD_Fill() {
 }
 
 void tft_TS35_init() {
-    LCD_BLK_OFF;
+    // LCD_BLK_OFF;
     tft.begin();
     tft.setRotation(1);
-    tft.fillScreen(TFT_WHITE);
-    LCD_BLK_ON;
+    // tft.fillScreen(TFT_WHITE);
+    tft.fillScreen(tft.color565(0X1A, 0X1A, 0X1A));
+    // LCD_BLK_ON;
 }   
 
 

@@ -64,6 +64,7 @@ typedef struct {
     int16_t TOUCH_X;
     int16_t TOUCH_Y;
 }TS35_DEF;
+
 extern TS35_DEF ESP_TS35;
 
 enum XPTCoordinate : uint8_t {

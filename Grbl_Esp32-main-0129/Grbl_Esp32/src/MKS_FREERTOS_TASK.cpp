@@ -10,6 +10,7 @@ void lvgl_disp_task(void *parg) {
     //Serial.printf("Enter LVGL");
     mks_lvgl_init();
     lv_draw_ready();
+    LCD_BLK_ON;
     while(1) {
         if(!SPI.is_spi_inTranscation()) {
             lv_task_handler();

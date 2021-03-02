@@ -151,12 +151,11 @@ void protocol_main_loop() {
                 if(mks_grbl.run_status == GRBL_PAUSE) {
                     
                 }else {
-                    
                     SD_ready_next = false;
                     report_status_message(execute_line(fileLine, SD_client, SD_auth_level), SD_client);
                     /* 进度条更新 */
                     mks_print_bar_updata();
-                /*...*/
+                    /*...*/
                 }
                 
             } else {

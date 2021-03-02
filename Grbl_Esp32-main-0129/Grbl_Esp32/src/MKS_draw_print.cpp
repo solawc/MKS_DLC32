@@ -7,6 +7,7 @@ static lv_obj_t* scr_op;
 static lv_obj_t* finsh_popup;
 
 /* style */
+lv_style_t btn_style;
 lv_style_t popup_style;
 
 /* bar */
@@ -16,11 +17,13 @@ lv_obj_t* bar_print;  //打印进度条
 static lv_obj_t* btn_popup_cancle;
 static lv_obj_t* btn_popup_sure;
 
+
 // static lv_obj_t* btn_finsh_popup_cancle;
 static lv_obj_t* btn_finsh_popup_sure;
 
 static lv_obj_t* btn_suspend;
 static lv_obj_t* btn_stop;
+static lv_obj_t* btn_popup_op;
 
 /* imgbtn */
 static lv_obj_t* imgbtn_power_add;
@@ -67,6 +70,13 @@ static void event_handler_stop(lv_obj_t* obj, lv_event_t event) {
         mks_draw_print_popup("Do you want to stop print?");
     }
 }
+
+static void event_handler_op(lv_obj_t* obj, lv_event_t event) {
+    if (event == LV_EVENT_RELEASED) {
+        
+    }
+}
+
 
 static void event_handle_power_mAdd(lv_obj_t* obj, lv_event_t event) {
     char str[20];
@@ -140,20 +150,33 @@ void mks_draw_print(void) {
     scr = lv_obj_create(NULL, NULL);
     scr = lv_scr_act();
 
-    mks_lv_btn_set(scr, btn_suspend, 120, 50, 10, 260, event_handler_suspend);
-    mks_lv_btn_set(scr, btn_stop, 120, 50, 140, 260, event_handler_stop);
+    mks_lv_btn_set(scr, btn_suspend,    144, 50, 10, 260, event_handler_suspend);
+    mks_lv_btn_set(scr, btn_stop,       144, 50, 164, 260, event_handler_stop);
+    mks_lv_btn_set(scr, btn_popup_op,   144, 50, 318, 260, event_handler_op);
+    /*  
+        30, 275,
+        180, 275
+        300, 275
+    */
+    mks_lvgl_long_sroll_label_set(scr, Label_file_name,         30, 40, file_print_send);
 
-    mks_lvgl_long_sroll_label_set(scr, Label_file_name, 30, 40, file_print_send);
-    Label_suspend = mks_lvgl_label_set(scr, Label_suspend, 30, 275, "Pause");
-    Label_stop = mks_lvgl_label_set(scr, Label_stop, 180, 275, "Stop");
+    Label_suspend   = mks_lvgl_label_set_align_center(scr, Label_suspend,     50, 275,     "#fad509 Pause#");
+    Label_stop      = mks_lvgl_label_set_align_center(scr, Label_stop,        210, 275,    "#fad509 Stop#");
+    label_operation = mks_lvgl_label_set_align_center(scr, label_operation,   350, 275,    "#fad509 Option#");
 
-    lv_imgbtn_creat_mks(scr, imgbtn_power_add, &mAdd, &mAdd, LV_ALIGN_CENTER, 100, -50, event_handle_power_mAdd);
-    lv_imgbtn_creat_mks(scr, imgbtn_cave_speed_add, &mAdd, &mAdd, LV_ALIGN_CENTER, 100, 0, event_handler_cave_speed_mAdd);
-    lv_imgbtn_creat_mks(scr, imgbtn_move_speed_add, &mAdd, &mAdd, LV_ALIGN_CENTER, 100, 50, event_handler_move_speed_mAdd);
+    // btn_style.body.grad_color = LV_COLOR_MAKE(0x3a,0x2a,0xd9);
+    // btn_style.body.main_color = LV_COLOR_MAKE(0x3a,0x2a,0xd9);
+    // lv_obj_set_style(Label_suspend ,&btn_style);
+    // lv_obj_set_style(Label_stop ,&btn_style);
+    // lv_obj_set_style(label_operation ,&btn_style);
 
-    lv_imgbtn_creat_mks(scr, imgbtn_power_dec, &mDec, &mDec, LV_ALIGN_CENTER, 180, -50, event_handle_power_mDec);
-    lv_imgbtn_creat_mks(scr, imgbtn_cave_speed_dec, &mDec, &mDec, LV_ALIGN_CENTER, 180, 0, event_handler_cave_speed_mDec);
-    lv_imgbtn_creat_mks(scr, imgbtn_move_speed_dec, &mDec, &mDec, LV_ALIGN_CENTER, 180, 50, event_handler_move_speed_mDec);
+    // lv_imgbtn_creat_mks(scr, imgbtn_power_add, &mAdd, &mAdd, LV_ALIGN_CENTER, 100, -50, event_handle_power_mAdd);
+    // lv_imgbtn_creat_mks(scr, imgbtn_cave_speed_add, &mAdd, &mAdd, LV_ALIGN_CENTER, 100, 0, event_handler_cave_speed_mAdd);
+    // lv_imgbtn_creat_mks(scr, imgbtn_move_speed_add, &mAdd, &mAdd, LV_ALIGN_CENTER, 100, 50, event_handler_move_speed_mAdd);
+
+    // lv_imgbtn_creat_mks(scr, imgbtn_power_dec, &mDec, &mDec, LV_ALIGN_CENTER, 180, -50, event_handle_power_mDec);
+    // lv_imgbtn_creat_mks(scr, imgbtn_cave_speed_dec, &mDec, &mDec, LV_ALIGN_CENTER, 180, 0, event_handler_cave_speed_mDec);
+    // lv_imgbtn_creat_mks(scr, imgbtn_move_speed_dec, &mDec, &mDec, LV_ALIGN_CENTER, 180, 50, event_handler_move_speed_mDec);
 
     sprintf(power_str, "Power: %d", mks_grbl.power_persen);
     Label_power = mks_lvgl_label_with_long_set(scr, Label_power, 30, 120, power_str, 200);
@@ -170,7 +193,7 @@ void mks_draw_print(void) {
     sprintf(y_pos_str, "Y POS: %d", mks_grbl.Y_Pos);
     Label_y_pos = mks_lvgl_label_with_long_set(scr, Label_y_pos, 160, 210, y_pos_str, 200);
 
-    bar_print = mks_lv_bar_set(scr, bar_print, 150, 30, -120, -80, 50);
+    bar_print = mks_lv_bar_set(scr, bar_print, 456, 40, 0, -80, 0);
 }
 
 static void event_btn_cancle(lv_obj_t* obj, lv_event_t event) {
@@ -181,11 +204,6 @@ static void event_btn_cancle(lv_obj_t* obj, lv_event_t event) {
 
 static void event_btn_sure(lv_obj_t* obj, lv_event_t event) {
     if (event == LV_EVENT_RELEASED) {
-        
-        // char begin_str[] = "!\n";
-        // // char stop_str[] = "~\n";
-        // MKS_GRBL_WEB_CMD_SEND(begin_str);
-        // grbl_send(CLIENT_SERIAL, begin_str);
         closeFile();
         mks_grbl.run_status = GRBL_STOP;
         lv_obj_del(stop_popup);
@@ -196,10 +214,11 @@ static void event_btn_sure(lv_obj_t* obj, lv_event_t event) {
 
 static void event_btn_printdon(lv_obj_t* obj, lv_event_t event) {
     if (event == LV_EVENT_RELEASED) {
-        lv_obj_del(stop_popup);
+        lv_obj_del(finsh_popup);
+        mks_clear_print();
+        lv_draw_ready();
     }
 }
-
 
 void mks_draw_print_popup(const char* text) {
     stop_popup = lv_obj_create(scr, NULL);
@@ -238,30 +257,39 @@ void mks_draw_finsh_pupop(void) {
     lv_obj_set_style(finsh_popup, &popup_style);
 
     btn_finsh_popup_sure = lv_btn_create(finsh_popup, NULL);
-    lv_obj_set_size(btn_finsh_popup_sure, 100, 50);
-    lv_obj_set_pos(btn_finsh_popup_sure, 50, 130);
-    lv_obj_set_event_cb(btn_finsh_popup_sure, event_btn_sure);
-    mks_lvgl_label_set(finsh_popup, Label_popup_sure, 20, 150, "Yes");
+    lv_obj_set_size(btn_finsh_popup_sure,   100, 50);
+    lv_obj_set_pos(btn_finsh_popup_sure,    120, 130);
+    lv_obj_set_event_cb(btn_finsh_popup_sure, event_btn_printdon);
+    mks_lvgl_label_set(btn_finsh_popup_sure, Label_popup_sure, 80, 10, "Yes");
 
     mks_lvgl_long_sroll_label_with_wight_set(finsh_popup, Label_popup, 100, 80, "File is print done!", 150);
 }
 
 void mks_x_y_pos_updata() { 
-
-
     
 }
 
 void mks_print_bar_updata(void) {
 
     uint16_t val = 50;  
+
     bar_print = mks_lv_bar_updata(bar_print, (uint16_t)sd_report_perc_complete());
 }
 
 void mks_draw_operation(void) {
     scr_op = lv_obj_create(scr, NULL);
     lv_obj_set_size(stop_popup, 480, 320);
-    // lv_obj_set_pos(stop_popup, 80, 50);
+
+    lv_style_copy(&popup_style, &lv_style_scr);
+    popup_style.body.main_color = LV_COLOR_GRAY;
+    popup_style.body.grad_color = LV_COLOR_GRAY;
+    lv_obj_set_style(scr_op, &popup_style);
+
+    /* power */
+
+    /* move speed */
+
+    /* care speed */
 }
 
 void mks_clear_print(void) {

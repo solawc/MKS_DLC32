@@ -3,13 +3,14 @@
 // #include "lv_examples/lv_apps/demo/demo.h"
 // #include "lv_examples/lv_tests/lv_test_theme/lv_test_theme_1.h"
 
-#define LV_BUF_SIZE             10 * LV_HOR_RES_MAX
+#define LV_BUF_SIZE             20 * LV_HOR_RES_MAX
 
 GRBL_CRTL mks_grbl;
 MKS_SD_t mks_sd;
 
 static lv_disp_buf_t    disp_buf;
 static lv_color_t       bmp_public_buf[LV_BUF_SIZE];
+static lv_color_t       bmp_private_buf1[LV_BUF_SIZE]; 
 
 /* Function */
 void my_disp_flush(lv_disp_drv_t * disp, const lv_area_t * area, lv_color_t * color_p);
@@ -18,8 +19,16 @@ bool my_indev_touch(struct _lv_indev_drv_t * indev_drv, lv_indev_data_t * data);
 // 1ms
 void mks_lvgl_init(void) {
 
+
+    /*
+        static lv_disp_buf_t disp_buf_2;
+        static lv_color_t buf2_1[LV_HOR_RES_MAX * 20];                       
+        static lv_color_t buf2_2[LV_HOR_RES_MAX * 20];                       
+        lv_disp_buf_init(&disp_buf_2, buf2_1, buf2_2, LV_HOR_RES_MAX * 10);  
+    */
+
     lv_init();
-    lv_disp_buf_init(&disp_buf, bmp_public_buf, nullptr, LV_BUF_SIZE); // Initialize the display buffer
+    lv_disp_buf_init(&disp_buf, bmp_public_buf, bmp_private_buf1, LV_BUF_SIZE); // Initialize the display buffer
 
     /* display driver register */
     lv_disp_drv_t disp_drv;
