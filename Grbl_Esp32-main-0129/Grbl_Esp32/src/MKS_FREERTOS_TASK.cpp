@@ -12,9 +12,10 @@ void lvgl_disp_task(void *parg) {
     lv_draw_ready();
     LCD_BLK_ON;
     while(1) {
-        if(!SPI.is_spi_inTranscation()) {
-            lv_task_handler();
-        }
+        // if(!SPI.is_spi_inTranscation()) {
+        //     lv_task_handler();
+        // }
+        lv_task_handler();
         vTaskDelay(5); // 5ms
     }
 }
