@@ -24,6 +24,7 @@ static lv_obj_t* btn_finsh_popup_sure;
 static lv_obj_t* btn_suspend;
 static lv_obj_t* btn_stop;
 static lv_obj_t* btn_popup_op;
+static lv_obj_t* btn_op_back;
 
 /* imgbtn */
 static lv_obj_t* imgbtn_power_add;
@@ -47,20 +48,22 @@ static lv_obj_t* Label_print_persen;
 static lv_obj_t* Label_popup_cancel;
 static lv_obj_t* Label_popup_sure;
 static lv_obj_t* Label_popup;
+static lv_obj_t* Label_op_back;
 
 LV_IMG_DECLARE(mAdd);  //先申明此图片
 LV_IMG_DECLARE(mDec);  //先申明此图片
+LV_IMG_DECLARE(back);			//先申明此图片
 
 static void event_handler_suspend(lv_obj_t* obj, lv_event_t event) {
-    char begin_str[] = "!\n";
-    char stop_str[] = "~\n";
     if (event == LV_EVENT_RELEASED) {
         if(mks_grbl.run_status == GRBL_RUN) {
             mks_grbl.run_status = GRBL_PAUSE;
-            lv_label_set_text(Label_suspend, "Run");
+            sys_rt_exec_accessory_override.bit.spindleOvrStop = false;
+            lv_label_set_text(Label_suspend, "#fad509 Run#");
         } else if(mks_grbl.run_status == GRBL_PAUSE) {
             mks_grbl.run_status = GRBL_RUN;
-            lv_label_set_text(Label_suspend, "Pause");
+            sys_rt_exec_accessory_override.bit.spindleOvrStop = true;
+            lv_label_set_text(Label_suspend, "#fad509 Pause#");
         }
     }
 }
@@ -77,67 +80,74 @@ static void event_handler_op(lv_obj_t* obj, lv_event_t event) {
     }
 }
 
-
-static void event_handle_power_mAdd(lv_obj_t* obj, lv_event_t event) {
-    char str[20];
+static void event_handler_op_back(lv_obj_t* obj, lv_event_t event) {
     if (event == LV_EVENT_RELEASED) {
-        if (mks_grbl.power_length == P_1_PERSEN) {
-            mks_grbl.power_persen++;
-            if (mks_grbl.power_persen > 100) {
-                mks_grbl.power_persen = 100;
-            }
-        } else {
-            mks_grbl.power_persen = mks_grbl.power_persen + 10;
-            if (mks_grbl.power_persen > 100) {
-                mks_grbl.power_persen = 100;
-            }
-        }
-        mks_power_set(mks_grbl.power_persen);
-        sprintf(str, "M3 S%d\n", mks_grbl.power_persen);
-        MKS_GRBL_CMD_SEND(str);
+        mks_del_obj(scr_op);
     }
 }
 
-static void event_handle_power_mDec(lv_obj_t* obj, lv_event_t event) {
-    char str[20];
-    if (event == LV_EVENT_RELEASED) { 
-        if (mks_grbl.power_length == P_1_PERSEN) {
-            mks_grbl.power_persen--;
-            if ((mks_grbl.power_persen < 0) || (mks_grbl.power_persen > 100)) {
-                mks_grbl.power_persen = 0;
-            }
-        } else {
-            mks_grbl.power_persen = mks_grbl.power_persen - 10;
-            if ((mks_grbl.power_persen < 0) || (mks_grbl.power_persen > 100)) {
-                mks_grbl.power_persen = 0;
-            }
-        }
-        mks_power_set(mks_grbl.power_persen);
-        sprintf(str, "M3 S%d\n", mks_grbl.power_persen);
-        MKS_GRBL_CMD_SEND(str);
-    }
-}
 
-static void event_handler_cave_speed_mAdd(lv_obj_t* obj, lv_event_t event) {
-    if (event == LV_EVENT_RELEASED) {
-        mks_grbl.cave_speed++;
-        if ((mks_grbl.cave_speed > 100)) {
-            mks_grbl.cave_speed = 100;
-        }
-    }
-}
 
-static void event_handler_cave_speed_mDec(lv_obj_t* obj, lv_event_t event) {
-    if (event == LV_EVENT_RELEASED) {}
-}
+// static void event_handle_power_mAdd(lv_obj_t* obj, lv_event_t event) {
+//     char str[20];
+//     if (event == LV_EVENT_RELEASED) {
+//         if (mks_grbl.power_length == P_1_PERSEN) {
+//             mks_grbl.power_persen++;
+//             if (mks_grbl.power_persen > 100) {
+//                 mks_grbl.power_persen = 100;
+//             }
+//         } else {
+//             mks_grbl.power_persen = mks_grbl.power_persen + 10;
+//             if (mks_grbl.power_persen > 100) {
+//                 mks_grbl.power_persen = 100;
+//             }
+//         }
+//         mks_power_set(mks_grbl.power_persen);
+//         sprintf(str, "M3 S%d\n", mks_grbl.power_persen);
+//         MKS_GRBL_CMD_SEND(str);
+//     }
+// }
 
-static void event_handler_move_speed_mAdd(lv_obj_t* obj, lv_event_t event) {
-    if (event == LV_EVENT_RELEASED) {}
-}
+// static void event_handle_power_mDec(lv_obj_t* obj, lv_event_t event) {
+//     char str[20];
+//     if (event == LV_EVENT_RELEASED) { 
+//         if (mks_grbl.power_length == P_1_PERSEN) {
+//             mks_grbl.power_persen--;
+//             if ((mks_grbl.power_persen < 0) || (mks_grbl.power_persen > 100)) {
+//                 mks_grbl.power_persen = 0;
+//             }
+//         } else {
+//             mks_grbl.power_persen = mks_grbl.power_persen - 10;
+//             if ((mks_grbl.power_persen < 0) || (mks_grbl.power_persen > 100)) {
+//                 mks_grbl.power_persen = 0;
+//             }
+//         }
+//         mks_power_set(mks_grbl.power_persen);
+//         sprintf(str, "M3 S%d\n", mks_grbl.power_persen);
+//         MKS_GRBL_CMD_SEND(str);
+//     }
+// }
 
-static void event_handler_move_speed_mDec(lv_obj_t* obj, lv_event_t event) {
-    if (event == LV_EVENT_RELEASED) {}
-}
+// static void event_handler_cave_speed_mAdd(lv_obj_t* obj, lv_event_t event) {
+//     if (event == LV_EVENT_RELEASED) {
+//         mks_grbl.cave_speed++;
+//         if ((mks_grbl.cave_speed > 100)) {
+//             mks_grbl.cave_speed = 100;
+//         }
+//     }
+// }
+
+// static void event_handler_cave_speed_mDec(lv_obj_t* obj, lv_event_t event) {
+//     if (event == LV_EVENT_RELEASED) {}
+// }
+
+// static void event_handler_move_speed_mAdd(lv_obj_t* obj, lv_event_t event) {
+//     if (event == LV_EVENT_RELEASED) {}
+// }
+
+// static void event_handler_move_speed_mDec(lv_obj_t* obj, lv_event_t event) {
+//     if (event == LV_EVENT_RELEASED) {}
+// }
 
 void mks_draw_print(void) {
 	
@@ -205,7 +215,7 @@ static void event_btn_cancle(lv_obj_t* obj, lv_event_t event) {
 static void event_btn_sure(lv_obj_t* obj, lv_event_t event) {
     if (event == LV_EVENT_RELEASED) {
         closeFile();
-        mks_grbl.run_status = GRBL_STOP;
+        mks_grbl.run_status = GRBL_RESTARTING;
         lv_obj_del(stop_popup);
         mks_clear_print();
         lv_draw_ready();
@@ -215,6 +225,7 @@ static void event_btn_sure(lv_obj_t* obj, lv_event_t event) {
 static void event_btn_printdon(lv_obj_t* obj, lv_event_t event) {
     if (event == LV_EVENT_RELEASED) {
         lv_obj_del(finsh_popup);
+        mks_grbl.run_status = GRBL_RESTARTING; 
         mks_clear_print();
         lv_draw_ready();
     }
@@ -284,6 +295,10 @@ void mks_draw_operation(void) {
     popup_style.body.main_color = LV_COLOR_GRAY;
     popup_style.body.grad_color = LV_COLOR_GRAY;
     lv_obj_set_style(scr_op, &popup_style);
+
+    btn_op_back = lv_imgbtn_creat_mks(scr_op, btn_op_back, &back, &back, LV_ALIGN_CENTER, 180, 90, event_handler_op_back);
+    Label_op_back = mks_lvgl_label_set(scr, Label_op_back, 390, 280, "Back");
+
 
     /* power */
 

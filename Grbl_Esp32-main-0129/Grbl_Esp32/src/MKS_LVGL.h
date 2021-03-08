@@ -34,7 +34,8 @@ typedef enum {
 typedef enum {
     GRBL_RUN,
     GRBL_PAUSE,
-    GRBL_STOP,
+    GRBL_STOP,          
+    GRBL_RESTARTING,
 }GRBL_RUN_STATUS_t;
 
 typedef struct{
