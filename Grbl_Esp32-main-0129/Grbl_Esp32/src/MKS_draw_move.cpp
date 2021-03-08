@@ -38,7 +38,15 @@ static void event_handler_x_n(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
 		// serila_write_into_buffer((uint8_t *)"$J=G91X10.0F300\n");
-		MKS_GRBL_CMD_SEND("$J=G91X10.0F300\n");
+		if(mks_grbl.move_dis == M_0_1_MM) {
+			MKS_GRBL_CMD_SEND("$J=G91X0.1F500\n");
+		}
+		else if (mks_grbl.move_dis == M_1_MM) {
+			MKS_GRBL_CMD_SEND("$J=G91X1.0F500\n");
+		}
+		else if (mks_grbl.move_dis == M_10_MM) {
+			MKS_GRBL_CMD_SEND("$J=G91X10.0F500\n");
+		}
 	}
 }
 
@@ -46,34 +54,78 @@ static void event_handler_x_p(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
 		MKS_GRBL_CMD_SEND((uint8_t *)"$J=G91X-10.0F300\n");
+
+		if(mks_grbl.move_dis == M_0_1_MM) {
+			MKS_GRBL_CMD_SEND("$J=G91X-0.1F500\n");
+		}
+		else if (mks_grbl.move_dis == M_1_MM) {
+			MKS_GRBL_CMD_SEND("$J=G91X-1.0F500\n");
+		}
+		else if (mks_grbl.move_dis == M_10_MM) {
+			MKS_GRBL_CMD_SEND("$J=G91X-10.0F300\n");
+		}
 	}
 }
 
 static void event_handler_y_n(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-		MKS_GRBL_CMD_SEND((uint8_t *)"$J=G91Y10.0F300\n");
+		MKS_GRBL_CMD_SEND("$J=G91Y10.0F300\n");
+
+		if(mks_grbl.move_dis == M_0_1_MM) {
+			MKS_GRBL_CMD_SEND("$J=G91Y0.1F500\n");
+		}
+		else if (mks_grbl.move_dis == M_1_MM) {
+			MKS_GRBL_CMD_SEND("$J=G91Y1.0F500\n");
+		}
+		else if (mks_grbl.move_dis == M_10_MM) {
+			MKS_GRBL_CMD_SEND("$J=G91Y10.0F500\n");
+		}
 	}
 }
 
 static void event_handler_y_p(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-		MKS_GRBL_CMD_SEND((uint8_t *)"$J=G91Y-10.0F300\n");
+		if(mks_grbl.move_dis == M_0_1_MM) {
+			MKS_GRBL_CMD_SEND("$J=G91Y-0.1F500\n");
+		}
+		else if (mks_grbl.move_dis == M_1_MM) {
+			MKS_GRBL_CMD_SEND("$J=G91Y-1.0F500\n");
+		}
+		else if (mks_grbl.move_dis == M_10_MM) {
+			MKS_GRBL_CMD_SEND("$J=G91Y-10.0F500\n");
+		}
 	}
 }
 
 static void event_handler_z_n(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-
+		if(mks_grbl.move_dis == M_0_1_MM) {
+			MKS_GRBL_CMD_SEND("$J=G91Z0.1F500\n");
+		}
+		else if (mks_grbl.move_dis == M_1_MM) {
+			MKS_GRBL_CMD_SEND("$J=G91Z1.0F500\n");
+		}
+		else if (mks_grbl.move_dis == M_10_MM) {
+			MKS_GRBL_CMD_SEND("$J=G91Z10.0F500\n");
+		}
 	}
 }
 
 static void event_handler_z_p(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-
+		if(mks_grbl.move_dis == M_0_1_MM) {
+			MKS_GRBL_CMD_SEND("$J=G91Z-0.1F500\n");
+		}
+		else if (mks_grbl.move_dis == M_1_MM) {
+			MKS_GRBL_CMD_SEND("$J=G91Z-1.0F500\n");
+		}
+		else if (mks_grbl.move_dis == M_10_MM) {
+			MKS_GRBL_CMD_SEND("$J=G91Z-10.0F500\n");
+		}
 	}
 }
 
