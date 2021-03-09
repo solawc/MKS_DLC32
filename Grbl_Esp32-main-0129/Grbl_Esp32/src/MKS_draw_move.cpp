@@ -133,6 +133,16 @@ static void event_handler_len(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
 
+		if (mks_grbl.move_dis == M_0_1_MM) {
+			len = lv_imgbtn_creat_mks(scr, len, &Len_0_1mm, &Len_0_1mm, LV_ALIGN_CENTER, 180, -70, event_handler_len);
+			mks_grbl.move_dis = M_1_MM;
+		}else if(mks_grbl.move_dis == M_1_MM) {
+			len = lv_imgbtn_creat_mks(scr, len, &Len_1mm, &Len_1mm, LV_ALIGN_CENTER, 180, -70, event_handler_len);
+			mks_grbl.move_dis = M_10_MM;
+		}else if(mks_grbl.move_dis == M_10_MM) {
+			len = lv_imgbtn_creat_mks(scr, len, &Len_10mm, &Len_10mm, LV_ALIGN_CENTER, 180, -70, event_handler_len);
+			mks_grbl.move_dis = M_0_1_MM;
+		}
 	}
 }
 
@@ -156,9 +166,8 @@ void mks_draw_move(void) {
 	lv_imgbtn_creat_mks(scr, y_p, &Y_P, &Y_P, LV_ALIGN_CENTER, -60, 90, event_handler_y_p);
 	lv_imgbtn_creat_mks(scr, z_n, &Z_N, &Z_N, LV_ALIGN_CENTER, 60, -70, event_handler_z_n);
 	lv_imgbtn_creat_mks(scr, z_p, &Z_P, &Z_P, LV_ALIGN_CENTER, 60, 90, event_handler_z_p);
-	lv_imgbtn_creat_mks(scr, len, &Len_0_1mm, &Len_0_1mm, LV_ALIGN_CENTER, 180, -70, event_handler_len);
 	lv_imgbtn_creat_mks(scr, Back, &back, &back, LV_ALIGN_CENTER, 180, 90, event_handler_back);
-
+	
 	mks_lvgl_label_set(scr, Label_x_n, 50, 120, "X+");
 	mks_lvgl_label_set(scr, Label_x_p, 50, 280, "X-");
 	mks_lvgl_label_set(scr, Label_y_n, 160, 120, "Y+");
