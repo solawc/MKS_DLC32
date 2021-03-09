@@ -8,7 +8,7 @@ static lv_obj_t* finsh_popup;
 
 /* style */
 lv_style_t btn_style;
-lv_style_t popup_style;
+static lv_style_t popup_style;
 
 /* bar */
 lv_obj_t* bar_print;  //打印进度条
@@ -74,11 +74,13 @@ static void event_handler_stop(lv_obj_t* obj, lv_event_t event) {
     }
 }
 
+
 static void event_handler_op(lv_obj_t* obj, lv_event_t event) {
     if (event == LV_EVENT_RELEASED) {
         
     }
 }
+
 
 static void event_handler_op_back(lv_obj_t* obj, lv_event_t event) {
     if (event == LV_EVENT_RELEASED) {

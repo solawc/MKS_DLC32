@@ -2,6 +2,8 @@
 
 /* Screan Build */
 static lv_obj_t* scr;
+static lv_obj_t* postiv_popup;
+
 /* imgbtn */
 static lv_obj_t* home;
 static lv_obj_t* positioning;
@@ -10,6 +12,13 @@ static lv_obj_t* light_on;
 static lv_obj_t* power;
 static lv_obj_t* Back;
 
+/* btn */
+static lv_obj_t* btn_popup_cancle;
+static lv_obj_t* btn_popup_sure;
+
+
+static lv_style_t popup_style;
+
 /* label */
 static lv_obj_t *Label_home;
 static lv_obj_t *Label_positioning;
@@ -17,6 +26,9 @@ static lv_obj_t *Label_move;
 static lv_obj_t *Label_light_on;
 static lv_obj_t *Label_power;
 static lv_obj_t *Label_back;
+static lv_obj_t* Label_popup_cancel;
+static lv_obj_t* Label_popup_sure;
+static lv_obj_t* Label_popup;
 
 LV_IMG_DECLARE(Home);           //先申明此图片
 LV_IMG_DECLARE(Move);           //先申明此图片
@@ -87,6 +99,20 @@ static void event_handler_back(lv_obj_t* obj, lv_event_t event) {
     }
 }
 
+static void event_btn_cancle(lv_obj_t* obj, lv_event_t event) {
+
+    if (event == LV_EVENT_PRESSED) {
+
+    }
+}
+
+static void event_btn_sure(lv_obj_t* obj, lv_event_t event) {
+
+    if (event == LV_EVENT_PRESSED) {
+
+    }
+}
+
 void lv_draw_tool(void) {
     
     scr = lv_obj_create(NULL,NULL);
@@ -104,11 +130,11 @@ void lv_draw_tool(void) {
     lv_imgbtn_creat_mks(scr, power, &Power, &Power, LV_ALIGN_CENTER,-180,90, event_handler_power);
     lv_imgbtn_creat_mks(scr, Back, &back, &back, LV_ALIGN_CENTER, 180, 90, event_handler_back);
 
-    mks_lvgl_label_set(scr, Label_home,             30, 120,    "Home");
-    mks_lvgl_label_set(scr, Label_positioning,      140, 120,   "Positioning");
-    mks_lvgl_label_set(scr, Label_move,             280, 120,   "Move"  );
-    mks_lvgl_label_set(scr, Label_power,            30, 280,    "Power");
-    mks_lvgl_label_set(scr, Label_back,             400, 280,   "Back");
+    mks_lvgl_label_set(scr, Label_home,        30, 120,    "Home");
+    mks_lvgl_label_set(scr, Label_positioning, 140, 120,   "Positioning");
+    mks_lvgl_label_set(scr, Label_move,        280, 120,   "Move"  );
+    mks_lvgl_label_set(scr, Label_power,       30, 280,    "Power");
+    mks_lvgl_label_set(scr, Label_back,        400, 280,   "Back");
 
     if(mks_grbl.light_status == GRBL_Light_On) 
         Label_light_on = mks_lvgl_label_set(scr, Label_light_on, 390, 120, "Light_on");
@@ -128,6 +154,31 @@ void light_img_change(uint8_t status) {
         lv_label_set_text(Label_light_on, "Light_on");
     }
 }
+
+void mks_draw_print_popup(void) {
+    postiv_popup = lv_obj_create(scr, NULL);
+    lv_obj_set_size(postiv_popup, 350, 200);
+    lv_obj_set_pos(postiv_popup, 80, 50);
+
+    lv_style_copy(&popup_style, &lv_style_scr);
+    popup_style.body.main_color = LV_COLOR_GRAY;
+    popup_style.body.grad_color = LV_COLOR_GRAY;
+    lv_obj_set_style(postiv_popup, &popup_style);
+
+    btn_popup_cancle = lv_btn_create(postiv_popup, NULL);
+    lv_obj_set_size(btn_popup_cancle, 100, 50);
+    lv_obj_set_pos(btn_popup_cancle, 240, 130);
+    lv_obj_set_event_cb(btn_popup_cancle, event_btn_cancle);
+    mks_lvgl_label_set(postiv_popup, Label_popup_cancel, 250, 150, "Cancle");
+
+    btn_popup_sure = lv_btn_create(postiv_popup, NULL);
+    lv_obj_set_size(btn_popup_sure, 100, 50);
+    lv_obj_set_pos(btn_popup_sure, 10, 130);
+    lv_obj_set_event_cb(btn_popup_sure, event_btn_sure);
+    mks_lvgl_label_set(postiv_popup, Label_popup_sure, 20, 150, "Yes");
+    mks_lvgl_long_sroll_label_with_wight_set(postiv_popup, Label_popup, 100, 80, "Positioned finish", 150);
+}
+
 
 void mks_clear_tool(void) {
     lv_obj_clean(scr);

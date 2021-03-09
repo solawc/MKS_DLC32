@@ -132,7 +132,6 @@ static void event_handler_z_p(lv_obj_t* obj, lv_event_t event) {
 static void event_handler_len(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-
 		if (mks_grbl.move_dis == M_0_1_MM) {
 			len = lv_imgbtn_creat_mks(scr, len, &Len_0_1mm, &Len_0_1mm, LV_ALIGN_CENTER, 180, -70, event_handler_len);
 			mks_grbl.move_dis = M_1_MM;
@@ -153,7 +152,6 @@ static void event_handler_back(lv_obj_t* obj, lv_event_t event) {
         lv_draw_tool();
 	}
 }
-
 
 void mks_draw_move(void) {
 
@@ -177,6 +175,10 @@ void mks_draw_move(void) {
 	mks_lvgl_label_set(scr, Label_len, 390, 120, "0.1mm");
 	mks_lvgl_label_set(scr, Label_back, 390, 280, "Back");
 }
+
+
+
+
 
 void mks_clear_move(void) {
 	lv_obj_clean(scr);
