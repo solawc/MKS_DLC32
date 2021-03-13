@@ -39,13 +39,13 @@ static void event_handler_x_n(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
 		// serila_write_into_buffer((uint8_t *)"$J=G91X10.0F300\n");
 		if(mks_grbl.move_dis == M_0_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91X0.1F500\n");
+			MKS_GRBL_CMD_SEND("$J=G91X0.1F1000\n");
 		}
 		else if (mks_grbl.move_dis == M_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91X1.0F500\n");
+			MKS_GRBL_CMD_SEND("$J=G91X1.0F1000\n");
 		}
 		else if (mks_grbl.move_dis == M_10_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91X10.0F500\n");
+			MKS_GRBL_CMD_SEND("$J=G91X10.0F1000\n");
 		}
 	}
 }
@@ -53,16 +53,16 @@ static void event_handler_x_n(lv_obj_t* obj, lv_event_t event) {
 static void event_handler_x_p(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-		MKS_GRBL_CMD_SEND((uint8_t *)"$J=G91X-10.0F300\n");
+		//MKS_GRBL_CMD_SEND((uint8_t *)"$J=G91X-10.0F300\n");
 
 		if(mks_grbl.move_dis == M_0_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91X-0.1F500\n");
+			MKS_GRBL_CMD_SEND("$J=G91X-0.1F1000\n");
 		}
 		else if (mks_grbl.move_dis == M_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91X-1.0F500\n");
+			MKS_GRBL_CMD_SEND("$J=G91X-1.0F1000\n");
 		}
 		else if (mks_grbl.move_dis == M_10_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91X-10.0F300\n");
+			MKS_GRBL_CMD_SEND("$J=G91X-10.0F1000\n");
 		}
 	}
 }
@@ -70,16 +70,16 @@ static void event_handler_x_p(lv_obj_t* obj, lv_event_t event) {
 static void event_handler_y_n(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-		MKS_GRBL_CMD_SEND("$J=G91Y10.0F300\n");
+		// MKS_GRBL_CMD_SEND("$J=G91Y10.0F300\n");
 
 		if(mks_grbl.move_dis == M_0_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Y0.1F500\n");
+			MKS_GRBL_CMD_SEND("$J=G91Y0.1F1000\n");
 		}
 		else if (mks_grbl.move_dis == M_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Y1.0F500\n");
+			MKS_GRBL_CMD_SEND("$J=G91Y1.0F1000\n");
 		}
 		else if (mks_grbl.move_dis == M_10_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Y10.0F500\n");
+			MKS_GRBL_CMD_SEND("$J=G91Y10.0F1000\n");
 		}
 	}
 }
@@ -88,13 +88,13 @@ static void event_handler_y_p(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
 		if(mks_grbl.move_dis == M_0_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Y-0.1F500\n");
+			MKS_GRBL_CMD_SEND("$J=G91Y-0.1F1000\n");
 		}
 		else if (mks_grbl.move_dis == M_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Y-1.0F500\n");
+			MKS_GRBL_CMD_SEND("$J=G91Y-1.0F1000\n");
 		}
 		else if (mks_grbl.move_dis == M_10_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Y-10.0F500\n");
+			MKS_GRBL_CMD_SEND("$J=G91Y-10.0F1000\n");
 		}
 	}
 }
@@ -103,13 +103,13 @@ static void event_handler_z_n(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
 		if(mks_grbl.move_dis == M_0_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Z0.1F500\n");
+			MKS_GRBL_CMD_SEND("$J=G91Z0.1F1000\n");
 		}
 		else if (mks_grbl.move_dis == M_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Z1.0F500\n");
+			MKS_GRBL_CMD_SEND("$J=G91Z1.0F1000\n");
 		}
 		else if (mks_grbl.move_dis == M_10_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Z10.0F500\n");
+			MKS_GRBL_CMD_SEND("$J=G91Z10.0F1000\n");
 		}
 	}
 }
@@ -118,13 +118,13 @@ static void event_handler_z_p(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
 		if(mks_grbl.move_dis == M_0_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Z-0.1F500\n");
+			MKS_GRBL_CMD_SEND("$J=G91Z-0.1F1000\n");
 		}
 		else if (mks_grbl.move_dis == M_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Z-1.0F500\n");
+			MKS_GRBL_CMD_SEND("$J=G91Z-1.0F1000\n");
 		}
 		else if (mks_grbl.move_dis == M_10_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Z-10.0F500\n");
+			MKS_GRBL_CMD_SEND("$J=G91Z-10.0F1000\n");
 		}
 	}
 }
@@ -133,14 +133,17 @@ static void event_handler_len(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
 		if (mks_grbl.move_dis == M_0_1_MM) {
-			len = lv_imgbtn_creat_mks(scr, len, &Len_0_1mm, &Len_0_1mm, LV_ALIGN_CENTER, 180, -70, event_handler_len);
+			//len = lv_imgbtn_creat_mks(scr, len, &Len_0_1mm, &Len_0_1mm, LV_ALIGN_CENTER, 180, -70, event_handler_len);
 			mks_grbl.move_dis = M_1_MM;
+			lv_label_set_text(Label_len, "1mm");
 		}else if(mks_grbl.move_dis == M_1_MM) {
-			len = lv_imgbtn_creat_mks(scr, len, &Len_1mm, &Len_1mm, LV_ALIGN_CENTER, 180, -70, event_handler_len);
+			//len = lv_imgbtn_creat_mks(scr, len, &Len_1mm, &Len_1mm, LV_ALIGN_CENTER, 180, -70, event_handler_len);
 			mks_grbl.move_dis = M_10_MM;
+			lv_label_set_text(Label_len, "10mm");
 		}else if(mks_grbl.move_dis == M_10_MM) {
-			len = lv_imgbtn_creat_mks(scr, len, &Len_10mm, &Len_10mm, LV_ALIGN_CENTER, 180, -70, event_handler_len);
+			//len = lv_imgbtn_creat_mks(scr, len, &Len_10mm, &Len_10mm, LV_ALIGN_CENTER, 180, -70, event_handler_len);
 			mks_grbl.move_dis = M_0_1_MM;
+			lv_label_set_text(Label_len, "0.1mm");
 		}
 	}
 }
@@ -165,6 +168,7 @@ void mks_draw_move(void) {
 	lv_imgbtn_creat_mks(scr, z_n, &Z_N, &Z_N, LV_ALIGN_CENTER, 60, -70, event_handler_z_n);
 	lv_imgbtn_creat_mks(scr, z_p, &Z_P, &Z_P, LV_ALIGN_CENTER, 60, 90, event_handler_z_p);
 	lv_imgbtn_creat_mks(scr, Back, &back, &back, LV_ALIGN_CENTER, 180, 90, event_handler_back);
+	lv_imgbtn_creat_mks(scr, len, &Len_0_1mm, &Len_0_1mm, LV_ALIGN_CENTER, 180, -70, event_handler_len);
 	
 	mks_lvgl_label_set(scr, Label_x_n, 50, 120, "X+");
 	mks_lvgl_label_set(scr, Label_x_p, 50, 280, "X-");
@@ -172,13 +176,15 @@ void mks_draw_move(void) {
 	mks_lvgl_label_set(scr, Label_y_p, 160, 280, "Y-");
 	mks_lvgl_label_set(scr, Label_z_n, 290, 120, "Z+");
 	mks_lvgl_label_set(scr, Label_z_p, 290, 280, "Z-");
-	mks_lvgl_label_set(scr, Label_len, 390, 120, "0.1mm");
 	mks_lvgl_label_set(scr, Label_back, 390, 280, "Back");
+
+	if(mks_grbl.move_dis == M_0_1_MM)
+		Label_len = mks_lvgl_label_set(scr, Label_len, 390, 120, "0.1mm");
+	else if(mks_grbl.move_dis == M_1_MM) 
+		Label_len = mks_lvgl_label_set(scr, Label_len, 390, 120, "1mm");
+	else if(mks_grbl.move_dis == M_10_MM)
+		Label_len = mks_lvgl_label_set(scr, Label_len, 390, 120, "1mm");
 }
-
-
-
-
 
 void mks_clear_move(void) {
 	lv_obj_clean(scr);
