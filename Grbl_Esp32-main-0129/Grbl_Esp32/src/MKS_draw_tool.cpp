@@ -16,6 +16,8 @@ static lv_obj_t* Back;
 static lv_obj_t* btn_popup_cancle;
 static lv_obj_t* btn_popup_sure;
 
+static lv_obj_t* btn_pos_popup_sure;
+
 
 static lv_style_t popup_style;
 
@@ -51,6 +53,7 @@ static void event_handler_positioning(lv_obj_t* obj, lv_event_t event) {
     if (event == LV_EVENT_PRESSED) {
         Serial.printf("G92 X0 Y0 Z0\n");
         MKS_GRBL_CMD_SEND("G92 X0 Y0 Z0\n");
+        mks_draw_pos_pupop();
     }
 }
 
@@ -113,6 +116,13 @@ static void event_btn_sure(lv_obj_t* obj, lv_event_t event) {
     }
 }
 
+static void event_btn_pos_sure(lv_obj_t* obj, lv_event_t event) {
+
+    if (event == LV_EVENT_PRESSED) {
+        lv_obj_del(postiv_popup);
+    }
+}
+
 void lv_draw_tool(void) {
     
     scr = lv_obj_create(NULL,NULL);
@@ -155,7 +165,8 @@ void light_img_change(uint8_t status) {
     }
 }
 
-void mks_draw_print_popup(void) {
+void mks_draw_pos_pupop(void) { 
+
     postiv_popup = lv_obj_create(scr, NULL);
     lv_obj_set_size(postiv_popup, 350, 200);
     lv_obj_set_pos(postiv_popup, 80, 50);
@@ -165,18 +176,13 @@ void mks_draw_print_popup(void) {
     popup_style.body.grad_color = LV_COLOR_GRAY;
     lv_obj_set_style(postiv_popup, &popup_style);
 
-    btn_popup_cancle = lv_btn_create(postiv_popup, NULL);
-    lv_obj_set_size(btn_popup_cancle, 100, 50);
-    lv_obj_set_pos(btn_popup_cancle, 240, 130);
-    lv_obj_set_event_cb(btn_popup_cancle, event_btn_cancle);
-    mks_lvgl_label_set(postiv_popup, Label_popup_cancel, 250, 150, "Cancle");
+    btn_pos_popup_sure = lv_btn_create(postiv_popup, NULL);
+    lv_obj_set_size(btn_pos_popup_sure,   100, 50);
+    lv_obj_set_pos(btn_pos_popup_sure,    120, 130);
+    lv_obj_set_event_cb(btn_pos_popup_sure, event_btn_pos_sure);
+    mks_lvgl_label_set(btn_pos_popup_sure, Label_popup_sure, 50, 10, "Yes");
 
-    btn_popup_sure = lv_btn_create(postiv_popup, NULL);
-    lv_obj_set_size(btn_popup_sure, 100, 50);
-    lv_obj_set_pos(btn_popup_sure, 10, 130);
-    lv_obj_set_event_cb(btn_popup_sure, event_btn_sure);
-    mks_lvgl_label_set(postiv_popup, Label_popup_sure, 20, 150, "Yes");
-    mks_lvgl_long_sroll_label_with_wight_set(postiv_popup, Label_popup, 100, 80, "Positioned finish", 150);
+    mks_lvgl_long_sroll_label_with_wight_set(postiv_popup, Label_popup, 100, 80, "Positioning done!", 150);
 }
 
 

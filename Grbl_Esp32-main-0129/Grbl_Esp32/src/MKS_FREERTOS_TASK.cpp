@@ -7,7 +7,6 @@
 // portMUX_TYPE lvMutex = portMUX_INITIALIZER_UNLOCKED;
 
 void lvgl_disp_task(void *parg) {
-    //Serial.printf("Enter LVGL");
     mks_lvgl_init();
     lv_draw_ready();
     LCD_BLK_ON;

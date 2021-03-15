@@ -29,9 +29,7 @@ void tft_TS35_init() {
     // LCD_BLK_OFF;
     tft.begin();
     tft.setRotation(1);
-    // tft.fillScreen(TFT_WHITE);
     tft.fillScreen(tft.color565(0X1A, 0X1A, 0X1A));
-
     // LCD_BLK_ON;
 }   
 

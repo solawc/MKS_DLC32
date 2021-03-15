@@ -89,68 +89,6 @@ static void event_handler_op_back(lv_obj_t* obj, lv_event_t event) {
 }
 
 
-
-// static void event_handle_power_mAdd(lv_obj_t* obj, lv_event_t event) {
-//     char str[20];
-//     if (event == LV_EVENT_RELEASED) {
-//         if (mks_grbl.power_length == P_1_PERSEN) {
-//             mks_grbl.power_persen++;
-//             if (mks_grbl.power_persen > 100) {
-//                 mks_grbl.power_persen = 100;
-//             }
-//         } else {
-//             mks_grbl.power_persen = mks_grbl.power_persen + 10;
-//             if (mks_grbl.power_persen > 100) {
-//                 mks_grbl.power_persen = 100;
-//             }
-//         }
-//         mks_power_set(mks_grbl.power_persen);
-//         sprintf(str, "M3 S%d\n", mks_grbl.power_persen);
-//         MKS_GRBL_CMD_SEND(str);
-//     }
-// }
-
-// static void event_handle_power_mDec(lv_obj_t* obj, lv_event_t event) {
-//     char str[20];
-//     if (event == LV_EVENT_RELEASED) { 
-//         if (mks_grbl.power_length == P_1_PERSEN) {
-//             mks_grbl.power_persen--;
-//             if ((mks_grbl.power_persen < 0) || (mks_grbl.power_persen > 100)) {
-//                 mks_grbl.power_persen = 0;
-//             }
-//         } else {
-//             mks_grbl.power_persen = mks_grbl.power_persen - 10;
-//             if ((mks_grbl.power_persen < 0) || (mks_grbl.power_persen > 100)) {
-//                 mks_grbl.power_persen = 0;
-//             }
-//         }
-//         mks_power_set(mks_grbl.power_persen);
-//         sprintf(str, "M3 S%d\n", mks_grbl.power_persen);
-//         MKS_GRBL_CMD_SEND(str);
-//     }
-// }
-
-// static void event_handler_cave_speed_mAdd(lv_obj_t* obj, lv_event_t event) {
-//     if (event == LV_EVENT_RELEASED) {
-//         mks_grbl.cave_speed++;
-//         if ((mks_grbl.cave_speed > 100)) {
-//             mks_grbl.cave_speed = 100;
-//         }
-//     }
-// }
-
-// static void event_handler_cave_speed_mDec(lv_obj_t* obj, lv_event_t event) {
-//     if (event == LV_EVENT_RELEASED) {}
-// }
-
-// static void event_handler_move_speed_mAdd(lv_obj_t* obj, lv_event_t event) {
-//     if (event == LV_EVENT_RELEASED) {}
-// }
-
-// static void event_handler_move_speed_mDec(lv_obj_t* obj, lv_event_t event) {
-//     if (event == LV_EVENT_RELEASED) {}
-// }
-
 void mks_draw_print(void) {
 	
     char power_str[20];
@@ -217,6 +155,7 @@ static void event_btn_cancle(lv_obj_t* obj, lv_event_t event) {
 static void event_btn_sure(lv_obj_t* obj, lv_event_t event) {
     if (event == LV_EVENT_RELEASED) {
         closeFile();
+        spindle->stop();
         mks_grbl.run_status = GRBL_RESTARTING;
         lv_obj_del(stop_popup);
         mks_clear_print();
@@ -255,7 +194,7 @@ void mks_draw_print_popup(const char* text) {
     lv_obj_set_event_cb(btn_popup_sure, event_btn_sure);
     mks_lvgl_label_set(stop_popup, Label_popup_sure, 20, 150, "Yes");
 
-    mks_lvgl_long_sroll_label_with_wight_set(stop_popup, Label_popup, 100, 80, "Is Caving this File?", 150);
+    mks_lvgl_long_sroll_label_with_wight_set(stop_popup, Label_popup, 100, 80, text, 150);
 }
 
 void mks_draw_finsh_pupop(void) { 
@@ -272,6 +211,7 @@ void mks_draw_finsh_pupop(void) {
     btn_finsh_popup_sure = lv_btn_create(finsh_popup, NULL);
     lv_obj_set_size(btn_finsh_popup_sure,   100, 50);
     lv_obj_set_pos(btn_finsh_popup_sure,    120, 130);
+    
     lv_obj_set_event_cb(btn_finsh_popup_sure, event_btn_printdon);
     mks_lvgl_label_set(btn_finsh_popup_sure, Label_popup_sure, 80, 10, "Yes");
 
@@ -298,9 +238,8 @@ void mks_draw_operation(void) {
     popup_style.body.grad_color = LV_COLOR_GRAY;
     lv_obj_set_style(scr_op, &popup_style);
 
-    btn_op_back = lv_imgbtn_creat_mks(scr_op, btn_op_back, &back, &back, LV_ALIGN_CENTER, 180, 90, event_handler_op_back);
+    btn_op_back   = lv_imgbtn_creat_mks(scr_op, btn_op_back, &back, &back, LV_ALIGN_CENTER, 180, 90, event_handler_op_back);
     Label_op_back = mks_lvgl_label_set(scr, Label_op_back, 390, 280, "Back");
-
 
     /* power */
 

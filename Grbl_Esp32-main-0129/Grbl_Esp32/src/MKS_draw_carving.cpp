@@ -52,11 +52,10 @@ char file4_name[40];
 char file5_name[40];
 char file_print_send[40];
 
-
 static void event_handler_up(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-		//MKS_GRBL_CMD_SEND("[ESP220] /lib4.nc\n");
+
 	}
 }
 
@@ -205,6 +204,7 @@ static void event_btn_sure(lv_obj_t* obj, lv_event_t event) {
 	char str_cmd[255] = "[ESP220]";
     if (event == LV_EVENT_RELEASED) {
 		mks_grbl.run_status = GRBL_RUN;
+		mks_grbl.is_mks_ts35_flag = true;
         lv_obj_del(caving_Popup);
 		mks_clear_craving();
 		strcat(str_cmd,file_print_send);

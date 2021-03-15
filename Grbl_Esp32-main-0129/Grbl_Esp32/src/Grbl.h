@@ -91,6 +91,8 @@ const char* const GRBL_VERSION_BUILD = "20201212";
 void grbl_init();
 void run_once();
 
+void print_finsh_task(void);
+
 // Called if USE_MACHINE_INIT is defined
 void machine_init();
 

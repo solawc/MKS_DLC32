@@ -271,8 +271,8 @@
 // #define SPI_FREQUENCY  20000000
 // #define SPI_FREQUENCY  27000000 // Actually sets it to 26.67MHz = 80/3
 // #define SPI_FREQUENCY  40000000
-#define SPI_FREQUENCY  20000000
-
+// #define SPI_FREQUENCY  20000000
+#define SPI_FREQUENCY  80000000
 // Optional reduced SPI frequency for reading TFT
 #define SPI_READ_FREQUENCY  20000000
 

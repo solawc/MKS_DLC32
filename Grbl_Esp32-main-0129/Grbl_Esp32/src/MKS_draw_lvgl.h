@@ -16,6 +16,9 @@
 #include "MKS_draw_print.h"
 #include "MKS_draw_config.h"
 
+extern lv_obj_t *mks_src;
+
+
 /* draw screen setting */
 lv_obj_t* mks_lvgl_draw_bk(lv_obj_t * scr, lv_style_t * dest_style, const lv_style_t * src_style, lv_color_t gcolor, lv_color_t mcolor);
 lv_obj_t* mks_lvgl_draw_bk_both(lv_obj_t * scr, lv_style_t * dest_style, const lv_style_t * src_style, lv_color_t color);

@@ -18,8 +18,7 @@ bool my_indev_touch(struct _lv_indev_drv_t * indev_drv, lv_indev_data_t * data);
 
 // 1ms
 void mks_lvgl_init(void) {
-
-
+    
     /*
         static lv_disp_buf_t disp_buf_2;
         static lv_color_t buf2_1[LV_HOR_RES_MAX * 20];                       

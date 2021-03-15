@@ -20,7 +20,7 @@
     along with Grbl_ESP32.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#define MACHINE_NAME            "MKS DLC32 V1.0"
+#define MACHINE_NAME            "MKS DLC32 V1.03"
 
 #ifdef N_AXIS
     #undef N_AXIS
@@ -56,7 +56,7 @@
 #define SPINDLE_TYPE                SpindleType::LASER // only one spindle at a time
 #define LASER_OUTPUT_PIN            GPIO_NUM_22
 
-#define X_LIMIT_PIN                 GPIO_NUM_33
+#define X_LIMIT_PIN                 GPIO_NUM_36
 #define Y_LIMIT_PIN                 GPIO_NUM_35
 #define Z_LIMIT_PIN                 GPIO_NUM_34
 
@@ -76,10 +76,6 @@
 #define IIC_SCL                     GPIO_NUM_4
 #define IIC_SDA                     GPIO_NUM_0
 
-// #define BTN_EN1					GPIO_NUM_34
-// #define BTN_EN2					GPIO_NUM_35
-// #define BTN_ENC					GPIO_NUM_36
-
 //sd card spi
 #define GRBL_SPI_SCK 			    GPIO_NUM_14
 #define GRBL_SPI_MISO 			    GPIO_NUM_12
@@ -87,10 +83,6 @@
 #define GRBL_SPI_SS 			    GPIO_NUM_15
 #define GRBL_SPI_FREQ 			    4000000
 #define SDCARD_DET_PIN 			    GPIO_NUM_39
-
-//#define TMC_X_UART			    GPIO_NUM_18
-//#define TMC_Y_UART			    GPIO_NUM_23
-//#define TMC_Z_UART			    GPIO_NUM_27
 
 // === Default settings
 #define DEFAULT_STEP_PULSE_MICROSECONDS I2S_OUT_USEC_PER_PULSE

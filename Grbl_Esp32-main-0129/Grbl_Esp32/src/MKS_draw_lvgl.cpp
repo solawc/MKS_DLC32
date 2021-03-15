@@ -1,5 +1,8 @@
 #include "MKS_draw_lvgl.h"
 
+lv_obj_t *mks_src;
+
+
 /* 
  * Author   :MKS
  * Describe :Set gradient background (support LVGL V6, can not use v7)

@@ -157,7 +157,7 @@ static void event_handler_back(lv_obj_t* obj, lv_event_t event) {
 }
 
 void mks_draw_move(void) {
-
+ 
 	scr = lv_obj_create(NULL, NULL);
 	scr = lv_scr_act();
 

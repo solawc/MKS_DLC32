@@ -146,56 +146,35 @@ void protocol_main_loop() {
 #ifdef ENABLE_SD_CARD
         if (SD_ready_next) {
             char fileLine[255];
-            // if(mks_grbl.run_status == GRBL_PAUSE) {
-            //     spindle->stop();
-            // }else {
+            if(mks_grbl.run_status == GRBL_PAUSE) {
+                spindle->stop();
+            }else {
                 if (readFileLine(fileLine, 255)) {
                     SD_ready_next = false;
                     report_status_message(execute_line(fileLine, SD_client, SD_auth_level), SD_client);
-                    //mks_print_bar_updata();
+
+                    if (mks_grbl.is_mks_ts35_flag == true) {
+                        mks_print_bar_updata();
+                    }
+
                 } else {
                     char temp[50];
                     sd_get_current_filename(temp);
-                    // mks_draw_finsh_pupop(); // show print finsh 
+
+                    if (mks_grbl.is_mks_ts35_flag == true) { 
+                        mks_draw_finsh_pupop(); // show print finsh 
+                    }
+                    
                     grbl_notifyf("SD print done", "%s print is successful", temp);
                     closeFile();  // close file and clear SD ready/running flags
                 }
-            // }
+            }
         }
 #endif  
-
         // 打印暂停后，
         if(mks_grbl.run_status == GRBL_RESTARTING) {
-            State prior_state = sys.state;
-            memset(&sys, 0, sizeof(system_t));  // Clear system struct variable.
-            sys.state             = prior_state;
-            sys.f_override        = FeedOverride::Default;              // Set to 100%
-            sys.r_override        = RapidOverride::Default;             // Set to 100%
-            sys.spindle_speed_ovr = SpindleSpeedOverride::Default;      // Set to 100%
-            memset(sys_probe_position, 0, sizeof(sys_probe_position));  // Clear probe position.
-
-            sys_probe_state                      = Probe::Off;
-            sys_rt_exec_state.value              = 0;
-            sys_rt_exec_accessory_override.value = 0;
-            sys_rt_exec_alarm                    = ExecAlarm::None;
-            cycle_stop                           = false;
-            sys_rt_f_override                    = FeedOverride::Default;
-            sys_rt_r_override                    = RapidOverride::Default;
-            sys_rt_s_override                    = SpindleSpeedOverride::Default;
-
-            // serial_reset_read_buffer(CLIENT_ALL);  // Clear serial read buffer
-            // gc_init();                             // Set g-code parser to default state
-            spindle->stop();
-            coolant_init();
-            limits_init();
-            probe_init();
-            // plan_reset();  // Clear block buffer and planner variables
-            // st_reset();    // Clear stepper subsystem variables
-            // // Sync cleared gcode and planner positions to current system position.
-            // plan_sync_position();
-            // gc_sync_position();
-            // report_init_message(CLIENT_ALL);
-            mks_grbl.run_status = GRBL_STOP;
+            print_finsh_task();
+            return ;
         }
 
         // Receive one line of incoming serial data, as the data becomes available.

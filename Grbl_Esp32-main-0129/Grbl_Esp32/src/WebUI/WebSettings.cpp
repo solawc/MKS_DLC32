@@ -32,6 +32,8 @@
 #include "WebServer.h"
 #include <string.h>
 
+#include "../MKS_draw_lvgl.h"
+
 namespace WebUI {
 
 #ifdef ENABLE_WIFI
