@@ -5,8 +5,8 @@
   Copyright (c) 2011-2016 Sungeun K. Jeon for Gnea Research LLC
   Copyright (c) 2009-2011 Simen Svale Skogsrud
 
-	2018 -	Bart Dring This file was modifed for use on the ESP32
-					CPU. Do not use this with Grbl for atMega328P
+    2018 -	Bart Dring This file was modifed for use on the ESP32
+                    CPU. Do not use this with Grbl for atMega328P
 
   Grbl is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -65,7 +65,6 @@ Error add_char_to_line(char c, uint8_t client) {
         return Error::Ok;
     }
     if (cl->len == (LINE_BUFFER_SIZE - 1)) {
-        // Serial.printf("here prorocol overflow\n");
         return Error::Overflow;
     }
     if (c == '\r' || c == '\n') {
@@ -109,7 +108,7 @@ bool can_park() {
 void protocol_main_loop() {
     serial_reset_read_buffer(CLIENT_ALL);
     empty_lines();
-    // uint8_t client = CLIENT_SERIAL; // default client
+    //uint8_t client = CLIENT_SERIAL; // default client
     // Perform some machine checks to make sure everything is good to go.
 #ifdef CHECK_LIMITS_AT_INIT
     if (hard_limits->get()) {
@@ -140,9 +139,7 @@ void protocol_main_loop() {
     // This is also where Grbl idles while waiting for something to do.
     // ---------------------------------------------------------------------------------
     uint8_t c;
-    
     for (;;) {
-        
 #ifdef ENABLE_SD_CARD
         if (SD_ready_next) {
             char fileLine[255];
@@ -150,17 +147,14 @@ void protocol_main_loop() {
                 spindle->stop();
             }else {
                 if (readFileLine(fileLine, 255)) {
-                    SD_ready_next = false;
-                    report_status_message(execute_line(fileLine, SD_client, SD_auth_level), SD_client);
-
+                SD_ready_next = false;
+                report_status_message(execute_line(fileLine, SD_client, SD_auth_level), SD_client);
                     if (mks_grbl.is_mks_ts35_flag == true) {
-                        mks_print_bar_updata();
+                            mks_print_bar_updata();
                     }
-
                 } else {
                     char temp[50];
                     sd_get_current_filename(temp);
-
                     if (mks_grbl.is_mks_ts35_flag == true) { 
                         mks_draw_finsh_pupop(); // show print finsh 
                     }
@@ -169,13 +163,7 @@ void protocol_main_loop() {
                 }
             }
         }
-#endif  
-        // 打印暂停后，
-        if(mks_grbl.run_status == GRBL_RESTARTING) {
-            print_finsh_task();
-            return ;
-        }
-
+#endif
         // Receive one line of incoming serial data, as the data becomes available.
         // Filtering, if necessary, is done later in gc_execute_line(), so the
         // filtering is the same with serial and file input.
@@ -215,11 +203,10 @@ void protocol_main_loop() {
         protocol_auto_cycle_start();
         protocol_execute_realtime();  // Runtime command check point.
         if (sys.abort) {
-            Serial.printf("warring:return idle, system rebooting, code line :209\n");
             return;  // Bail to main() program loop to reset system.
         }
         // check to see if we should disable the stepper drivers ... esp32 work around for disable in main loop.
-        if (stepper_idle) {
+        if (stepper_idle && stepper_idle_lock_time->get() != 0xff) {
             if (esp_timer_get_time() > stepper_idle_counter) {
                 motors_set_disable(true);
             }
@@ -236,7 +223,6 @@ void protocol_buffer_synchronize() {
     do {
         protocol_execute_realtime();  // Check and execute run-time commands
         if (sys.abort) {
-            Serial.println("Warring: System abort, code line :225\n");
             return;  // Check for system abort
         }
     } while (plan_get_current_block() || (sys.state == State::Cycle));
@@ -299,7 +285,7 @@ void protocol_exec_rt_system() {
     }
     ExecState rt_exec_state;
     rt_exec_state.value = sys_rt_exec_state.value;  // Copy volatile sys_rt_exec_state.
-    if (rt_exec_state.value != 0 || cycle_stop) {                 // Test if any bits are on
+    if (rt_exec_state.value != 0 || cycle_stop) {   // Test if any bits are on
         // Execute system abort.
         if (rt_exec_state.bit.reset) {
             sys.abort = true;  // Only place this is set true.
@@ -693,7 +679,8 @@ static void protocol_exec_rt_suspend() {
                                     sys.step_control.updateSpindleRpm = true;
                                 } else {
                                     spindle->set_state(restore_spindle, (uint32_t)restore_spindle_speed);
-                                    delay_sec(SAFETY_DOOR_SPINDLE_DELAY, DELAY_MODE_SYS_SUSPEND);
+                                    // restore delay is done in the spindle class
+                                    //delay_sec(int32_t(1000.0 * spindle_delay_spinup->get()), DwellMode::SysSuspend);
                                 }
                             }
                         }
@@ -702,7 +689,7 @@ static void protocol_exec_rt_suspend() {
                             if (!sys.suspend.bit.restartRetract) {
                                 // NOTE: Laser mode will honor this delay. An exhaust system is often controlled by this pin.
                                 coolant_set_state(restore_coolant);
-                                delay_sec(SAFETY_DOOR_COOLANT_DELAY, DELAY_MODE_SYS_SUSPEND);
+                                delay_msec(int32_t(1000.0 * coolant_start_delay->get()), DwellMode::SysSuspend);
                             }
                         }
 #ifdef PARKING_ENABLE

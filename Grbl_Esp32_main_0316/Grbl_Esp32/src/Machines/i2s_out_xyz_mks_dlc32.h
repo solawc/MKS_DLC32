@@ -85,7 +85,7 @@
 #define SDCARD_DET_PIN 			    GPIO_NUM_39
 
 // === Default settings
-#define DEFAULT_STEP_PULSE_MICROSECONDS I2S_OUT_USEC_PER_PULSE
+// #define DEFAULT_STEP_PULSE_MICROSECONDS I2S_OUT_USEC_PER_PULSE
 
 // The default value in config.h is wrong for this controller
 //#ifdef INVERT_CONTROL_PIN_MASK
@@ -95,7 +95,7 @@
 //#define INVERT_CONTROL_PIN_MASK B1110
 
 
-// #define DEFAULT_STEP_PULSE_MICROSECONDS     10
+#define DEFAULT_STEP_PULSE_MICROSECONDS     10
 // #define DEFAULT_STEPPER_IDLE_LOCK_TIME      255 //  255 = Keep steppers on
 #define DEFAULT_STEPPER_IDLE_LOCK_TIME      5
 
