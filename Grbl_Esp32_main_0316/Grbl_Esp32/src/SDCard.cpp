@@ -19,7 +19,7 @@
 */
 
 #include "Config.h"
-#include "MKS_LVGL.h"
+#include "mks/MKS_LVGL.h"
 #ifdef ENABLE_SD_CARD
 #    include "SDCard.h"
 

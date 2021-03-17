@@ -23,9 +23,9 @@
 */
 
 #include "Grbl.h"
-#include "MKS_TS35.h"
+#include "mks/MKS_TS35.h"
 #include "lvgl.h"
-#include "MKS_draw_print.h"
+#include "mks/MKS_draw_print.h"
 
 static void protocol_exec_rt_suspend();
 

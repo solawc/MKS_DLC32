@@ -3,8 +3,9 @@
 
 #include "MKS_TS35.h"
 #include "lvgl.h"
+#include "../Serial.h"
 #include "MKS_FREERTOS_TASK.h"
-#include "Serial.h"
+
 
 #define MKS_GRBL_CMD_SEND(A)        serila_write_into_buffer((uint8_t *)A)
 #define MKS_GRBL_WEB_CMD_SEND(A)    serial_web_input_into_buffer((uint8_t *)A)

@@ -1,7 +1,7 @@
 #ifndef __MKS_I2C_H
 #define __MKS_I2C_H
 
-#include "Grbl.h"
+#include "../Grbl.h"
 
 
 

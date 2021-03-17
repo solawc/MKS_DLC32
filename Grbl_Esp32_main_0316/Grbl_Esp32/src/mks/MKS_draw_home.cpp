@@ -1,8 +1,8 @@
 #include "MKS_draw_home.h"
-#include "Grbl.h"
-#include "Report.h"
-#include "GCode.h"
-#include "System.h"
+#include "../Grbl.h"
+#include "../Report.h"
+#include "../GCode.h"
+#include "../System.h"
 /* Screan Build */
 static lv_obj_t* scr;
 

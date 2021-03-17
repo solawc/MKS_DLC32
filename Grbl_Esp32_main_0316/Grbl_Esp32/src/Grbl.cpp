@@ -20,10 +20,11 @@
 
 #include "Grbl.h"
 #include <WiFi.h>
-#include "MKS_TS35.h"
-#include "MKS_I2C.h"
-#include "MKS_LVGL.h"
-#include "MKS_draw_ready.h"
+#include "mks/MKS_TS35.h"
+// #include "MKS_TS35.h"
+#include "mks/MKS_I2C.h"
+#include "mks/MKS_LVGL.h"
+#include "mks/MKS_draw_ready.h"
 
 void grbl_init() {
     pinMode(LCD_EN, OUTPUT);

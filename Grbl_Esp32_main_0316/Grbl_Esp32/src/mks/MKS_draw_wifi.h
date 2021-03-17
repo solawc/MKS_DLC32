@@ -4,4 +4,7 @@
 #include "mks_draw_lvgl.h"
 
 
+
+void mks_draw_wifi(void);
+void mks_clear_wifi(void);
 #endif

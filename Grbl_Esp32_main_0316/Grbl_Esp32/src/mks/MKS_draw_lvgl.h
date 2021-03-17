@@ -2,7 +2,8 @@
 #define __MKS_DRAW_LVGL_H
 
 #include "lvgl.h"
-#include "Grbl.h"
+#include "../Grbl.h"
+#include "SPIFFS.h"
 
 #include "MKS_draw_ready.h"
 #include "MKS_draw_tool.h"
@@ -15,7 +16,7 @@
 #include "MKS_draw_about.h"
 #include "MKS_draw_print.h"
 #include "MKS_draw_config.h"
-// #include "MKS_draw_wifi.h"
+#include "MKS_draw_wifi.h"
 
 extern lv_obj_t *mks_src;
 
@@ -45,5 +46,8 @@ lv_obj_t* mks_lv_btn_set(lv_obj_t* scr, lv_obj_t* btn, lv_coord_t btn_w, lv_coor
 /* Bar settings */
 lv_obj_t* mks_lv_bar_set(lv_obj_t* scr, lv_obj_t* bar, lv_coord_t bar_w, lv_coord_t bar_h, lv_coord_t x, lv_coord_t y, uint8_t val);
 lv_obj_t* mks_lv_bar_updata(lv_obj_t* bar, int16_t value);
+
+/* key board */
+lv_obj_t* mks_lv_set_kb(lv_obj_t* scr, lv_obj_t *kb);
 
 #endif 

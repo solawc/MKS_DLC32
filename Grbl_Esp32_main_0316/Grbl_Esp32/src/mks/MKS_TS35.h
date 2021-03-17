@@ -1,7 +1,7 @@
 #ifndef __MKS_TS35_H
 #define __MKS_TS35_H
 
-#include "Grbl.h"
+#include "../Grbl.h"
 #include "SPI.h" 
 #include "lvgl.h"
 #include "TFT_eSPI.h"

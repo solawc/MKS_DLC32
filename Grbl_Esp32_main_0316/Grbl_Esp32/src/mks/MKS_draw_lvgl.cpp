@@ -195,6 +195,40 @@ lv_obj_t* mks_lv_bar_updata(lv_obj_t* bar, int16_t value) {
     return bar;
 }
 
+/* 
+ * Author   :MKS
+ * Describe :Updata bar value
+ * Data     :2021/03/17
+*/
+lv_obj_t* mks_lv_set_kb(lv_obj_t* scr, lv_obj_t *kb) { 
+
+    static lv_style_t rel_style, pr_style;
+
+    lv_style_copy(&rel_style, &lv_style_btn_rel);
+    rel_style.body.radius = 0;
+    rel_style.body.border.width = 1;
+
+    lv_style_copy(&pr_style, &lv_style_btn_pr);
+    pr_style.body.radius = 0;
+    pr_style.body.border.width = 1;
+
+    kb = lv_kb_create(scr, NULL);
+    lv_kb_set_cursor_manage(kb, true);
+    lv_kb_set_style(kb, LV_KB_STYLE_BG, &lv_style_transp_tight);
+    lv_kb_set_style(kb, LV_KB_STYLE_BTN_REL, &rel_style);
+    lv_kb_set_style(kb, LV_KB_STYLE_BTN_PR, &pr_style);
+
+}
+
+lv_obj_t* mks_lv_set_ta(lv_obj_t* scr, lv_obj_t *ta, lv_obj_t *kb) { 
+
+    ta = lv_ta_create(scr, NULL); 
+    lv_obj_align(ta, NULL, LV_ALIGN_IN_TOP_MID, 0, 10);
+    lv_ta_set_text(ta, "Please enter your code");
+    lv_kb_set_ta(kb, ta);
+}
+
+
 
 
 

@@ -2,7 +2,7 @@
 #define __MKS_DRAW_READY_H
 
 #include "lvgl.h"
-#include "Grbl.h"
+#include "../Grbl.h"
 #include "MKS_draw_lvgl.h"
 
 #define LV_DESKTOP      lv_disp_get_scr_act(NULL)
