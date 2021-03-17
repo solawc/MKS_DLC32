@@ -15,7 +15,7 @@
 #include "MKS_draw_about.h"
 #include "MKS_draw_print.h"
 #include "MKS_draw_config.h"
-#include "MKS_draw_wifi.h"
+// #include "MKS_draw_wifi.h"
 
 extern lv_obj_t *mks_src;
 

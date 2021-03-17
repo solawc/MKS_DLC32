@@ -58,7 +58,7 @@ static void event_handler_wifi(lv_obj_t* obj, lv_event_t event) {
 	
 	if (event == LV_EVENT_RELEASED) {
 		mks_clear_setting();
-		mks_draw_wifi();
+		// mks_draw_wifi();
 	}
 }
 
@@ -72,8 +72,6 @@ void mks_draw_setting(void) {
 	lv_imgbtn_creat_mks(scr, config, &Config, &Config, LV_ALIGN_CENTER, 60, -70, event_handler_config);
 	lv_imgbtn_creat_mks(scr, Back, &back, &back, LV_ALIGN_CENTER, 180, 90, event_handler_back);
 	// lv_imgbtn_creat_mks(scr, wifi_set, &WIFI, &WIFI, LV_ALIGN_CENTER, 180, -70, event_handler_back);
-
-	
 
 	mks_lvgl_label_set(scr, Label_languages, 20, 120, "#ffffff Language#");
 	mks_lvgl_label_set(scr, Label_about, 150, 120, "#ffffff About#");
