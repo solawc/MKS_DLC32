@@ -26,6 +26,7 @@
 #include "mks/MKS_TS35.h"
 #include "lvgl.h"
 #include "mks/MKS_draw_print.h"
+#include "mks/MKS_draw_wifi.h"
 
 static void protocol_exec_rt_suspend();
 
@@ -164,6 +165,9 @@ void protocol_main_loop() {
             }
         }
 #endif
+        // LCD Check wifi is connect 
+        mks_wifi_connect_check();
+
         // Receive one line of incoming serial data, as the data becomes available.
         // Filtering, if necessary, is done later in gc_execute_line(), so the
         // filtering is the same with serial and file input.
@@ -215,6 +219,8 @@ void protocol_main_loop() {
     return; /* Never reached */
 }
 
+    
+
 // Block until all buffered steps are executed or in a cycle state. Works with feed hold
 // during a synchronize call, if it should happen. Also, waits for clean cycle end.
 void protocol_buffer_synchronize() {
@@ -227,6 +233,8 @@ void protocol_buffer_synchronize() {
         }
     } while (plan_get_current_block() || (sys.state == State::Cycle));
 }
+
+
 
 // Auto-cycle start triggers when there is a motion ready to execute and if the main program is not
 // actively parsing commands.

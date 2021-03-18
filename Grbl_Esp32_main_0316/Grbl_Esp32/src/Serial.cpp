@@ -240,6 +240,10 @@ void serial_web_input_into_buffer(uint8_t *data) {
     }while((data[k] != '\0') && k != 255);
 }
 
+void serial_web_input_into_hex(uint8_t c) { 
+    client_buffer[CLIENT_INPUT].write(c);
+}
+
 
 
 bool any_client_has_data() {

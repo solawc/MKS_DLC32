@@ -7,4 +7,5 @@
 
 void mks_draw_wifi(void);
 void mks_clear_wifi(void);
+void mks_wifi_connect_check(void);
 #endif

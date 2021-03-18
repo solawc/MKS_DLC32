@@ -19,7 +19,7 @@
 */
 
 #include "../Grbl.h"
-
+#include "../mks/MKS_draw_lvgl.h"
 #ifdef ENABLE_WIFI
 
 #    include <WiFi.h>
@@ -211,9 +211,11 @@ namespace WebUI {
         switch (event) {
             case SYSTEM_EVENT_STA_GOT_IP:
                 grbl_sendf(CLIENT_ALL, "[MSG:Connected with %s]\r\n", WiFi.localIP().toString().c_str());
+                mks_grbl.wifi_connect_status = true;
                 break;
             case SYSTEM_EVENT_STA_DISCONNECTED:
                 grbl_send(CLIENT_ALL, "[MSG:Disconnected]\r\n");
+                mks_grbl.wifi_connect_status = false;
                 break;
             default:
                 break;

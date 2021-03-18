@@ -106,6 +106,8 @@ void mks_grbl_parg_init(void) {
     mks_grbl.mks_sd_status = 0;
     mks_grbl.run_status = GRBL_STOP;
     mks_grbl.is_mks_ts35_flag = false;
+    mks_grbl.wifi_check_status = false;
+    mks_grbl.wifi_connect_status = false;
 }
 
 /* MKS SD FILE */

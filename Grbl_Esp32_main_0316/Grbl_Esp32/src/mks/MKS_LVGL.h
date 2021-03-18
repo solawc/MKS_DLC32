@@ -7,8 +7,10 @@
 #include "MKS_FREERTOS_TASK.h"
 
 
-#define MKS_GRBL_CMD_SEND(A)        serila_write_into_buffer((uint8_t *)A)
-#define MKS_GRBL_WEB_CMD_SEND(A)    serial_web_input_into_buffer((uint8_t *)A)
+#define MKS_GRBL_CMD_SEND(A)            serila_write_into_buffer((uint8_t *)A)   
+#define MKS_GRBL_WEB_CMD_SEND(A)        serial_web_input_into_buffer((uint8_t *)A)
+#define MKS_GRBL_WEB_HEX_CMD_SEND(A)    serial_web_input_into_hex(A)
+
 
 typedef enum {
     M_0_1_MM,           // move 0.1mm
@@ -53,6 +55,8 @@ typedef struct{
     uint8_t                     mks_sd_status;      // sd卡是否插入, 0:没检测到SD卡， 1:检测到SD卡
     uint16_t                    mks_sd_file_times;  // 读取时，以6个文件为基础，从times*6开始显示文件名
     bool                        is_mks_ts35_flag;   // 是否是通过TS35执行的雕刻功能
+    bool                        wifi_connect_status;// wifi連接轉態檢測
+    bool                        wifi_check_status;  // 是否需要檢測wifi連接
 }GRBL_CRTL;
 extern GRBL_CRTL mks_grbl;
 

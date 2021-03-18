@@ -105,8 +105,25 @@ lv_obj_t* mks_lvgl_long_sroll_label_set(lv_obj_t* scr, lv_obj_t* lab, lv_coord_t
 */
 lv_obj_t* mks_lvgl_long_sroll_label_with_wight_set(lv_obj_t* scr, lv_obj_t* lab, lv_coord_t x, lv_coord_t y, const char* text, lv_coord_t w) {
     lab = lv_label_create(scr, NULL);
+    lv_label_set_long_mode(lab, LV_LABEL_LONG_BREAK);
+    lv_obj_set_width(lab, w);
+    lv_obj_set_height(lab, 20);
+    lv_obj_set_pos(lab, x, y);
+    lv_label_set_recolor(lab, true);
+    lv_label_set_text(lab, text);
+    return lab;
+}
+
+/* 
+ * Author   :MKS
+ * Describe :Set the label to scroll back and forth
+ * Data     :2021/01/30
+*/
+lv_obj_t* mks_lvgl_long_sroll_label_with_wight_set_center(lv_obj_t* scr, lv_obj_t* lab, lv_coord_t x, lv_coord_t y, const char* text, lv_coord_t w) {
+    lab = lv_label_create(scr, NULL);
     lv_label_set_long_mode(lab, LV_LABEL_LONG_SROLL);
     lv_obj_set_width(lab, w);
+    lv_label_set_align(lab, LV_ALIGN_CENTER);
     lv_obj_set_height(lab, 20);
     lv_obj_set_pos(lab, x, y);
     lv_label_set_recolor(lab, true);
@@ -168,6 +185,13 @@ lv_obj_t* mks_lv_btn_set(lv_obj_t* scr, lv_obj_t* btn, lv_coord_t btn_w, lv_coor
     lv_obj_set_event_cb(btn, event_cb);
     return btn;
 }
+
+// lv_obj_t* mks_lv_btn_style_set() { 
+
+
+//     return ;
+// }
+
 
 /* 
  * Author   :MKS

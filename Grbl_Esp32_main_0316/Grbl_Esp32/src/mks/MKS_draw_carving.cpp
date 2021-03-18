@@ -247,10 +247,10 @@ void mks_draw_caving_popup(char* text) {
 	lv_obj_set_pos(caving_Popup, 80,50);
 
 	lv_style_copy(&popup_style, &lv_style_scr);
-	popup_style.body.main_color = LV_COLOR_GRAY;
-	popup_style.body.grad_color = LV_COLOR_GRAY;
+	popup_style.body.main_color = LV_COLOR_MAKE(0x06, 0x08, 0x37);
+	popup_style.body.grad_color = LV_COLOR_MAKE(0x06, 0x08, 0x37);
 	lv_obj_set_style(caving_Popup, &popup_style);
-
+	
 	btn_popup_cancle = lv_btn_create(caving_Popup,NULL);
     lv_obj_set_size(btn_popup_cancle, 100,50);
     lv_obj_set_pos(btn_popup_cancle, 240,130);
