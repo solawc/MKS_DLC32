@@ -51,4 +51,9 @@ lv_obj_t* mks_lv_bar_updata(lv_obj_t* bar, int16_t value);
 /* key board */
 lv_obj_t* mks_lv_set_kb(lv_obj_t* scr, lv_obj_t *kb);
 
+
+/* line */
+lv_obj_t* mks_lv_set_line(lv_obj_t* scr, lv_obj_t * line, uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, lv_point_t *line_points);
+
+
 #endif 

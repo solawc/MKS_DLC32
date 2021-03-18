@@ -2,7 +2,7 @@
 
 #define DISP_TASK_STACK             4096
 #define DISP_TASK_PRO               1
-#define DISP_TASK_CORE              CONFIG_ARDUINO_RUNNING_CORE
+#define DISP_TASK_CORE              0
 
 // portMUX_TYPE lvMutex = portMUX_INITIALIZER_UNLOCKED;
 

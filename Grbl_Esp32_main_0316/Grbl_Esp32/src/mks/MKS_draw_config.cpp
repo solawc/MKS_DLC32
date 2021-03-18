@@ -59,6 +59,13 @@ static lv_obj_t *label_Mode;
 static lv_obj_t *Label_format;
 static lv_obj_t *Label_back;
 
+
+lv_obj_t *line1;
+lv_obj_t *line2;
+lv_obj_t *line3;
+lv_obj_t *line4;
+lv_point_t line_points[] = {{0,45},{400,45}};
+
 /* imgbtn */
 static void event_handler_Me_par(lv_obj_t* obj, lv_event_t event) {
 
@@ -122,14 +129,15 @@ void mks_draw_config_main_page(void) {
     lv_style_copy(&btn_press_style, &lv_style_scr);
     btn_press_style.body.main_color = LV_COLOR_MAKE(0X1A, 0X1A, 0X1A);
     btn_press_style.body.main_color = LV_COLOR_MAKE(0X1A, 0X1A, 0X1A);
+    // btn_press_style.body.grad_color = LV_COLOR_MAKE(0X1A, 0X1A, 0X1A);
     btn_press_style.body.opa = LV_OPA_COVER;//设置背景色完全不透明
-    btn_press_style.body.radius = LV_RADIUS_CIRCLE;//绘制圆角按钮
-    btn_press_style.body.shadow.color = LV_COLOR_MAKE(0x1E,0x9F,0xFF);
-    btn_press_style.body.shadow.type = LV_SHADOW_FULL;//设置四边都有阴影
-    btn_press_style.body.shadow.width = 3;//设置阴影的宽度
+    // btn_press_style.body.radius = LV_RADIUS_CIRCLE;//绘制圆角按钮
+    // btn_press_style.body.shadow.color = LV_COLOR_MAKE(0X1A, 0X1A,0X1A);
+    // btn_press_style.body.shadow.type = LV_SHADOW_FULL;//设置四边都有阴影
+    // btn_press_style.body.shadow.width = 3;//设置阴影的宽度
     btn_press_style.text.color = LV_COLOR_WHITE;
-    btn_press_style.body.padding.left = 10;//设置左内边距
-    btn_press_style.body.padding.right = 10;//设置右内边距
+    // btn_press_style.body.padding.left = 10;//设置左内边距
+    // btn_press_style.body.padding.right = 10;//设置右内边距
 
     /* 创建按键 */
     btn_Mechanical_parameters = mks_lv_btn_set(scr, btn_Mechanical_parameters,  470, 40, 0, 0 , event_handler_Me_par);
@@ -140,6 +148,22 @@ void mks_draw_config_main_page(void) {
 
     lv_btn_set_style(btn_Mechanical_parameters, LV_BTN_STYLE_REL, &btn_press_style);
     lv_btn_set_style(btn_Mechanical_parameters,LV_BTN_STYLE_PR,&btn_press_style);
+    
+    lv_btn_set_style(btn_Motor_parameters, LV_BTN_STYLE_REL, &btn_press_style);
+    lv_btn_set_style(btn_Motor_parameters,LV_BTN_STYLE_PR,&btn_press_style);
+
+    lv_btn_set_style(btn_Mode, LV_BTN_STYLE_REL, &btn_press_style);
+    lv_btn_set_style(btn_Mode,LV_BTN_STYLE_PR,&btn_press_style);
+
+    lv_btn_set_style(btn_format, LV_BTN_STYLE_REL, &btn_press_style);
+    lv_btn_set_style(btn_format,LV_BTN_STYLE_PR,&btn_press_style);
+
+
+    // mks_lv_set_line(scr, line1, 0,45,470,45, line_points);
+    // mks_lv_set_line(scr, line2, 0,95,470,95);
+    // mks_lv_set_line(scr, line3, 0,145,470,145);
+    // mks_lv_set_line(scr, line4, 0,245,470,245);
+
 
     /* 创建label */
     mks_lvgl_long_sroll_label_with_wight_set_center(btn_Mechanical_parameters, label_Mechanical_parameters, -250, 0,"Mechanical parameters",470);
