@@ -7,7 +7,7 @@ static lv_obj_t* scr_op;
 static lv_obj_t* finsh_popup;
 
 /* style */
-lv_style_t btn_style;
+static lv_style_t btn_style;
 static lv_style_t popup_style;
 
 /* bar */
@@ -101,9 +101,29 @@ void mks_draw_print(void) {
     scr = lv_obj_create(NULL, NULL);
     scr = lv_scr_act();
 
-    mks_lv_btn_set(scr, btn_suspend,    144, 50, 10, 260, event_handler_suspend);
-    mks_lv_btn_set(scr, btn_stop,       144, 50, 164, 260, event_handler_stop);
-    mks_lv_btn_set(scr, btn_popup_op,   144, 50, 318, 260, event_handler_op);
+    lv_style_copy(&btn_style, &lv_style_scr);
+    btn_style.body.main_color = LV_COLOR_MAKE(0X3c, 0X42, 0Xd5);
+    btn_style.body.grad_color = LV_COLOR_MAKE(0X3c, 0X42, 0Xd5);
+    btn_style.body.opa = LV_OPA_COVER;//设置背景色完全不透明
+    btn_style.text.color = LV_COLOR_WHITE;
+
+    btn_suspend = mks_lv_btn_set(scr, btn_suspend,    144, 40, 10, 260, event_handler_suspend);
+    btn_stop = mks_lv_btn_set(scr, btn_stop,       144, 40, 164, 260, event_handler_stop);
+    btn_popup_op = mks_lv_btn_set(scr, btn_popup_op,   144, 40, 318, 260, event_handler_op);
+
+    lv_btn_set_style(btn_suspend, LV_BTN_STYLE_REL, &btn_style);
+    lv_btn_set_style(btn_suspend,LV_BTN_STYLE_PR,&btn_style);
+
+    lv_btn_set_style(btn_stop, LV_BTN_STYLE_REL, &btn_style);
+    lv_btn_set_style(btn_stop,LV_BTN_STYLE_PR,&btn_style);
+
+    lv_btn_set_style(btn_popup_op, LV_BTN_STYLE_REL, &btn_style);
+    lv_btn_set_style(btn_popup_op,LV_BTN_STYLE_PR,&btn_style);
+
+    mks_lvgl_long_sroll_label_with_wight_set_center(btn_suspend, Label_suspend, 0, 0, "#fad509 Pause#",144);
+    mks_lvgl_long_sroll_label_with_wight_set_center(btn_stop, Label_stop, 0, 0, "#fad509 Stop#",144);
+    mks_lvgl_long_sroll_label_with_wight_set_center(btn_popup_op, label_operation, 0, 0, "#fad509 Option#",144);
+
     /*  
         30, 275,
         180, 275
@@ -111,9 +131,9 @@ void mks_draw_print(void) {
     */
     mks_lvgl_long_sroll_label_set(scr, Label_file_name,         30, 40, file_print_send);
 
-    Label_suspend   = mks_lvgl_label_set_align_center(scr, Label_suspend,     50, 275,     "#fad509 Pause#");
-    Label_stop      = mks_lvgl_label_set_align_center(scr, Label_stop,        210, 275,    "#fad509 Stop#");
-    label_operation = mks_lvgl_label_set_align_center(scr, label_operation,   350, 275,    "#fad509 Option#");
+    // Label_suspend   = mks_lvgl_label_set_align_center(scr, Label_suspend,     50, 275,     "#fad509 Pause#");
+    // Label_stop      = mks_lvgl_label_set_align_center(scr, Label_stop,        210, 275,    "#fad509 Stop#");
+    // label_operation = mks_lvgl_label_set_align_center(scr, label_operation,   350, 275,    "#fad509 Option#");
 
     sprintf(power_str, "Power: %d", mks_grbl.power_persen);
     Label_power = mks_lvgl_label_with_long_set(scr, Label_power, 30, 120, power_str, 200);
@@ -165,21 +185,38 @@ void mks_draw_print_popup(const char* text) {
     lv_obj_set_pos(stop_popup, 80, 50);
 
     lv_style_copy(&popup_style, &lv_style_scr);
-    popup_style.body.main_color = LV_COLOR_GRAY;
-    popup_style.body.grad_color = LV_COLOR_GRAY;
+    popup_style.body.main_color = LV_COLOR_MAKE(0X06, 0X08, 0X37);
+    popup_style.body.grad_color = LV_COLOR_MAKE(0X06, 0X08, 0X37);
+    popup_style.text.color = LV_COLOR_WHITE;
     lv_obj_set_style(stop_popup, &popup_style);
 
-    btn_popup_cancle = lv_btn_create(stop_popup, NULL);
-    lv_obj_set_size(btn_popup_cancle, 100, 50);
-    lv_obj_set_pos(btn_popup_cancle, 240, 130);
-    lv_obj_set_event_cb(btn_popup_cancle, event_btn_cancle);
-    mks_lvgl_label_set(stop_popup, Label_popup_cancel, 250, 150, "Cancle");
 
-    btn_popup_sure = lv_btn_create(stop_popup, NULL);
-    lv_obj_set_size(btn_popup_sure, 100, 50);
-    lv_obj_set_pos(btn_popup_sure, 10, 130);
-    lv_obj_set_event_cb(btn_popup_sure, event_btn_sure);
-    mks_lvgl_label_set(stop_popup, Label_popup_sure, 20, 150, "Yes");
+    lv_style_copy(&btn_style, &lv_style_scr);
+    btn_style.body.main_color = LV_COLOR_MAKE(0X3c, 0X42, 0Xd5);
+    btn_style.body.grad_color = LV_COLOR_MAKE(0X3c, 0X42, 0Xd5);
+    btn_style.body.opa = LV_OPA_COVER;//设置背景色完全不透明
+    btn_style.text.color = LV_COLOR_WHITE;
+    // btn_popup_cancle = lv_btn_create(stop_popup, NULL);
+    // lv_obj_set_size(btn_popup_cancle, 100, 50);
+    // lv_obj_set_pos(btn_popup_cancle, 240, 130);
+    // lv_obj_set_event_cb(btn_popup_cancle, event_btn_cancle);
+    // mks_lvgl_label_set(stop_popup, Label_popup_cancel, 250, 150, "Cancle");
+
+    // btn_popup_sure = lv_btn_create(stop_popup, NULL);
+    // lv_obj_set_size(btn_popup_sure, 100, 50);
+    // lv_obj_set_pos(btn_popup_sure, 10, 130);
+    // lv_obj_set_event_cb(btn_popup_sure, event_btn_sure);
+    // mks_lvgl_label_set(stop_popup, Label_popup_sure, 20, 150, "Yes");
+
+    btn_popup_sure = mks_lv_btn_set(stop_popup, btn_popup_sure, 100,40,10,130,event_btn_sure);
+	lv_btn_set_style(btn_popup_sure, LV_BTN_STYLE_REL, &btn_style);
+    lv_btn_set_style(btn_popup_sure,LV_BTN_STYLE_PR,&btn_style);
+	mks_lvgl_long_sroll_label_with_wight_set_center(btn_popup_sure, Label_popup_sure, 0, 0, "Yes",40);
+
+	btn_popup_cancle = mks_lv_btn_set(stop_popup, btn_popup_cancle, 100,40,240,130,event_btn_cancle);
+	lv_btn_set_style(btn_popup_cancle, LV_BTN_STYLE_REL, &btn_style);
+    lv_btn_set_style(btn_popup_cancle,LV_BTN_STYLE_PR,&btn_style);
+	mks_lvgl_long_sroll_label_with_wight_set_center(btn_popup_cancle, Label_popup_sure, 0, 0, "Cancle",40);
 
     mks_lvgl_long_sroll_label_with_wight_set(stop_popup, Label_popup, 100, 80, text, 150);
 }

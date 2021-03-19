@@ -9,7 +9,7 @@ static lv_obj_t* caving_Popup;
 
 /* style */
 static lv_style_t popup_style;
-
+static lv_style_t btn_style;
 /* BTN */
 static lv_obj_t* btn_popup_cancle;
 static lv_obj_t* btn_popup_sure;
@@ -249,19 +249,36 @@ void mks_draw_caving_popup(char* text) {
 	lv_style_copy(&popup_style, &lv_style_scr);
 	popup_style.body.main_color = LV_COLOR_MAKE(0x06, 0x08, 0x37);
 	popup_style.body.grad_color = LV_COLOR_MAKE(0x06, 0x08, 0x37);
+	popup_style.text.color = LV_COLOR_WHITE;
 	lv_obj_set_style(caving_Popup, &popup_style);
 	
-	btn_popup_cancle = lv_btn_create(caving_Popup,NULL);
-    lv_obj_set_size(btn_popup_cancle, 100,50);
-    lv_obj_set_pos(btn_popup_cancle, 240,130);
-    lv_obj_set_event_cb(btn_popup_cancle, event_btn_cancle);
-	mks_lvgl_label_set(caving_Popup, Label_popup_cancel,250,150, "Cancle");
+	lv_style_copy(&btn_style, &lv_style_scr);
+    btn_style.body.main_color = LV_COLOR_MAKE(0X3c, 0X42, 0Xd5);
+    btn_style.body.grad_color = LV_COLOR_MAKE(0X3c, 0X42, 0Xd5);
+    btn_style.body.opa = LV_OPA_COVER;//设置背景色完全不透明
+    btn_style.text.color = LV_COLOR_WHITE;
 
-	btn_popup_sure = lv_btn_create(caving_Popup,NULL);
-    lv_obj_set_size(btn_popup_sure, 100,50);
-    lv_obj_set_pos(btn_popup_sure, 10,130);
-    lv_obj_set_event_cb(btn_popup_sure, event_btn_sure);
-	mks_lvgl_label_set(caving_Popup, Label_popup_sure, 20, 150, "Yes");
+	// btn_popup_cancle = lv_btn_create(caving_Popup,NULL);
+    // lv_obj_set_size(btn_popup_cancle, 100,50);
+    // lv_obj_set_pos(btn_popup_cancle, 240,130);
+    // lv_obj_set_event_cb(btn_popup_cancle, event_btn_cancle);
+	// mks_lvgl_label_set(caving_Popup, Label_popup_cancel,250,150, "Cancle");
+
+	// btn_popup_sure = lv_btn_create(caving_Popup,NULL);
+    // lv_obj_set_size(btn_popup_sure, 100,50);
+    // lv_obj_set_pos(btn_popup_sure, 10,130);
+    // lv_obj_set_event_cb(btn_popup_sure, event_btn_sure);
+	// mks_lvgl_label_set(caving_Popup, Label_popup_sure, 20, 150, "Yes");
+
+	btn_popup_sure = mks_lv_btn_set(caving_Popup, btn_popup_sure, 100,40,10,130,event_btn_sure);
+	lv_btn_set_style(btn_popup_sure, LV_BTN_STYLE_REL, &btn_style);
+    lv_btn_set_style(btn_popup_sure,LV_BTN_STYLE_PR,&btn_style);
+	mks_lvgl_long_sroll_label_with_wight_set_center(btn_popup_sure, Label_popup_sure, 0, 0, "Yes",40);
+
+	btn_popup_cancle = mks_lv_btn_set(caving_Popup, btn_popup_cancle, 100,40,240,130,event_btn_cancle);
+	lv_btn_set_style(btn_popup_cancle, LV_BTN_STYLE_REL, &btn_style);
+    lv_btn_set_style(btn_popup_cancle,LV_BTN_STYLE_PR,&btn_style);
+	mks_lvgl_long_sroll_label_with_wight_set_center(btn_popup_cancle, Label_popup_sure, 0, 0, "Cancle",40);
 
 	memcpy(file_print_send, text,40);
 	grbl_sendf(CLIENT_SERIAL, "text:%s\n",text);

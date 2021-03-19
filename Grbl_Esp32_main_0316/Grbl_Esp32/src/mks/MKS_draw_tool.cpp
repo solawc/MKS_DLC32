@@ -4,6 +4,8 @@
 static lv_obj_t* scr;
 static lv_obj_t* postiv_popup;
 
+static lv_style_t btn_style;
+
 /* imgbtn */
 static lv_obj_t* home;
 static lv_obj_t* positioning;
@@ -172,16 +174,23 @@ void mks_draw_pos_pupop(void) {
     lv_obj_set_pos(postiv_popup, 80, 50);
 
     lv_style_copy(&popup_style, &lv_style_scr);
-    popup_style.body.main_color = LV_COLOR_GRAY;
-    popup_style.body.grad_color = LV_COLOR_GRAY;
+    popup_style.body.main_color = LV_COLOR_MAKE(0X06, 0X08, 0X37);
+    popup_style.body.grad_color = LV_COLOR_MAKE(0X06, 0X08, 0X37);
+    popup_style.text.color = LV_COLOR_WHITE;
     lv_obj_set_style(postiv_popup, &popup_style);
 
-    btn_pos_popup_sure = lv_btn_create(postiv_popup, NULL);
-    lv_obj_set_size(btn_pos_popup_sure,   100, 50);
-    lv_obj_set_pos(btn_pos_popup_sure,    120, 130);
-    lv_obj_set_event_cb(btn_pos_popup_sure, event_btn_pos_sure);
-    mks_lvgl_label_set(btn_pos_popup_sure, Label_popup_sure, 50, 10, "Yes");
 
+    lv_style_copy(&btn_style, &lv_style_scr);
+    btn_style.body.main_color = LV_COLOR_MAKE(0X3c, 0X42, 0Xd5);
+    btn_style.body.grad_color = LV_COLOR_MAKE(0X3c, 0X42, 0Xd5);
+    // btn_style.body.grad_color = LV_COLOR_MAKE(0X1A, 0X1A, 0X1A);
+    btn_style.body.opa = LV_OPA_COVER;//设置背景色完全不透明
+    btn_style.text.color = LV_COLOR_WHITE;
+
+    btn_pos_popup_sure = mks_lv_btn_set(postiv_popup, btn_pos_popup_sure,100, 40, 120, 130, event_btn_pos_sure);
+    lv_btn_set_style(btn_pos_popup_sure, LV_BTN_STYLE_REL, &btn_style);
+    lv_btn_set_style(btn_pos_popup_sure,LV_BTN_STYLE_PR,&btn_style);
+    mks_lvgl_long_sroll_label_with_wight_set_center(btn_pos_popup_sure, Label_popup_sure, 0, 0, "Yes",40);
     mks_lvgl_long_sroll_label_with_wight_set(postiv_popup, Label_popup, 100, 80, "Positioning done!", 150);
 }
 

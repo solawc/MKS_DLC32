@@ -20,7 +20,7 @@
     along with Grbl_ESP32.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#define MACHINE_NAME            "MKS DLC32 V1.03"
+#define MACHINE_NAME            "MKS DLC32 V1.04"
 
 #ifdef N_AXIS
     #undef N_AXIS

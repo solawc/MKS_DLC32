@@ -165,9 +165,6 @@ void protocol_main_loop() {
             }
         }
 #endif
-        // LCD Check wifi is connect 
-        mks_wifi_connect_check();
-
         // Receive one line of incoming serial data, as the data becomes available.
         // Filtering, if necessary, is done later in gc_execute_line(), so the
         // filtering is the same with serial and file input.

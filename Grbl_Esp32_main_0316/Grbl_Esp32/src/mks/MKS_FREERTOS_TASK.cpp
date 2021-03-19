@@ -4,7 +4,7 @@
 #define DISP_TASK_PRO               5
 #define DISP_TASK_CORE              1
 
-void lvgl_disp_task(void *parg) {
+void lvgl_disp_task(void *parg) { 
     mks_lvgl_init();
     lv_draw_ready();
     LCD_BLK_ON;

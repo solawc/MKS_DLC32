@@ -264,7 +264,7 @@ lv_obj_t* mks_lv_set_line(lv_obj_t* scr, lv_obj_t * line, uint16_t x1, uint16_t 
     lv_style_t style_line;
     lv_style_copy(&style_line, &lv_style_plain);
     style_line.line.color = LV_COLOR_MAKE(0x00, 0x3b, 0x75);
-    style_line.line.width = 10;
+    style_line.line.width = 1;
     style_line.line.rounded = 1;
 
     /*Copy the previous line and apply the new style*/
