@@ -1,10 +1,8 @@
 #include "MKS_FREERTOS_TASK.h"
 
 #define DISP_TASK_STACK             4096
-#define DISP_TASK_PRO               1
-#define DISP_TASK_CORE              0
-
-// portMUX_TYPE lvMutex = portMUX_INITIALIZER_UNLOCKED;
+#define DISP_TASK_PRO               5
+#define DISP_TASK_CORE              1
 
 void lvgl_disp_task(void *parg) {
     mks_lvgl_init();
@@ -19,7 +17,7 @@ void lvgl_disp_task(void *parg) {
     }
 }
 
-//tskNO_AFFINITY
+// tskNO_AFFINITY
 void disp_task_init(void) {
 
     xTaskCreatePinnedToCore(lvgl_disp_task,     // task
@@ -32,4 +30,3 @@ void disp_task_init(void) {
                                                 // core
     );
 }
-
