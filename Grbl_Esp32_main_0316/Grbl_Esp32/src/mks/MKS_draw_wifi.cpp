@@ -107,7 +107,7 @@ void mks_draw_wifi(void) {
     lv_imgbtn_creat_mks(scr, Back, &back, &back, LV_ALIGN_CENTER, 180, 90, event_handler_back);
 
     btn_wifi_begin = mks_lv_btn_set(scr,btn_wifi_begin, 100, 40, 30, 280, event_handler_wifi_begin);
-    btn_wifi_end = mks_lv_btn_set(scr,btn_wifi_end, 100, 40, 150, 280, event_handler_wifi_begin);
+    btn_wifi_end = mks_lv_btn_set(scr,btn_wifi_end, 100, 40, 150, 280, event_handler_wifi_end);
 
     /* get wifi ip */
     mks_widi_show_ip(WiFi.getMode() == WIFI_STA ? WiFi.localIP() : WiFi.softAPIP());

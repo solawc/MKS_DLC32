@@ -67,7 +67,7 @@ lv_obj_t *line4;
 lv_point_t line_points1[] = {{0,45},{470,45}};
 lv_point_t line_points2[] = {{0,95},{470,95}};
 lv_point_t line_points3[] = {{0,145},{470,145}};
-// lv_point_t line_points4[] = {{0,0},{470,0}};
+lv_point_t line_points4[] = {{0,195},{470,195}};
 // lv_point_t line_points5[] = {{0,0},{470,0}};
 
 
@@ -159,19 +159,17 @@ void mks_draw_config_main_page(void) {
     lv_btn_set_style(btn_page_main_back, LV_BTN_STYLE_REL, &btn_press_style);
     lv_btn_set_style(btn_page_main_back,LV_BTN_STYLE_PR,&btn_press_style);
 
-
-       
     lv_style_copy(&style_line, &lv_style_plain);
     style_line.line.color = LV_COLOR_MAKE(0x00, 0x3b, 0x75);
     style_line.line.width = 1;
     style_line.line.rounded = 1;
     line1 = mks_lv_set_line(scr, line1, line_points1);
 
-
     lv_line_set_style(line1, LV_LINE_STYLE_MAIN, &style_line);
-    // mks_lv_set_line(scr, line2, 0,95,470,95,line_points2);
-    // mks_lv_set_line(scr, line3, 0,145,470,145,line_points3);
-    // mks_lv_set_line(scr, line4, 0,245,470,245);
+
+    line2 = mks_lv_set_line(scr, line2, line_points2);
+    line3 = mks_lv_set_line(scr, line3, line_points3);
+    line4 = mks_lv_set_line(scr, line4, line_points4);
 
     /* 创建label */
     mks_lvgl_long_sroll_label_with_wight_set_center(btn_Mechanical_parameters, label_Mechanical_parameters, -240, 0,"Mechanical parameters",470);
@@ -188,24 +186,32 @@ static void event_handler_ME_back(lv_obj_t* obj, lv_event_t event) {
 	}
 }
 
-
 /* 机械参数 */
 void mks_draw_Mechan(void) {
 
     scr = lv_obj_create(NULL, NULL);
 	scr = lv_scr_act();
 
+    lv_style_copy(&btn_press_style, &lv_style_scr);
+    btn_press_style.body.main_color = LV_COLOR_MAKE(0x1A, 0x1A, 0x1A);
+    btn_press_style.body.grad_color = LV_COLOR_MAKE(0x1A, 0x1A, 0x1A);
+    btn_press_style.body.opa = LV_OPA_COVER;//设置背景色完全不透明
+    btn_press_style.text.color = LV_COLOR_WHITE;
+
     // /* 创建按键 */
     btn_Mechanical_parameters = mks_lv_btn_set(scr, btn_Mechanical_parameters,  250, 40, 10, 0   ,event_handler_Me_par);
     btn_Motor_parameters =      mks_lv_btn_set(scr, btn_Motor_parameters,       250, 40, 10, 50  ,event_handler_Me_par);
     btn_Mode =                  mks_lv_btn_set(scr, btn_Mode,                   250, 40, 10, 100 ,event_handler_Me_par);
     btn_page_main_back =        mks_lv_btn_set(scr, btn_page_main_back,         250, 40, 10, 250 ,event_handler_ME_back);
+
+    lv_btn_set_style(btn_Mechanical_parameters, LV_BTN_STYLE_REL, &btn_press_style);
+    lv_btn_set_style(btn_Mechanical_parameters,LV_BTN_STYLE_PR,&btn_press_style);
     
     // /* 创建label */
-    mks_lvgl_long_sroll_label_with_wight_set(btn_Mechanical_parameters, label_Mechanical_parameters, 0, 0,"",250);
-    mks_lvgl_long_sroll_label_with_wight_set(btn_Motor_parameters, label_Mechanical_parameters, 0,0, "Motor_parameters", 250);
-    mks_lvgl_long_sroll_label_with_wight_set(btn_Mode, label_Mechanical_parameters, 0, 0, "Mode",250);
-    mks_lvgl_long_sroll_label_with_wight_set(btn_page_main_back, Label_back, 0, 0, "Return", 250);
+    // mks_lvgl_long_sroll_label_with_wight_set(btn_Mechanical_parameters, label_Mechanical_parameters, 0, 0,"",250);
+    // mks_lvgl_long_sroll_label_with_wight_set(btn_Motor_parameters, label_Mechanical_parameters, 0,0, "Motor_parameters", 250);
+    // mks_lvgl_long_sroll_label_with_wight_set(btn_Mode, label_Mechanical_parameters, 0, 0, "Laser Mode",250);
+    // mks_lvgl_long_sroll_label_with_wight_set(btn_page_main_back, Label_back, 0, 0, "Return", 250);
 }
 
 static void event_handler_MP_back(lv_obj_t* obj, lv_event_t event) {
@@ -221,7 +227,8 @@ void mks_draw_motor_parameters(void) {
 
     scr = lv_obj_create(NULL, NULL);
 	scr = lv_scr_act();
-    
+
+
     btn_page_main_back =  mks_lv_btn_set(scr, btn_page_main_back,         250, 40, 0, 250 ,event_handler_MP_back);
     Label_back = mks_lvgl_long_sroll_label_with_wight_set(btn_page_main_back, Label_back, 0, 0, "Return", 250);
 }
