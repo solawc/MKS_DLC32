@@ -53,7 +53,7 @@ lv_obj_t* mks_lv_set_kb(lv_obj_t* scr, lv_obj_t *kb);
 
 
 /* line */
-lv_obj_t* mks_lv_set_line(lv_obj_t* scr, lv_obj_t * line, uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, lv_point_t *line_points);
+lv_obj_t* mks_lv_set_line(lv_obj_t* scr, lv_obj_t * line, lv_point_t *line_points);
 
 
 #endif 

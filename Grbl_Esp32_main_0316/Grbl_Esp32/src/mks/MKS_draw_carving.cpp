@@ -56,27 +56,42 @@ char file_print_send[40];
 static void event_handler_up(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-		if(mks_grbl.mks_sd_file_times == 1) {
-			mks_grbl.mks_sd_file_times = 1;
-		}else {
-			mks_grbl.mks_sd_file_times --;
-		}
 
-		mks_del_file_obj();
-		mks_listDir(SD, "/",1);
+		if(mks_readSD_Status() == SDState::NotPresent)  // check sdcard is work
+		{
+
+		}else{
+			if(mks_grbl.mks_sd_file_times == 1) {
+				mks_grbl.mks_sd_file_times = 1;
+			}else {
+				mks_grbl.mks_sd_file_times --;
+			}
+
+			mks_del_file_obj();
+			mks_listDir(SD, "/",1);
+		}
+		
 	}
 }
 
 static void event_handler_next(lv_obj_t* obj, lv_event_t event) {
-	if (event == LV_EVENT_RELEASED) {
-		if(mks_grbl.mks_sd_file_times >= 10) {
-			mks_grbl.mks_sd_file_times = 10;
-		}else {
-			mks_grbl.mks_sd_file_times ++;
-		}
-		mks_del_file_obj();
-		mks_listDir(SD, "/",1);
+
+	if(mks_readSD_Status() == SDState::NotPresent)  // check sdcard is work
+	{ 
+		
 	}
+	else {
+		if (event == LV_EVENT_RELEASED) {
+			if(mks_grbl.mks_sd_file_times >= 10) {
+				mks_grbl.mks_sd_file_times = 10;
+			}else {
+				mks_grbl.mks_sd_file_times ++;
+			}
+			mks_del_file_obj();
+			mks_listDir(SD, "/",1);
+		}
+	}
+	
 }
 
 static void event_handler_cback(lv_obj_t* obj, lv_event_t event) {

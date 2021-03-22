@@ -81,8 +81,8 @@
 #define GRBL_SPI_MISO 			    GPIO_NUM_12
 #define GRBL_SPI_MOSI 			    GPIO_NUM_13
 #define GRBL_SPI_SS 			    GPIO_NUM_15
-#define GRBL_SPI_FREQ 			    4000000
 #define SDCARD_DET_PIN 			    GPIO_NUM_39
+#define GRBL_SPI_FREQ 			    4000000
 
 // === Default settings
 #define DEFAULT_STEP_PULSE_MICROSECONDS I2S_OUT_USEC_PER_PULSE
@@ -97,6 +97,7 @@
 
 // #define DEFAULT_STEP_PULSE_MICROSECONDS     4
 // #define DEFAULT_STEPPER_IDLE_LOCK_TIME      255 //  255 = Keep steppers on
+
 #define DEFAULT_STEPPER_IDLE_LOCK_TIME      5
 
 #define DEFAULT_STEPPING_INVERT_MASK    	0 // uint8_t
@@ -126,7 +127,6 @@
 #else
     #define DEFAULT_SPINDLE_RPM_MAX 1000.0 // can be change to your spindle max
 #endif
-
 #define DEFAULT_SPINDLE_RPM_MIN 0.0 // rpm
 
 #define DEFAULT_LASER_MODE 0 // false

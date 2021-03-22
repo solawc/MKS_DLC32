@@ -255,23 +255,12 @@ lv_obj_t* mks_lv_set_ta(lv_obj_t* scr, lv_obj_t *ta, lv_obj_t *kb) {
 }
 
 
-lv_obj_t* mks_lv_set_line(lv_obj_t* scr, lv_obj_t * line, uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, lv_point_t *line_points) { 
-
-    /*Create an array for the points of the line*/
-    // lv_point_t line_points[] = {{x1, y1},  {x2, y2}};
-
-    /*Create new style (thick dark blue)*/
-    lv_style_t style_line;
-    lv_style_copy(&style_line, &lv_style_plain);
-    style_line.line.color = LV_COLOR_MAKE(0x00, 0x3b, 0x75);
-    style_line.line.width = 1;
-    style_line.line.rounded = 1;
+lv_obj_t* mks_lv_set_line(lv_obj_t* scr, lv_obj_t * line, lv_point_t *line_points) { 
 
     /*Copy the previous line and apply the new style*/
-    
     line = lv_line_create(scr, NULL);
     lv_line_set_points(line, line_points, 2);     /*Set the points*/
-    lv_line_set_style(line, LV_LINE_STYLE_MAIN, &style_line);
+    
     // lv_obj_align(line, NULL, LV_ALIGN_CENTER, 0, 0);
 
     return line;
