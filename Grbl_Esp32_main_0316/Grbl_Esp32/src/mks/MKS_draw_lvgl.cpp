@@ -224,7 +224,7 @@ lv_obj_t* mks_lv_bar_updata(lv_obj_t* bar, int16_t value) {
  * Describe :Updata bar value
  * Data     :2021/03/17
 */
-lv_obj_t* mks_lv_set_kb(lv_obj_t* scr, lv_obj_t *kb) { 
+lv_obj_t* mks_lv_set_kb(lv_obj_t* scr, lv_obj_t *kb, lv_event_cb_t event_cb) { 
 
     static lv_style_t rel_style, pr_style;
 
@@ -241,16 +241,15 @@ lv_obj_t* mks_lv_set_kb(lv_obj_t* scr, lv_obj_t *kb) {
     lv_kb_set_style(kb, LV_KB_STYLE_BG, &lv_style_transp_tight);
     lv_kb_set_style(kb, LV_KB_STYLE_BTN_REL, &rel_style);
     lv_kb_set_style(kb, LV_KB_STYLE_BTN_PR, &pr_style);
-
+    lv_obj_set_event_cb(kb, event_cb);
 }
 
 lv_obj_t* mks_lv_set_ta(lv_obj_t* scr, lv_obj_t *ta, lv_obj_t *kb) { 
 
     ta = lv_ta_create(scr, NULL); 
     lv_obj_align(ta, NULL, LV_ALIGN_IN_TOP_MID, 0, 10);
-    lv_ta_set_text(ta, "Please enter your code");
+    lv_ta_set_text(ta, "");
     lv_kb_set_ta(kb, ta);
-
     return ta;
 }
 

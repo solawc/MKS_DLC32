@@ -49,8 +49,8 @@ lv_obj_t* mks_lv_bar_set(lv_obj_t* scr, lv_obj_t* bar, lv_coord_t bar_w, lv_coor
 lv_obj_t* mks_lv_bar_updata(lv_obj_t* bar, int16_t value);
 
 /* key board */
-lv_obj_t* mks_lv_set_kb(lv_obj_t* scr, lv_obj_t *kb);
-
+lv_obj_t* mks_lv_set_kb(lv_obj_t* scr, lv_obj_t *kb, lv_event_cb_t event_cb);
+lv_obj_t* mks_lv_set_ta(lv_obj_t* scr, lv_obj_t *ta, lv_obj_t *kb);
 
 /* line */
 lv_obj_t* mks_lv_set_line(lv_obj_t* scr, lv_obj_t * line, lv_point_t *line_points);

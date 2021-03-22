@@ -15,49 +15,72 @@ static lv_obj_t *btn_Mode;
 static lv_obj_t *btn_format;            // FFS
 
 /* page  mechanical parameters */
-static lv_obj_t *btn_pulse_h_l;         // $2
-static lv_obj_t *btn_limit;             // $5      
-static lv_obj_t *btn_Probe_level;       // $6
-static lv_obj_t *btn_Node_deviation;    // $11
-static lv_obj_t *btn_Arc_tolerance;     // $12
-static lv_obj_t *btn_Software_limit;    // $20
-static lv_obj_t *btn_Limit_switch;      // $21
-static lv_obj_t *btn_Laser_mode;        // $32
- 
+// static lv_obj_t *btn_pulse_h_l;         // $2
+// static lv_obj_t *btn_limit;             // $5      
+// static lv_obj_t *btn_Probe_level;       // $6
+// static lv_obj_t *btn_Node_deviation;    // $11
+// static lv_obj_t *btn_Arc_tolerance;     // $12
+// static lv_obj_t *btn_Software_limit;    // $20
+// static lv_obj_t *btn_Limit_switch;      // $21
+// static lv_obj_t *btn_Laser_mode;        // $32
+
+static lv_obj_t *btn_line1; 
+static lv_obj_t *btn_line2; 
+static lv_obj_t *btn_line3; 
+static lv_obj_t *btn_line4; 
+static lv_obj_t *btn_line5; 
+static lv_obj_t *btn_line6; 
+
+
+static lv_obj_t *btn_back; 
+static lv_obj_t *btn_next; 
+
+
+
+static lv_obj_t *label_line1; 
+static lv_obj_t *label_line2; 
+static lv_obj_t *label_line3; 
+static lv_obj_t *label_line4; 
+static lv_obj_t *label_line5; 
+static lv_obj_t *label_line6;
+
+static lv_obj_t *label_back; 
+static lv_obj_t *label_next; 
+
 
 static lv_obj_t *keyboard;
 static lv_obj_t *ta;
 
 /* Motor parameters */
-static lv_obj_t *btn_RPM_MAX;            // $30
-static lv_obj_t *btn_RPM_Min;            // $31
+// static lv_obj_t *btn_RPM_MAX;            // $30
+// static lv_obj_t *btn_RPM_Min;            // $31
 
-static lv_obj_t *btn_X_Pluse;            // $100
-static lv_obj_t *btn_Y_Pluse;            // $101
-static lv_obj_t *btn_Z_Pluse;            // $102
+// static lv_obj_t *btn_X_Pluse;            // $100
+// static lv_obj_t *btn_Y_Pluse;            // $101
+// static lv_obj_t *btn_Z_Pluse;            // $102
 
-static lv_obj_t *btn_X_MaxSpeed;         // $110
-static lv_obj_t *btn_Y_MaxSpeed;         // $111
-static lv_obj_t *btn_Z_MaxSpeed;         // $112
+// static lv_obj_t *btn_X_MaxSpeed;         // $110
+// static lv_obj_t *btn_Y_MaxSpeed;         // $111
+// static lv_obj_t *btn_Z_MaxSpeed;         // $112
 
-static lv_obj_t *btn_X_Acc;              // $120
-static lv_obj_t *btn_Y_Acc;              // $121
-static lv_obj_t *btn_Z_Acc;              // $122
+// static lv_obj_t *btn_X_Acc;              // $120
+// static lv_obj_t *btn_Y_Acc;              // $121
+// static lv_obj_t *btn_Z_Acc;              // $122
 
-static lv_obj_t *btn_X_MaxTrave;         // $130     
-static lv_obj_t *btn_Y_MaxTrave;         // $131  
-static lv_obj_t *btn_Z_MaxTrave;         // $132
+// static lv_obj_t *btn_X_MaxTrave;         // $130     
+// static lv_obj_t *btn_Y_MaxTrave;         // $131  
+// static lv_obj_t *btn_Z_MaxTrave;         // $132
 
 // static lv_obj_t *btn_Step_pulse;
 
 
-static lv_obj_t* btn_page_main_back;
+// static lv_obj_t* btn_page_main_back;
 
-static lv_obj_t *label_Mechanical_parameters;
-static lv_obj_t *label_Motor_parameters;
-static lv_obj_t *label_Mode;
-static lv_obj_t *Label_format;
-static lv_obj_t *Label_back;
+// static lv_obj_t *label_Mechanical_parameters;
+// static lv_obj_t *label_Motor_parameters;
+// static lv_obj_t *label_Mode;
+// static lv_obj_t *Label_format;
+// static lv_obj_t *Label_back;
 
 
 lv_obj_t *line1;
@@ -102,6 +125,13 @@ static void event_handler_format(lv_obj_t* obj, lv_event_t event) {
 	}
 }
 
+static void event_handler_language(lv_obj_t* obj, lv_event_t event) {
+
+	if (event == LV_EVENT_RELEASED) {
+
+	}
+} 
+
 static void event_handler_back(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
@@ -138,46 +168,53 @@ void mks_draw_config_main_page(void) {
     btn_press_style.text.color = LV_COLOR_WHITE;
 
     /* 创建按键 */
-    btn_Mechanical_parameters = mks_lv_btn_set(scr, btn_Mechanical_parameters,  470, 40, 0, 0 , event_handler_Me_par);
-    btn_Motor_parameters =      mks_lv_btn_set(scr, btn_Motor_parameters,       470, 40, 0, 50 ,event_handler_MT_par);
-    btn_Mode =                  mks_lv_btn_set(scr, btn_Mode,                   470, 40, 0, 100 ,event_handler_MD_par);
-    btn_format =                mks_lv_btn_set(scr, btn_format,                 470, 40, 0, 150 ,event_handler_format);
-    btn_page_main_back =        mks_lv_btn_set(scr, btn_page_main_back,         100, 40, 400, 250 ,event_handler_back);
+    btn_line1 = mks_lv_btn_set(scr, btn_line1,  470, 40, 0, 0 , event_handler_Me_par);      //  机器参数
+    btn_line2 = mks_lv_btn_set(scr, btn_line2,  470, 40, 0, 50 ,event_handler_MT_par);      //  电机参数
+    btn_line3 = mks_lv_btn_set(scr, btn_line3,  470, 40, 0, 100 ,event_handler_MD_par);     //  激光模式
+    btn_line4 = mks_lv_btn_set(scr, btn_line4,  470, 40, 0, 150 ,event_handler_language);   //  语言
+    btn_line5 = mks_lv_btn_set(scr, btn_line5,  470, 40, 0, 200 ,event_handler_format);     //  网页格式化
+    btn_back =  mks_lv_btn_set(scr, btn_back,   100, 40, 400, 250 ,event_handler_back);     
 
-    lv_btn_set_style(btn_Mechanical_parameters, LV_BTN_STYLE_REL, &btn_press_style);
-    lv_btn_set_style(btn_Mechanical_parameters,LV_BTN_STYLE_PR,&btn_press_style);
+    lv_btn_set_style(btn_line1, LV_BTN_STYLE_REL, &btn_press_style);
+    lv_btn_set_style(btn_line1,LV_BTN_STYLE_PR,&btn_press_style);
     
-    lv_btn_set_style(btn_Motor_parameters, LV_BTN_STYLE_REL, &btn_press_style);
-    lv_btn_set_style(btn_Motor_parameters,LV_BTN_STYLE_PR,&btn_press_style);
+    lv_btn_set_style(btn_line2, LV_BTN_STYLE_REL, &btn_press_style);
+    lv_btn_set_style(btn_line2,LV_BTN_STYLE_PR,&btn_press_style);
 
-    lv_btn_set_style(btn_Mode, LV_BTN_STYLE_REL, &btn_press_style);
-    lv_btn_set_style(btn_Mode,LV_BTN_STYLE_PR,&btn_press_style);
+    lv_btn_set_style(btn_line3, LV_BTN_STYLE_REL, &btn_press_style);
+    lv_btn_set_style(btn_line3,LV_BTN_STYLE_PR,&btn_press_style);
 
-    lv_btn_set_style(btn_format, LV_BTN_STYLE_REL, &btn_press_style);
-    lv_btn_set_style(btn_format,LV_BTN_STYLE_PR,&btn_press_style);
+    lv_btn_set_style(btn_line4, LV_BTN_STYLE_REL, &btn_press_style);
+    lv_btn_set_style(btn_line4,LV_BTN_STYLE_PR,&btn_press_style);
 
-    lv_btn_set_style(btn_page_main_back, LV_BTN_STYLE_REL, &btn_press_style);
-    lv_btn_set_style(btn_page_main_back,LV_BTN_STYLE_PR,&btn_press_style);
+    lv_btn_set_style(btn_line5, LV_BTN_STYLE_REL, &btn_press_style);
+    lv_btn_set_style(btn_line5,LV_BTN_STYLE_PR,&btn_press_style);
+
+    lv_btn_set_style(btn_back, LV_BTN_STYLE_REL, &btn_press_style);
+    lv_btn_set_style(btn_back,LV_BTN_STYLE_PR,&btn_press_style);
 
     lv_style_copy(&style_line, &lv_style_plain);
     style_line.line.color = LV_COLOR_MAKE(0x00, 0x3b, 0x75);
     style_line.line.width = 1;
     style_line.line.rounded = 1;
     line1 = mks_lv_set_line(scr, line1, line_points1);
-
     lv_line_set_style(line1, LV_LINE_STYLE_MAIN, &style_line);
-
     line2 = mks_lv_set_line(scr, line2, line_points2);
+    lv_line_set_style(line2, LV_LINE_STYLE_MAIN, &style_line);
     line3 = mks_lv_set_line(scr, line3, line_points3);
+    lv_line_set_style(line3, LV_LINE_STYLE_MAIN, &style_line);
     line4 = mks_lv_set_line(scr, line4, line_points4);
+    lv_line_set_style(line4, LV_LINE_STYLE_MAIN, &style_line);
 
     /* 创建label */
-    mks_lvgl_long_sroll_label_with_wight_set_center(btn_Mechanical_parameters, label_Mechanical_parameters, -240, 0,"Mechanical parameters",470);
-    mks_lvgl_long_sroll_label_with_wight_set_center(btn_Motor_parameters, label_Mechanical_parameters, -240, 0, "Motor_parameters", 470);
-    mks_lvgl_long_sroll_label_with_wight_set_center(btn_Mode, label_Mechanical_parameters, -240, 0, "Mode",470);
-    mks_lvgl_long_sroll_label_with_wight_set_center(btn_format, Label_format, -240, 0, "Format", 470);
-    mks_lvgl_long_sroll_label_with_wight_set_center(btn_page_main_back, Label_back, 0, 0, "Return", 100);
+    mks_lvgl_long_sroll_label_with_wight_set_center(btn_line1, label_line1, -240, 0,"Mechanical parameters",470);
+    mks_lvgl_long_sroll_label_with_wight_set_center(btn_line2, label_line2, -240, 0, "Motor_parameters", 470);
+    mks_lvgl_long_sroll_label_with_wight_set_center(btn_line3, label_line3, -240, 0, "Mode",470);
+    mks_lvgl_long_sroll_label_with_wight_set_center(btn_line4, label_line4, -240, 0, "Language", 470);
+    mks_lvgl_long_sroll_label_with_wight_set_center(btn_line5, label_line5, -240, 0, "Format", 470);
+    mks_lvgl_long_sroll_label_with_wight_set_center(btn_back, label_back, 0, 0, "Back", 100);
 }
+
 
 static void event_handler_ME_back(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
@@ -199,26 +236,59 @@ void mks_draw_Mechan(void) {
     btn_press_style.text.color = LV_COLOR_WHITE;
 
     // /* 创建按键 */
-    btn_Mechanical_parameters = mks_lv_btn_set(scr, btn_Mechanical_parameters,  250, 40, 10, 0   ,event_handler_Me_par);
-    btn_Motor_parameters =      mks_lv_btn_set(scr, btn_Motor_parameters,       250, 40, 10, 50  ,event_handler_Me_par);
-    btn_Mode =                  mks_lv_btn_set(scr, btn_Mode,                   250, 40, 10, 100 ,event_handler_Me_par);
-    btn_page_main_back =        mks_lv_btn_set(scr, btn_page_main_back,         250, 40, 10, 250 ,event_handler_ME_back);
+    btn_line1 = mks_lv_btn_set(scr, btn_line1,  250, 40, 10, 0   ,event_handler_Me_par);
+    btn_line2 = mks_lv_btn_set(scr, btn_line2,  250, 40, 10, 50  ,event_handler_Me_par);
+    btn_line3 = mks_lv_btn_set(scr, btn_line3,  250, 40, 10, 100 ,event_handler_Me_par);
+    btn_back =  mks_lv_btn_set(scr, btn_back,   100, 40, 400, 250 ,event_handler_ME_back);
 
-    lv_btn_set_style(btn_Mechanical_parameters, LV_BTN_STYLE_REL, &btn_press_style);
-    lv_btn_set_style(btn_Mechanical_parameters,LV_BTN_STYLE_PR,&btn_press_style);
+    lv_btn_set_style(btn_line1, LV_BTN_STYLE_REL, &btn_press_style);
+    lv_btn_set_style(btn_line1,LV_BTN_STYLE_PR,&btn_press_style);
+
+    lv_btn_set_style(btn_line2,LV_BTN_STYLE_REL,&btn_press_style);
+    lv_btn_set_style(btn_line2,LV_BTN_STYLE_PR,&btn_press_style);
+
+    lv_btn_set_style(btn_line3,LV_BTN_STYLE_REL,&btn_press_style);
+    lv_btn_set_style(btn_line3,LV_BTN_STYLE_PR,&btn_press_style);
+
+    lv_btn_set_style(btn_back,LV_BTN_STYLE_REL,&btn_press_style);
+    lv_btn_set_style(btn_back,LV_BTN_STYLE_PR,&btn_press_style);
+
+    lv_style_copy(&style_line, &lv_style_plain);
+    style_line.line.color = LV_COLOR_MAKE(0x00, 0x3b, 0x75);
+    style_line.line.width = 1;
+    style_line.line.rounded = 1;
+    line1 = mks_lv_set_line(scr, line1, line_points1);
+    lv_line_set_style(line1, LV_LINE_STYLE_MAIN, &style_line);
+    line2 = mks_lv_set_line(scr, line2, line_points2);
+    lv_line_set_style(line2, LV_LINE_STYLE_MAIN, &style_line);
+    line3 = mks_lv_set_line(scr, line3, line_points3);
+    lv_line_set_style(line3, LV_LINE_STYLE_MAIN, &style_line);
+    line4 = mks_lv_set_line(scr, line4, line_points4);
+    lv_line_set_style(line4, LV_LINE_STYLE_MAIN, &style_line);
     
     // /* 创建label */
-    // mks_lvgl_long_sroll_label_with_wight_set(btn_Mechanical_parameters, label_Mechanical_parameters, 0, 0,"",250);
-    // mks_lvgl_long_sroll_label_with_wight_set(btn_Motor_parameters, label_Mechanical_parameters, 0,0, "Motor_parameters", 250);
-    // mks_lvgl_long_sroll_label_with_wight_set(btn_Mode, label_Mechanical_parameters, 0, 0, "Laser Mode",250);
-    // mks_lvgl_long_sroll_label_with_wight_set(btn_page_main_back, Label_back, 0, 0, "Return", 250);
+    mks_lvgl_long_sroll_label_with_wight_set(btn_line1, label_line1, 0, 0,"Pluse",250);
+    mks_lvgl_long_sroll_label_with_wight_set(btn_line2, label_line2, 0,0, "Spenle Freq", 250);
+    mks_lvgl_long_sroll_label_with_wight_set(btn_line3, label_line3, 0, 0, "Laser Mode",250);
+    mks_lvgl_long_sroll_label_with_wight_set_center(btn_back, label_back, 0, 0, "Back", 100);
 }
+
+
+
+
+static void event_handler_MT_Pluse(lv_obj_t* obj, lv_event_t event) {
+
+	if (event == LV_EVENT_RELEASED) {
+
+	}
+}
+
 
 static void event_handler_MP_back(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
 		mks_clean_main_page();
-		mks_draw_Mechan();
+		mks_draw_config_main_page();
 	}
 }
 
@@ -228,10 +298,63 @@ void mks_draw_motor_parameters(void) {
     scr = lv_obj_create(NULL, NULL);
 	scr = lv_scr_act();
 
+    lv_style_copy(&btn_press_style, &lv_style_scr);
+    btn_press_style.body.main_color = LV_COLOR_MAKE(0x1A, 0x1A, 0x1A);
+    btn_press_style.body.grad_color = LV_COLOR_MAKE(0x1A, 0x1A, 0x1A);
+    btn_press_style.body.opa = LV_OPA_COVER;//设置背景色完全不透明
+    btn_press_style.text.color = LV_COLOR_WHITE;
 
-    btn_page_main_back =  mks_lv_btn_set(scr, btn_page_main_back,         250, 40, 0, 250 ,event_handler_MP_back);
-    Label_back = mks_lvgl_long_sroll_label_with_wight_set(btn_page_main_back, Label_back, 0, 0, "Return", 250);
+
+
+    btn_line1 = mks_lv_btn_set(scr, btn_line1,  250, 40, 10, 0   ,event_handler_MT_Pluse);
+    // btn_line2 = mks_lv_btn_set(scr, btn_line2,  250, 40, 10, 50  ,event_handler_Me_par);
+    // btn_line3 = mks_lv_btn_set(scr, btn_line3,  250, 40, 10, 100 ,event_handler_Me_par);    
+
+    btn_back =  mks_lv_btn_set(scr, btn_back,   100, 40, 400, 250 ,event_handler_MP_back);
+    
+
+
+    lv_btn_set_style(btn_line1, LV_BTN_STYLE_REL, &btn_press_style);
+    lv_btn_set_style(btn_line1,LV_BTN_STYLE_PR,&btn_press_style);
+
+    lv_btn_set_style(btn_back, LV_BTN_STYLE_REL, &btn_press_style);
+    lv_btn_set_style(btn_back,LV_BTN_STYLE_PR,&btn_press_style);
+
+    lv_style_copy(&style_line, &lv_style_plain);
+    style_line.line.color = LV_COLOR_MAKE(0x00, 0x3b, 0x75);
+    style_line.line.width = 1;
+    style_line.line.rounded = 1;
+    line1 = mks_lv_set_line(scr, line1, line_points1);
+    lv_line_set_style(line1, LV_LINE_STYLE_MAIN, &style_line);
+    // line2 = mks_lv_set_line(scr, line2, line_points2);
+    // lv_line_set_style(line2, LV_LINE_STYLE_MAIN, &style_line);
+    // line3 = mks_lv_set_line(scr, line3, line_points3);
+    // lv_line_set_style(line3, LV_LINE_STYLE_MAIN, &style_line);
+    // line4 = mks_lv_set_line(scr, line4, line_points4);
+    // lv_line_set_style(line4, LV_LINE_STYLE_MAIN, &style_line);
+
+
+    label_back = mks_lvgl_long_sroll_label_with_wight_set(btn_line1, label_line1, 0, 0, "Motor Pluse", 250);
+
+    mks_lvgl_long_sroll_label_with_wight_set_center(btn_back, label_back, 0, 0, "Back", 100);
 }
+
+
+
+
+
+
+
+
+
+
+void mks_draw_language(void) {
+
+
+}
+
+
+
 
 void mks_clean_main_page(void) {
 	lv_obj_clean(scr);
