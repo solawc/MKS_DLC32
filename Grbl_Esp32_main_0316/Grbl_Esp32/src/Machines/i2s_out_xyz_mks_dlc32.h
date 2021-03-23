@@ -76,6 +76,9 @@
 #define IIC_SCL                     GPIO_NUM_4
 #define IIC_SDA                     GPIO_NUM_0
 
+#define BLTOUCH_PWM                 GPIO_NUM_2
+#define BLTOUCH_READ                GPIO_NUM_2
+
 //sd card spi
 #define GRBL_SPI_SCK 			    GPIO_NUM_14
 #define GRBL_SPI_MISO 			    GPIO_NUM_12

@@ -206,6 +206,11 @@ void protocol_main_loop() {
         if (sys.abort) {
             return;  // Bail to main() program loop to reset system.
         }
+
+        if (mks_grbl.run_status == GRBL_RESTARTING) {
+            return;
+        }
+
         // check to see if we should disable the stepper drivers ... esp32 work around for disable in main loop.
         if (stepper_idle && stepper_idle_lock_time->get() != 0xff) {
             if (esp_timer_get_time() > stepper_idle_counter) {

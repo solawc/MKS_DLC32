@@ -25,6 +25,7 @@
 #include "mks/MKS_I2C.h"
 #include "mks/MKS_LVGL.h"
 #include "mks/MKS_draw_ready.h"
+#include "mks/MKS_ctrl.h"
 
 void grbl_init() {
     pinMode(LCD_EN, OUTPUT);
@@ -105,7 +106,8 @@ static void reset_variables() {
     spindle->stop();
     coolant_init();
     limits_init();
-    probe_init();
+    // probe_init();
+    bltouch_init();
     plan_reset();  // Clear block buffer and planner variables
     st_reset();    // Clear stepper subsystem variables
     // Sync cleared gcode and planner positions to current system position.
@@ -120,6 +122,11 @@ static void reset_variables() {
         disp_task_init();
     }
     mks_motor_unclock();
+    bltouch_duty(20);
+
+    if(mks_grbl.run_status == GRBL_RESTARTING) {
+        mks_grbl.run_status = GRBL_STOP;
+    }
 }
 
 void run_once() {
