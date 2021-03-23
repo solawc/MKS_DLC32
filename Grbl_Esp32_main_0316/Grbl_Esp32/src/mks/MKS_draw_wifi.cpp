@@ -153,10 +153,10 @@ void mks_wifi_connect_check(IPAddress ip) {
     else if(mks_grbl.wifi_connect_status == false)
         lv_label_set_text(label_wifi_connect_status, "Connect Status:disconnect");
 
-    // if(WiFi.getMode() == WIFI_STA)
-    //     lv_label_set_text(label_wifi_mode, "Mode: STA");
-    // else 
-    //    lv_label_set_text(label_wifi_mode, "Mode: AP");
+    if(WiFi.getMode() == WIFI_STA)
+        lv_label_set_text(label_wifi_mode, "Mode: STA");
+    else 
+       lv_label_set_text(label_wifi_mode, "Mode: AP");
 }
 
 

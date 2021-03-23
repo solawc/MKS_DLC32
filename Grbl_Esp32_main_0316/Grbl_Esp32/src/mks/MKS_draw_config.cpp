@@ -348,7 +348,7 @@ void mks_draw_motor_parameters(void) {
 
 
 
-void mks_draw_language(void) {
+void mks_draw_language_config(void) {
 
 
 }
