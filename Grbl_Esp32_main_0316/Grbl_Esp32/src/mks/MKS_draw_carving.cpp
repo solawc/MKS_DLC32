@@ -33,7 +33,9 @@ static lv_obj_t* Label_file_2;
 static lv_obj_t* Label_file_3;
 static lv_obj_t* Label_file_4;
 static lv_obj_t* Label_file_5;
+
 static lv_obj_t* Label_NoFile;
+
 static lv_obj_t* Label_popup_cancel;
 static lv_obj_t* Label_popup_sure;
 static lv_obj_t* Label_popup;
@@ -53,6 +55,11 @@ char file4_name[40];
 char file5_name[40];
 char file_print_send[40];
 
+
+#define FILE_NUM		80
+#define FIEL_NAME		128
+char filename[FILE_NUM][FIEL_NAME];
+
 static void event_handler_up(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
@@ -70,7 +77,6 @@ static void event_handler_up(lv_obj_t* obj, lv_event_t event) {
 			mks_del_file_obj();
 			mks_listDir(SD, "/",1);
 		}
-		
 	}
 }
 

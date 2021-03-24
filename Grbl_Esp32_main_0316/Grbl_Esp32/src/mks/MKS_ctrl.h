@@ -9,4 +9,6 @@
 void bltouch_init(void);
 void mks_motor_move(void);
 void bltouch_duty(uint32_t duty);
+void BLTOUCH_push_down(void);
+void BLTOUCH_push_up(void);
 #endif

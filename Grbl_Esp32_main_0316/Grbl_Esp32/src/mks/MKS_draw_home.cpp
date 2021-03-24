@@ -1,4 +1,5 @@
 #include "MKS_draw_home.h"
+#include "mks_ctrl.h"
 #include "../Grbl.h"
 #include "../Report.h"
 #include "../GCode.h"
@@ -10,6 +11,7 @@ static lv_obj_t* scr;
 lv_obj_t* homg_xy;
 lv_obj_t* x_home;
 lv_obj_t* y_home;
+lv_obj_t* btn_bltouch;
 static lv_obj_t* Back;
 
 /* Label */
@@ -53,6 +55,26 @@ static void event_handler_back(lv_obj_t* obj, lv_event_t event) {
 	}
 }
 
+static uint8_t sss = 0;
+static void event_handler_bltouch(lv_obj_t* obj, lv_event_t event) {
+
+	if (event == LV_EVENT_RELEASED) {
+
+		if(sss==0) {
+			BLTOUCH_push_up();
+			grbl_send(CLIENT_SERIAL, "touch 0");
+			sss = 1-sss;
+		}
+		else {
+			BLTOUCH_push_down();
+			grbl_send(CLIENT_SERIAL, "touch 1");
+			sss = 1-sss;
+		}
+		
+	}
+}
+
+
 void mks_draw_home(void) {
 
 	scr = lv_obj_create(NULL, NULL);
@@ -62,6 +84,8 @@ void mks_draw_home(void) {
 	lv_imgbtn_creat_mks(scr, x_home, &X_home, &X_home, LV_ALIGN_CENTER, -60, -70, event_handler_x_home);
 	lv_imgbtn_creat_mks(scr, y_home, &Y_home, &Y_home, LV_ALIGN_CENTER, 60, -70, event_handler_y_home);
 	lv_imgbtn_creat_mks(scr, Back, &back, &back, LV_ALIGN_CENTER, 180, 90, event_handler_back);
+
+	mks_lv_btn_set(scr ,btn_bltouch, 50,50,60,90,event_handler_bltouch);
 
 	mks_lvgl_label_set(scr, Label_homg_xy, 30, 120, "XY Home");
 	mks_lvgl_label_set(scr, Label_x_home, 160, 120, "X Home");

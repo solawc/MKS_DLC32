@@ -122,7 +122,12 @@ static void reset_variables() {
         disp_task_init();
     }
     mks_motor_unclock();
-    bltouch_duty(20);
+    
+    BLTOUCH_push_up();
+    delay_ms(100);
+    BLTOUCH_push_down();
+
+    
 
     if(mks_grbl.run_status == GRBL_RESTARTING) {
         mks_grbl.run_status = GRBL_STOP;
