@@ -69,6 +69,8 @@ void lv_draw_ready(void) {
     mks_lvgl_label_set(mks_src, label_Carving, 380, 200, "Carving");
 }
 
+
+
 void lv_clean_curren_screen(void) {
     lv_obj_clean(mks_src);
 }

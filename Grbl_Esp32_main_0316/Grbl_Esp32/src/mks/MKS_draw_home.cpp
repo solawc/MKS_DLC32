@@ -55,25 +55,27 @@ static void event_handler_back(lv_obj_t* obj, lv_event_t event) {
 	}
 }
 
-static uint8_t sss = 0;
-static void event_handler_bltouch(lv_obj_t* obj, lv_event_t event) {
+// static uint8_t sss = 0;
+// static void event_handler_bltouch(lv_obj_t* obj, lv_event_t event) {
 
-	if (event == LV_EVENT_RELEASED) {
+// 	if (event == LV_EVENT_RELEASED) {
 
-		if(sss==0) {
-			BLTOUCH_push_up();
-			grbl_send(CLIENT_SERIAL, "touch 0");
-			sss = 1-sss;
-		}
-		else {
-			BLTOUCH_push_down();
-			grbl_send(CLIENT_SERIAL, "touch 1");
-			sss = 1-sss;
-		}
-		
-	}
-}
+// 		// if(sss==0) {
+// 		// 	BLTOUCH_push_up();
+// 		// 	grbl_send(CLIENT_SERIAL, "touch 0");
+// 		// 	sss = 1-sss;
+// 		// }
+// 		// else {
+// 		// 	BLTOUCH_push_down();
+// 		// 	grbl_send(CLIENT_SERIAL, "touch 1");
+// 		// 	sss = 1-sss;
+// 		// }
 
+// 		BLtouch_reset_and_push_up();
+// 		BLTOUCH_push_down();
+// 		grbl_send(CLIENT_SERIAL, "reset");
+// 	}
+// }
 
 void mks_draw_home(void) {
 
@@ -85,14 +87,14 @@ void mks_draw_home(void) {
 	lv_imgbtn_creat_mks(scr, y_home, &Y_home, &Y_home, LV_ALIGN_CENTER, 60, -70, event_handler_y_home);
 	lv_imgbtn_creat_mks(scr, Back, &back, &back, LV_ALIGN_CENTER, 180, 90, event_handler_back);
 
-	mks_lv_btn_set(scr ,btn_bltouch, 50,50,60,90,event_handler_bltouch);
+	// mks_lv_btn_set(scr ,btn_bltouch, 50,50,60,90,event_handler_bltouch);
 
 	mks_lvgl_label_set(scr, Label_homg_xy, 30, 120, "XY Home");
 	mks_lvgl_label_set(scr, Label_x_home, 160, 120, "X Home");
 	mks_lvgl_label_set(scr, Label_y_home, 270, 120, "Y Home");
 	mks_lvgl_label_set(scr, Label_Back, 390, 300, "Back");
-
 }
+
 void mks_clean_home(void) {
 	lv_obj_clean(scr);
 }

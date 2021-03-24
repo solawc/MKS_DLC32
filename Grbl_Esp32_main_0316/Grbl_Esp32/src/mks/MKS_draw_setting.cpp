@@ -23,6 +23,7 @@ LV_IMG_DECLARE(Config);			//先申明此图片
 LV_IMG_DECLARE(back);			//先申明此图片
 LV_IMG_DECLARE(WIFI);			//先申明此图片
 
+LV_IMG_DECLARE(LA);			//先申明此图片
 
 static void event_handler_language(lv_obj_t* obj, lv_event_t event) {
 

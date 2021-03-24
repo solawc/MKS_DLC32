@@ -127,8 +127,6 @@ static void reset_variables() {
     delay_ms(100);
     BLTOUCH_push_down();
 
-    
-
     if(mks_grbl.run_status == GRBL_RESTARTING) {
         mks_grbl.run_status = GRBL_STOP;
     }
