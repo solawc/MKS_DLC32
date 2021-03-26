@@ -7,7 +7,10 @@
 typedef enum {
 
     KB_NONE,
-    /* MT Motor */
+    /* MT Motor */ 
+    KB_MT_PLUSE_M,
+    KB_SPINDLE_FREQ,
+
     KB_MT_RPM_MAX,
     KB_MT_RPM_MIN,
     KB_MT_X_PLUSE,

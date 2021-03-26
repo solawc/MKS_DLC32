@@ -2,9 +2,11 @@
 #define __MKS_LVGL_H
 
 #include "MKS_TS35.h"
+#include "MKS_FREERTOS_TASK.h"
+#include "MKS_ctrl.h"
 #include "lvgl.h"
 #include "../Serial.h"
-#include "MKS_FREERTOS_TASK.h"
+
 
 
 #define MKS_GRBL_CMD_SEND(A)            serila_write_into_buffer((uint8_t *)A)   
@@ -45,6 +47,7 @@ typedef struct{
     GRBL_Language               language;           // 语言设置
     GRBL_LIGHT_STATUS           light_status;       // 灯状态
     GRBL_POWER                  power_length;       // 功率步长设置
+    BLTOUCH_STATUS              bl_status;          // BLTOUCH运行状态
     GRBL_RUN_STATUS_t           run_status;         // 运行状态
     uint8_t                     power_persen;       // 功率百分比
     uint16_t                    cave_speed;         // 雕刻速度
@@ -56,6 +59,7 @@ typedef struct{
     bool                        is_mks_ts35_flag;   // 是否是通过TS35执行的雕刻功能
     bool                        wifi_connect_status;// wifi連接轉態檢測
     bool                        wifi_check_status;  // 是否需要檢測wifi連接
+    
 }GRBL_CRTL;
 extern GRBL_CRTL mks_grbl;
 

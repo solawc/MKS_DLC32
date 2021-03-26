@@ -217,6 +217,7 @@ void protocol_main_loop() {
                 motors_set_disable(true);
             }
         }
+        spindle_check();
     }
     return; /* Never reached */
 }

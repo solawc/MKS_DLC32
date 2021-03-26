@@ -20,7 +20,7 @@
     along with Grbl_ESP32.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#define MACHINE_NAME            "MKS DLC32 V1.04"
+#define MACHINE_NAME            "MKS DLC32 V1.05"
 
 #ifdef N_AXIS
     #undef N_AXIS
@@ -66,8 +66,8 @@
 #define LCD_MISO				    GPIO_NUM_19
 #define LCD_MOSI				    GPIO_NUM_23
 #define LCD_RS					    GPIO_NUM_33
-#define LCD_EN					    GPIO_NUM_5      //I2SO(5)
-#define LCD_RST					    GPIO_NUM_27     //I2SO(6)
+#define LCD_EN					    GPIO_NUM_5     
+#define LCD_RST					    GPIO_NUM_27     
 #define LCD_CS					    GPIO_NUM_25
 
 #define TOUCH_CS				    GPIO_NUM_26
@@ -85,7 +85,8 @@
 #define GRBL_SPI_MOSI 			    GPIO_NUM_13
 #define GRBL_SPI_SS 			    GPIO_NUM_15
 #define SDCARD_DET_PIN 			    GPIO_NUM_39
-#define GRBL_SPI_FREQ 			    4000000
+// #define GRBL_SPI_FREQ 			    4000000
+#define GRBL_SPI_FREQ 			    25000000
 
 // === Default settings
 #define DEFAULT_STEP_PULSE_MICROSECONDS I2S_OUT_USEC_PER_PULSE
@@ -96,7 +97,6 @@
 //#endif
 
 //#define INVERT_CONTROL_PIN_MASK B1110
-
 
 // #define DEFAULT_STEP_PULSE_MICROSECONDS     4
 // #define DEFAULT_STEPPER_IDLE_LOCK_TIME      255 //  255 = Keep steppers on
@@ -132,15 +132,15 @@
 #endif
 #define DEFAULT_SPINDLE_RPM_MIN 0.0 // rpm
 
-#define DEFAULT_LASER_MODE 0 // false
+#define DEFAULT_LASER_MODE 1 // false
 
 #define DEFAULT_X_STEPS_PER_MM 80.0
 #define DEFAULT_Y_STEPS_PER_MM 80.0
 #define DEFAULT_Z_STEPS_PER_MM 80.0
 
-#define DEFAULT_X_MAX_RATE 36000.0 // mm/s
-#define DEFAULT_Y_MAX_RATE 36000.0 // mm/s
-#define DEFAULT_Z_MAX_RATE 36000.0 // mm/s
+#define DEFAULT_X_MAX_RATE 2000.0 // mm/s
+#define DEFAULT_Y_MAX_RATE 2000.0 // mm/s
+#define DEFAULT_Z_MAX_RATE 2000.0 // mm/s
 
 // #define DEFAULT_X_ACCELERATION 10.0 // mm/sec^2
 // #define DEFAULT_Y_ACCELERATION 10.0 // mm/sec^2
@@ -158,4 +158,4 @@
 // #define DEFAULT_Y_MAX_TRAVEL 320 // mm NOTE: Must be a positive value.
 // #define DEFAULT_Z_MAX_TRAVEL 80.0 // mm NOTE: Must be a positive value.
 
-#define DEFAULT_SPINDLE_FREQ    5000.0
+#define DEFAULT_SPINDLE_FREQ    1000.0

@@ -48,8 +48,8 @@ static lv_obj_t *label_back;
 static lv_obj_t *label_next; 
 
 
-static lv_obj_t *keyboard;
-static lv_obj_t *ta;
+static lv_obj_t *kb_config;
+static lv_obj_t *ta_config;
 
 /* Motor parameters */
 // static lv_obj_t *btn_RPM_MAX;            // $30
@@ -141,22 +141,35 @@ static void event_handler_back(lv_obj_t* obj, lv_event_t event) {
 }
 
 
-/* keyboard call back */
-static void event_hanler_kb_callback(lv_obj_t* obj, lv_event_t event) { 
+static void event_handler_kb_cb(lv_obj_t* obj, lv_event_t event) {
 
-    if(event == LV_EVENT_APPLY) {
-
-        const char *ret_ta_txt = lv_ta_get_text(ta);
-        if(kb_flag == KB_NONE) {
-            return;
+    if(obj == kb_config) {
+        lv_kb_def_event_cb(obj, event);
+        if(event == LV_EVENT_VALUE_CHANGED) {
+            
         }
-        else if(kb_flag == KB_MT_RPM_MAX) {
+        else if(event == LV_EVENT_APPLY) {
 
+            if(kb_flag == KB_MT_PLUSE_M) {   //脉冲长度设置
+                char cmd[10] = "$0=";
+                char cmd_n[2]="\n";
+                strcpy(cmd,lv_ta_get_text(ta_config));   
+                strcat(cmd, cmd_n);
+                grbl_sendf(CLIENT_SERIAL, cmd);
+                MKS_GRBL_CMD_SEND(cmd);
+            }
+            else if(kb_flag == KB_SPINDLE_FREQ) { 
+            
+            
+            
+            }
+            lv_obj_del(kb_config);
+            lv_obj_del(ta_config);
         }
-    }   
+    }
 }
 
-void mks_draw_config_main_page(void) { 
+void mks_draw_config_main_page(void) {     //设置主页
 
     scr = lv_obj_create(NULL, NULL);
 	scr = lv_scr_act();
@@ -222,6 +235,29 @@ static void event_handler_ME_back(lv_obj_t* obj, lv_event_t event) {
 	}
 }
 
+
+static void event_handler_ME_Pluse(lv_obj_t* obj, lv_event_t event) {    
+
+	if (event == LV_EVENT_RELEASED) {
+        kb_flag = KB_MT_PLUSE_M;
+        kb_config = mks_lv_set_kb(scr, kb_config, event_handler_kb_cb);
+        ta_config = mks_lv_set_ta(scr ,ta_config, kb_config);
+	}
+}
+
+static void event_handler_ME_Spindle_freq(lv_obj_t* obj, lv_event_t event) {
+	if (event == LV_EVENT_RELEASED) {
+
+	}
+}
+
+static void event_handler_ME_LaserMode(lv_obj_t* obj, lv_event_t event) {
+	if (event == LV_EVENT_RELEASED) {
+
+	}
+}
+
+
 /* 机械参数 */
 void mks_draw_Mechan(void) {
 
@@ -235,8 +271,8 @@ void mks_draw_Mechan(void) {
     btn_press_style.text.color = LV_COLOR_WHITE;
 
     // /* 创建按键 */
-    btn_line1 = mks_lv_btn_set(scr, btn_line1,  250, 40, 10, 0   ,event_handler_Me_par);
-    btn_line2 = mks_lv_btn_set(scr, btn_line2,  250, 40, 10, 50  ,event_handler_Me_par);
+    btn_line1 = mks_lv_btn_set(scr, btn_line1,  250, 40, 10, 0   ,event_handler_ME_Pluse);
+    btn_line2 = mks_lv_btn_set(scr, btn_line2,  250, 40, 10, 50  ,event_handler_ME_Spindle_freq);
     btn_line3 = mks_lv_btn_set(scr, btn_line3,  250, 40, 10, 100 ,event_handler_Me_par);
     btn_back =  mks_lv_btn_set(scr, btn_back,   100, 40, 400, 250 ,event_handler_ME_back);
 
@@ -262,8 +298,8 @@ void mks_draw_Mechan(void) {
     lv_line_set_style(line2, LV_LINE_STYLE_MAIN, &style_line);
     line3 = mks_lv_set_line(scr, line3, line_points3);
     lv_line_set_style(line3, LV_LINE_STYLE_MAIN, &style_line);
-    line4 = mks_lv_set_line(scr, line4, line_points4);
-    lv_line_set_style(line4, LV_LINE_STYLE_MAIN, &style_line);
+    // line4 = mks_lv_set_line(scr, line4, line_points4);
+    // lv_line_set_style(line4, LV_LINE_STYLE_MAIN, &style_line);
     
     // /* 创建label */
     mks_lvgl_long_sroll_label_with_wight_set(btn_line1, label_line1, 0, 0,"Pluse",250);
@@ -271,7 +307,6 @@ void mks_draw_Mechan(void) {
     mks_lvgl_long_sroll_label_with_wight_set(btn_line3, label_line3, 0, 0, "Laser Mode",250);
     mks_lvgl_long_sroll_label_with_wight_set_center(btn_back, label_back, 0, 0, "Back", 100);
 }
-
 
 
 
@@ -303,12 +338,9 @@ void mks_draw_motor_parameters(void) {
     btn_press_style.body.opa = LV_OPA_COVER;//设置背景色完全不透明
     btn_press_style.text.color = LV_COLOR_WHITE;
 
-
-
     btn_line1 = mks_lv_btn_set(scr, btn_line1,  250, 40, 10, 0   ,event_handler_MT_Pluse);
     // btn_line2 = mks_lv_btn_set(scr, btn_line2,  250, 40, 10, 50  ,event_handler_Me_par);
     // btn_line3 = mks_lv_btn_set(scr, btn_line3,  250, 40, 10, 100 ,event_handler_Me_par);    
-
     btn_back =  mks_lv_btn_set(scr, btn_back,   100, 40, 400, 250 ,event_handler_MP_back);
     
 
@@ -337,9 +369,6 @@ void mks_draw_motor_parameters(void) {
 
     mks_lvgl_long_sroll_label_with_wight_set_center(btn_back, label_back, 0, 0, "Back", 100);
 }
-
-
-
 
 
 

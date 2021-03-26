@@ -188,7 +188,7 @@
 #endif
 
 #ifndef DEFAULT_SPINDLE_MAX_VALUE
-#    define DEFAULT_SPINDLE_MAX_VALUE 100.0  // $36 Percent of full period (extended set)
+#    define DEFAULT_SPINDLE_MAX_VALUE 1000.0  // $36 Percent of full period (extended set)
 #endif
 
 #ifndef DEFAULT_SPINDLE_DELAY_SPINUP
