@@ -70,17 +70,21 @@ void mks_draw_setting(void) {
 	scr = lv_obj_create(NULL, NULL);
 	scr = lv_scr_act();
 
-	lv_imgbtn_creat_mks(scr, languages, &Languages, &Languages, LV_ALIGN_CENTER, -180, -70, event_handler_language);
-	lv_imgbtn_creat_mks(scr, about, &About, &About, LV_ALIGN_CENTER, -60, -70, event_handler_about);
-	lv_imgbtn_creat_mks(scr, config, &Config, &Config, LV_ALIGN_CENTER, 60, -70, event_handler_config);
-	lv_imgbtn_creat_mks(scr, Back, &back, &back, LV_ALIGN_CENTER, 180, 90, event_handler_back);
-	lv_imgbtn_creat_mks(scr, wifi_set, &WIFI, &WIFI, LV_ALIGN_CENTER, 180, -70, event_handler_wifi);
+	// lv_imgbtn_creat_mks(scr, languages, &Languages, &Languages, LV_ALIGN_CENTER, -180, -70, event_handler_language);
+	// lv_imgbtn_creat_mks(scr, about, &About, &About, LV_ALIGN_CENTER, -60, -70, event_handler_about);
+	// lv_imgbtn_creat_mks(scr, config, &Config, &Config, LV_ALIGN_CENTER, 60, -70, event_handler_config);
+	// lv_imgbtn_creat_mks(scr, Back, &back, &back, LV_ALIGN_CENTER, 180, 90, event_handler_back);
+	// lv_imgbtn_creat_mks(scr, wifi_set, &WIFI, &WIFI, LV_ALIGN_CENTER, 180, -70, event_handler_wifi);
 
-	mks_lvgl_label_set(scr, Label_languages, 20, 120, "#ffffff Language#");
-	mks_lvgl_label_set(scr, Label_about, 150, 120, "#ffffff About#");
-	mks_lvgl_label_set(scr, Label_config, 280, 120, "#ffffff Config#");
-	label_wifi = mks_lvgl_label_set(scr, label_wifi, 410, 120, "WIFI");
-	mks_lvgl_label_set(scr, Label_back, 400, 280, "#ffffff Back#");
+	// mks_lvgl_label_set(scr, Label_languages, 20, 120, "#ffffff Language#");
+	// mks_lvgl_label_set(scr, Label_about, 150, 120, "#ffffff About#");
+	// mks_lvgl_label_set(scr, Label_config, 280, 120, "#ffffff Config#");
+	// label_wifi = mks_lvgl_label_set(scr, label_wifi, 410, 120, "WIFI");
+	// mks_lvgl_label_set(scr, Label_back, 400, 280, "#ffffff Back#");
+	lv_obj_t * icon = lv_img_create(lv_scr_act(), NULL);
+
+	/*From variable*/
+	lv_img_set_src(icon, &LA);
 }
 
 void mks_clear_setting(void) {
