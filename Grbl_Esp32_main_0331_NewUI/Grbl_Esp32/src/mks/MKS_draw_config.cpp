@@ -1,6 +1,6 @@
 #include "MKS_draw_config.h"
 
-static lv_obj_t *scr;
+// static lv_obj_t *scr;
 
 static kb_event_flag kb_flag = KB_NONE;
 
@@ -136,7 +136,7 @@ static void event_handler_back(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
 		mks_clean_main_page();
-		mks_draw_setting();
+        mks_draw_ready();
 	}
 }
 
@@ -171,22 +171,22 @@ static void event_handler_kb_cb(lv_obj_t* obj, lv_event_t event) {
 
 void mks_draw_config_main_page(void) {     //设置主页
 
-    scr = lv_obj_create(NULL, NULL);
-	scr = lv_scr_act();
+    mks_src = lv_obj_create(NULL, NULL);
+	mks_src = lv_scr_act();
 
     lv_style_copy(&btn_press_style, &lv_style_scr);
-    btn_press_style.body.main_color = LV_COLOR_MAKE(0x1A, 0x1A, 0x1A);
-    btn_press_style.body.grad_color = LV_COLOR_MAKE(0x1A, 0x1A, 0x1A);
+    btn_press_style.body.main_color = LV_COLOR_MAKE(0x13, 0x12, 0x1A);
+    btn_press_style.body.grad_color = LV_COLOR_MAKE(0x13, 0x12, 0x1A);
     btn_press_style.body.opa = LV_OPA_COVER;//设置背景色完全不透明
     btn_press_style.text.color = LV_COLOR_WHITE;
 
     /* 创建按键 */
-    btn_line1 = mks_lv_btn_set(scr, btn_line1,  470, 40, 0, 0 , event_handler_Me_par);      //  机器参数
-    btn_line2 = mks_lv_btn_set(scr, btn_line2,  470, 40, 0, 50 ,event_handler_MT_par);      //  电机参数
-    btn_line3 = mks_lv_btn_set(scr, btn_line3,  470, 40, 0, 100 ,event_handler_MD_par);     //  激光模式
-    btn_line4 = mks_lv_btn_set(scr, btn_line4,  470, 40, 0, 150 ,event_handler_language);   //  语言
-    btn_line5 = mks_lv_btn_set(scr, btn_line5,  470, 40, 0, 200 ,event_handler_format);     //  网页格式化
-    btn_back =  mks_lv_btn_set(scr, btn_back,   100, 40, 400, 250 ,event_handler_back);     
+    btn_line1 = mks_lv_btn_set(mks_src, btn_line1,  470, 40, 0, 0 , event_handler_Me_par);      //  机器参数
+    btn_line2 = mks_lv_btn_set(mks_src, btn_line2,  470, 40, 0, 50 ,event_handler_MT_par);      //  电机参数
+    btn_line3 = mks_lv_btn_set(mks_src, btn_line3,  470, 40, 0, 100 ,event_handler_MD_par);     //  激光模式
+    btn_line4 = mks_lv_btn_set(mks_src, btn_line4,  470, 40, 0, 150 ,event_handler_language);   //  语言
+    btn_line5 = mks_lv_btn_set(mks_src, btn_line5,  470, 40, 0, 200 ,event_handler_format);     //  网页格式化
+    btn_back =  mks_lv_btn_set(mks_src, btn_back,   100, 40, 400, 250 ,event_handler_back);     
 
     lv_btn_set_style(btn_line1, LV_BTN_STYLE_REL, &btn_press_style);
     lv_btn_set_style(btn_line1,LV_BTN_STYLE_PR,&btn_press_style);
@@ -210,13 +210,13 @@ void mks_draw_config_main_page(void) {     //设置主页
     style_line.line.color = LV_COLOR_MAKE(0x00, 0x3b, 0x75);
     style_line.line.width = 1;
     style_line.line.rounded = 1;
-    line1 = mks_lv_set_line(scr, line1, line_points1);
+    line1 = mks_lv_set_line(mks_src, line1, line_points1);
     lv_line_set_style(line1, LV_LINE_STYLE_MAIN, &style_line);
-    line2 = mks_lv_set_line(scr, line2, line_points2);
+    line2 = mks_lv_set_line(mks_src, line2, line_points2);
     lv_line_set_style(line2, LV_LINE_STYLE_MAIN, &style_line);
-    line3 = mks_lv_set_line(scr, line3, line_points3);
+    line3 = mks_lv_set_line(mks_src, line3, line_points3);
     lv_line_set_style(line3, LV_LINE_STYLE_MAIN, &style_line);
-    line4 = mks_lv_set_line(scr, line4, line_points4);
+    line4 = mks_lv_set_line(mks_src, line4, line_points4);
     lv_line_set_style(line4, LV_LINE_STYLE_MAIN, &style_line);
 
     /* 创建label */
@@ -240,8 +240,8 @@ static void event_handler_ME_Pluse(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
         kb_flag = KB_MT_PLUSE_M;
-        kb_config = mks_lv_set_kb(scr, kb_config, event_handler_kb_cb);
-        ta_config = mks_lv_set_ta(scr ,ta_config, kb_config);
+        kb_config = mks_lv_set_kb(mks_src, kb_config, event_handler_kb_cb);
+        ta_config = mks_lv_set_ta(mks_src ,ta_config, kb_config);
 	}
 }
 
@@ -261,20 +261,20 @@ static void event_handler_ME_LaserMode(lv_obj_t* obj, lv_event_t event) {
 /* 机械参数 */
 void mks_draw_Mechan(void) {
 
-    scr = lv_obj_create(NULL, NULL);
-	scr = lv_scr_act();
+    mks_src = lv_obj_create(NULL, NULL);
+	mks_src = lv_scr_act();
 
     lv_style_copy(&btn_press_style, &lv_style_scr);
-    btn_press_style.body.main_color = LV_COLOR_MAKE(0x1A, 0x1A, 0x1A);
-    btn_press_style.body.grad_color = LV_COLOR_MAKE(0x1A, 0x1A, 0x1A);
+    btn_press_style.body.main_color = LV_COLOR_MAKE(0x13, 0x12, 0x1A);
+    btn_press_style.body.grad_color = LV_COLOR_MAKE(0x13, 0x12, 0x1A);
     btn_press_style.body.opa = LV_OPA_COVER;//设置背景色完全不透明
     btn_press_style.text.color = LV_COLOR_WHITE;
 
     // /* 创建按键 */
-    btn_line1 = mks_lv_btn_set(scr, btn_line1,  250, 40, 10, 0   ,event_handler_ME_Pluse);
-    btn_line2 = mks_lv_btn_set(scr, btn_line2,  250, 40, 10, 50  ,event_handler_ME_Spindle_freq);
-    btn_line3 = mks_lv_btn_set(scr, btn_line3,  250, 40, 10, 100 ,event_handler_Me_par);
-    btn_back =  mks_lv_btn_set(scr, btn_back,   100, 40, 400, 250 ,event_handler_ME_back);
+    btn_line1 = mks_lv_btn_set(mks_src, btn_line1,  250, 40, 10, 0   ,event_handler_ME_Pluse);
+    btn_line2 = mks_lv_btn_set(mks_src, btn_line2,  250, 40, 10, 50  ,event_handler_ME_Spindle_freq);
+    btn_line3 = mks_lv_btn_set(mks_src, btn_line3,  250, 40, 10, 100 ,event_handler_Me_par);
+    btn_back =  mks_lv_btn_set(mks_src, btn_back,   100, 40, 400, 250 ,event_handler_ME_back);
 
     lv_btn_set_style(btn_line1, LV_BTN_STYLE_REL, &btn_press_style);
     lv_btn_set_style(btn_line1,LV_BTN_STYLE_PR,&btn_press_style);
@@ -292,11 +292,12 @@ void mks_draw_Mechan(void) {
     style_line.line.color = LV_COLOR_MAKE(0x00, 0x3b, 0x75);
     style_line.line.width = 1;
     style_line.line.rounded = 1;
-    line1 = mks_lv_set_line(scr, line1, line_points1);
+    
+    line1 = mks_lv_set_line(mks_src, line1, line_points1);
     lv_line_set_style(line1, LV_LINE_STYLE_MAIN, &style_line);
-    line2 = mks_lv_set_line(scr, line2, line_points2);
+    line2 = mks_lv_set_line(mks_src, line2, line_points2);
     lv_line_set_style(line2, LV_LINE_STYLE_MAIN, &style_line);
-    line3 = mks_lv_set_line(scr, line3, line_points3);
+    line3 = mks_lv_set_line(mks_src, line3, line_points3);
     lv_line_set_style(line3, LV_LINE_STYLE_MAIN, &style_line);
     // line4 = mks_lv_set_line(scr, line4, line_points4);
     // lv_line_set_style(line4, LV_LINE_STYLE_MAIN, &style_line);
@@ -329,19 +330,19 @@ static void event_handler_MP_back(lv_obj_t* obj, lv_event_t event) {
 /* 电机参数 */
 void mks_draw_motor_parameters(void) { 
 
-    scr = lv_obj_create(NULL, NULL);
-	scr = lv_scr_act();
+    mks_src = lv_obj_create(NULL, NULL);
+	mks_src = lv_scr_act();
 
     lv_style_copy(&btn_press_style, &lv_style_scr);
-    btn_press_style.body.main_color = LV_COLOR_MAKE(0x1A, 0x1A, 0x1A);
-    btn_press_style.body.grad_color = LV_COLOR_MAKE(0x1A, 0x1A, 0x1A);
+    btn_press_style.body.main_color = LV_COLOR_MAKE(0x13, 0x12, 0x1A);
+    btn_press_style.body.grad_color = LV_COLOR_MAKE(0x13, 0x12, 0x1A);
     btn_press_style.body.opa = LV_OPA_COVER;//设置背景色完全不透明
     btn_press_style.text.color = LV_COLOR_WHITE;
 
-    btn_line1 = mks_lv_btn_set(scr, btn_line1,  250, 40, 10, 0   ,event_handler_MT_Pluse);
+    btn_line1 = mks_lv_btn_set(mks_src, btn_line1,  250, 40, 10, 0   ,event_handler_MT_Pluse);
     // btn_line2 = mks_lv_btn_set(scr, btn_line2,  250, 40, 10, 50  ,event_handler_Me_par);
     // btn_line3 = mks_lv_btn_set(scr, btn_line3,  250, 40, 10, 100 ,event_handler_Me_par);    
-    btn_back =  mks_lv_btn_set(scr, btn_back,   100, 40, 400, 250 ,event_handler_MP_back);
+    btn_back =  mks_lv_btn_set(mks_src, btn_back,   100, 40, 400, 250 ,event_handler_MP_back);
     
 
 
@@ -355,7 +356,7 @@ void mks_draw_motor_parameters(void) {
     style_line.line.color = LV_COLOR_MAKE(0x00, 0x3b, 0x75);
     style_line.line.width = 1;
     style_line.line.rounded = 1;
-    line1 = mks_lv_set_line(scr, line1, line_points1);
+    line1 = mks_lv_set_line(mks_src, line1, line_points1);
     lv_line_set_style(line1, LV_LINE_STYLE_MAIN, &style_line);
     // line2 = mks_lv_set_line(scr, line2, line_points2);
     // lv_line_set_style(line2, LV_LINE_STYLE_MAIN, &style_line);
@@ -383,9 +384,8 @@ void mks_draw_language_config(void) {
 
 
 
-
 void mks_clean_main_page(void) {
-	lv_obj_clean(scr);
+	lv_obj_clean(mks_src);
 }
 
 
