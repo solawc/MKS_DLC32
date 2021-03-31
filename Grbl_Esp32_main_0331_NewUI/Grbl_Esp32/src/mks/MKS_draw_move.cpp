@@ -230,16 +230,15 @@ void mks_draw_move(void) {
 
 	
 
-	lv_imgbtn_creat_mks(tool_scr, Back, &back, &back, LV_ALIGN_IN_LEFT_MID, 10, 0 , event_handler_back);
-
-    lv_imgbtn_creat_mks(tool_scr, m_unlock, &Unlock, &Unlock, LV_ALIGN_CENTER, -10, 0, event_handler_unlock);
-	lv_imgbtn_creat_mks(tool_scr, home, &Home, &Home, LV_ALIGN_CENTER, 90, 0, event_handler_home);
-	lv_imgbtn_creat_mks(tool_scr, postivs, &Positionting, &Positionting, LV_ALIGN_CENTER, 190, 0, event_handler_pos);
+	lv_imgbtn_creat_mks(tool_scr, Back, &back, &back, LV_ALIGN_IN_LEFT_MID, 10, -10 , event_handler_back);
+    lv_imgbtn_creat_mks(tool_scr, m_unlock, &Unlock, &Unlock, LV_ALIGN_CENTER, -10, -10, event_handler_unlock);
+	lv_imgbtn_creat_mks(tool_scr, home, &Home, &Home, LV_ALIGN_CENTER, 90, -10, event_handler_home);
+	lv_imgbtn_creat_mks(tool_scr, postivs, &Positionting, &Positionting, LV_ALIGN_CENTER, 190, -10, event_handler_pos);
 
 	lv_imgbtn_creat_mks(move_scr, x_n, &X_N, &X_N, LV_ALIGN_CENTER, 0, -50, event_handler_x_n);
     lv_imgbtn_creat_mks(move_scr, x_p, &X_P, &X_P, LV_ALIGN_CENTER, 0, 50, event_handler_x_p);
-    lv_imgbtn_creat_mks(move_scr, y_n, &Y_N, &Y_N, LV_ALIGN_CENTER, 100, 0, event_handler_y_n);
-    lv_imgbtn_creat_mks(move_scr, y_p, &Y_P, &Y_P, LV_ALIGN_CENTER, -100, 0, event_handler_y_p);
+    lv_imgbtn_creat_mks(move_scr, y_n, &Y_N, &Y_N, LV_ALIGN_CENTER, 90, 0, event_handler_y_n);
+    lv_imgbtn_creat_mks(move_scr, y_p, &Y_P, &Y_P, LV_ALIGN_CENTER, -90, 0, event_handler_y_p);
 
 	/* 按键样式 */
 	lv_style_copy(&btn_color, &lv_style_scr);
@@ -250,9 +249,9 @@ void mks_draw_move(void) {
 	btn_color.body.radius = 10;
 
 	/* 按键创建 */
-	btn_len_0_1 = mks_lv_btn_set(dist_scr, btn_len_0_1, 80, 40, 50, 30, event_handler_dis_0_1);
+	btn_len_0_1 = mks_lv_btn_set(dist_scr, btn_len_0_1, 80, 40, 50, 20, event_handler_dis_0_1);
 	btn_len_1 = mks_lv_btn_set(dist_scr, btn_len_1, 80, 40, 50, 80, event_handler_dis_0_1);
-	btn_len_10 = mks_lv_btn_set(dist_scr, btn_len_10, 80, 40, 50, 130, event_handler_dis_0_1);
+	btn_len_10 = mks_lv_btn_set(dist_scr, btn_len_10, 80, 40, 50, 140, event_handler_dis_0_1);
 
 	lv_btn_set_style(btn_len_0_1, LV_BTN_STYLE_REL, &btn_color);
     lv_btn_set_style(btn_len_0_1,LV_BTN_STYLE_PR,&btn_color);

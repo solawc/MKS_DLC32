@@ -102,7 +102,7 @@ void mks_draw_ready(void) {
     btn_wifi_color.body.grad_color = LV_COLOR_MAKE(0x13, 0x12, 0x1A);
     btn_wifi_color.body.opa = LV_OPA_COVER;//设置背景色完全不透明
     btn_wifi_color.text.color = LV_COLOR_WHITE;
-    btn_wifi = mks_lv_btn_set(mks_src, btn_wifi, 20,30, 150 ,0, event_handler_wifi);
+    btn_wifi = mks_lv_btn_set(mks_src, btn_wifi, 200,30, 20 ,0, event_handler_wifi);
     lv_btn_set_style(btn_wifi, LV_BTN_STYLE_REL, &btn_wifi_color);
     lv_btn_set_style(btn_wifi,LV_BTN_STYLE_PR,&btn_wifi_color);
 
