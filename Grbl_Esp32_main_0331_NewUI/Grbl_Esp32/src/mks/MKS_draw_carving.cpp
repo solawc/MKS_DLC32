@@ -4,7 +4,8 @@
 #include "../SDCard.h"
 
  /* Screan Build */
-static lv_obj_t* scr;
+// static lv_obj_t* scr;
+
 static lv_obj_t* caving_Popup;
 
 /* style */
@@ -56,7 +57,7 @@ char file5_name[40];
 char file_print_send[40];
 
 
-#define FILE_NUM		80
+#define FILE_NUM		8
 #define FIEL_NAME		128
 char filename[FILE_NUM][FIEL_NAME];
 
@@ -109,7 +110,7 @@ static void event_handler_cback(lv_obj_t* obj, lv_event_t event) {
 
 static void event_handler_file0(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
-		grbl_sendf(CLIENT_SERIAL, "file0_name111:%s\n",file0_name);
+		// grbl_sendf(CLIENT_SERIAL, "file0_name111:%s\n",file0_name);
 		mks_draw_caving_popup(file0_name);
 	}
 }
@@ -165,61 +166,61 @@ void mks_draw_craving(void) {
 
 void mks_draw_sd_file(uint8_t status, uint8_t file_num, const char *filename) { 
 
-	switch(file_num) {
-		case 0: 
-			if(status == 0) 
-				file_0 = lv_imgbtn_creat_mks(scr, file_0, &FileDir, &FileDir, LV_ALIGN_CENTER, -180, -70, event_handler_file0);
-			else 
-				file_0 = lv_imgbtn_creat_mks(scr, file_0, &Files, &Files, LV_ALIGN_CENTER, -180, -70, event_handler_file0);
-			Label_file_0 = mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_0, 20, 110, filename, 100);
-			memcpy(file0_name, filename, 40);
-		break;
+	// switch(file_num) {
+	// 	case 0: 
+	// 		if(status == 0) 
+	// 			file_0 = lv_imgbtn_creat_mks(scr, file_0, &FileDir, &FileDir, LV_ALIGN_CENTER, -180, -70, event_handler_file0);
+	// 		else 
+	// 			file_0 = lv_imgbtn_creat_mks(scr, file_0, &Files, &Files, LV_ALIGN_CENTER, -180, -70, event_handler_file0);
+	// 		Label_file_0 = mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_0, 20, 110, filename, 100);
+	// 		memcpy(file0_name, filename, 40);
+	// 	break;
 
-		case 1:
-			if(status == 0) 
-				file_1 = lv_imgbtn_creat_mks(scr, file_1, &FileDir, &FileDir, LV_ALIGN_CENTER, -60, -70, event_handler_file1);
-			else 
-				file_1 = lv_imgbtn_creat_mks(scr, file_1, &Files, &Files, LV_ALIGN_CENTER, -60, -70, event_handler_file1);
-			Label_file_1 = mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_1, 150, 110, filename, 100);
-			memcpy(file1_name, filename, 40);
-		break;
+	// 	case 1:
+	// 		if(status == 0) 
+	// 			file_1 = lv_imgbtn_creat_mks(scr, file_1, &FileDir, &FileDir, LV_ALIGN_CENTER, -60, -70, event_handler_file1);
+	// 		else 
+	// 			file_1 = lv_imgbtn_creat_mks(scr, file_1, &Files, &Files, LV_ALIGN_CENTER, -60, -70, event_handler_file1);
+	// 		Label_file_1 = mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_1, 150, 110, filename, 100);
+	// 		memcpy(file1_name, filename, 40);
+	// 	break;
 
-		case 2:
-			if(status == 0) 
-				file_2 = lv_imgbtn_creat_mks(scr, file_2, &FileDir, &FileDir, LV_ALIGN_CENTER, 60, -70, event_handler_file2);
-			else 
-				file_2 = lv_imgbtn_creat_mks(scr, file_2, &Files, &Files, LV_ALIGN_CENTER, 60, -70, event_handler_file2);
-			Label_file_2 = mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_2, 260, 110, filename, 100);
-			memcpy(file2_name, filename, 40);
-		break;
+	// 	case 2:
+	// 		if(status == 0) 
+	// 			file_2 = lv_imgbtn_creat_mks(scr, file_2, &FileDir, &FileDir, LV_ALIGN_CENTER, 60, -70, event_handler_file2);
+	// 		else 
+	// 			file_2 = lv_imgbtn_creat_mks(scr, file_2, &Files, &Files, LV_ALIGN_CENTER, 60, -70, event_handler_file2);
+	// 		Label_file_2 = mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_2, 260, 110, filename, 100);
+	// 		memcpy(file2_name, filename, 40);
+	// 	break;
 
-		case 3:
-			if(status == 0) 
-				file_3 = lv_imgbtn_creat_mks(scr, file_3, &FileDir, &FileDir, LV_ALIGN_CENTER, -180, 90, event_handler_file3);
-			else 
-				file_3 = lv_imgbtn_creat_mks(scr, file_3, &Files, &Files, LV_ALIGN_CENTER, -180, 90, event_handler_file3);
-			Label_file_3 = mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_3, 20, 280, filename, 100);
-			memcpy(file3_name, filename, 40);
-		break;
+	// 	case 3:
+	// 		if(status == 0) 
+	// 			file_3 = lv_imgbtn_creat_mks(scr, file_3, &FileDir, &FileDir, LV_ALIGN_CENTER, -180, 90, event_handler_file3);
+	// 		else 
+	// 			file_3 = lv_imgbtn_creat_mks(scr, file_3, &Files, &Files, LV_ALIGN_CENTER, -180, 90, event_handler_file3);
+	// 		Label_file_3 = mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_3, 20, 280, filename, 100);
+	// 		memcpy(file3_name, filename, 40);
+	// 	break;
 
-		case 4:
-			if(status == 0) 
-				file_4 = lv_imgbtn_creat_mks(scr, file_4, &FileDir, &FileDir, LV_ALIGN_CENTER, -60, 90, event_handler_file4);
-			else 
-				file_4 = lv_imgbtn_creat_mks(scr, file_4, &Files, &Files, LV_ALIGN_CENTER, -60, 90, event_handler_file4);
-			Label_file_4 = mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_4, 150, 280, filename, 100);
-			memcpy(file4_name, filename, 40);
-		break;
+	// 	case 4:
+	// 		if(status == 0) 
+	// 			file_4 = lv_imgbtn_creat_mks(scr, file_4, &FileDir, &FileDir, LV_ALIGN_CENTER, -60, 90, event_handler_file4);
+	// 		else 
+	// 			file_4 = lv_imgbtn_creat_mks(scr, file_4, &Files, &Files, LV_ALIGN_CENTER, -60, 90, event_handler_file4);
+	// 		Label_file_4 = mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_4, 150, 280, filename, 100);
+	// 		memcpy(file4_name, filename, 40);
+	// 	break;
 
-		case 5:
-			if(status == 0) 
-				file_5 = lv_imgbtn_creat_mks(scr, file_5, &FileDir, &FileDir, LV_ALIGN_CENTER, 60, 90, event_handler_file5);
-			else 
-				file_5 = lv_imgbtn_creat_mks(scr, file_5, &Files, &Files, LV_ALIGN_CENTER, 60, 90, event_handler_file5);
-			Label_file_5 = mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_5, 260, 280, filename, 100);
-			memcpy(file5_name, filename, 40);
-		break;
-	}
+	// 	case 5:
+	// 		if(status == 0) 
+	// 			file_5 = lv_imgbtn_creat_mks(scr, file_5, &FileDir, &FileDir, LV_ALIGN_CENTER, 60, 90, event_handler_file5);
+	// 		else 
+	// 			file_5 = lv_imgbtn_creat_mks(scr, file_5, &Files, &Files, LV_ALIGN_CENTER, 60, 90, event_handler_file5);
+	// 		Label_file_5 = mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_5, 260, 280, filename, 100);
+	// 		memcpy(file5_name, filename, 40);
+	// 	break;
+	// }
 }
 
 void mks_del_file_obj(void) {
