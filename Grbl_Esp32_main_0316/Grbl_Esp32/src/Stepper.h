@@ -25,7 +25,8 @@
 */
 
 #ifndef SEGMENT_BUFFER_SIZE
-#    define SEGMENT_BUFFER_SIZE 6
+// #    define SEGMENT_BUFFER_SIZE 6
+#    define SEGMENT_BUFFER_SIZE 20
 #endif
 
 #include "Grbl.h"

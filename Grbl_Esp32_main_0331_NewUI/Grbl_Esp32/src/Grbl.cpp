@@ -116,11 +116,11 @@ static void reset_variables() {
     report_init_message(CLIENT_ALL);
 
     /*LCD---GUI*/
-    // if(!lcd_init_status) {
-    //     lcd_init_status = true;
-    //     tft_TS35_init();
-    //     disp_task_init();
-    // }
+    if(!lcd_init_status) {
+        lcd_init_status = true;
+        tft_TS35_init();
+        disp_task_init();
+    }
     mks_motor_unclock();
     spindle_check_init();
     
