@@ -31,10 +31,11 @@ static lv_obj_t* label_Back;
 
 
 
-LV_IMG_DECLARE(Add);			//强光
-LV_IMG_DECLARE(Dec);			//弱光
-LV_IMG_DECLARE(Pwr_1);			//开
-LV_IMG_DECLARE(Pwr_10);			//关
+LV_IMG_DECLARE(glare);			//强光
+LV_IMG_DECLARE(Low_light);		//弱光
+LV_IMG_DECLARE(pwroff);			//开
+LV_IMG_DECLARE(pwron);			//关
+LV_IMG_DECLARE(Calibration);			//Z回零
 LV_IMG_DECLARE(back);			//返回
 
 
@@ -119,6 +120,7 @@ static void event_handler_Back(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
 		mks_clear_power();
+		mks_draw_ready();
 		// lv_draw_tool();
 	}
 }
@@ -131,12 +133,12 @@ void mks_draw_power(void) {
 	mks_src = lv_scr_act();
 
 	p_scr1 = lv_obj_create(mks_src, NULL);
-	lv_obj_set_size(p_scr1, 459, 100);
+	lv_obj_set_size(p_scr1, 459, 90);
     lv_obj_set_pos(p_scr1, 10, 10);
 
 	p_scr2 = lv_obj_create(mks_src, NULL);
-	lv_obj_set_size(p_scr1, 459, 200);
-    lv_obj_set_pos(p_scr1, 10, 110);
+	lv_obj_set_size(p_scr2, 459, 200);
+    lv_obj_set_pos(p_scr2, 10, 110);
 
 	/* 设置背景样式 */
 	lv_style_copy(&p_bkl_color, &lv_style_scr);
@@ -147,20 +149,16 @@ void mks_draw_power(void) {
     lv_obj_set_style(p_scr1, &p_bkl_color);
 	lv_obj_set_style(p_scr2, &p_bkl_color);
 
+	Back = lv_imgbtn_creat_mks(p_scr1, Back, &back, &back, LV_ALIGN_IN_LEFT_MID, 10, -10, event_handler_Back);
+	cailb = lv_imgbtn_creat_mks(p_scr1, cailb, &Calibration, &Calibration, LV_ALIGN_CENTER,150, -10, event_handler_cailb);
 
-	lv_imgbtn_creat_mks(p_scr1, Back, &back, &back, LV_ALIGN_IN_LEFT_MID, 10, -10, event_handler_Back);
-	// lv_imgbtn_creat_mks(p_scr1, cailb, &Control, &Control, LV_ALIGN_CENTER,-50, -10, event_handler_cailb);
+	pwr_on_off = lv_imgbtn_creat_mks(p_scr2, pwr_on_off, &pwroff, &pwroff, LV_ALIGN_CENTER,80, 0, event_handler_pwr_on_off);
+	pwr_h_l = lv_imgbtn_creat_mks(p_scr2, pwr_h_l, &glare, &glare, LV_ALIGN_CENTER,-80, 0, event_handler_pwr_h_l);
 
-	// pwr_on_off = lv_imgbtn_creat_mks(p_scr2, pwr_on_off, &Control, &Control, LV_ALIGN_CENTER,-50, -10, event_handler_pwr_on_off);
-	// pwr_h_l = lv_imgbtn_creat_mks(p_scr2, pwr_h_l, &Control, &Control, LV_ALIGN_CENTER,-50, -10, event_handler_pwr_h_l);
+	label_Back = mks_lvgl_long_sroll_label_with_wight_set_center(p_scr1, label_Back, 20,60, "Back", 50);
+	label_cailb = mks_lvgl_long_sroll_label_with_wight_set_center(p_scr1, label_cailb, 350, 60, "Z Home", 60);
 
-	label_Back = mks_lvgl_long_sroll_label_with_wight_set_center(Back, label_Back, 0,0, "Back", 50);
-	label_Back = mks_lvgl_long_sroll_label_with_wight_set_center(cailb, label_cailb, 0,0, "Calibration", 50);
-
-
-	lv_imgbtn_creat_mks(mks_src, Back, &back, &back, LV_ALIGN_CENTER, 180, 90, event_handler_Back);
 } 
-
 
 void mks_clear_power(void) {
 	lv_obj_clean(mks_src);

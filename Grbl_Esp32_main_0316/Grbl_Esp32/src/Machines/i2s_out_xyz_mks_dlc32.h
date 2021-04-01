@@ -35,7 +35,9 @@
 // I2S (steppers & other output-only pins)
 #define USE_I2S_OUT
 #define USE_I2S_STEPS
-#define DEFAULT_STEPPER ST_I2S_STREAM
+// #define DEFAULT_STEPPER ST_I2S_STREAM
+#define DEFAULT_STEPPER ST_I2S_STATIC
+
 
 #define I2S_OUT_BCK                 GPIO_NUM_16
 #define I2S_OUT_WS                  GPIO_NUM_17
@@ -85,8 +87,8 @@
 #define GRBL_SPI_MOSI 			    GPIO_NUM_13
 #define GRBL_SPI_SS 			    GPIO_NUM_15
 #define SDCARD_DET_PIN 			    GPIO_NUM_39
-// #define GRBL_SPI_FREQ 			    4000000
-#define GRBL_SPI_FREQ 			    25000000
+#define GRBL_SPI_FREQ 			    4000000
+// #define GRBL_SPI_FREQ 			    25000000
 
 // === Default settings
 #define DEFAULT_STEP_PULSE_MICROSECONDS I2S_OUT_USEC_PER_PULSE
@@ -138,17 +140,17 @@
 #define DEFAULT_Y_STEPS_PER_MM 80.0
 #define DEFAULT_Z_STEPS_PER_MM 80.0
 
-#define DEFAULT_X_MAX_RATE 2000.0 // mm/s
-#define DEFAULT_Y_MAX_RATE 2000.0 // mm/s
-#define DEFAULT_Z_MAX_RATE 2000.0 // mm/s
+#define DEFAULT_X_MAX_RATE 6000.0 // mm/s
+#define DEFAULT_Y_MAX_RATE 6000.0 // mm/s
+#define DEFAULT_Z_MAX_RATE 6000.0 // mm/s
 
 // #define DEFAULT_X_ACCELERATION 10.0 // mm/sec^2
 // #define DEFAULT_Y_ACCELERATION 10.0 // mm/sec^2
 // #define DEFAULT_Z_ACCELERATION 10.0 // mm/sec^2
 
-#define DEFAULT_X_ACCELERATION 500.0 // mm/sec^2
-#define DEFAULT_Y_ACCELERATION 500.0 // mm/sec^2
-#define DEFAULT_Z_ACCELERATION 500.0 // mm/sec^2
+#define DEFAULT_X_ACCELERATION 1000.0 // mm/sec^2
+#define DEFAULT_Y_ACCELERATION 1000.0 // mm/sec^2
+#define DEFAULT_Z_ACCELERATION 1000.0 // mm/sec^2
 
 #define DEFAULT_X_MAX_TRAVEL 240.0 // mm NOTE: Must be a positive value.
 #define DEFAULT_Y_MAX_TRAVEL 240.0 // mm NOTE: Must be a positive value.
@@ -159,6 +161,6 @@
 // #define DEFAULT_Z_MAX_TRAVEL 80.0 // mm NOTE: Must be a positive value.
 
 #define DEFAULT_SPINDLE_FREQ        1000.0   // 1KHz
-#define DEFAULT_LASER_FULL_POWER    1000
-#define DEFAULT_SPINDLE_MAX_VALUE   1000    
-#define DEFAULT_SPINDLE_MIN_VALUE   0
+#define DEFAULT_LASER_FULL_POWER    1010
+#define DEFAULT_SPINDLE_MAX_VALUE   1010  
+#define DEFAULT_SPINDLE_MIN_VALUE   11

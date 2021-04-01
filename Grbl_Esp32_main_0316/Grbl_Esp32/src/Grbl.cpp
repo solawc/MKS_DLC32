@@ -124,9 +124,9 @@ static void reset_variables() {
     mks_motor_unclock();
     spindle_check_init();
     
-    BLTOUCH_push_up();
-    delay_ms(100);
-    BLTOUCH_push_down();
+    // BLTOUCH_push_up();
+    // delay_ms(100);
+    // BLTOUCH_push_down();
 
     if(mks_grbl.run_status == GRBL_RESTARTING) {
         mks_grbl.run_status = GRBL_STOP;

@@ -147,17 +147,17 @@ static void event_handler_file5(lv_obj_t* obj, lv_event_t event) {
 
 void mks_draw_craving(void) {
 
-	scr = lv_obj_create(NULL, NULL);
-	scr = lv_scr_act();
+	mks_src = lv_obj_create(NULL, NULL);
+	mks_src = lv_scr_act();
 
-	lv_imgbtn_creat_mks(scr, up, &Up, &Up, LV_ALIGN_CENTER, 180, -70, event_handler_up);
-	lv_imgbtn_creat_mks(scr, next, &Next, &Next, LV_ALIGN_CENTER, 180, 20, event_handler_next);
-	lv_imgbtn_creat_mks(scr, Cback, &cback, &cback, LV_ALIGN_CENTER, 180, 110, event_handler_cback);
+	lv_imgbtn_creat_mks(mks_src, up, &Up, &Up, LV_ALIGN_CENTER, 180, -70, event_handler_up);
+	lv_imgbtn_creat_mks(mks_src, next, &Next, &Next, LV_ALIGN_CENTER, 180, 20, event_handler_next);
+	lv_imgbtn_creat_mks(mks_src, Cback, &cback, &cback, LV_ALIGN_CENTER, 180, 110, event_handler_cback);
 
 	if(mks_readSD_Status() == SDState::NotPresent)  // check sdcard is work
 	{
 		mks_grbl.mks_sd_status = 0;	// no sd insert
-		mks_lvgl_long_sroll_label_set(scr, Label_NoFile, 200, 150, "No SD Card");
+		mks_lvgl_long_sroll_label_set(mks_src, Label_NoFile, 200, 150, "No SD Card");
 	}else {
 		mks_grbl.mks_sd_status = 1; // sd had inserted
 		mks_listDir(SD, "/",1);
@@ -264,7 +264,7 @@ static void event_btn_sure(lv_obj_t* obj, lv_event_t event) {
 }
 
 void mks_draw_caving_popup(char* text) {
-	caving_Popup = lv_obj_create(scr, NULL);
+	caving_Popup = lv_obj_create(mks_src, NULL);
 	lv_obj_set_size(caving_Popup ,350, 200);
 	lv_obj_set_pos(caving_Popup, 80,50);
 
@@ -310,5 +310,5 @@ void mks_draw_caving_popup(char* text) {
 }
 
 void mks_clear_craving(void) {
-	lv_obj_clean(scr);
+	lv_obj_clean(mks_src);
 }
