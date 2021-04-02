@@ -133,7 +133,7 @@ void mks_draw_power(void) {
 	mks_src = lv_scr_act();
 
 	p_scr1 = lv_obj_create(mks_src, NULL);
-	lv_obj_set_size(p_scr1, 459, 90);
+	lv_obj_set_size(p_scr1, 460, 90);
     lv_obj_set_pos(p_scr1, 10, 10);
 
 	p_scr2 = lv_obj_create(mks_src, NULL);

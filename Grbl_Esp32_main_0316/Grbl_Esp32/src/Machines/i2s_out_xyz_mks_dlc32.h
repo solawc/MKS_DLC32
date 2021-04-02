@@ -35,8 +35,8 @@
 // I2S (steppers & other output-only pins)
 #define USE_I2S_OUT
 #define USE_I2S_STEPS
-// #define DEFAULT_STEPPER ST_I2S_STREAM
-#define DEFAULT_STEPPER ST_I2S_STATIC
+#define DEFAULT_STEPPER ST_I2S_STREAM
+// #define DEFAULT_STEPPER ST_I2S_STATIC
 
 
 #define I2S_OUT_BCK                 GPIO_NUM_16
@@ -160,7 +160,7 @@
 // #define DEFAULT_Y_MAX_TRAVEL 320 // mm NOTE: Must be a positive value.
 // #define DEFAULT_Z_MAX_TRAVEL 80.0 // mm NOTE: Must be a positive value.
 
-#define DEFAULT_SPINDLE_FREQ        1000.0   // 1KHz
-#define DEFAULT_LASER_FULL_POWER    1010
-#define DEFAULT_SPINDLE_MAX_VALUE   1010  
-#define DEFAULT_SPINDLE_MIN_VALUE   11
+#define DEFAULT_SPINDLE_FREQ        978.0   // 1KHz
+#define DEFAULT_LASER_FULL_POWER    990
+#define DEFAULT_SPINDLE_MAX_VALUE   990  
+#define DEFAULT_SPINDLE_MIN_VALUE   10

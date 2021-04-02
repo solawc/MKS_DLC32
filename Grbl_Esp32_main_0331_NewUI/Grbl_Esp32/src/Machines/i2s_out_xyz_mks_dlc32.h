@@ -138,9 +138,9 @@
 #define DEFAULT_Y_STEPS_PER_MM 80.0
 #define DEFAULT_Z_STEPS_PER_MM 80.0
 
-#define DEFAULT_X_MAX_RATE 2000.0 // mm/s
-#define DEFAULT_Y_MAX_RATE 2000.0 // mm/s
-#define DEFAULT_Z_MAX_RATE 2000.0 // mm/s
+#define DEFAULT_X_MAX_RATE 6000.0 // mm/s
+#define DEFAULT_Y_MAX_RATE 6000.0 // mm/s
+#define DEFAULT_Z_MAX_RATE 6000.0 // mm/s
 
 // #define DEFAULT_X_ACCELERATION 10.0 // mm/sec^2
 // #define DEFAULT_Y_ACCELERATION 10.0 // mm/sec^2
@@ -158,7 +158,7 @@
 // #define DEFAULT_Y_MAX_TRAVEL 320 // mm NOTE: Must be a positive value.
 // #define DEFAULT_Z_MAX_TRAVEL 80.0 // mm NOTE: Must be a positive value.
 
-#define DEFAULT_SPINDLE_FREQ        970.0   // 1KHz
-#define DEFAULT_LASER_FULL_POWER    970
-#define DEFAULT_SPINDLE_MAX_VALUE   970    
-#define DEFAULT_SPINDLE_MIN_VALUE   0
+#define DEFAULT_SPINDLE_FREQ        978.0   // 1KHz
+#define DEFAULT_LASER_FULL_POWER    1010
+#define DEFAULT_SPINDLE_MAX_VALUE   1010    
+#define DEFAULT_SPINDLE_MIN_VALUE   10

@@ -18,6 +18,10 @@ lv_obj_t* label_Control;
 lv_obj_t* label_Sculpture;
 lv_obj_t* label_Tool;
 
+lv_obj_t* icon_status;
+lv_obj_t* icon_xpos;
+lv_obj_t* icon_ypos;
+lv_obj_t* icon_wifi_status;
 
 lv_obj_t* label_status;
 lv_obj_t* label_xpos;
@@ -28,6 +32,11 @@ LV_IMG_DECLARE(Adjustment);
 LV_IMG_DECLARE(Control);  
 LV_IMG_DECLARE(Sculpture);	
 LV_IMG_DECLARE(Tool);	
+
+LV_IMG_DECLARE(X_POS);	
+LV_IMG_DECLARE(Y_POS);	
+LV_IMG_DECLARE(Z_POS);	
+LV_IMG_DECLARE(wifi_status);	
 
 
 static void event_handler_Adjustment(lv_obj_t* obj, lv_event_t event) { 
@@ -98,6 +107,13 @@ void mks_draw_ready(void) {
     lv_imgbtn_creat_mks(ready_scr1, imgbtn_Sculpture, &Sculpture, &Sculpture, LV_ALIGN_CENTER, 50, -10, event_handler_Sculpture);
     lv_imgbtn_creat_mks(ready_scr1, imgbtn_Tool, &Tool, &Tool, LV_ALIGN_CENTER, 150, -10, event_handler_Tool);
 
+    mks_lvgl_img_set(mks_src ,icon_status, &X_POS, 10, 10);
+    mks_lvgl_img_set(mks_src ,icon_status, &Y_POS, 10, 60);
+    mks_lvgl_img_set(mks_src ,icon_status, &Z_POS, 10, 130);
+    mks_lvgl_img_set(mks_src ,icon_status, &wifi_status, 10, 190);
+
+    
+
     lv_style_copy(&btn_wifi_color, &lv_style_scr);
     btn_wifi_color.body.main_color = LV_COLOR_MAKE(0x13, 0x12, 0x1A);
     btn_wifi_color.body.grad_color = LV_COLOR_MAKE(0x13, 0x12, 0x1A);
@@ -112,11 +128,11 @@ void mks_draw_ready(void) {
     mks_lvgl_long_sroll_label_with_wight_set_center(ready_scr1, label_Sculpture, 250, 80, "Sculpture", 100);
     mks_lvgl_long_sroll_label_with_wight_set_center(ready_scr1, label_Tool, 360, 80, "Tool", 100);
 
-    label_status = mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, label_status, 20, 90, "STATUS:IDLE", 100);
-    label_xpos = mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, label_xpos, 20, 60, "XPOS:0", 100);
-    label_ypos = mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, label_ypos, 20,30, "YPOS:0", 100);
+    label_status = mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, label_status, 20, 90, "IDLE", 100);
+    label_xpos = mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, label_xpos, 20, 60, "0", 100);
+    label_ypos = mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, label_ypos, 20,30, "0", 100);
 
-    label_wifi_status = mks_lvgl_long_sroll_label_with_wight_set_center(btn_wifi, label_wifi_status, 0, 0, "WIFI STATUS:DISCONNECT", 200);
+    label_wifi_status = mks_lvgl_long_sroll_label_with_wight_set_center(btn_wifi, label_wifi_status, 0, 0, "DISCONNECT", 200);
 }
 
 void lv_clean_curren_screen(void) {
