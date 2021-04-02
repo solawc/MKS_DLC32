@@ -120,6 +120,7 @@ static void reset_variables() {
         lcd_init_status = true;
         tft_TS35_init();
         disp_task_init();
+        mks_grbl_parg_init();
     }
     mks_motor_unclock();
     spindle_check_init();

@@ -107,4 +107,37 @@ void spindle_check(void) {
     }
 }
 
+MKS_WIFI_t mks_wifi;
+
+void mks_wifi_scanf(void) {
+
+    int n = WiFi.scanComplete();
+    mks_wifi.begin_scanf_num = 0;
+    switch (n) {
+            case -2:                      // Scan not triggered
+                WiFi.scanNetworks(true);  // Begin async scan
+                break;
+            case -1:  // Scan in progress
+                break;
+            default:
+                for (int i = 0; i < n; ++i) {
+
+                    if((i >= ((mks_wifi.wifi_show_page * 8)-8)) && (i <= (mks_wifi.wifi_show_page * 8)) ) {
+                        memcpy(mks_wifi.wifi_name_str[mks_wifi.begin_scanf_num], WiFi.SSID(i).c_str(), 128);
+                        mks_wifi.begin_scanf_num++;
+                    }
+                }
+                WiFi.scanDelete();
+                // Restart the scan in async mode so new data will be available
+                // when we ask again.
+                n = WiFi.scanComplete();
+                if (n == -2) {
+                    WiFi.scanNetworks(true);
+                }
+                break;
+        }
+
+    
+}
+
 

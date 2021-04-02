@@ -375,19 +375,32 @@ void mks_draw_wifi(void) {
     wifi_line8 = mks_lv_set_line(mks_src, wifi_line8, wifi_line_points[7]);
     lv_line_set_style(wifi_line8, LV_LINE_STYLE_MAIN, &line_style);
 
+    mks_wifi.wifi_show_page = 1;
+    mks_wifi.begin_scanf_num = 0;
+    mks_wifi_scanf();
 
     // /* 创建label */
-    wifi_label_line1 = mks_lvgl_long_sroll_label_with_wight_set(wifi_btn_line1, wifi_label_line1, 0, 0,"WIFI NAME 1",wifi_btn_label_size);
-    wifi_label_line2 = mks_lvgl_long_sroll_label_with_wight_set(wifi_btn_line2, wifi_label_line2, 0, 0, "WIFI NAME 2", wifi_btn_label_size);
-    wifi_label_line3 = mks_lvgl_long_sroll_label_with_wight_set(wifi_btn_line3, wifi_label_line3, 0, 0, "WIFI NAME 3",wifi_btn_label_size);
-    wifi_label_line4 = mks_lvgl_long_sroll_label_with_wight_set(wifi_btn_line4, wifi_label_line4, 0, 0,"WIFI NAME 4",wifi_btn_label_size);
-    wifi_label_line5 = mks_lvgl_long_sroll_label_with_wight_set(wifi_btn_line5, wifi_label_line5, 0,0, "WIFI NAME 5", wifi_btn_label_size);
-    wifi_label_line6 = mks_lvgl_long_sroll_label_with_wight_set(wifi_btn_line6, wifi_label_line6, 0, 0, "WIFI NAME 6",wifi_btn_label_size);
-    wifi_label_line7 = mks_lvgl_long_sroll_label_with_wight_set(wifi_btn_line7, wifi_label_line7, 0,0, "WIFI NAME 7", wifi_btn_label_size);
-    wifi_label_line8 = mks_lvgl_long_sroll_label_with_wight_set(wifi_btn_line8, wifi_label_line8, 0, 0, "WIFI NAME 8",wifi_btn_label_size);
+    // wifi_label_line1 = mks_lvgl_long_sroll_label_with_wight_set(wifi_btn_line1, wifi_label_line1, 0, 0,"WIFI NAME 1",wifi_btn_label_size);
+    // wifi_label_line2 = mks_lvgl_long_sroll_label_with_wight_set(wifi_btn_line2, wifi_label_line2, 0, 0, "WIFI NAME 2", wifi_btn_label_size);
+    // wifi_label_line3 = mks_lvgl_long_sroll_label_with_wight_set(wifi_btn_line3, wifi_label_line3, 0, 0, "WIFI NAME 3",wifi_btn_label_size);
+    // wifi_label_line4 = mks_lvgl_long_sroll_label_with_wight_set(wifi_btn_line4, wifi_label_line4, 0, 0,"WIFI NAME 4",wifi_btn_label_size);
+    // wifi_label_line5 = mks_lvgl_long_sroll_label_with_wight_set(wifi_btn_line5, wifi_label_line5, 0,0, "WIFI NAME 5", wifi_btn_label_size);
+    // wifi_label_line6 = mks_lvgl_long_sroll_label_with_wight_set(wifi_btn_line6, wifi_label_line6, 0, 0, "WIFI NAME 6",wifi_btn_label_size);
+    // wifi_label_line7 = mks_lvgl_long_sroll_label_with_wight_set(wifi_btn_line7, wifi_label_line7, 0,0, "WIFI NAME 7", wifi_btn_label_size);
+    // wifi_label_line8 = mks_lvgl_long_sroll_label_with_wight_set(wifi_btn_line8, wifi_label_line8, 0, 0, "WIFI NAME 8",wifi_btn_label_size);
+
+    wifi_label_line1 = mks_lvgl_long_sroll_label_with_wight_set(wifi_btn_line1, wifi_label_line1, 0, 0, mks_wifi.wifi_name_str[0], wifi_btn_label_size);
+    wifi_label_line2 = mks_lvgl_long_sroll_label_with_wight_set(wifi_btn_line2, wifi_label_line2, 0, 0, mks_wifi.wifi_name_str[1], wifi_btn_label_size);
+    wifi_label_line3 = mks_lvgl_long_sroll_label_with_wight_set(wifi_btn_line3, wifi_label_line3, 0, 0, mks_wifi.wifi_name_str[2], wifi_btn_label_size);
+    wifi_label_line4 = mks_lvgl_long_sroll_label_with_wight_set(wifi_btn_line4, wifi_label_line4, 0, 0, mks_wifi.wifi_name_str[3], wifi_btn_label_size);
+    wifi_label_line5 = mks_lvgl_long_sroll_label_with_wight_set(wifi_btn_line5, wifi_label_line5, 0, 0, mks_wifi.wifi_name_str[4], wifi_btn_label_size);
+    wifi_label_line6 = mks_lvgl_long_sroll_label_with_wight_set(wifi_btn_line6, wifi_label_line6, 0, 0, mks_wifi.wifi_name_str[5], wifi_btn_label_size);
+    wifi_label_line7 = mks_lvgl_long_sroll_label_with_wight_set(wifi_btn_line7, wifi_label_line7, 0, 0, mks_wifi.wifi_name_str[6], wifi_btn_label_size);
+    wifi_label_line8 = mks_lvgl_long_sroll_label_with_wight_set(wifi_btn_line8, wifi_label_line8, 0, 0, mks_wifi.wifi_name_str[7], wifi_btn_label_size);
 
     mks_lvgl_long_sroll_label_with_wight_set_center(wifi_src1, wifi_label_back, 20, 50, "Back", 60);
 }
+
 
 void mks_clear_wifi(void) {
     // mks_grbl.wifi_check_status = false;

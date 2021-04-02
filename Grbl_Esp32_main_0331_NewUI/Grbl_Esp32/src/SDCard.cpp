@@ -68,11 +68,7 @@ void listDir(fs::FS& fs, const char* dirname, uint8_t levels, uint8_t client) {
 void mks_listDir(fs::FS& fs, const char* dirname, uint8_t levels) { 
 
     File root = fs.open(dirname);    //建立文件根目录并打开文件系统
-    uint16_t times = 0;
-    uint16_t times_count = 0;
-    uint8_t  file_status;
-    uint8_t times_file_num=0;
-    bool enter_status = false;
+
     // root 为空时判断为文件系统打开失败
     if(!root) {
         //...提示文件系统打开失败
@@ -86,38 +82,23 @@ void mks_listDir(fs::FS& fs, const char* dirname, uint8_t levels) {
 
     File file = root.openNextFile(); //进入下一级文件目录
 
-    times = mks_grbl.mks_sd_file_times * 6; //从第0个文件开始
-    if(times == 0) {
-        times = 6;
-    }
-
     while(file) {
-        if (root.isDirectory()) {
-            if (levels) {
 
-                if(file.isDirectory())      // 判断文件夹
-                    file_status = 0;
-                else 
-                    file_status = 1;
-                
-                grbl_sendf(CLIENT_ALL, ":%s\r\n", file.name());
+        if (file.isDirectory()) {
+            if (levels) {
+                mks_listDir(fs, file.name(), levels - 1);
             }
         } else {
-            
+            grbl_sendf(CLIENT_ALL, "[FILE:%s|SIZE:%d]\r\n", file.name(), file.size());
+            mks_file_list.file_count++;
+            if(mks_file_list.file_count < ((mks_file_list.file_page * MKS_FILE_NUM)))
+            {
+                if(mks_file_list.file_count >= ((mks_file_list.file_page * MKS_FILE_NUM)-(MKS_FILE_NUM - 1))) {
+                    memcpy(mks_file_list.filename_str[mks_file_list.file_begin_num], file.name(), MKS_FILE_NAME_LENGTH);
+                }
+            }
         }
 
-        if(times_count == (times-6) && (enter_status == false)) {
-            enter_status = true;
-        }
-        if((enter_status == true) && (times_count < times)) {
-           mks_draw_sd_file(file_status,times_file_num, file.name());
-
-           times_file_num++;
-           if(times_file_num == 6) {
-               return;
-           }
-       }
-       times_count++;
        file =  root.openNextFile();
     }
 }

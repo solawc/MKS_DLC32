@@ -166,8 +166,11 @@ static void event_handler_unlock(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
         // mks_clear_move();
+		motors_set_disable(true);
 	}
 }
+
+
 
 static void event_handler_home(lv_obj_t* obj, lv_event_t event) {
 
@@ -181,21 +184,53 @@ static void event_handler_pos(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
        	Serial.printf("G92 X0 Y0 Z0\n");
     	MKS_GRBL_CMD_SEND("G92 X0 Y0 Z0\n");
-        // mks_draw_pos_pupop();
+		draw_pos_popup();
 	}
 }
 
 static void event_handler_dis_0_1(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
+		mks_grbl.move_dis = M_0_1_MM;
 
+		lv_label_set_text(label_len_0_1, "#000000 0.1mm#");
+		lv_label_set_text(label_len_1, "#ffffff 1mm#");
+		lv_label_set_text(label_len_10, "#ffffff 10mm#");
 	}
 }
+
+static void event_handler_dis_1(lv_obj_t* obj, lv_event_t event) {
+
+	if (event == LV_EVENT_RELEASED) {
+
+		mks_grbl.move_dis = M_1_MM;
+
+		lv_label_set_text(label_len_1, "#000000 1mm#");
+		lv_label_set_text(label_len_0_1, "#ffffff 0.1mm#");
+		lv_label_set_text(label_len_10, "#ffffff 10mm#");
+	}
+}
+
+
+static void event_handler_dis_10(lv_obj_t* obj, lv_event_t event) {
+
+	if (event == LV_EVENT_RELEASED) {
+
+		mks_grbl.move_dis = M_10_MM;
+
+		lv_label_set_text(label_len_10, "#000000 10mm#");
+		lv_label_set_text(label_len_0_1, "#ffffff 0.1mm#");
+		lv_label_set_text(label_len_1, "#ffffff 1mm#");
+	}
+}
+
 
 static void event_handler_back(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
         mks_clear_move();
+		mks_ui_page.mks_ui_page = MKS_UI_Ready;
+        mks_ui_page.wait_count = DEFAULT_UI_COUNT;
         mks_draw_ready();
 	}
 }
@@ -245,29 +280,86 @@ void mks_draw_move(void) {
     btn_color.body.main_color = LV_COLOR_MAKE(0x5C, 0xE6, 0x93);
     btn_color.body.grad_color = LV_COLOR_MAKE(0x5C, 0xE6, 0x93);
     btn_color.body.opa = LV_OPA_COVER;//设置背景色完全不透明
-    btn_color.text.color = LV_COLOR_WHITE;
+    btn_color.text.color = LV_COLOR_BLACK;
 	btn_color.body.radius = 10;
 
 	/* 按键创建 */
 	btn_len_0_1 = mks_lv_btn_set(dist_scr, btn_len_0_1, 80, 40, 50, 20, event_handler_dis_0_1);
-	btn_len_1 = mks_lv_btn_set(dist_scr, btn_len_1, 80, 40, 50, 80, event_handler_dis_0_1);
-	btn_len_10 = mks_lv_btn_set(dist_scr, btn_len_10, 80, 40, 50, 140, event_handler_dis_0_1);
+	btn_len_1 = mks_lv_btn_set(dist_scr, btn_len_1, 80, 40, 50, 80, event_handler_dis_1);
+	btn_len_10 = mks_lv_btn_set(dist_scr, btn_len_10, 80, 40, 50, 140, event_handler_dis_10);
+
 
 	lv_btn_set_style(btn_len_0_1, LV_BTN_STYLE_REL, &btn_color);
-    lv_btn_set_style(btn_len_0_1,LV_BTN_STYLE_PR,&btn_color);
+	lv_btn_set_style(btn_len_0_1,LV_BTN_STYLE_PR,&btn_color);
 	lv_btn_set_style(btn_len_1, LV_BTN_STYLE_REL, &btn_color);
-    lv_btn_set_style(btn_len_1,LV_BTN_STYLE_PR,&btn_color);
+	lv_btn_set_style(btn_len_1,LV_BTN_STYLE_PR,&btn_color);
 	lv_btn_set_style(btn_len_10, LV_BTN_STYLE_REL, &btn_color);
-    lv_btn_set_style(btn_len_10,LV_BTN_STYLE_PR,&btn_color);
-
+	lv_btn_set_style(btn_len_10,LV_BTN_STYLE_PR,&btn_color);
+	
+	
 	mks_lvgl_long_sroll_label_with_wight_set_center(tool_scr, Label_back, 17, 65, "Back", 50);
 	mks_lvgl_long_sroll_label_with_wight_set_center(tool_scr, Label_unlock, 196, 65, "Unlock", 50);
 	mks_lvgl_long_sroll_label_with_wight_set_center(tool_scr, Label_home, 300, 65, "Home", 50);
 	mks_lvgl_long_sroll_label_with_wight_set_center(tool_scr, Label_postivs, 390, 65, "Position", 100);
 
-	mks_lvgl_long_sroll_label_with_wight_set_center(btn_len_0_1, label_len_0_1, 0, 0, "0.1mm", 50);
-	mks_lvgl_long_sroll_label_with_wight_set_center(btn_len_1, label_len_1, 0, 0, "1mm", 50);
-	mks_lvgl_long_sroll_label_with_wight_set_center(btn_len_10, label_len_10, 0, 0, "10mm", 50);
+	if(mks_grbl.move_dis == M_0_1_MM) 
+		label_len_0_1 = mks_lvgl_long_sroll_label_with_wight_set_center(btn_len_0_1, label_len_0_1, 0, 0, "#000000 0.1mm#", 50);
+	else 
+		label_len_0_1 = mks_lvgl_long_sroll_label_with_wight_set_center(btn_len_0_1, label_len_0_1, 0, 0, "#ffffff 0.1mm#", 50);
+
+	if(mks_grbl.move_dis == M_1_MM) 
+		label_len_1 = mks_lvgl_long_sroll_label_with_wight_set_center(btn_len_1, label_len_1, 0, 0, "#000000 1mm#", 50);
+	else 
+		label_len_1 = mks_lvgl_long_sroll_label_with_wight_set_center(btn_len_1, label_len_1, 0, 0, "#ffffff 1mm#", 50);
+
+	if(mks_grbl.move_dis == M_10_MM) 
+		label_len_10 = mks_lvgl_long_sroll_label_with_wight_set_center(btn_len_10, label_len_10, 0, 0, "#000000 10mm#", 50);
+	else 
+		label_len_10 = mks_lvgl_long_sroll_label_with_wight_set_center(btn_len_10, label_len_10, 0, 0, "#ffffff 10mm#", 50);
+}
+
+
+lv_obj_t* move_popup_scr;
+lv_style_t move_popup_color;
+lv_style_t move_popup_btn_style;
+
+lv_obj_t* move_popup_btn_sure;
+
+lv_obj_t* move_popup_label_sure;
+lv_obj_t* move_popup_label_dis;
+
+static void event_handler_popup_sure(lv_obj_t* obj, lv_event_t event) {
+
+	if (event == LV_EVENT_RELEASED) {
+		lv_obj_del(move_popup_scr);
+	}
+}
+void draw_pos_popup(void) {
+
+	move_popup_scr = lv_obj_create(mks_src, NULL);
+	lv_obj_set_size(move_popup_scr, move_popup_size_x, move_popup_size_y);
+    lv_obj_set_pos(move_popup_scr, move_popup_x, move_popup_y);
+
+	lv_style_copy(&move_popup_color, &lv_style_scr);
+    move_popup_color.body.main_color = LV_COLOR_MAKE(0x1F, 0x23, 0x33); 
+    move_popup_color.body.grad_color = LV_COLOR_MAKE(0x1F, 0x23, 0x33); 
+    move_popup_color.text.color = LV_COLOR_WHITE;
+    move_popup_color.body.radius = 17;
+	lv_obj_set_style(move_popup_scr, &move_popup_color);
+
+	lv_style_copy(&move_popup_btn_style, &lv_style_scr);
+    move_popup_btn_style.body.main_color = LV_COLOR_MAKE(0x5C, 0xE6, 0x93);
+    move_popup_btn_style.body.grad_color = LV_COLOR_MAKE(0x5C, 0xE6, 0x93);
+    move_popup_btn_style.body.opa = LV_OPA_COVER;//设置背景色完全不透明
+    move_popup_btn_style.text.color = LV_COLOR_BLACK;
+	move_popup_btn_style.body.radius = 10;
+
+	move_popup_btn_sure = mks_lv_btn_set(dist_scr, move_popup_btn_sure, move_popup_btn_size_x, move_popup_btn_size_y, move_popup_btn_x, move_popup_btn_y, event_handler_popup_sure);
+	lv_btn_set_style(move_popup_btn_sure, LV_BTN_STYLE_REL, &move_popup_btn_style);
+	lv_btn_set_style(move_popup_btn_sure,LV_BTN_STYLE_PR,&move_popup_btn_style);
+
+	move_popup_label_dis = mks_lvgl_long_sroll_label_with_wight_set_center(move_popup_scr, move_popup_label_dis, 0, 0, "Posing succeed", 200);
+	move_popup_btn_sure = mks_lvgl_long_sroll_label_with_wight_set_center(move_popup_scr, move_popup_btn_sure, 0, 0, "Yes", 30);
 }
 
 void mks_clear_move(void) {

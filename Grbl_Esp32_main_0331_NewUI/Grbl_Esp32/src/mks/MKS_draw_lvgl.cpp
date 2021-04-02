@@ -122,7 +122,7 @@ lv_obj_t* mks_lvgl_long_sroll_label_with_wight_set_center(lv_obj_t* scr, lv_obj_
     lab = lv_label_create(scr, NULL);
     lv_label_set_long_mode(lab, LV_LABEL_LONG_SROLL);
     lv_obj_set_width(lab, w);
-    lv_label_set_align(lab, LV_ALIGN_CENTER);
+    // lv_label_set_align(lab, LV_ALIGN_CENTER);
     lv_obj_set_height(lab, 20);
     lv_obj_set_pos(lab, x, y);
     lv_label_set_recolor(lab, true);
@@ -138,7 +138,8 @@ lv_obj_t* mks_lvgl_long_sroll_label_with_wight_set_center(lv_obj_t* scr, lv_obj_
 lv_obj_t* mks_lvgl_img_set(lv_obj_t *scr ,lv_obj_t *img, const void * src_img, lv_coord_t x_mod, lv_coord_t y_mod) {
     img = lv_img_create(scr, NULL);
     lv_img_set_src(img, src_img);
-    lv_obj_align(img, NULL, LV_ALIGN_CENTER, x_mod, y_mod);
+    lv_obj_set_pos(img, x_mod, y_mod);
+    // lv_obj_align(img, NULL, LV_ALIGN_CENTER, x_mod, y_mod);
     return img;
 }
 

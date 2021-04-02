@@ -32,6 +32,27 @@ typedef struct {
 extern mks_spindle_t mks_spindle;
 
 
+typedef enum {
+
+    wifi_none,
+    wifi_scanfing,
+
+}mks_wifi_status_t;
+
+
+#define MKS_WIFI_NUM            8
+#define MKS_WIFI_NAME_LEN       128
+typedef struct {
+
+    char wifi_name_str[MKS_WIFI_NUM][MKS_WIFI_NAME_LEN];
+    
+    uint8_t begin_scanf_num;        // 每次记录都从0开始    
+    uint8_t wifi_show_page;         // 记录WiFi显示的页码          
+
+}MKS_WIFI_t;
+extern MKS_WIFI_t mks_wifi;
+
+
 void bltouch_init(void);
 void mks_motor_move(void);
 void bltouch_duty(uint32_t duty);
@@ -41,4 +62,7 @@ void BLtouch_reset_and_push_up(void);
 
 void spindle_check_init(void);
 void spindle_check(void);
+
+
+void mks_wifi_scanf(void);
 #endif

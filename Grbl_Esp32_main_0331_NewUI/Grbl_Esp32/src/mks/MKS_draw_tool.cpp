@@ -47,6 +47,8 @@ static void event_btn_tool_back(lv_obj_t* obj, lv_event_t event) {
 
     if (event == LV_EVENT_PRESSED) {
         mks_clear_tool();
+        mks_ui_page.mks_ui_page = MKS_UI_Ready;
+        mks_ui_page.wait_count = DEFAULT_UI_COUNT;
         mks_draw_ready();
     }
 }

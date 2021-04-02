@@ -12,9 +12,50 @@ extern char file5_name[40];
 extern char file_print_send[40];
 
 
+typedef enum {
+
+    caving_src1_x = 10,
+    caving_src1_y = 10,
+    caving_src1_size_x = 460,
+    caving_src1_size_y = 90,
+
+    caving_back_x = 20,
+    caving_back_y = 60,
+
+    caving_up_x = 280,
+    caving_up_y = 60,
+    caving_next_x = 320,
+    caving_next_y = 60,
+
+    caving_first_file_x = 10,
+    caving_first_file_y = 10,
+    caving_first_file_label_x = 10,
+    caving_first_file_label_y = 10,
+
+}CAVING_XY_t;
+
+#define MKS_FILE_NUM 8
+#define MKS_FILE_NAME_LENGTH   128
+#define MKS_FILE_DEEP  10
+typedef struct {
+    char filename_str[MKS_FILE_NUM][MKS_FILE_NAME_LENGTH];
+    uint16_t file_begin_num;        // 它用来计数，并选择数组的位置,filename_str[file_begin_num][...]
+    uint16_t file_count;            // 它用来计算从第几个文件开始存名字
+    uint16_t file_page;             // 它从1开始
+
+    uint8_t file_choose;            //标记选择的是第几个文件
+
+}MKS_FILE_LIST_t;
+extern MKS_FILE_LIST_t mks_file_list;
+
 void mks_draw_craving(void);
 void mks_clear_craving(void);
 void mks_draw_sd_file(uint8_t status, uint8_t file_num, const char *filename);
-void mks_draw_caving_popup(char* text);
+// void mks_draw_caving_popup(char* text);
 void mks_del_file_obj(void);
+
+
+void draw_file_btmimg(void);
+
+void mks_draw_caving_popup(uint8_t text) ;
 #endif

@@ -94,16 +94,36 @@ LV_IMG_DECLARE(back);			//返回
 // }
 
 static void event_handler_pwr_on_off(lv_obj_t* obj, lv_event_t event) {
-
 	if (event == LV_EVENT_RELEASED) {
-
+		
+		if(mks_grbl.light_status == GRBL_Light_On) { 
+			mks_grbl.light_status = GRBL_Light_Off;
+			lv_imgbtn_set_src(pwr_on_off, LV_BTN_STATE_PR, &pwroff);
+    		lv_imgbtn_set_src(pwr_on_off, LV_BTN_STATE_REL, &pwroff);
+		}
+		else if(mks_grbl.light_status == GRBL_Light_Off) {
+			mks_grbl.light_status = GRBL_Light_On;
+			lv_imgbtn_set_src(pwr_on_off, LV_BTN_STATE_PR, &pwron);
+    		lv_imgbtn_set_src(pwr_on_off, LV_BTN_STATE_REL, &pwron);
+		}
 	}
 }
 
 static void event_handler_pwr_h_l(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-
+		if(mks_grbl.power_persen == P_1_PERSEN) { 
+			mks_grbl.power_persen = P_10_PERSEN;
+			lv_imgbtn_set_src(pwr_h_l, LV_BTN_STATE_PR, &glare);
+    		lv_imgbtn_set_src(pwr_h_l, LV_BTN_STATE_REL, &glare);
+			if(mks_grbl.light_status == GRBL_Light_On) MKS_GRBL_CMD_SEND("M3 S500\n");
+		}
+		else if(mks_grbl.power_persen == P_10_PERSEN) {
+			mks_grbl.power_persen = P_1_PERSEN;
+			lv_imgbtn_set_src(pwr_h_l, LV_BTN_STATE_PR, &Low_light);
+    		lv_imgbtn_set_src(pwr_h_l, LV_BTN_STATE_REL, &Low_light);
+			if(mks_grbl.light_status == GRBL_Light_On) MKS_GRBL_CMD_SEND("M3 S5\n");
+		}
 	}
 }
 
@@ -120,8 +140,9 @@ static void event_handler_Back(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
 		mks_clear_power();
+		mks_ui_page.mks_ui_page = MKS_UI_Ready;
+        mks_ui_page.wait_count = DEFAULT_UI_COUNT;
 		mks_draw_ready();
-		// lv_draw_tool();
 	}
 }
 
@@ -152,8 +173,16 @@ void mks_draw_power(void) {
 	Back = lv_imgbtn_creat_mks(p_scr1, Back, &back, &back, LV_ALIGN_IN_LEFT_MID, 10, -10, event_handler_Back);
 	cailb = lv_imgbtn_creat_mks(p_scr1, cailb, &Calibration, &Calibration, LV_ALIGN_CENTER,150, -10, event_handler_cailb);
 
-	pwr_on_off = lv_imgbtn_creat_mks(p_scr2, pwr_on_off, &pwroff, &pwroff, LV_ALIGN_CENTER,80, 0, event_handler_pwr_on_off);
-	pwr_h_l = lv_imgbtn_creat_mks(p_scr2, pwr_h_l, &glare, &glare, LV_ALIGN_CENTER,-80, 0, event_handler_pwr_h_l);
+	
+	if(mks_grbl.power_persen == P_1_PERSEN)
+		pwr_h_l = lv_imgbtn_creat_mks(p_scr2, pwr_h_l, &Low_light, &Low_light, LV_ALIGN_CENTER,-80, 0, event_handler_pwr_h_l);
+	else 
+		pwr_h_l = lv_imgbtn_creat_mks(p_scr2, pwr_h_l, &glare, &glare, LV_ALIGN_CENTER,-80, 0, event_handler_pwr_h_l);
+
+	if(mks_grbl.light_status == GRBL_Light_On)
+		pwr_on_off = lv_imgbtn_creat_mks(p_scr2, pwr_on_off, &pwron, &pwron, LV_ALIGN_CENTER,80, 0, event_handler_pwr_on_off);
+	else 
+		pwr_on_off = lv_imgbtn_creat_mks(p_scr2, pwr_on_off, &pwroff, &pwroff, LV_ALIGN_CENTER,80, 0, event_handler_pwr_on_off);
 
 	label_Back = mks_lvgl_long_sroll_label_with_wight_set_center(p_scr1, label_Back, 20,60, "Back", 50);
 	label_cailb = mks_lvgl_long_sroll_label_with_wight_set_center(p_scr1, label_cailb, 350, 60, "Z Home", 60);

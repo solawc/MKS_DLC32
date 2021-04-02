@@ -236,9 +236,6 @@ void mks_draw_finsh_pupop(void) {
 void mks_print_bar_updata(void) {
 
     bar_print = mks_lv_bar_updata(bar_print, (uint16_t)sd_report_perc_complete());
-
-    mks_grbl.power_persen = gc_state.feed_rate;
-
 }
 
 void mks_draw_operation(void) {

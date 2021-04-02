@@ -46,10 +46,10 @@ typedef struct{
     GRBL_MOVE_DIS               move_dis;           // 移动距离
     GRBL_Language               language;           // 语言设置
     GRBL_LIGHT_STATUS           light_status;       // 灯状态
-    GRBL_POWER                  power_length;       // 功率步长设置
+    GRBL_POWER                  power_persen;       // 功率步长设置
     BLTOUCH_STATUS              bl_status;          // BLTOUCH运行状态
     GRBL_RUN_STATUS_t           run_status;         // 运行状态
-    uint8_t                     power_persen;       // 功率百分比
+    // uint8_t                     power_persen;       // 功率百分比
     uint16_t                    cave_speed;         // 雕刻速度
     uint16_t                    move_speed;         // 移动速度
     uint16_t                    X_Pos;              // x坐标
@@ -63,6 +63,27 @@ typedef struct{
 }GRBL_CRTL;
 extern GRBL_CRTL mks_grbl;
 
+typedef enum {
+
+    MKS_UI_Ready,
+    MKS_UI_Adjust,
+    MKS_UI_Control,
+    MKS_UI_Caving,
+    MKS_UI_Pring,
+    MKS_UI_Tool,
+    MKS_UI_Wifi,
+
+}mks_ui_page_t;
+
+
+#define DEFAULT_UI_COUNT    1
+typedef struct {
+
+    mks_ui_page_t mks_ui_page;
+    uint8_t wait_count;             // 等待LVGL事件生成缓冲，用于界面数据更新
+
+}LVGL_UI_PAGE_t;
+extern LVGL_UI_PAGE_t mks_ui_page;
 
 
 // typedef enum {
@@ -102,4 +123,5 @@ void mks_lvgl_init(void);
 void lvgl_test(void);
 SDState mks_readSD_Status(void);
 float mks_caving_persen(void);
+void mks_grbl_parg_init(void);
 #endif

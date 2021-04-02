@@ -8,5 +8,5 @@
 
 
 void disp_task_init(void);
-
+void disp_task_data_updata(void);
 #endif

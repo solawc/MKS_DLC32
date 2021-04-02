@@ -7,6 +7,7 @@
 
 GRBL_CRTL mks_grbl;
 MKS_SD_t mks_sd;
+LVGL_UI_PAGE_t mks_ui_page;
 
 static lv_disp_buf_t    disp_buf;
 static lv_color_t       bmp_public_buf[LV_BUF_SIZE];
@@ -96,18 +97,21 @@ void mks_grbl_parg_init(void) {
     mks_grbl.language = SimpleChinese;
     mks_grbl.light_status = GRBL_Light_Off;
     mks_grbl.move_dis = M_0_1_MM;
-    mks_grbl.power_length = P_1_PERSEN;
     mks_grbl.run_status = GRBL_STOP;
     mks_grbl.bl_status = BL_NONE;               
     mks_grbl.is_mks_ts35_flag = false;
     mks_grbl.wifi_check_status = false;
     mks_grbl.wifi_connect_status = false;
-    mks_grbl.power_persen = 0;
+    mks_grbl.power_persen = P_1_PERSEN;
     mks_grbl.cave_speed = 100;
     mks_grbl.X_Pos = 0;
     mks_grbl.Y_Pos = 0;
     mks_grbl.mks_sd_file_times = 1;
     mks_grbl.mks_sd_status = 0;
+
+
+    mks_ui_page.mks_ui_page = MKS_UI_Ready; // 开机进入主页的标记
+    mks_ui_page.wait_count = 10;            // 允许10个周期的等待lvgl数据缓冲
 }
 
 /* MKS SD FILE */
