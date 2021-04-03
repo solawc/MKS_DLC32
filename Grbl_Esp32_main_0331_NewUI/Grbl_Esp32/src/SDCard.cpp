@@ -81,7 +81,7 @@ void mks_listDir(fs::FS& fs, const char* dirname, uint8_t levels) {
     }
 
     File file = root.openNextFile(); //进入下一级文件目录
-
+    
     while(file) {
 
         if (file.isDirectory()) {
@@ -90,15 +90,13 @@ void mks_listDir(fs::FS& fs, const char* dirname, uint8_t levels) {
             }
         } else {
             grbl_sendf(CLIENT_ALL, "[FILE:%s|SIZE:%d]\r\n", file.name(), file.size());
-            mks_file_list.file_count++;
-            if(mks_file_list.file_count < ((mks_file_list.file_page * MKS_FILE_NUM)))
-            {
-                if(mks_file_list.file_count >= ((mks_file_list.file_page * MKS_FILE_NUM)-(MKS_FILE_NUM - 1))) {
-                    memcpy(mks_file_list.filename_str[mks_file_list.file_begin_num], file.name(), MKS_FILE_NAME_LENGTH);
-                }
+            
+            if((mks_file_list.file_count >= ((mks_file_list.file_page * MKS_FILE_NUM)-(MKS_FILE_NUM))) && (mks_file_list.file_count < (mks_file_list.file_page * MKS_FILE_NUM))) {
+                memcpy(mks_file_list.filename_str[mks_file_list.file_begin_num], file.name(), MKS_FILE_NAME_LENGTH);
+                mks_file_list.file_begin_num++;
             }
+            mks_file_list.file_count++;
         }
-
        file =  root.openNextFile();
     }
 }

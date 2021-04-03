@@ -28,9 +28,11 @@ typedef enum{
 
 }wifi_kb_flag_t;
 
-
 void mks_draw_wifi(void);
 void mks_clear_wifi(void);
 void mks_wifi_connect_check(IPAddress ip);
 void draw_wifi_loading(void);
+void mks_wifi_del_label(void);
+void mks_wifi_show_label(void);
+
 #endif

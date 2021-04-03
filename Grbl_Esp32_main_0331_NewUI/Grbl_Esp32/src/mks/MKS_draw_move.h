@@ -8,14 +8,15 @@
 
 typedef enum {
 
-    move_popup_x = 100,
-    move_popup_y = 100,
-    move_popup_size_x = 300,
-    move_popup_size_y = 200,
-    move_popup_btn_x = 10,
-    move_popup_btn_y = 10,
-    move_popup_btn_size_x = 50,
-    move_popup_btn_size_y = 20,
+    move_popup_x = 75,
+    move_popup_y = 70,
+    move_popup_size_x = 330,
+    move_popup_size_y = 180,
+
+    move_popup_btn_x = 120,
+    move_popup_btn_y = 120,
+    move_popup_btn_size_x = 100,
+    move_popup_btn_size_y = 40,
 
 }MOVE_XY_t;
 

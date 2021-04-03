@@ -73,6 +73,7 @@ void grbl_init() {
     Spindles::Spindle::select();
 #ifdef ENABLE_WIFI
     // WebUI::wifi_config.begin();
+    WiFi.scanNetworks(true); 
 #endif
 #ifdef ENABLE_BLUETOOTH
     WebUI::bt_config.begin();

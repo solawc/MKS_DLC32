@@ -341,25 +341,29 @@ void draw_pos_popup(void) {
     lv_obj_set_pos(move_popup_scr, move_popup_x, move_popup_y);
 
 	lv_style_copy(&move_popup_color, &lv_style_scr);
-    move_popup_color.body.main_color = LV_COLOR_MAKE(0x1F, 0x23, 0x33); 
-    move_popup_color.body.grad_color = LV_COLOR_MAKE(0x1F, 0x23, 0x33); 
+    // move_popup_color.body.main_color = LV_COLOR_MAKE(0x1F, 0x23, 0x33); 
+    // move_popup_color.body.grad_color = LV_COLOR_MAKE(0x1F, 0x23, 0x33); 
+	move_popup_color.body.main_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
+    move_popup_color.body.grad_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
     move_popup_color.text.color = LV_COLOR_WHITE;
     move_popup_color.body.radius = 17;
 	lv_obj_set_style(move_popup_scr, &move_popup_color);
 
 	lv_style_copy(&move_popup_btn_style, &lv_style_scr);
-    move_popup_btn_style.body.main_color = LV_COLOR_MAKE(0x5C, 0xE6, 0x93);
-    move_popup_btn_style.body.grad_color = LV_COLOR_MAKE(0x5C, 0xE6, 0x93);
+    // move_popup_btn_style.body.main_color = LV_COLOR_MAKE(0x5C, 0xE6, 0x93);
+    // move_popup_btn_style.body.grad_color = LV_COLOR_MAKE(0x5C, 0xE6, 0x93);
+	move_popup_btn_style.body.main_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+    move_popup_btn_style.body.grad_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
     move_popup_btn_style.body.opa = LV_OPA_COVER;//设置背景色完全不透明
     move_popup_btn_style.text.color = LV_COLOR_BLACK;
 	move_popup_btn_style.body.radius = 10;
 
-	move_popup_btn_sure = mks_lv_btn_set(dist_scr, move_popup_btn_sure, move_popup_btn_size_x, move_popup_btn_size_y, move_popup_btn_x, move_popup_btn_y, event_handler_popup_sure);
+	move_popup_btn_sure = mks_lv_btn_set(move_popup_scr, move_popup_btn_sure, move_popup_btn_size_x, move_popup_btn_size_y, move_popup_btn_x, move_popup_btn_y, event_handler_popup_sure);
 	lv_btn_set_style(move_popup_btn_sure, LV_BTN_STYLE_REL, &move_popup_btn_style);
-	lv_btn_set_style(move_popup_btn_sure,LV_BTN_STYLE_PR,&move_popup_btn_style);
+	lv_btn_set_style(move_popup_btn_sure,LV_BTN_STYLE_PR, &move_popup_btn_style);
 
-	move_popup_label_dis = mks_lvgl_long_sroll_label_with_wight_set_center(move_popup_scr, move_popup_label_dis, 0, 0, "Posing succeed", 200);
-	move_popup_btn_sure = mks_lvgl_long_sroll_label_with_wight_set_center(move_popup_scr, move_popup_btn_sure, 0, 0, "Yes", 30);
+	move_popup_label_dis = mks_lvgl_long_sroll_label_with_wight_set_center(move_popup_scr, move_popup_label_dis, 110, 50, "#000000 Posing succeed#", 200);
+	move_popup_label_sure = mks_lvgl_long_sroll_label_with_wight_set_center(move_popup_btn_sure, move_popup_label_sure, 0, 0, "Yes", 30);
 }
 
 void mks_clear_move(void) {

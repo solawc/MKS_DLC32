@@ -110,19 +110,20 @@ void spindle_check(void) {
 MKS_WIFI_t mks_wifi;
 
 void mks_wifi_scanf(void) {
-
     int n = WiFi.scanComplete();
     mks_wifi.begin_scanf_num = 0;
     switch (n) {
             case -2:                      // Scan not triggered
                 WiFi.scanNetworks(true);  // Begin async scan
+                grbl_send(CLIENT_SERIAL ,"scanNetworks\n\n");
                 break;
             case -1:  // Scan in progress
+                grbl_send(CLIENT_SERIAL ,"waitting\n\n");
                 break;
             default:
                 for (int i = 0; i < n; ++i) {
 
-                    if((i >= ((mks_wifi.wifi_show_page * 8)-8)) && (i <= (mks_wifi.wifi_show_page * 8)) ) {
+                    if( (i >= ((mks_wifi.wifi_show_page * MKS_WIFI_NUM) - MKS_WIFI_NUM)) && (i <= (mks_wifi.wifi_show_page * MKS_WIFI_NUM)) ) {
                         memcpy(mks_wifi.wifi_name_str[mks_wifi.begin_scanf_num], WiFi.SSID(i).c_str(), 128);
                         mks_wifi.begin_scanf_num++;
                     }
@@ -136,8 +137,14 @@ void mks_wifi_scanf(void) {
                 }
                 break;
         }
-
-    
 }
 
+
+const char mks_ssid[] = "MAKERBASE3D";
+const char mks_password[] = "makerbase3d";
+
+void mks_wifi_connect(void) { 
+    WiFi.enableSTA(true);
+    WiFi.begin(mks_ssid, mks_password);
+}
 

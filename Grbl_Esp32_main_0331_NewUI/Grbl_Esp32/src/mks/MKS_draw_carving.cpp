@@ -76,17 +76,27 @@ static void event_handler_up(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
 
+		char p[30];
+
 		if(mks_readSD_Status() == SDState::NotPresent)  // check sdcard is work
 		{
 
-		}else{
-			if(mks_grbl.mks_sd_file_times == 1) {
-				mks_grbl.mks_sd_file_times = 1;
+		}
+		else{
+			if(mks_file_list.file_page == 1) {
+
 			}else {
-				mks_grbl.mks_sd_file_times --;
+				mks_file_list.file_begin_num = 0;
+				mks_file_list.file_count = 0;
+				mks_file_list.file_page--;
+
+				sprintf(p, "file page = %d", mks_file_list.file_page);
+				grbl_send(CLIENT_SERIAL, p);
+
+				mks_del_file_obj();
+				mks_listDir(SD, "/",MKS_FILE_DEEP);
+				draw_file_btmimg();
 			}
-			mks_del_file_obj();
-			mks_listDir(SD, "/",MKS_FILE_DEEP);
 		}
 	}
 }
@@ -99,13 +109,17 @@ static void event_handler_next(lv_obj_t* obj, lv_event_t event) {
 	}
 	else {
 		if (event == LV_EVENT_RELEASED) {
-			if(mks_grbl.mks_sd_file_times >= 10) {
-				mks_grbl.mks_sd_file_times = 10;
-			}else {
-				mks_grbl.mks_sd_file_times ++;
+
+
+			if(mks_file_list.file_begin_num >= MKS_FILE_NUM) {
+				mks_file_list.file_begin_num = 0;
+				mks_file_list.file_count = 0;
+				mks_file_list.file_page++;
+
+				mks_del_file_obj();
+				mks_listDir(SD, "/",MKS_FILE_DEEP);
+				draw_file_btmimg();
 			}
-			mks_del_file_obj();
-			mks_listDir(SD, "/",MKS_FILE_DEEP);
 		}
 	}
 	
@@ -168,6 +182,23 @@ static void event_handler_file5(lv_obj_t* obj, lv_event_t event) {
 	}
 }
 
+static void event_handler_file6(lv_obj_t* obj, lv_event_t event) {
+	if (event == LV_EVENT_RELEASED) {
+		// mks_draw_caving_popup(file6_name);
+		mks_file_list.file_choose = 6;
+		mks_draw_caving_popup(mks_file_list.file_begin_num);
+	}
+}
+
+static void event_handler_file7(lv_obj_t* obj, lv_event_t event) {
+	if (event == LV_EVENT_RELEASED) {
+		// mks_draw_caving_popup(file7_name);
+		mks_file_list.file_choose = 7;
+		mks_draw_caving_popup(mks_file_list.file_begin_num);
+	}
+}
+
+
 void mks_draw_craving(void) {
 
 	mks_src = lv_obj_create(NULL, NULL);
@@ -205,85 +236,130 @@ void mks_draw_craving(void) {
 		mks_listDir(SD, "/",MKS_FILE_DEEP);
 		draw_file_btmimg();
 	}	
-
-	
 }
 
-void mks_draw_sd_file(uint8_t status, uint8_t file_num, const char *filename) { 
-
-	// switch(file_num) {
-	// 	case 0: 
-	// 		if(status == 0) 
-	// 			file_0 = lv_imgbtn_creat_mks(scr, file_0, &FileDir, &FileDir, LV_ALIGN_CENTER, -180, -70, event_handler_file0);
-	// 		else 
-	// 			file_0 = lv_imgbtn_creat_mks(scr, file_0, &Files, &Files, LV_ALIGN_CENTER, -180, -70, event_handler_file0);
-	// 		Label_file_0 = mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_0, 20, 110, filename, 100);
-	// 		memcpy(file0_name, filename, 40);
-	// 	break;
-
-	// 	case 1:
-	// 		if(status == 0) 
-	// 			file_1 = lv_imgbtn_creat_mks(scr, file_1, &FileDir, &FileDir, LV_ALIGN_CENTER, -60, -70, event_handler_file1);
-	// 		else 
-	// 			file_1 = lv_imgbtn_creat_mks(scr, file_1, &Files, &Files, LV_ALIGN_CENTER, -60, -70, event_handler_file1);
-	// 		Label_file_1 = mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_1, 150, 110, filename, 100);
-	// 		memcpy(file1_name, filename, 40);
-	// 	break;
-
-	// 	case 2:
-	// 		if(status == 0) 
-	// 			file_2 = lv_imgbtn_creat_mks(scr, file_2, &FileDir, &FileDir, LV_ALIGN_CENTER, 60, -70, event_handler_file2);
-	// 		else 
-	// 			file_2 = lv_imgbtn_creat_mks(scr, file_2, &Files, &Files, LV_ALIGN_CENTER, 60, -70, event_handler_file2);
-	// 		Label_file_2 = mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_2, 260, 110, filename, 100);
-	// 		memcpy(file2_name, filename, 40);
-	// 	break;
-
-	// 	case 3:
-	// 		if(status == 0) 
-	// 			file_3 = lv_imgbtn_creat_mks(scr, file_3, &FileDir, &FileDir, LV_ALIGN_CENTER, -180, 90, event_handler_file3);
-	// 		else 
-	// 			file_3 = lv_imgbtn_creat_mks(scr, file_3, &Files, &Files, LV_ALIGN_CENTER, -180, 90, event_handler_file3);
-	// 		Label_file_3 = mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_3, 20, 280, filename, 100);
-	// 		memcpy(file3_name, filename, 40);
-	// 	break;
-
-	// 	case 4:
-	// 		if(status == 0) 
-	// 			file_4 = lv_imgbtn_creat_mks(scr, file_4, &FileDir, &FileDir, LV_ALIGN_CENTER, -60, 90, event_handler_file4);
-	// 		else 
-	// 			file_4 = lv_imgbtn_creat_mks(scr, file_4, &Files, &Files, LV_ALIGN_CENTER, -60, 90, event_handler_file4);
-	// 		Label_file_4 = mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_4, 150, 280, filename, 100);
-	// 		memcpy(file4_name, filename, 40);
-	// 	break;
-
-	// 	case 5:
-	// 		if(status == 0) 
-	// 			file_5 = lv_imgbtn_creat_mks(scr, file_5, &FileDir, &FileDir, LV_ALIGN_CENTER, 60, 90, event_handler_file5);
-	// 		else 
-	// 			file_5 = lv_imgbtn_creat_mks(scr, file_5, &Files, &Files, LV_ALIGN_CENTER, 60, 90, event_handler_file5);
-	// 		Label_file_5 = mks_lvgl_long_sroll_label_with_wight_set(scr, Label_file_5, 260, 280, filename, 100);
-	// 		memcpy(file5_name, filename, 40);
-	// 	break;
-	// }
-}
 
 void draw_file_btmimg(void) {
 
-	file_0 = lv_imgbtn_creat_mks(mks_src, file_0, &file, &file, LV_ALIGN_CENTER, -180, 0, event_handler_file0);
-	Label_file_0 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_0, 0, 0, mks_file_list.filename_str[0], 100);
+	if(mks_file_list.file_begin_num == 1) {
+		file_0 = lv_imgbtn_creat_mks(mks_src, file_0, &file, &file, LV_ALIGN_CENTER, caving_first_file_x, caving_first_file_y, event_handler_file0);
+		Label_file_0 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_0, caving_first_file_label_x, caving_first_file_label_y, mks_file_list.filename_str[0], 100);
+	}
+	else if(mks_file_list.file_begin_num == 2) {
+		file_0 = lv_imgbtn_creat_mks(mks_src, file_0, &file, &file, LV_ALIGN_CENTER, caving_first_file_x, caving_first_file_y, event_handler_file0);
+		Label_file_0 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_0, caving_first_file_label_x, caving_first_file_label_y, mks_file_list.filename_str[0], 100);
 
-	file_1 = lv_imgbtn_creat_mks(mks_src, file_1, &file, &file, LV_ALIGN_CENTER, -60, 0, event_handler_file0);
-	Label_file_1 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_1, 0, 0, mks_file_list.filename_str[1], 100);
+		file_1 = lv_imgbtn_creat_mks(mks_src, file_1, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 120, caving_first_file_y, event_handler_file1);
+		Label_file_1 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_1, caving_first_file_label_x + 120, caving_first_file_label_y, mks_file_list.filename_str[1], 100);	
+	}
+	else if(mks_file_list.file_begin_num == 3) {
 
-	file_2 = lv_imgbtn_creat_mks(mks_src, file_0, &file, &file, LV_ALIGN_CENTER, 60, 0, event_handler_file0);
-	Label_file_2 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_2, 0, 0, mks_file_list.filename_str[2], 100);
+		file_0 = lv_imgbtn_creat_mks(mks_src, file_0, &file, &file, LV_ALIGN_CENTER, caving_first_file_x, caving_first_file_y, event_handler_file0);
+		Label_file_0 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_0, caving_first_file_label_x, caving_first_file_label_y, mks_file_list.filename_str[0], 100);
 
-	file_3 = lv_imgbtn_creat_mks(mks_src, file_3, &file, &file, LV_ALIGN_CENTER, 180, 0, event_handler_file0);
-	Label_file_3 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_3, 0, 0, mks_file_list.filename_str[3], 100);
+		file_1 = lv_imgbtn_creat_mks(mks_src, file_1, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 120, caving_first_file_y, event_handler_file1);
+		Label_file_1 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_1, caving_first_file_label_x + 120, caving_first_file_label_y, mks_file_list.filename_str[1], 100);
 
-	file_4 = lv_imgbtn_creat_mks(mks_src, file_4, &file, &file, LV_ALIGN_CENTER, -180, 60, event_handler_file0);
-	Label_file_4 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_4, 0, 0, mks_file_list.filename_str[4], 100);
+		file_2 = lv_imgbtn_creat_mks(mks_src, file_0, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 240, caving_first_file_y, event_handler_file2);
+		Label_file_2 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_2, caving_first_file_label_x + 240, caving_first_file_label_y, mks_file_list.filename_str[2], 100);
+	}
+	else if(mks_file_list.file_begin_num == 4) {
+
+		file_0 = lv_imgbtn_creat_mks(mks_src, file_0, &file, &file, LV_ALIGN_CENTER, caving_first_file_x, caving_first_file_y, event_handler_file0);
+		Label_file_0 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_0, caving_first_file_label_x, caving_first_file_label_y, mks_file_list.filename_str[0], 100);
+
+		file_1 = lv_imgbtn_creat_mks(mks_src, file_1, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 120, caving_first_file_y, event_handler_file1);
+		Label_file_1 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_1, caving_first_file_label_x + 120, caving_first_file_label_y, mks_file_list.filename_str[1], 100);
+
+		file_2 = lv_imgbtn_creat_mks(mks_src, file_0, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 240, caving_first_file_y, event_handler_file2);
+		Label_file_2 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_2, caving_first_file_label_x + 240, caving_first_file_label_y, mks_file_list.filename_str[2], 100);
+
+		file_3 = lv_imgbtn_creat_mks(mks_src, file_3, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 360, caving_first_file_y, event_handler_file3);
+		Label_file_3 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_3, caving_first_file_label_x + 360, caving_first_file_label_y, mks_file_list.filename_str[3], 100);
+	}
+	else if(mks_file_list.file_begin_num == 5) {
+		file_0 = lv_imgbtn_creat_mks(mks_src, file_0, &file, &file, LV_ALIGN_CENTER, caving_first_file_x, caving_first_file_y, event_handler_file0);
+		Label_file_0 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_0, caving_first_file_label_x, caving_first_file_label_y, mks_file_list.filename_str[0], 100);
+
+		file_1 = lv_imgbtn_creat_mks(mks_src, file_1, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 120, caving_first_file_y, event_handler_file1);
+		Label_file_1 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_1, caving_first_file_label_x + 120, caving_first_file_label_y, mks_file_list.filename_str[1], 100);
+
+		file_2 = lv_imgbtn_creat_mks(mks_src, file_0, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 240, caving_first_file_y, event_handler_file2);
+		Label_file_2 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_2, caving_first_file_label_x + 240, caving_first_file_label_y, mks_file_list.filename_str[2], 100);
+
+		file_3 = lv_imgbtn_creat_mks(mks_src, file_3, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 360, caving_first_file_y, event_handler_file3);
+		Label_file_3 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_3, caving_first_file_label_x + 360, caving_first_file_label_y, mks_file_list.filename_str[3], 100);
+
+		file_4 = lv_imgbtn_creat_mks(mks_src, file_4, &file, &file, LV_ALIGN_CENTER, caving_first_file_x, caving_first_file_y + 105, event_handler_file4);
+		Label_file_4 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_4, caving_first_file_label_x, caving_first_file_label_y + 105, mks_file_list.filename_str[4], 100);
+	}
+	else if(mks_file_list.file_begin_num == 6) {
+
+		file_0 = lv_imgbtn_creat_mks(mks_src, file_0, &file, &file, LV_ALIGN_CENTER, caving_first_file_x, caving_first_file_y, event_handler_file0);
+		Label_file_0 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_0, caving_first_file_label_x, caving_first_file_label_y, mks_file_list.filename_str[0], 100);
+
+		file_1 = lv_imgbtn_creat_mks(mks_src, file_1, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 120, caving_first_file_y, event_handler_file1);
+		Label_file_1 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_1, caving_first_file_label_x + 120, caving_first_file_label_y, mks_file_list.filename_str[1], 100);
+
+		file_2 = lv_imgbtn_creat_mks(mks_src, file_0, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 240, caving_first_file_y, event_handler_file2);
+		Label_file_2 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_2, caving_first_file_label_x + 240, caving_first_file_label_y, mks_file_list.filename_str[2], 100);
+
+		file_3 = lv_imgbtn_creat_mks(mks_src, file_3, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 360, caving_first_file_y, event_handler_file3);
+		Label_file_3 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_3, caving_first_file_label_x + 360, caving_first_file_label_y, mks_file_list.filename_str[3], 100);
+
+		file_4 = lv_imgbtn_creat_mks(mks_src, file_4, &file, &file, LV_ALIGN_CENTER, caving_first_file_x, caving_first_file_y + 105, event_handler_file4);
+		Label_file_4 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_4, caving_first_file_label_x, caving_first_file_label_y + 105, mks_file_list.filename_str[4], 100);
+
+		file_5 = lv_imgbtn_creat_mks(mks_src, file_5, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 120, caving_first_file_y + 105, event_handler_file5);
+		Label_file_5 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_5, caving_first_file_label_x + 120, caving_first_file_label_y + 105, mks_file_list.filename_str[5], 100);
+	}
+	else if(mks_file_list.file_begin_num == 7) {
+		file_0 = lv_imgbtn_creat_mks(mks_src, file_0, &file, &file, LV_ALIGN_CENTER, caving_first_file_x, caving_first_file_y, event_handler_file0);
+		Label_file_0 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_0, caving_first_file_label_x, caving_first_file_label_y, mks_file_list.filename_str[0], 100);
+
+		file_1 = lv_imgbtn_creat_mks(mks_src, file_1, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 120, caving_first_file_y, event_handler_file1);
+		Label_file_1 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_1, caving_first_file_label_x + 120, caving_first_file_label_y, mks_file_list.filename_str[1], 100);
+
+		file_2 = lv_imgbtn_creat_mks(mks_src, file_0, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 240, caving_first_file_y, event_handler_file2);
+		Label_file_2 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_2, caving_first_file_label_x + 240, caving_first_file_label_y, mks_file_list.filename_str[2], 100);
+
+		file_3 = lv_imgbtn_creat_mks(mks_src, file_3, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 360, caving_first_file_y, event_handler_file3);
+		Label_file_3 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_3, caving_first_file_label_x + 360, caving_first_file_label_y, mks_file_list.filename_str[3], 100);
+
+		file_4 = lv_imgbtn_creat_mks(mks_src, file_4, &file, &file, LV_ALIGN_CENTER, caving_first_file_x, caving_first_file_y + 105, event_handler_file4);
+		Label_file_4 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_4, caving_first_file_label_x, caving_first_file_label_y + 105, mks_file_list.filename_str[4], 100);
+
+		file_5 = lv_imgbtn_creat_mks(mks_src, file_5, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 120, caving_first_file_y + 105, event_handler_file5);
+		Label_file_5 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_5, caving_first_file_label_x + 120, caving_first_file_label_y + 105, mks_file_list.filename_str[5], 100);
+
+		file_6 = lv_imgbtn_creat_mks(mks_src, file_6, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 240, caving_first_file_y + 105, event_handler_file6);
+		Label_file_6 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_6, caving_first_file_label_x + 240, caving_first_file_label_y + 105, mks_file_list.filename_str[6], 100);
+	}
+	else if(mks_file_list.file_begin_num == 8) {
+		file_0 = lv_imgbtn_creat_mks(mks_src, file_0, &file, &file, LV_ALIGN_CENTER, caving_first_file_x, caving_first_file_y, event_handler_file0);
+		Label_file_0 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_0, caving_first_file_label_x, caving_first_file_label_y, mks_file_list.filename_str[0], 100);
+
+		file_1 = lv_imgbtn_creat_mks(mks_src, file_1, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 120, caving_first_file_y, event_handler_file1);
+		Label_file_1 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_1, caving_first_file_label_x + 120, caving_first_file_label_y, mks_file_list.filename_str[1], 100);
+
+		file_2 = lv_imgbtn_creat_mks(mks_src, file_0, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 240, caving_first_file_y, event_handler_file2);
+		Label_file_2 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_2, caving_first_file_label_x + 240, caving_first_file_label_y, mks_file_list.filename_str[2], 100);
+
+		file_3 = lv_imgbtn_creat_mks(mks_src, file_3, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 360, caving_first_file_y, event_handler_file3);
+		Label_file_3 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_3, caving_first_file_label_x + 360, caving_first_file_label_y, mks_file_list.filename_str[3], 100);
+
+		file_4 = lv_imgbtn_creat_mks(mks_src, file_4, &file, &file, LV_ALIGN_CENTER, caving_first_file_x, caving_first_file_y + 105, event_handler_file4);
+		Label_file_4 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_4, caving_first_file_label_x, caving_first_file_label_y + 105, mks_file_list.filename_str[4], 100);
+
+		file_5 = lv_imgbtn_creat_mks(mks_src, file_5, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 120, caving_first_file_y + 105, event_handler_file5);
+		Label_file_5 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_5, caving_first_file_label_x + 120, caving_first_file_label_y + 105, mks_file_list.filename_str[5], 100);
+
+		file_6 = lv_imgbtn_creat_mks(mks_src, file_6, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 240, caving_first_file_y + 105, event_handler_file6);
+		Label_file_6 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_6, caving_first_file_label_x + 240, caving_first_file_label_y + 105, mks_file_list.filename_str[6], 100);
+
+		file_7 = lv_imgbtn_creat_mks(mks_src, file_7, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 360, caving_first_file_y + 105, event_handler_file7);
+		Label_file_7 = mks_lvgl_long_sroll_label_with_wight_set(mks_src, Label_file_7, caving_first_file_label_x + 360, caving_first_file_label_y + 105, mks_file_list.filename_str[7], 100);
+	}
 }
 
 void mks_del_file_obj(void) {
@@ -337,28 +413,20 @@ void mks_draw_caving_popup(uint8_t text) {
 	lv_obj_set_pos(caving_Popup, 80,50);
 
 	lv_style_copy(&popup_style, &lv_style_scr);
-	popup_style.body.main_color = LV_COLOR_MAKE(0x06, 0x08, 0x37);
-	popup_style.body.grad_color = LV_COLOR_MAKE(0x06, 0x08, 0x37);
+	// popup_style.body.main_color = LV_COLOR_MAKE(0x06, 0x08, 0x37);
+	// popup_style.body.grad_color = LV_COLOR_MAKE(0x06, 0x08, 0x37);
+	popup_style.body.main_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
+    popup_style.body.grad_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
 	popup_style.text.color = LV_COLOR_WHITE;
+	popup_style.body.radius = 17;
 	lv_obj_set_style(caving_Popup, &popup_style);
 	
 	lv_style_copy(&btn_style, &lv_style_scr);
-    btn_style.body.main_color = LV_COLOR_MAKE(0X3c, 0X42, 0Xd5);
-    btn_style.body.grad_color = LV_COLOR_MAKE(0X3c, 0X42, 0Xd5);
+    btn_style.body.main_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+    btn_style.body.grad_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+	btn_style.body.radius = 10;
     btn_style.body.opa = LV_OPA_COVER;//设置背景色完全不透明
     btn_style.text.color = LV_COLOR_WHITE;
-
-	// btn_popup_cancle = lv_btn_create(caving_Popup,NULL);
-    // lv_obj_set_size(btn_popup_cancle, 100,50);
-    // lv_obj_set_pos(btn_popup_cancle, 240,130);
-    // lv_obj_set_event_cb(btn_popup_cancle, event_btn_cancle);
-	// mks_lvgl_label_set(caving_Popup, Label_popup_cancel,250,150, "Cancle");
-
-	// btn_popup_sure = lv_btn_create(caving_Popup,NULL);
-    // lv_obj_set_size(btn_popup_sure, 100,50);
-    // lv_obj_set_pos(btn_popup_sure, 10,130);
-    // lv_obj_set_event_cb(btn_popup_sure, event_btn_sure);
-	// mks_lvgl_label_set(caving_Popup, Label_popup_sure, 20, 150, "Yes");
 
 	btn_popup_sure = mks_lv_btn_set(caving_Popup, btn_popup_sure, 100,40,10,130,event_btn_sure);
 	lv_btn_set_style(btn_popup_sure, LV_BTN_STYLE_REL, &btn_style);

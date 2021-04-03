@@ -27,16 +27,16 @@ typedef enum {
     caving_next_x = 320,
     caving_next_y = 60,
 
-    caving_first_file_x = 10,
-    caving_first_file_y = 10,
-    caving_first_file_label_x = 10,
-    caving_first_file_label_y = 10,
+    caving_first_file_x = -180,
+    caving_first_file_y = 0,
+    caving_first_file_label_x = 30,
+    caving_first_file_label_y = 170,
 
 }CAVING_XY_t;
 
 #define MKS_FILE_NUM 8
 #define MKS_FILE_NAME_LENGTH   128
-#define MKS_FILE_DEEP  10
+#define MKS_FILE_DEEP  1
 typedef struct {
     char filename_str[MKS_FILE_NUM][MKS_FILE_NAME_LENGTH];
     uint16_t file_begin_num;        // 它用来计数，并选择数组的位置,filename_str[file_begin_num][...]
