@@ -1,5 +1,8 @@
 {
     "files.associations": {
-        "tft_espi_esp32.c": "cpp"
+        "tft_espi_esp32.c": "cpp",
+        "array": "cpp",
+        "deque": "cpp",
+        "vector": "cpp"
     }
 }

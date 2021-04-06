@@ -100,11 +100,14 @@ static void event_handler_pwr_on_off(lv_obj_t* obj, lv_event_t event) {
 			mks_grbl.light_status = GRBL_Light_Off;
 			lv_imgbtn_set_src(pwr_on_off, LV_BTN_STATE_PR, &pwroff);
     		lv_imgbtn_set_src(pwr_on_off, LV_BTN_STATE_REL, &pwroff);
+			MKS_GRBL_CMD_SEND("M3 S0\n");
 		}
 		else if(mks_grbl.light_status == GRBL_Light_Off) {
 			mks_grbl.light_status = GRBL_Light_On;
 			lv_imgbtn_set_src(pwr_on_off, LV_BTN_STATE_PR, &pwron);
     		lv_imgbtn_set_src(pwr_on_off, LV_BTN_STATE_REL, &pwron);
+			if(mks_grbl.power_persen == P_1_PERSEN)	MKS_GRBL_CMD_SEND("M3 S5\n");
+			else if (mks_grbl.power_persen == P_10_PERSEN) MKS_GRBL_CMD_SEND("M3 S500\n");
 		}
 	}
 }
@@ -133,8 +136,6 @@ static void event_handler_cailb(lv_obj_t* obj, lv_event_t event) {
 
 	}
 }
-
-
 
 static void event_handler_Back(lv_obj_t* obj, lv_event_t event) {
 

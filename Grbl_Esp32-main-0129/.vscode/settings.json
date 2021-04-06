@@ -1,0 +1,17 @@
+{
+    "files.associations": {
+        "array": "cpp",
+        "deque": "cpp",
+        "string": "cpp",
+        "unordered_map": "cpp",
+        "unordered_set": "cpp",
+        "vector": "cpp",
+        "initializer_list": "cpp",
+        "numeric": "cpp",
+        "typeinfo": "cpp",
+        "mks_draw_config.h": "c",
+        "mks_draw_lvgl.h": "c",
+        "functional": "cpp"
+    },
+    "git.ignoreLimitWarning": true
+}

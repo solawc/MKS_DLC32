@@ -17,6 +17,9 @@ lv_obj_t *tool_label_line3;
 lv_obj_t *label_tool_back; 
 lv_obj_t *label_tool_wifi; 
 
+lv_obj_t* label_board_version;
+lv_obj_t* label_Firmware_version;
+
 lv_obj_t *tool_line1;
 lv_obj_t *tool_line2;
 lv_obj_t *tool_line3;
@@ -80,13 +83,15 @@ void mks_draw_tool(void) {
     lv_line_set_style(tool_line1, LV_LINE_STYLE_MAIN, &style_line);
     tool_line2 = mks_lv_set_line(mks_src, tool_line2, tool_line_points[1]);
     lv_line_set_style(tool_line2, LV_LINE_STYLE_MAIN, &style_line);
-    tool_line3 = mks_lv_set_line(mks_src, tool_line3, tool_line_points[2]);
-    lv_line_set_style(tool_line3, LV_LINE_STYLE_MAIN, &style_line);
+    // tool_line3 = mks_lv_set_line(mks_src, tool_line3, tool_line_points[2]);
+    // lv_line_set_style(tool_line3, LV_LINE_STYLE_MAIN, &style_line);
     
-    mks_lvgl_long_sroll_label_with_wight_set_center(about_src1, label_tool_back, 20, 50, "Back", 60);
-    mks_lvgl_long_sroll_label_with_wight_set_center(about_src1, label_tool_wifi, 250, 50, "Wifi", 60);
-}
+    mks_lvgl_long_sroll_label_with_wight_set_center(about_src1, label_tool_back, 20, 60, "Back", 60);
+    mks_lvgl_long_sroll_label_with_wight_set_center(about_src1, label_tool_wifi, 270, 60, "Wifi", 60);
 
+    mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, label_board_version, 10, 120, "Board:MKS DLC32 V1.06, VN:1", 400);
+	mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, label_Firmware_version, 10, 170, "Firmware:MKS DLC32 V1.0 SDK-1.3.0", 400);
+}
 
 void mks_clear_tool(void) {
     lv_obj_clean(mks_src);

@@ -57,5 +57,5 @@ void mks_del_file_obj(void);
 
 void draw_file_btmimg(void);
 
-void mks_draw_caving_popup(uint8_t text) ;
+void mks_draw_caving_popup(uint8_t text, char *srt);
 #endif

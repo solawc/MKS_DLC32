@@ -389,9 +389,6 @@ void mks_draw_wifi(void) {
     btn_press_style.body.opa = LV_OPA_COVER;        //设置背景色完全不透明
     btn_press_style.text.color = LV_COLOR_WHITE;
 
-
-
-
     /* 创建按键 */
     wifi_btn_line1 = mks_lv_btn_set(mks_src, wifi_btn_line1,  wifi_btn_w, wifi_btn_h, wifi_first_btn_x, wifi_first_btn_y ,event_handler_wifi_bt1);
     wifi_btn_line2 = mks_lv_btn_set(mks_src, wifi_btn_line2,  wifi_btn_w, wifi_btn_h, wifi_first_btn_x, wifi_first_btn_y+50 ,event_handler_wifi_bt2);

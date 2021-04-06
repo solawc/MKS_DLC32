@@ -122,13 +122,12 @@ static void reset_variables() {
         tft_TS35_init();
         disp_task_init();
         mks_grbl_parg_init();
+        BLTOUCH_push_up();
+        delay_ms(100);
+        BLTOUCH_push_down();
     }
     mks_motor_unclock();
     spindle_check_init();
-    
-    BLTOUCH_push_up();
-    delay_ms(100);
-    BLTOUCH_push_down();
 
     if(mks_grbl.run_status == GRBL_RESTARTING) {
         mks_grbl.run_status = GRBL_STOP;

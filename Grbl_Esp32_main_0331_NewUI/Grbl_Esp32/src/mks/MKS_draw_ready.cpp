@@ -123,11 +123,11 @@ void mks_draw_ready(void) {
     lv_imgbtn_creat_mks(ready_scr1, imgbtn_Sculpture, &Sculpture, &Sculpture, LV_ALIGN_CENTER, 50, -10, event_handler_Sculpture);
     lv_imgbtn_creat_mks(ready_scr1, imgbtn_Tool, &Tool, &Tool, LV_ALIGN_CENTER, 150, -10, event_handler_Tool);
 
-    mks_lvgl_img_set(mks_src ,icon_status, &me_status, READY_FIRST_IMG_X, READY_FIRST_IMG_Y);
-    mks_lvgl_img_set(mks_src ,icon_xpos, &X_POS, READY_FIRST_IMG_X, READY_FIRST_IMG_Y + 40);
-    mks_lvgl_img_set(mks_src ,icon_ypos, &Y_POS, READY_FIRST_IMG_X, READY_FIRST_IMG_Y + 80);
-    mks_lvgl_img_set(mks_src ,icon_zpos, &Z_POS, READY_FIRST_IMG_X, READY_FIRST_IMG_Y + 120);
-    mks_lvgl_img_set(mks_src ,label_wifi_status, &wifi_status, READY_FIRST_IMG_X, READY_FIRST_IMG_Y + 160);
+    // mks_lvgl_img_set(mks_src ,icon_status, &me_status, READY_FIRST_IMG_X, READY_FIRST_IMG_Y);
+    mks_lvgl_img_set(mks_src ,icon_xpos, &X_POS, READY_FIRST_IMG_X+30, READY_FIRST_IMG_Y + 40);
+    mks_lvgl_img_set(mks_src ,icon_ypos, &Y_POS, READY_FIRST_IMG_X+100, READY_FIRST_IMG_Y + 40);
+    mks_lvgl_img_set(mks_src ,icon_zpos, &Z_POS, READY_FIRST_IMG_X+200, READY_FIRST_IMG_Y + 40);
+    mks_lvgl_img_set(mks_src ,label_wifi_status, &wifi_status, READY_FIRST_IMG_X+300, READY_FIRST_IMG_Y + 40);
 
     
     lv_style_copy(&btn_wifi_color, &lv_style_scr);
@@ -135,7 +135,7 @@ void mks_draw_ready(void) {
     btn_wifi_color.body.grad_color = LV_COLOR_MAKE(0x13, 0x12, 0x1A);
     btn_wifi_color.body.opa = LV_OPA_COVER;//设置背景色完全不透明
     btn_wifi_color.text.color = LV_COLOR_WHITE;
-    btn_wifi = mks_lv_btn_set(mks_src, btn_wifi, 200,30, READY_FIRST_IMG_X + 40 ,READY_FIRST_IMG_Y + 160, event_handler_wifi);
+    btn_wifi = mks_lv_btn_set(mks_src, btn_wifi, 200,30, READY_FIRST_LABEL_X+330, READY_FIRST_LABEL_Y+40, event_handler_wifi);
     lv_btn_set_style(btn_wifi, LV_BTN_STYLE_REL, &btn_wifi_color);
     lv_btn_set_style(btn_wifi,LV_BTN_STYLE_PR,&btn_wifi_color);
 
@@ -151,11 +151,11 @@ void mks_draw_ready(void) {
     // label_zpos = mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, label_zpos, READY_FIRST_LABEL_X,READY_FIRST_LABEL_Y+120, "0", 100);
     // label_wifi_status = mks_lvgl_long_sroll_label_with_wight_set_center(btn_wifi, label_wifi_status, 0, 0, "DISCONNECT", 200);
 
-    label_status = mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, label_status, READY_FIRST_LABEL_X, READY_FIRST_LABEL_Y, " ", 100);
-    label_xpos = mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, label_xpos, READY_FIRST_LABEL_X, READY_FIRST_LABEL_Y+40, " ", 100);
-    label_ypos = mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, label_ypos, READY_FIRST_LABEL_X,READY_FIRST_LABEL_Y+80, " ", 100);
-    label_zpos = mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, label_zpos, READY_FIRST_LABEL_X,READY_FIRST_LABEL_Y+120, " ", 100);
-    label_wifi_status = mks_lvgl_long_sroll_label_with_wight_set_center(btn_wifi, label_wifi_status, 0, 0, " ", 200);
+    // label_status = mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, label_status, READY_FIRST_LABEL_X, READY_FIRST_LABEL_Y, " ", 100);
+    label_xpos = mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, label_xpos, READY_FIRST_LABEL_X+80, READY_FIRST_LABEL_Y+40, "0", 100);
+    label_ypos = mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, label_ypos, READY_FIRST_LABEL_X+150,READY_FIRST_LABEL_Y+40, "0", 100);
+    label_zpos = mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, label_zpos, READY_FIRST_LABEL_X+260,READY_FIRST_LABEL_Y+40, "0", 100);
+    label_wifi_status = mks_lvgl_long_sroll_label_with_wight_set_center(btn_wifi, label_wifi_status, 0, 0, "Disconnect", 200);
 }
 
 
@@ -165,15 +165,15 @@ void ready_data_updata(void) {
     char ypos_str[10];
     char zpos_str[10];
 
-         if (sys.state == State::Alarm)         lv_label_set_text(label_status, "Alarm");
-    else if (sys.state == State::Idle)          lv_label_set_text(label_status, "Idle");
-    else if (sys.state == State::CheckMode)     lv_label_set_text(label_status, "CheckMode");
-    else if (sys.state == State::Homing)        lv_label_set_text(label_status, "Homing");
-    else if (sys.state == State::Cycle)         lv_label_set_text(label_status, "Cycle");
-    else if (sys.state == State::Hold)          lv_label_set_text(label_status, "Hold");
-    else if (sys.state == State::Jog)           lv_label_set_text(label_status, "Jog");
-    else if (sys.state == State::SafetyDoor)    lv_label_set_text(label_status, "SafetyDoor");
-    else if (sys.state == State::Sleep)         lv_label_set_text(label_status, "Sleep");
+    //      if (sys.state == State::Alarm)         lv_label_set_text(label_status, "Alarm");
+    // else if (sys.state == State::Idle)          lv_label_set_text(label_status, "Idle");
+    // else if (sys.state == State::CheckMode)     lv_label_set_text(label_status, "CheckMode");
+    // else if (sys.state == State::Homing)        lv_label_set_text(label_status, "Homing");
+    // else if (sys.state == State::Cycle)         lv_label_set_text(label_status, "Cycle");
+    // else if (sys.state == State::Hold)          lv_label_set_text(label_status, "Hold");
+    // else if (sys.state == State::Jog)           lv_label_set_text(label_status, "Jog");
+    // else if (sys.state == State::SafetyDoor)    lv_label_set_text(label_status, "SafetyDoor");
+    // else if (sys.state == State::Sleep)         lv_label_set_text(label_status, "Sleep");
 
     sprintf(xpos_str, "%d", sys_position[0]);
     sprintf(ypos_str, "%d", sys_position[1]);

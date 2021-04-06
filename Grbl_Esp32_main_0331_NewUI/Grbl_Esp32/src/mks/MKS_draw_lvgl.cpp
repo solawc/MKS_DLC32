@@ -204,7 +204,8 @@ lv_obj_t* mks_lv_bar_set(lv_obj_t* scr, lv_obj_t* bar, lv_coord_t bar_w, lv_coor
 
     bar = lv_bar_create(scr, NULL);
     lv_obj_set_size(bar, bar_w, bar_h);
-    lv_obj_align(bar, NULL, LV_ALIGN_CENTER, x, y);
+    // lv_obj_align(bar, NULL, LV_ALIGN_CENTER, x, y);
+    lv_obj_set_pos(bar, x, y);
     //lv_bar_set_anim_time(bar, 1000);
     lv_bar_set_value(bar, val, LV_ANIM_ON);
     return bar;
