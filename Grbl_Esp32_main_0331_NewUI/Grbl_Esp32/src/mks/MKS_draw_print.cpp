@@ -57,6 +57,7 @@ static lv_obj_t* Label_caveSpeed;
 static lv_obj_t* Label_moveSpeed;
 static lv_obj_t* Label_x_pos;
 static lv_obj_t* Label_y_pos;
+static lv_obj_t* Label_z_pos;
 static lv_obj_t* Label_print_persen;
 static lv_obj_t* Label_popup_cancel;
 static lv_obj_t* Label_popup_sure;
@@ -195,20 +196,17 @@ void mks_draw_print(void) {
 
     bar_print = mks_lv_bar_set(print_scr2, bar_print, 440, 30, print_bar_pic_x, print_bar_pic_y, 0);
 
-    sprintf(power_str, "Power: %d", mks_grbl.power_persen);
+    sprintf(power_str, "Power: %d", sys_rt_s_override);
     Label_power = mks_lvgl_long_sroll_label_with_wight_set_center(print_scr2, Label_power, print_first_data_label_x, print_first_data_label_y, power_str, 200);
 
-    sprintf(cave_s_str, "Cave Speed: %d", mks_grbl.cave_speed);
+    sprintf(cave_s_str, "Cave Speed: %d%", sys_rt_s_override);
     Label_caveSpeed = mks_lvgl_long_sroll_label_with_wight_set_center(print_scr2, Label_caveSpeed, print_first_data_label_x, print_first_data_label_y+30, cave_s_str, 200);
 
-    sprintf(move_s_str, "Move Speed: %d", mks_grbl.move_speed);
+    sprintf(move_s_str, "Move Speed: %d", st_get_realtime_rate);
     Label_moveSpeed = mks_lvgl_long_sroll_label_with_wight_set_center(print_scr2, Label_moveSpeed, print_first_data_label_x, print_first_data_label_y+60, move_s_str, 200);
 
-    sprintf(x_pos_str, "X POS: %d", mks_grbl.X_Pos);
-    Label_x_pos = mks_lvgl_long_sroll_label_with_wight_set_center(print_scr2, Label_x_pos, print_first_data_label_x+200, print_first_data_label_y, x_pos_str, 200);
-
-    sprintf(y_pos_str, "Y POS: %d", mks_grbl.Y_Pos);
-    Label_y_pos = mks_lvgl_long_sroll_label_with_wight_set_center(print_scr2, Label_y_pos, print_first_data_label_x+200, print_first_data_label_y+30, y_pos_str, 200);
+    Label_x_pos = mks_lvgl_long_sroll_label_with_wight_set_center(print_scr2, Label_x_pos, print_first_data_label_x+200, print_first_data_label_y, "0", 200);
+    Label_y_pos = mks_lvgl_long_sroll_label_with_wight_set_center(print_scr2, Label_y_pos, print_first_data_label_x+200, print_first_data_label_y+30, "0", 200);
 }
 
 static void event_btn_cancle(lv_obj_t* obj, lv_event_t event) {
@@ -310,7 +308,6 @@ void mks_print_bar_updata(void) {
 
     bar_print = mks_lv_bar_updata(bar_print, (uint16_t)sd_report_perc_complete());
 }
-
 
 
 lv_obj_t *pwr_src;
@@ -515,6 +512,32 @@ void mks_print_speed_set(void) {
 }
 
 
+char print_xpos_str[50];
+char print_ypos_str[50];
+char print_zpos_str[50];
+
+void mks_print_data_updata(void) {
+
+    int32_t mks_current_position[MAX_N_AXIS];
+    float mks_print_position[MAX_N_AXIS];
+
+    memset(print_xpos_str, 0, sizeof(print_xpos_str));
+    memset(print_ypos_str, 0, sizeof(print_ypos_str));
+    memset(print_zpos_str, 0, sizeof(print_zpos_str));
+    memset(mks_current_position, 0, sizeof(mks_current_position));
+    memset(mks_print_position, 0, sizeof(mks_print_position));
+
+    memcpy(mks_current_position, sys_position, sizeof(sys_position));
+    system_convert_array_steps_to_mpos(mks_print_position, mks_current_position);
+
+    sprintf(print_xpos_str, "%.2f", mks_print_position[0]);
+    sprintf(print_ypos_str, "%.2f", mks_print_position[1]);
+    sprintf(print_zpos_str, "%.2f", mks_print_position[2]);
+
+    Label_x_pos = mks_lv_label_updata(Label_x_pos, print_xpos_str);
+    Label_y_pos = mks_lv_label_updata(Label_y_pos, print_ypos_str);
+    Label_z_pos = mks_lv_label_updata(Label_z_pos, print_zpos_str);
+}
 
 void mks_clear_print(void) {
     lv_obj_clean(mks_src);

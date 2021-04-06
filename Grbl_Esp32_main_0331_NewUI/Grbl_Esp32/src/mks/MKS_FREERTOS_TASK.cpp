@@ -47,11 +47,10 @@ void lvgl_disp_data_updata(void *parg) {
         else if(mks_ui_page.mks_ui_page == MKS_UI_Pring) { // 雕刻界面更新数据
 
         }
-        vTaskDelay(1000); // 500ms
+        vTaskDelay(100); // 500ms
     }
 }
-
-
+           
 void disp_task_data_updata(void) {
 
     xTaskCreatePinnedToCore(lvgl_disp_data_updata,     // task
@@ -64,5 +63,4 @@ void disp_task_data_updata(void) {
                                                 // core
     );
 }
-
 
