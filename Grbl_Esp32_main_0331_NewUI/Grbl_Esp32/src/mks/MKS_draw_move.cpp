@@ -253,6 +253,9 @@ void mks_draw_move(void) {
 	lv_obj_set_size(dist_scr, 180, 200);
     lv_obj_set_pos(dist_scr, 290, 110);
 
+	mks_ui_page.mks_ui_page = MKS_UI_Control;
+    mks_ui_page.wait_count = DEFAULT_UI_COUNT;
+
 	/* 背景层样式 */
 	lv_style_copy(&mbk_color, &lv_style_scr);
     mbk_color.body.main_color = LV_COLOR_MAKE(0x1F, 0x23, 0x33); 

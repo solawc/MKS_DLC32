@@ -59,7 +59,6 @@ typedef struct{
     bool                        is_mks_ts35_flag;   // 是否是通过TS35执行的雕刻功能
     bool                        wifi_connect_status;// wifi連接轉態檢測
     bool                        wifi_check_status;  // 是否需要檢測wifi連接
-    
 }GRBL_CRTL;
 extern GRBL_CRTL mks_grbl;
 

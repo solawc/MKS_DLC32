@@ -4,11 +4,13 @@
 // #include "GCode.h"
 // #include "Report.h"
 #include "../grbl.h"
-
+#include "MKS_LVGL.h"
 typedef enum {
 
     BL_NONE,
     BL_BEGIN,           //开始调整
+    BL_UP,
+    BL_DOWN,
     BL_ADJ_ING,         //正在调整
     BL_ADJ_END,         //调整结束
 
@@ -60,6 +62,7 @@ void bltouch_duty(uint32_t duty);
 void BLTOUCH_push_down(void);
 void BLTOUCH_push_up(void);
 void BLtouch_reset_and_push_up(void);
+void bltouch_reset(void);
 
 void spindle_check_init(void);
 void spindle_check(void);

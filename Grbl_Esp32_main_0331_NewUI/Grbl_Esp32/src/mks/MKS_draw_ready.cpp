@@ -50,7 +50,8 @@ static void event_handler_Adjustment(lv_obj_t* obj, lv_event_t event) {
 	
 	if (event == LV_EVENT_RELEASED) {
         lv_clean_curren_screen();
-        mks_ui_page.mks_ui_page = MKS_UI_Adjust;
+
+        mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
         mks_ui_page.wait_count = DEFAULT_UI_COUNT;
         mks_draw_power();
 	}
@@ -60,7 +61,7 @@ static void event_handler_Control(lv_obj_t* obj, lv_event_t event) {
 	
 	if (event == LV_EVENT_RELEASED) {
         lv_clean_curren_screen();
-        mks_ui_page.mks_ui_page = MKS_UI_Control;
+        mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
         mks_ui_page.wait_count = DEFAULT_UI_COUNT;
         mks_draw_move();
 	}
@@ -71,7 +72,7 @@ static void event_handler_Sculpture(lv_obj_t* obj, lv_event_t event) {
 	
 	if (event == LV_EVENT_RELEASED) {
         lv_clean_curren_screen();
-        mks_ui_page.mks_ui_page = MKS_UI_Caving;
+        mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
         mks_ui_page.wait_count = DEFAULT_UI_COUNT;
         mks_draw_craving();
 	}

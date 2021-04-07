@@ -2,12 +2,12 @@
 
 #define BLTOUCH_FREQ           50   //HZ
 #define RESOLUTION             16   //分辨率
-#define BLTOUCH_CHANNEL         1
-
+#define BLTOUCH_CHANNEL        15
+#define BLTOUCH_RESET          978   //HZ
 
 void bltouch_interrupt_call_back(void) {
-
     BLtouch_reset_and_push_up();
+    mks_grbl.bl_status = BL_UP;
     grbl_sendf(CLIENT_SERIAL, "interrupt");
     sys_rt_exec_state.bit.motionCancel = true;
 }
@@ -17,10 +17,14 @@ void bltouch_init(void) {
     attachInterrupt(BLTOUCH_READ ,bltouch_interrupt_call_back, RISING);  //RISING
     ledcSetup(BLTOUCH_CHANNEL, BLTOUCH_FREQ, RESOLUTION); // 设置通道
     ledcAttachPin(BLTOUCH_PWM, BLTOUCH_CHANNEL);  // 将通道与对应的引脚连接
+    mks_grbl.bl_status = BL_NONE;
+}
+
+void bltouch_reset(void) { 
+    ledcSetup(BLTOUCH_CHANNEL, BLTOUCH_RESET, RESOLUTION); // 设置通道
 }
 
 void bltouch_duty(uint32_t duty) {
-
     ledcWrite(BLTOUCH_CHANNEL, duty);
 }
 
@@ -35,10 +39,12 @@ int bltouch_read(void) {
 }
 
 void BLTOUCH_push_down(void) { 
+    mks_grbl.bl_status = BL_DOWN;
     bltouch_duty(2120);
 }
 
-void BLTOUCH_push_up(void) { 
+void BLTOUCH_push_up(void) {
+    mks_grbl.bl_status = BL_UP; 
     bltouch_duty(4826);
 }
 
