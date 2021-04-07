@@ -14,10 +14,10 @@ typedef enum {
     READY_src1_x_size = 460,
     READY_src1_y_size = 110,
 
-    READY_FIRST_IMG_X = 90,
+    READY_FIRST_IMG_X = 60,
     READY_FIRST_IMG_Y = 10,
 
-    READY_FIRST_LABEL_X = 70,
+    READY_FIRST_LABEL_X = 60,
     READY_FIRST_LABEL_Y = 20,
 
     READY_first_btn_x = 10,
@@ -29,7 +29,6 @@ typedef enum {
 }READY_XY_POS_t;
 
 typedef struct {
-
     uint32_t mks_x_pos;
     uint32_t mks_y_pos;
     uint32_t mks_z_pos;

@@ -48,7 +48,10 @@ typedef enum {
     print_first_data_label_y = 100,
 
     print_src1_first_pic_x = 100,
-    print_src1_first_pic_y = 10,
+    print_src1_first_pic_y = 20,
+
+    print_src2_first_pic_x = 70,
+    print_src2_first_pic_y = 95,
 
 }PRINT_XY_t;
 
@@ -88,4 +91,5 @@ void mks_print_bar_updata(void);
 void mks_draw_operation(void);
 void mks_print_pwr_set(void);
 void mks_print_speed_set(void);
+void mks_print_data_updata(void);
 #endif // !MKS_draw_print_h

@@ -1,6 +1,5 @@
 #include "MKS_draw_print.h"
 
-
 PWR_CTRL_t mks_pwr_ctrl;
 SPEED_CTRL_t mks_speed_ctrl;
 /* scr */
@@ -45,7 +44,6 @@ static lv_obj_t* imgbtn_cave_speed_dec;
 static lv_obj_t* imgbtn_move_speed_add;
 static lv_obj_t* imgbtn_move_speed_dec;
 
-
 /* label */
 static lv_obj_t* Label_suspend;
 static lv_obj_t* Label_stop;
@@ -54,6 +52,11 @@ static lv_obj_t* Label_caveSpeed;
 
 // static lv_obj_t* label_operation;
 // static lv_obj_t* Label_file_name;
+static lv_obj_t* Label_p_suspend;
+static lv_obj_t* Label_p_stop;
+static lv_obj_t* Label_p_power;
+static lv_obj_t* Label_p_caveSpeed;
+
 static lv_obj_t* Label_moveSpeed;
 static lv_obj_t* Label_x_pos;
 static lv_obj_t* Label_y_pos;
@@ -63,6 +66,12 @@ static lv_obj_t* Label_popup_cancel;
 static lv_obj_t* Label_popup_sure;
 static lv_obj_t* Label_popup;
 static lv_obj_t* Label_op_back;
+
+lv_obj_t* print_icon_X;
+lv_obj_t* print_icon_Y;
+lv_obj_t* print_icon_Z;
+lv_obj_t* print_icon_PWR;
+lv_obj_t* print_icon_SPEED;
 
 // LV_IMG_DECLARE(mAdd);  //先申明此图片
 // LV_IMG_DECLARE(mDec);  //先申明此图片
@@ -78,6 +87,13 @@ LV_IMG_DECLARE(back);  // 速度
 LV_IMG_DECLARE(add);  // 加
 LV_IMG_DECLARE(confirm);  // 确认
 LV_IMG_DECLARE(reduce);  // 减
+
+
+LV_IMG_DECLARE(X_POS);	
+LV_IMG_DECLARE(Y_POS);	
+LV_IMG_DECLARE(Z_POS);	
+LV_IMG_DECLARE(M_pwr);	
+LV_IMG_DECLARE(P_speed);
 
 static void event_handler_suspend(lv_obj_t* obj, lv_event_t event) {
     if (event == LV_EVENT_RELEASED) {
@@ -130,6 +146,11 @@ static void event_handler_op_back(lv_obj_t* obj, lv_event_t event) {
     }
 }
 
+static void event_handler_none(lv_obj_t* obj, lv_event_t event) {
+    if (event == LV_EVENT_RELEASED) {
+
+    }
+}
 
 void mks_draw_print(void) {
 	
@@ -158,55 +179,59 @@ void mks_draw_print(void) {
 	lv_obj_set_style(print_scr1, &print_src_style);
     lv_obj_set_style(print_scr2, &print_src_style);
 
-    imgbtn_suspend = lv_imgbtn_creat_mks(print_scr1, 
+    imgbtn_suspend = lv_imgbtn_creat_n_mks(print_scr1, 
                                          imgbtn_suspend, 
                                          &M_Pause, 
                                          &M_Pause, 
-                                         LV_ALIGN_IN_LEFT_MID, 
                                          print_src1_first_pic_x,
                                          print_src1_first_pic_y,
                                          event_handler_suspend);
 
-    imgbtn_stop = lv_imgbtn_creat_mks(print_scr1, 
+    imgbtn_stop = lv_imgbtn_creat_n_mks(print_scr1, 
                                      imgbtn_stop, 
                                      &M_Stop, 
                                      &M_Stop, 
-                                     LV_ALIGN_IN_LEFT_MID, 
                                      print_src1_first_pic_x + 80, 
                                      print_src1_first_pic_y, 
                                      event_handler_stop);
 
-    imgbtn_pwr = lv_imgbtn_creat_mks(print_scr1, 
+    imgbtn_pwr = lv_imgbtn_creat_n_mks(print_scr1, 
                                      imgbtn_pwr, 
                                      &M_PWRr,
                                      &M_PWRr, 
-                                     LV_ALIGN_IN_LEFT_MID, 
                                      print_src1_first_pic_x + 160, 
                                      print_src1_first_pic_y, 
                                      event_handler_pwr_set);
     
-    imgbtn_speed = lv_imgbtn_creat_mks(print_scr1, 
+    imgbtn_speed = lv_imgbtn_creat_n_mks(print_scr1, 
                                         imgbtn_speed, 
                                         &M_SPEED, 
                                         &M_SPEED, 
-                                        LV_ALIGN_IN_LEFT_MID, 
                                         print_src1_first_pic_x + 240, 
                                         print_src1_first_pic_y, 
                                         event_handler_speed_set);
 
+    lv_imgbtn_creat_n_mks(print_scr2 ,print_icon_X, &X_POS,  &X_POS, print_src2_first_pic_x+200, print_src2_first_pic_y, event_handler_none);
+    lv_imgbtn_creat_n_mks(print_scr2 ,print_icon_Y, &Y_POS,  &Y_POS, print_src2_first_pic_x+200, print_src2_first_pic_y + 30, event_handler_none);
+    lv_imgbtn_creat_n_mks(print_scr2 ,print_icon_Z, &Z_POS,  &Z_POS, print_src2_first_pic_x+200, print_src2_first_pic_y + 60, event_handler_none);
+    lv_imgbtn_creat_n_mks(print_scr2 ,print_icon_PWR,  &M_pwr,  &M_pwr, print_src2_first_pic_x, print_src2_first_pic_y, event_handler_none);
+    lv_imgbtn_creat_n_mks(print_scr2 ,print_icon_SPEED,  &P_speed,  &P_speed, print_src2_first_pic_x, print_src2_first_pic_y+30, event_handler_none);
+
     bar_print = mks_lv_bar_set(print_scr2, bar_print, 440, 30, print_bar_pic_x, print_bar_pic_y, 0);
 
-    sprintf(power_str, "Power: %d", sys_rt_s_override);
-    Label_power = mks_lvgl_long_sroll_label_with_wight_set_center(print_scr2, Label_power, print_first_data_label_x, print_first_data_label_y, power_str, 200);
+    Label_p_suspend = mks_lvgl_long_sroll_label_with_wight_set_center(print_scr1, Label_power, print_src1_first_pic_x+10, 70, "Run", 50);
+    Label_p_stop = mks_lvgl_long_sroll_label_with_wight_set_center(print_scr1, Label_power, print_src1_first_pic_x + 90, 70, "Stop", 50);
+    Label_p_power = mks_lvgl_long_sroll_label_with_wight_set_center(print_scr1, Label_power, print_src1_first_pic_x + 170, 70, "Power", 50);
+    Label_p_caveSpeed = mks_lvgl_long_sroll_label_with_wight_set_center(print_scr1, Label_power, print_src1_first_pic_x + 250, 70, "Speed", 50);
 
-    sprintf(cave_s_str, "Cave Speed: %d%", sys_rt_s_override);
-    Label_caveSpeed = mks_lvgl_long_sroll_label_with_wight_set_center(print_scr2, Label_caveSpeed, print_first_data_label_x, print_first_data_label_y+30, cave_s_str, 200);
+    // Label_moveSpeed = mks_lv_static_label(print_scr2, Label_moveSpeed, print_first_data_label_x, print_first_data_label_y+60, "0", 50);
+    Label_x_pos = mks_lvgl_long_sroll_label_with_wight_set_center(print_scr2, Label_x_pos, print_first_data_label_x+300, print_first_data_label_y,    "0", 50);
+    Label_y_pos = mks_lvgl_long_sroll_label_with_wight_set_center(print_scr2, Label_y_pos, print_first_data_label_x+300, print_first_data_label_y+30, "0", 50);
+    Label_z_pos = mks_lvgl_long_sroll_label_with_wight_set_center(print_scr2, Label_z_pos, print_first_data_label_x+300, print_first_data_label_y+60, "0", 50);
 
-    sprintf(move_s_str, "Move Speed: %d", st_get_realtime_rate);
-    Label_moveSpeed = mks_lvgl_long_sroll_label_with_wight_set_center(print_scr2, Label_moveSpeed, print_first_data_label_x, print_first_data_label_y+60, move_s_str, 200);
+    Label_power = mks_lvgl_long_sroll_label_with_wight_set_center(print_scr2, Label_power, print_first_data_label_x + 100, print_first_data_label_y, "0", 50);
+    Label_caveSpeed = mks_lvgl_long_sroll_label_with_wight_set_center(print_scr2, Label_caveSpeed, print_first_data_label_x + 100, print_first_data_label_y+30, "0", 50);
 
-    Label_x_pos = mks_lvgl_long_sroll_label_with_wight_set_center(print_scr2, Label_x_pos, print_first_data_label_x+200, print_first_data_label_y, "0", 200);
-    Label_y_pos = mks_lvgl_long_sroll_label_with_wight_set_center(print_scr2, Label_y_pos, print_first_data_label_x+200, print_first_data_label_y+30, "0", 200);
 }
 
 static void event_btn_cancle(lv_obj_t* obj, lv_event_t event) {
@@ -222,9 +247,9 @@ static void event_btn_sure(lv_obj_t* obj, lv_event_t event) {
         mks_grbl.run_status = GRBL_RESTARTING;
         // lv_obj_del(stop_popup);
         mks_clear_print();
+        mks_draw_ready();
         mks_ui_page.mks_ui_page = MKS_UI_Ready;
         mks_ui_page.wait_count = 1;
-        mks_draw_ready();
     }
 }
 
@@ -235,7 +260,8 @@ static void event_btn_printdon(lv_obj_t* obj, lv_event_t event) {
         mks_clear_print();
         mks_ui_page.mks_ui_page = MKS_UI_Ready;
         mks_ui_page.wait_count = 1;
-        mks_draw_ready();
+        // mks_draw_ready();
+        mks_draw_finsh_pupop();
     }
 }
 
@@ -262,14 +288,14 @@ void mks_draw_print_popup(const char* text) {
     btn_popup_sure = mks_lv_btn_set(stop_popup, btn_popup_sure, 100,40,10,130,event_btn_sure);
 	lv_btn_set_style(btn_popup_sure, LV_BTN_STYLE_REL, &btn_style);
     lv_btn_set_style(btn_popup_sure,LV_BTN_STYLE_PR,&btn_style);
-	mks_lvgl_long_sroll_label_with_wight_set_center(btn_popup_sure, Label_popup_sure, 0, 0, "Yes",40);
+	mks_lvgl_label_set_align_center(btn_popup_sure, Label_popup_sure, 0, 0, "Yes");
 
 	btn_popup_cancle = mks_lv_btn_set(stop_popup, btn_popup_cancle, 100,40,240,130,event_btn_cancle);
 	lv_btn_set_style(btn_popup_cancle, LV_BTN_STYLE_REL, &btn_style);
     lv_btn_set_style(btn_popup_cancle,LV_BTN_STYLE_PR,&btn_style);
-	mks_lvgl_long_sroll_label_with_wight_set_center(btn_popup_cancle, Label_popup_sure, 0, 0, "Cancle",40);
+	mks_lvgl_label_set_align_center(btn_popup_cancle, Label_popup_sure, 0, 0, "Cancle");
 
-    mks_lvgl_long_sroll_label_with_wight_set(stop_popup, Label_popup, 100, 80, text, 150);
+    mks_lvgl_long_sroll_label_with_wight_set(stop_popup, Label_popup, 80, 60, text, 200);
 }
 
 void mks_draw_finsh_pupop(void) { 
@@ -433,9 +459,15 @@ static void event_speed_setting_add(lv_obj_t* obj, lv_event_t event) {
     if (event == LV_EVENT_RELEASED) {
         
         if(mks_pwr_ctrl.pwr_len == PWR_1_PERSEN) {
-
+            sys_rt_f_override += FeedOverride::FineIncrement;
+            if (sys_rt_f_override > FeedOverride::Max) {
+                sys_rt_f_override = FeedOverride::Max;
+            }
         }else if(mks_pwr_ctrl.pwr_len == PWR_10_PERSEN) {
-
+            sys_rt_f_override += FeedOverride::CoarseIncrement;
+            if (sys_rt_f_override > FeedOverride::Max) {
+                sys_rt_f_override = FeedOverride::Max;
+            }
         }
     }
 }
@@ -444,9 +476,15 @@ static void event_speed_setting_dec(lv_obj_t* obj, lv_event_t event) {
     if (event == LV_EVENT_RELEASED) {
         
         if(mks_pwr_ctrl.pwr_len == PWR_1_PERSEN) {
-
+            sys_rt_f_override -= FeedOverride::FineIncrement;
+            if (sys_rt_f_override > FeedOverride::Max) {
+                sys_rt_f_override = FeedOverride::Max;
+            }
         }else if(mks_pwr_ctrl.pwr_len == PWR_10_PERSEN) {
-
+            sys_rt_f_override -= FeedOverride::CoarseIncrement;
+            if (sys_rt_f_override > FeedOverride::Max) {
+                sys_rt_f_override = FeedOverride::Max;
+            }
         }
     }
 }
@@ -495,11 +533,11 @@ void mks_print_speed_set(void) {
     btn_style.text.color = LV_COLOR_WHITE;
     btn_style.body.radius = 10; 
 
-    speed_1_mm = mks_lv_btn_set(speed_src, speed_1_mm, 100,40,40,130,event_btn_speed_1mm);
+    speed_1_mm = mks_lv_btn_set(speed_src, speed_1_mm, 100, 40, 40, 50, event_btn_speed_1mm);
 	lv_btn_set_style(speed_1_mm, LV_BTN_STYLE_REL, &btn_style);
     lv_btn_set_style(speed_1_mm,LV_BTN_STYLE_PR,&btn_style);
 
-    speed_10_mm = mks_lv_btn_set(speed_src, speed_10_mm, 100,40,200,130,event_btn_speed_10mm);
+    speed_10_mm = mks_lv_btn_set(speed_src, speed_10_mm, 100, 40, 200, 50, event_btn_speed_10mm);
 	lv_btn_set_style(speed_10_mm, LV_BTN_STYLE_REL, &btn_style);
     lv_btn_set_style(speed_10_mm,LV_BTN_STYLE_PR,&btn_style);
 
@@ -515,6 +553,8 @@ void mks_print_speed_set(void) {
 char print_xpos_str[50];
 char print_ypos_str[50];
 char print_zpos_str[50];
+char print_pwr_str[50];
+char print_speed_str[50];
 
 void mks_print_data_updata(void) {
 
@@ -533,10 +573,17 @@ void mks_print_data_updata(void) {
     sprintf(print_xpos_str, "%.2f", mks_print_position[0]);
     sprintf(print_ypos_str, "%.2f", mks_print_position[1]);
     sprintf(print_zpos_str, "%.2f", mks_print_position[2]);
+    sprintf(print_pwr_str, "%d", sys_rt_s_override);
+    sprintf(print_speed_str, "%2d", sys_rt_f_override);
+
+
+ 
 
     Label_x_pos = mks_lv_label_updata(Label_x_pos, print_xpos_str);
     Label_y_pos = mks_lv_label_updata(Label_y_pos, print_ypos_str);
     Label_z_pos = mks_lv_label_updata(Label_z_pos, print_zpos_str);
+    Label_power = mks_lv_label_updata(Label_power, print_pwr_str);
+    Label_caveSpeed = mks_lv_label_updata(Label_caveSpeed, print_speed_str);
 }
 
 void mks_clear_print(void) {

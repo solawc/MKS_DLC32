@@ -130,6 +130,19 @@ lv_obj_t* mks_lvgl_long_sroll_label_with_wight_set_center(lv_obj_t* scr, lv_obj_
     return lab;
 }
 
+lv_obj_t* mks_lv_static_label(lv_obj_t* scr, lv_obj_t* lab, lv_coord_t x, lv_coord_t y, const char* text, lv_coord_t w) {
+
+    lab = lv_label_create(scr, NULL);
+    lv_label_set_long_mode(lab, LV_LABEL_LONG_SROLL);
+    lv_obj_set_width(lab, w);
+    lv_obj_set_height(lab, 20);
+    lv_obj_set_pos(lab, x, y);
+    lv_label_set_recolor(lab, true);
+    // lv_label_set_text(lab, text);
+    lv_label_set_static_text(lab, text);
+    return lab;
+}
+
 /* 
  * Author   :MKS
  * Describe :Set up Img display
@@ -139,7 +152,6 @@ lv_obj_t* mks_lvgl_img_set(lv_obj_t *scr ,lv_obj_t *img, const void * src_img, l
     img = lv_img_create(scr, NULL);
     lv_img_set_src(img, src_img);
     lv_obj_set_pos(img, x_mod, y_mod);
-    // lv_obj_align(img, NULL, LV_ALIGN_CENTER, x_mod, y_mod);
     return img;
 }
 
@@ -158,7 +170,17 @@ lv_obj_t* lv_imgbtn_creat_mks(lv_obj_t *scr ,lv_obj_t *imgbtn, const void * img_
     return imgbtn;
 }
 
+lv_obj_t* lv_imgbtn_creat_n_mks(lv_obj_t *scr ,lv_obj_t *imgbtn, const void * img_pr, const void * img_rel, lv_coord_t x_mod, lv_coord_t y_mod, lv_event_cb_t event_cb) {
 
+    imgbtn = lv_imgbtn_create(scr, NULL);
+    lv_imgbtn_set_src(imgbtn, LV_BTN_STATE_PR, img_pr);
+    lv_imgbtn_set_src(imgbtn, LV_BTN_STATE_REL, img_rel);
+    lv_imgbtn_set_state(imgbtn, LV_BTN_STATE_REL);
+    lv_obj_set_pos(imgbtn, x_mod, y_mod);
+    lv_obj_set_event_cb(imgbtn, event_cb);
+    return imgbtn;
+
+}
 
 /* 
  * Author   :MKS
@@ -222,7 +244,6 @@ lv_obj_t* mks_lv_bar_updata(lv_obj_t* bar, int16_t value) {
 }
 
 lv_obj_t* mks_lv_label_updata(lv_obj_t* lab, const char *str) {
-
     lv_label_set_static_text(lab ,str);
     return lab;
 }

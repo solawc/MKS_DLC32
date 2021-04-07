@@ -13,8 +13,9 @@ lv_style_t p_bkl_color;
 // lv_obj_t* dec;
 // lv_obj_t* pwr_len;
 
-lv_obj_t* pwr_on_off;
-lv_obj_t* pwr_h_l;
+lv_obj_t* pwr_high;
+lv_obj_t* pwr_low;
+lv_obj_t* pwr_off;
 lv_obj_t* cailb;
 static lv_obj_t* Back;
 
@@ -30,11 +31,14 @@ lv_obj_t* label_cailb;
 static lv_obj_t* label_Back;
 
 
+LV_IMG_DECLARE(SP_H_UP);			//强光
+LV_IMG_DECLARE(SPD_H_PRE);			//强光
 
-LV_IMG_DECLARE(glare);			//强光
-LV_IMG_DECLARE(Low_light);		//弱光
-LV_IMG_DECLARE(pwroff);			//开
-LV_IMG_DECLARE(pwron);			//关
+LV_IMG_DECLARE(SP_L_UP);			//弱光
+LV_IMG_DECLARE(SP_L_PRE);			//弱光
+LV_IMG_DECLARE(SP_ON);				//开
+LV_IMG_DECLARE(SP_OFF);				//关
+
 LV_IMG_DECLARE(Calibration);			//Z回零
 LV_IMG_DECLARE(back);			//返回
 
@@ -95,39 +99,60 @@ LV_IMG_DECLARE(back);			//返回
 
 static void event_handler_pwr_on_off(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
-		
-		if(mks_grbl.light_status == GRBL_Light_On) { 
+
+		if(mks_grbl.light_status == GRBL_Light_On) {
 			mks_grbl.light_status = GRBL_Light_Off;
-			lv_imgbtn_set_src(pwr_on_off, LV_BTN_STATE_PR, &pwroff);
-    		lv_imgbtn_set_src(pwr_on_off, LV_BTN_STATE_REL, &pwroff);
+			lv_imgbtn_set_src(pwr_off, LV_BTN_STATE_PR, &SP_OFF);
+    		lv_imgbtn_set_src(pwr_off, LV_BTN_STATE_REL, &SP_OFF);
 			MKS_GRBL_CMD_SEND("M3 S0\n");
-		}
-		else if(mks_grbl.light_status == GRBL_Light_Off) {
+		}else if(mks_grbl.light_status == GRBL_Light_Off) {
 			mks_grbl.light_status = GRBL_Light_On;
-			lv_imgbtn_set_src(pwr_on_off, LV_BTN_STATE_PR, &pwron);
-    		lv_imgbtn_set_src(pwr_on_off, LV_BTN_STATE_REL, &pwron);
-			if(mks_grbl.power_persen == P_1_PERSEN)	MKS_GRBL_CMD_SEND("M3 S5\n");
-			else if (mks_grbl.power_persen == P_10_PERSEN) MKS_GRBL_CMD_SEND("M3 S500\n");
+			lv_imgbtn_set_src(pwr_off, LV_BTN_STATE_PR, &SP_ON);
+    		lv_imgbtn_set_src(pwr_off, LV_BTN_STATE_REL, &SP_ON);
+
+			if(mks_grbl.power_persen == P_1_PERSEN) {
+				lv_imgbtn_set_src(pwr_high, LV_BTN_STATE_PR, &SPD_H_PRE);
+				lv_imgbtn_set_src(pwr_high, LV_BTN_STATE_REL, &SPD_H_PRE);
+				lv_imgbtn_set_src(pwr_low, LV_BTN_STATE_PR, &SP_L_UP);
+				lv_imgbtn_set_src(pwr_low, LV_BTN_STATE_REL, &SP_L_UP);
+				MKS_GRBL_CMD_SEND("M3 S5\n");
+			}else if(mks_grbl.power_persen == P_10_PERSEN) {
+				lv_imgbtn_set_src(pwr_high, LV_BTN_STATE_PR, &SP_H_UP);
+				lv_imgbtn_set_src(pwr_high, LV_BTN_STATE_REL, &SP_H_UP);
+				lv_imgbtn_set_src(pwr_low, LV_BTN_STATE_PR, &SP_L_PRE);
+				lv_imgbtn_set_src(pwr_low, LV_BTN_STATE_REL, &SP_L_PRE);
+				MKS_GRBL_CMD_SEND("M3 S500\n");
+			}
 		}
 	}
 }
 
 static void event_handler_pwr_h_l(lv_obj_t* obj, lv_event_t event) {
 
-	if (event == LV_EVENT_RELEASED) {
-		if(mks_grbl.power_persen == P_1_PERSEN) { 
-			mks_grbl.power_persen = P_10_PERSEN;
-			lv_imgbtn_set_src(pwr_h_l, LV_BTN_STATE_PR, &glare);
-    		lv_imgbtn_set_src(pwr_h_l, LV_BTN_STATE_REL, &glare);
-			if(mks_grbl.light_status == GRBL_Light_On) MKS_GRBL_CMD_SEND("M3 S500\n");
+	if(mks_grbl.light_status == GRBL_Light_On) {
+
+		if(mks_grbl.power_persen == P_1_PERSEN) {
+			lv_imgbtn_set_src(pwr_high, LV_BTN_STATE_PR, &SPD_H_PRE);
+    		lv_imgbtn_set_src(pwr_high, LV_BTN_STATE_REL, &SPD_H_PRE);
+			lv_imgbtn_set_src(pwr_low, LV_BTN_STATE_PR, &SP_L_UP);
+    		lv_imgbtn_set_src(pwr_low, LV_BTN_STATE_REL, &SP_L_UP);
+			MKS_GRBL_CMD_SEND("M3 S5\n");
+		}else if(mks_grbl.power_persen == P_10_PERSEN) {
+			lv_imgbtn_set_src(pwr_high, LV_BTN_STATE_PR, &SP_H_UP);
+    		lv_imgbtn_set_src(pwr_high, LV_BTN_STATE_REL, &SP_H_UP);
+			lv_imgbtn_set_src(pwr_low, LV_BTN_STATE_PR, &SP_L_PRE);
+    		lv_imgbtn_set_src(pwr_low, LV_BTN_STATE_REL, &SP_L_PRE);
+			MKS_GRBL_CMD_SEND("M3 S500\n");
 		}
-		else if(mks_grbl.power_persen == P_10_PERSEN) {
-			mks_grbl.power_persen = P_1_PERSEN;
-			lv_imgbtn_set_src(pwr_h_l, LV_BTN_STATE_PR, &Low_light);
-    		lv_imgbtn_set_src(pwr_h_l, LV_BTN_STATE_REL, &Low_light);
-			if(mks_grbl.light_status == GRBL_Light_On) MKS_GRBL_CMD_SEND("M3 S5\n");
-		}
+	}else{
+		lv_imgbtn_set_src(pwr_high, LV_BTN_STATE_PR, &SP_H_UP);
+    	lv_imgbtn_set_src(pwr_high, LV_BTN_STATE_REL, &SP_H_UP);
+		lv_imgbtn_set_src(pwr_low, LV_BTN_STATE_PR, &SP_L_UP);
+    	lv_imgbtn_set_src(pwr_low, LV_BTN_STATE_REL, &SP_L_UP);
+		MKS_GRBL_CMD_SEND("M3 S0\n");
 	}
+
+	
 }
 
 static void event_handler_cailb(lv_obj_t* obj, lv_event_t event) {
@@ -174,16 +199,21 @@ void mks_draw_power(void) {
 	Back = lv_imgbtn_creat_mks(p_scr1, Back, &back, &back, LV_ALIGN_IN_LEFT_MID, 10, -10, event_handler_Back);
 	cailb = lv_imgbtn_creat_mks(p_scr1, cailb, &Calibration, &Calibration, LV_ALIGN_CENTER,150, -10, event_handler_cailb);
 
-	
-	if(mks_grbl.power_persen == P_1_PERSEN)
-		pwr_h_l = lv_imgbtn_creat_mks(p_scr2, pwr_h_l, &Low_light, &Low_light, LV_ALIGN_CENTER,-80, 0, event_handler_pwr_h_l);
+	if((mks_grbl.power_persen == P_10_PERSEN) && (mks_grbl.light_status == GRBL_Light_On))
+		pwr_high = lv_imgbtn_creat_n_mks(p_scr2, pwr_high, &SPD_H_PRE, &SPD_H_PRE,10, 20, event_handler_pwr_h_l);
 	else 
-		pwr_h_l = lv_imgbtn_creat_mks(p_scr2, pwr_h_l, &glare, &glare, LV_ALIGN_CENTER,-80, 0, event_handler_pwr_h_l);
+		pwr_high = lv_imgbtn_creat_n_mks(p_scr2, pwr_high, &SP_H_UP, &SP_H_UP,10, 20, event_handler_pwr_h_l);
+
+	if((mks_grbl.power_persen == P_1_PERSEN) && (mks_grbl.light_status == GRBL_Light_On))
+		pwr_low = lv_imgbtn_creat_n_mks(p_scr2, pwr_low, &SP_L_PRE, &SP_L_PRE,120, 0, event_handler_pwr_h_l);
+	else 
+		pwr_low = lv_imgbtn_creat_n_mks(p_scr2, pwr_low, &SP_L_UP, &SP_L_UP,120, 0, event_handler_pwr_h_l);
 
 	if(mks_grbl.light_status == GRBL_Light_On)
-		pwr_on_off = lv_imgbtn_creat_mks(p_scr2, pwr_on_off, &pwron, &pwron, LV_ALIGN_CENTER,80, 0, event_handler_pwr_on_off);
+		pwr_off = lv_imgbtn_creat_n_mks(p_scr2, pwr_low, &SP_ON, &SP_ON, 300, 0, event_handler_pwr_on_off);
 	else 
-		pwr_on_off = lv_imgbtn_creat_mks(p_scr2, pwr_on_off, &pwroff, &pwroff, LV_ALIGN_CENTER,80, 0, event_handler_pwr_on_off);
+		pwr_off = lv_imgbtn_creat_n_mks(p_scr2, pwr_low, &SP_OFF, &SP_OFF, 300, 0, event_handler_pwr_on_off);
+
 
 	label_Back = mks_lvgl_long_sroll_label_with_wight_set_center(p_scr1, label_Back, 20,60, "Back", 50);
 	label_cailb = mks_lvgl_long_sroll_label_with_wight_set_center(p_scr1, label_cailb, 350, 60, "Z Home", 60);

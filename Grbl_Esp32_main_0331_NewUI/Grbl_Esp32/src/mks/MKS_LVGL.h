@@ -65,6 +65,8 @@ extern GRBL_CRTL mks_grbl;
 
 typedef enum {
 
+    MKS_UI_PAGE_LOADING,
+
     MKS_UI_Ready,
     MKS_UI_Adjust,
     MKS_UI_Control,

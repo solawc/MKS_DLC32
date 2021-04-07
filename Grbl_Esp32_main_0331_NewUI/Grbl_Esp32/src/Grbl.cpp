@@ -122,6 +122,7 @@ static void reset_variables() {
         tft_TS35_init();
         disp_task_init();
         mks_grbl_parg_init();
+        
         BLTOUCH_push_up();
         delay_ms(100);
         BLTOUCH_push_down();
@@ -130,6 +131,8 @@ static void reset_variables() {
     spindle_check_init();
 
     if(mks_grbl.run_status == GRBL_RESTARTING) {
+        mks_ui_page.mks_ui_page = MKS_UI_Ready;
+        mks_ui_page.wait_count = 1;
         mks_grbl.run_status = GRBL_STOP;
     }
 }

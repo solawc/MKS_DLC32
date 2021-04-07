@@ -403,10 +403,9 @@ static void event_btn_sure(lv_obj_t* obj, lv_event_t event) {
 		MKS_GRBL_CMD_SEND("\n");
 		grbl_send(CLIENT_SERIAL, str_cmd);
 		grbl_send(CLIENT_SERIAL, "\n");
-
+		mks_draw_print();
 		mks_ui_page.mks_ui_page = MKS_UI_Pring;  //进入雕刻界面
 		mks_ui_page.wait_count = DEFAULT_UI_COUNT;
-		mks_draw_print();
 	}
 }
 
@@ -434,12 +433,12 @@ void mks_draw_caving_popup(uint8_t text, char *srt) {
 	btn_popup_sure = mks_lv_btn_set(caving_Popup, btn_popup_sure, 100,40,10,130,event_btn_sure);
 	lv_btn_set_style(btn_popup_sure, LV_BTN_STYLE_REL, &btn_style);
     lv_btn_set_style(btn_popup_sure,LV_BTN_STYLE_PR,&btn_style);
-	mks_lvgl_long_sroll_label_with_wight_set_center(btn_popup_sure, Label_popup_sure, 20, 0, "Yes",100);
+	mks_lvgl_long_sroll_label_with_wight_set_center(btn_popup_sure, Label_popup_sure, 50, 0, "Yes",50);
 
 	btn_popup_cancle = mks_lv_btn_set(caving_Popup, btn_popup_cancle, 100,40,240,130,event_btn_cancle);
 	lv_btn_set_style(btn_popup_cancle, LV_BTN_STYLE_REL, &btn_style);
     lv_btn_set_style(btn_popup_cancle,LV_BTN_STYLE_PR,&btn_style);
-	mks_lvgl_long_sroll_label_with_wight_set_center(btn_popup_cancle, Label_popup_sure, 20, 0, "Cancle",100);
+	mks_lvgl_long_sroll_label_with_wight_set_center(btn_popup_cancle, Label_popup_sure, 50, 0, "Cancle",50);
 
 	memcpy(file_print_send, srt, MKS_FILE_NAME_LENGTH);
 	// grbl_sendf(CLIENT_SERIAL, "text:%s\n",text);

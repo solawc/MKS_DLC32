@@ -157,6 +157,8 @@ void protocol_main_loop() {
                     char temp[50];
                     sd_get_current_filename(temp);
                     if (mks_grbl.is_mks_ts35_flag == true) { 
+                        mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
+                        mks_ui_page.wait_count = DEFAULT_UI_COUNT;
                         mks_draw_finsh_pupop(); // show print finsh 
                     }
                     grbl_notifyf("SD print done", "%s print is successful", temp);
