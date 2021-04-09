@@ -719,8 +719,8 @@ void mks_print_data_updata(void) {
     sprintf(print_xpos_str, "%.2f", mks_print_position[0]);
     sprintf(print_ypos_str, "%.2f", mks_print_position[1]);
     sprintf(print_zpos_str, "%.2f", mks_print_position[2]);
-    sprintf(print_pwr_str, "%d", sys_rt_s_override);
-    sprintf(print_speed_str, "%2d", sys_rt_f_override);
+    sprintf(print_pwr_str, "%d%%", sys_rt_s_override);
+    sprintf(print_speed_str, "%2d%%", sys_rt_f_override);
 
     Label_x_pos = mks_lv_label_updata(Label_x_pos, print_xpos_str);
     Label_y_pos = mks_lv_label_updata(Label_y_pos, print_ypos_str);

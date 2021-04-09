@@ -18,7 +18,7 @@ typedef enum {
     READY_FIRST_IMG_Y = 10,
 
     READY_FIRST_LABEL_X = 60,
-    READY_FIRST_LABEL_Y = 20,
+    READY_FIRST_LABEL_Y = 10,
 
     READY_first_btn_x = 10,
     READY_first_btn_y = 120,

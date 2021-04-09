@@ -41,6 +41,7 @@ static void event_btn_tool_wifi(lv_obj_t* obj, lv_event_t event) {
 
     if (event == LV_EVENT_PRESSED) {
         mks_clear_tool();
+        mks_grbl.wifi_back_from = 1;
         mks_draw_wifi();
     }
 }

@@ -276,6 +276,8 @@ lv_obj_t *wifi_up;
 lv_obj_t *wifi_next;
 lv_obj_t *wifi_back;
 
+lv_obj_t *wifi_label_up;
+lv_obj_t *wifi_label_next;
 lv_obj_t *wifi_label_back;
 lv_obj_t *wifi_label_line1; 
 lv_obj_t *wifi_label_line2; 
@@ -422,8 +424,8 @@ void mks_draw_wifi(void) {
     wifi_btn_line7 = mks_lv_btn_set(mks_src, wifi_btn_line7,  wifi_btn_w, wifi_btn_h, wifi_first_btn_x+230, wifi_first_btn_y+100 ,event_handler_wifi_bt7);
     wifi_btn_line8 = mks_lv_btn_set(mks_src, wifi_btn_line8,  wifi_btn_w, wifi_btn_h, wifi_first_btn_x+230, wifi_first_btn_y+150 ,event_handler_wifi_bt8);
     
-    lv_imgbtn_creat_mks(wifi_src1, wifi_up, &Previous, &Previous, LV_ALIGN_CENTER, 50, -10, event_handler_wifi_up);
-	lv_imgbtn_creat_mks(wifi_src1, wifi_next, &Next, &Next, LV_ALIGN_CENTER, 100, -10, event_handler_wifi_next);
+    lv_imgbtn_creat_mks(wifi_src1, wifi_up, &Previous, &Previous, LV_ALIGN_IN_LEFT_MID, 230, -10, event_handler_wifi_up);
+	lv_imgbtn_creat_mks(wifi_src1, wifi_next, &Next, &Next, LV_ALIGN_IN_LEFT_MID, 350, -10, event_handler_wifi_next);
     wifi_back = lv_imgbtn_creat_mks(wifi_src1, wifi_back, &back, &back, LV_ALIGN_IN_LEFT_MID, 10, -10, event_handler_wifi_back);
 
     lv_btn_set_style(wifi_btn_line1, LV_BTN_STYLE_REL, &btn_press_style);
@@ -490,6 +492,8 @@ void mks_draw_wifi(void) {
     wifi_label_line8 = mks_lvgl_long_sroll_label_with_wight_set(wifi_btn_line8, wifi_label_line8, 0, 0, mks_wifi.wifi_name_str[7], wifi_btn_label_size);
 
     mks_lvgl_long_sroll_label_with_wight_set_center(wifi_src1, wifi_label_back, 20, 50, "Back", 60);
+    wifi_label_up = mks_lvgl_long_sroll_label_with_wight_set_center(wifi_src1, wifi_label_up, 230+20, -10+70, "UP", 60);
+	wifi_label_next = mks_lvgl_long_sroll_label_with_wight_set_center(wifi_src1, wifi_label_next, 350, -10+70, "Next", 60);
 }
 
 static void event_handler_wifi_kb(lv_obj_t* obj, lv_event_t event) { 
