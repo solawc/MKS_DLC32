@@ -33,6 +33,7 @@ typedef enum {
 typedef enum {
     P_1_PERSEN,
     P_10_PERSEN,
+    P_0_PERSEN,
 }GRBL_POWER;
 
 typedef enum {

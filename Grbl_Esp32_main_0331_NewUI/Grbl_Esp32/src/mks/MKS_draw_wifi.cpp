@@ -26,9 +26,7 @@
 // static lv_obj_t *label_wifi_user_name;
 // static lv_obj_t *label_wifi_user_password;
 
-// static lv_obj_t *kb_wifi;
-// static lv_obj_t *ta_wifi_username;
-// static lv_obj_t *ta_wifi_password;
+
 
 // wifi_kb_flag_t wifi_kb_flag = wifi_none_flag;
 // char wifi_username_str[65];
@@ -209,6 +207,7 @@ static lv_style_t btn_press_style;
 static lv_style_t line_style;
 lv_style_t wifi_scr1_style;
 lv_obj_t *wifi_src1;
+lv_obj_t *wifi_kb_src1;
 
 lv_obj_t *wifi_btn_line1; 
 lv_obj_t *wifi_btn_line2; 
@@ -218,6 +217,10 @@ lv_obj_t *wifi_btn_line5;
 lv_obj_t *wifi_btn_line6; 
 lv_obj_t *wifi_btn_line7; 
 lv_obj_t *wifi_btn_line8; 
+
+lv_obj_t *wifi_kb;
+lv_obj_t *wifi_tb;
+
 
 lv_obj_t *wifi_line1;
 lv_obj_t *wifi_line2;
@@ -271,6 +274,9 @@ lv_obj_t *wifi_label_line5;
 lv_obj_t *wifi_label_line6;
 lv_obj_t *wifi_label_line7; 
 lv_obj_t *wifi_label_line8;
+
+char wifi_send_username[128];
+char wifi_send_password[128];
 
 LV_IMG_DECLARE(back);			//先申明此图片
 LV_IMG_DECLARE(Next);			//先申明此图片
@@ -478,6 +484,19 @@ void mks_draw_wifi(void) {
     mks_lvgl_long_sroll_label_with_wight_set_center(wifi_src1, wifi_label_back, 20, 50, "Back", 60);
 }
 
+static void event_handler_wifi_kb(lv_obj_t* obj, lv_event_t event) { 
+    
+}
+
+void mks_draw_wifi_kb(void) {
+
+    wifi_kb_src1 = lv_obj_create(mks_src, NULL);
+    lv_obj_set_size(wifi_kb_src1, wifi_src1_x_size, wifi_src1_y_size);
+    lv_obj_set_pos(wifi_kb_src1, wifi_src1_x, wifi_src1_y);
+
+    wifi_kb = mks_lv_set_kb(wifi_kb_src1, wifi_kb, event_handler_wifi_kb);
+    wifi_tb = mks_lv_set_ta(wifi_kb_src1 ,wifi_tb, wifi_kb);
+}
 
 void mks_wifi_show_label(void) {
 

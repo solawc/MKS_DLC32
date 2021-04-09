@@ -28,7 +28,6 @@ void bltouch_duty(uint32_t duty) {
     ledcWrite(BLTOUCH_CHANNEL, duty);
 }
 
-
 int bltouch_read(void) { 
 
     int status = 0;

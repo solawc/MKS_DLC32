@@ -22,10 +22,10 @@ typedef enum {
     caving_back_x = 20,
     caving_back_y = 60,
 
-    caving_up_x = 280,
-    caving_up_y = 60,
-    caving_next_x = 320,
-    caving_next_y = 60,
+    caving_up_x = 250,
+    caving_up_y = 10,
+    caving_next_x = 350,
+    caving_next_y = 10,
 
     caving_first_file_x = -180,
     caving_first_file_y = 0,
@@ -58,4 +58,5 @@ void mks_del_file_obj(void);
 void draw_file_btmimg(void);
 
 void mks_draw_caving_popup(uint8_t text, char *srt);
+void mks_draw_file_loadig(void);
 #endif

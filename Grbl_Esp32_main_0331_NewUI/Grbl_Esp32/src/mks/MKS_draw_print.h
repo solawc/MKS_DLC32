@@ -77,6 +77,16 @@ typedef struct {
 }SPEED_CTRL_t;
 
 
+typedef struct {
+
+    /* 底图显示 */
+    lv_obj_t* print_scr1;    
+    lv_obj_t* print_scr2;
+
+
+}MKS_PRINT_PAGE_t;
+
+
 
 
 void mks_clear_print(void);

@@ -167,6 +167,7 @@ static void event_handler_unlock(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
         // mks_clear_move();
 		motors_set_disable(true);
+		draw_pos_popup("Unlock success");
 	}
 }
 
@@ -176,6 +177,7 @@ static void event_handler_home(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
        MKS_GRBL_CMD_SEND("$J=G90X0Y0F346\n");
+	   draw_pos_popup("Homing success");
 	}
 }
 
@@ -184,7 +186,7 @@ static void event_handler_pos(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
        	Serial.printf("G92 X0 Y0 Z0\n");
     	MKS_GRBL_CMD_SEND("G92 X0 Y0 Z0\n");
-		draw_pos_popup();
+		draw_pos_popup("Positioning success");
 	}
 }
 
@@ -210,7 +212,6 @@ static void event_handler_dis_1(lv_obj_t* obj, lv_event_t event) {
 		lv_label_set_text(label_len_10, "#ffffff 10mm#");
 	}
 }
-
 
 static void event_handler_dis_10(lv_obj_t* obj, lv_event_t event) {
 
@@ -265,8 +266,6 @@ void mks_draw_move(void) {
     lv_obj_set_style(move_scr, &mbk_color);
 	lv_obj_set_style(dist_scr, &mbk_color);
 	lv_obj_set_style(tool_scr, &mbk_color);
-
-	
 
 	lv_imgbtn_creat_mks(tool_scr, Back, &back, &back, LV_ALIGN_IN_LEFT_MID, 10, -10 , event_handler_back);
     lv_imgbtn_creat_mks(tool_scr, m_unlock, &Unlock, &Unlock, LV_ALIGN_CENTER, -10, -10, event_handler_unlock);
@@ -325,9 +324,7 @@ void mks_draw_move(void) {
 lv_obj_t* move_popup_scr;
 lv_style_t move_popup_color;
 lv_style_t move_popup_btn_style;
-
 lv_obj_t* move_popup_btn_sure;
-
 lv_obj_t* move_popup_label_sure;
 lv_obj_t* move_popup_label_dis;
 
@@ -337,7 +334,9 @@ static void event_handler_popup_sure(lv_obj_t* obj, lv_event_t event) {
 		lv_obj_del(move_popup_scr);
 	}
 }
-void draw_pos_popup(void) {
+
+
+void draw_pos_popup(const char *text) {
 
 	move_popup_scr = lv_obj_create(mks_src, NULL);
 	lv_obj_set_size(move_popup_scr, move_popup_size_x, move_popup_size_y);
@@ -348,7 +347,7 @@ void draw_pos_popup(void) {
     // move_popup_color.body.grad_color = LV_COLOR_MAKE(0x1F, 0x23, 0x33); 
 	move_popup_color.body.main_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
     move_popup_color.body.grad_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
-    move_popup_color.text.color = LV_COLOR_WHITE;
+    move_popup_color.text.color = LV_COLOR_BLACK;
     move_popup_color.body.radius = 17;
 	lv_obj_set_style(move_popup_scr, &move_popup_color);
 
@@ -365,7 +364,7 @@ void draw_pos_popup(void) {
 	lv_btn_set_style(move_popup_btn_sure, LV_BTN_STYLE_REL, &move_popup_btn_style);
 	lv_btn_set_style(move_popup_btn_sure,LV_BTN_STYLE_PR, &move_popup_btn_style);
 
-	move_popup_label_dis = mks_lvgl_long_sroll_label_with_wight_set_center(move_popup_scr, move_popup_label_dis, 110, 50, "#000000 Posing succeed#", 200);
+	move_popup_label_dis = mks_lvgl_long_sroll_label_with_wight_set_center(move_popup_scr, move_popup_label_dis, 110, 50, text, 200);
 	move_popup_label_sure = mks_lvgl_long_sroll_label_with_wight_set_center(move_popup_btn_sure, move_popup_label_sure, 0, 0, "Yes", 30);
 }
 

@@ -102,7 +102,7 @@ void mks_grbl_parg_init(void) {
     mks_grbl.is_mks_ts35_flag = false;
     mks_grbl.wifi_check_status = false;
     mks_grbl.wifi_connect_status = false;
-    mks_grbl.power_persen = P_1_PERSEN;
+    mks_grbl.power_persen = P_0_PERSEN;
     mks_grbl.cave_speed = 100;
     mks_grbl.X_Pos = 0;
     mks_grbl.Y_Pos = 0;

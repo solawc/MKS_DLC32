@@ -10,6 +10,7 @@ MKS_FILE_LIST_t mks_file_list;
 
 lv_obj_t* caving_src1;
 static lv_obj_t* caving_Popup;
+lv_obj_t* caving_read_file_src1;
 
 /* style */
 static lv_style_t popup_style;
@@ -92,9 +93,12 @@ static void event_handler_up(lv_obj_t* obj, lv_event_t event) {
 				sprintf(p, "file page = %d", mks_file_list.file_page);
 				grbl_send(CLIENT_SERIAL, p);
 
+				mks_draw_file_loadig();
+				lv_refr_now(lv_refr_get_disp_refreshing());
 				mks_del_file_obj();
 				mks_listDir(SD, "/",MKS_FILE_DEEP);
 				draw_file_btmimg();
+				lv_obj_del(caving_read_file_src1);
 			}
 		}
 	}
@@ -115,9 +119,12 @@ static void event_handler_next(lv_obj_t* obj, lv_event_t event) {
 				mks_file_list.file_count = 0;
 				mks_file_list.file_page++;
 
+				mks_draw_file_loadig();
+				lv_refr_now(lv_refr_get_disp_refreshing());
 				mks_del_file_obj();
 				mks_listDir(SD, "/",MKS_FILE_DEEP);
 				draw_file_btmimg();
+				lv_obj_del(caving_read_file_src1);
 			}
 		}
 	}
@@ -217,8 +224,8 @@ void mks_draw_craving(void) {
 	lv_obj_set_pos(caving_src1, caving_src1_x, caving_src1_y);
 	lv_obj_set_style(caving_src1, &caving_src1_style);
 
-	lv_imgbtn_creat_mks(caving_src1, up, &Previous, &Previous, LV_ALIGN_CENTER, 50, -10, event_handler_up);
-	lv_imgbtn_creat_mks(caving_src1, next, &Next, &Next, LV_ALIGN_CENTER, 100, -10, event_handler_next);
+	lv_imgbtn_creat_mks(caving_src1, up, &Previous, &Previous, LV_ALIGN_IN_LEFT_MID, caving_up_x, caving_up_y, event_handler_up);
+	lv_imgbtn_creat_mks(caving_src1, next, &Next, &Next, LV_ALIGN_IN_LEFT_MID, caving_next_x, caving_next_y, event_handler_next);
 	lv_imgbtn_creat_mks(caving_src1, Cback, &back, &back, LV_ALIGN_IN_LEFT_MID, 10, -10, event_handler_cback);
 
 	label_Cback = mks_lvgl_long_sroll_label_with_wight_set_center(caving_src1, label_Cback, caving_back_x,caving_back_y, "Back", 60);
@@ -235,8 +242,12 @@ void mks_draw_craving(void) {
 		mks_file_list.file_page = 1;
 
 		mks_grbl.mks_sd_status = 1; // sd had inserted
+
+		mks_draw_file_loadig();
+		lv_refr_now(lv_refr_get_disp_refreshing());
 		mks_listDir(SD, "/",MKS_FILE_DEEP);
 		draw_file_btmimg();
+		lv_obj_del(caving_read_file_src1);
 	}	
 }
 
@@ -450,6 +461,21 @@ void mks_draw_caving_popup(uint8_t text, char *srt) {
 	// grbl_sendf(CLIENT_SERIAL, "file_print_send:%s\n", file_print_send);
 	mks_lvgl_long_sroll_label_with_wight_set(caving_Popup, Label_popup_file_name, 100, 40, file_print_send, 256);
 	mks_lvgl_long_sroll_label_with_wight_set(caving_Popup, Label_popup, 100, 60, "Is Caving this File?",256);
+}
+
+void mks_draw_file_loadig(void) {
+
+	caving_read_file_src1 = lv_obj_create(mks_src, NULL);
+	lv_obj_set_size(caving_read_file_src1 ,350, 200);
+	lv_obj_set_pos(caving_read_file_src1, 80,50);
+
+	lv_style_copy(&popup_style, &lv_style_scr);
+	popup_style.body.main_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
+    popup_style.body.grad_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
+	popup_style.text.color = LV_COLOR_BLACK;
+	popup_style.body.radius = 17;
+	lv_obj_set_style(caving_read_file_src1, &popup_style);
+	mks_lvgl_long_sroll_label_with_wight_set(caving_read_file_src1, Label_popup, 110, 80, "File is Loading",240);
 }
 
 void mks_clear_craving(void) {
