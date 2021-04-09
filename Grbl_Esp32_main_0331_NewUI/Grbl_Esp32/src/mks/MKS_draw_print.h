@@ -47,15 +47,12 @@ typedef enum {
     print_first_data_label_x = 10,
     print_first_data_label_y = 100,
 
-    print_src1_first_pic_x = 100,
+    print_src1_first_pic_x = 90,
     print_src1_first_pic_y = 20,
 
     print_src2_first_pic_x = 70,
     print_src2_first_pic_y = 95,
-
 }PRINT_XY_t;
-
-
 
 typedef enum {
     PWR_1_PERSEN,
@@ -75,7 +72,7 @@ typedef enum {
 
 typedef struct {
 
-    SPEED_LEN_t pwr_len;
+    SPEED_LEN_t speed_len;
 
 }SPEED_CTRL_t;
 

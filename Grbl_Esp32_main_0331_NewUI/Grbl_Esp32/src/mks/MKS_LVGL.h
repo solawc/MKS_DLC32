@@ -42,6 +42,17 @@ typedef enum {
     GRBL_RESTARTING,
 }GRBL_RUN_STATUS_t;
 
+typedef enum {
+
+    BL_NONE,
+    BL_BEGIN,           //开始调整
+    BL_UP,
+    BL_DOWN,
+    BL_ADJ_ING,         //正在调整
+    BL_ADJ_END,         //调整结束
+
+}BLTOUCH_STATUS;
+
 typedef struct{
     GRBL_MOVE_DIS               move_dis;           // 移动距离
     GRBL_Language               language;           // 语言设置

@@ -2,17 +2,19 @@
 
 PWR_CTRL_t mks_pwr_ctrl;
 SPEED_CTRL_t mks_speed_ctrl;
+
 /* scr */
 static lv_obj_t* scr;
 static lv_obj_t* print_scr1;
 static lv_obj_t* print_scr2;
 
-
-static lv_obj_t* stop_popup;
 static lv_obj_t* scr_op;
+static lv_obj_t* stop_popup;
 static lv_obj_t* finsh_popup;
 
 /* style */
+lv_style_t bar_bg_style;
+lv_style_t bar_q_style;
 static lv_style_t btn_style;
 static lv_style_t print_src_style;
 
@@ -20,6 +22,7 @@ static lv_style_t popup_style;
 
 /* bar */
 lv_obj_t* bar_print;  //打印进度条
+lv_obj_t* bar_print_percen;  //打印进度条
 
 /* btn */
 static lv_obj_t* btn_popup_cancle;
@@ -67,6 +70,8 @@ static lv_obj_t* Label_popup_sure;
 static lv_obj_t* Label_popup;
 static lv_obj_t* Label_op_back;
 
+lv_obj_t* Label_print_file_name;
+
 lv_obj_t* print_icon_X;
 lv_obj_t* print_icon_Y;
 lv_obj_t* print_icon_Z;
@@ -98,16 +103,17 @@ LV_IMG_DECLARE(P_speed);
 static void event_handler_suspend(lv_obj_t* obj, lv_event_t event) {
     if (event == LV_EVENT_RELEASED) {
         if(mks_grbl.run_status == GRBL_RUN) {
-            // mks_grbl.run_status = GRBL_PAUSE;
-            sys_rt_exec_accessory_override.bit.spindleOvrStop = false;
-            lv_imgbtn_set_src(imgbtn_suspend, LV_BTN_STATE_PR, &M_Pause);
-            lv_imgbtn_set_src(imgbtn_suspend, LV_BTN_STATE_REL, &M_Pause);
-            // lv_label_set_text(Label_suspend, "Run");
-        } else if(mks_grbl.run_status == GRBL_PAUSE) {
-            mks_grbl.run_status = GRBL_RUN;
+            // sys_rt_exec_accessory_override.bit.spindleOvrStop = false;
             lv_imgbtn_set_src(imgbtn_suspend, LV_BTN_STATE_PR, &M_start);
             lv_imgbtn_set_src(imgbtn_suspend, LV_BTN_STATE_REL, &M_start);
-            // lv_label_set_text(Label_suspend, "Pause");
+            lv_label_set_text(Label_suspend, "Run");
+
+            mks_grbl.run_status = GRBL_PAUSE;
+        } else if(mks_grbl.run_status == GRBL_PAUSE) {       
+            lv_imgbtn_set_src(imgbtn_suspend, LV_BTN_STATE_PR, &M_Pause);
+            lv_imgbtn_set_src(imgbtn_suspend, LV_BTN_STATE_REL, &M_Pause);
+            lv_label_set_text(Label_suspend, "Pause");
+            mks_grbl.run_status = GRBL_RUN;
         }
     }
 }
@@ -179,6 +185,30 @@ void mks_draw_print(void) {
 	lv_obj_set_style(print_scr1, &print_src_style);
     lv_obj_set_style(print_scr2, &print_src_style);
 
+
+    lv_style_copy(&bar_bg_style,&lv_style_plain_color);
+    bar_bg_style.body.main_color = LV_COLOR_MAKE(0xBB,0xBB,0xBB);
+    bar_bg_style.body.grad_color = LV_COLOR_MAKE(0xBB,0xBB,0xBB);
+    bar_bg_style.body.radius = LV_RADIUS_CIRCLE;//绘制圆角
+    
+    /* 进度条背景样式 */
+    lv_style_copy(&bar_bg_style,&lv_style_plain_color);
+    bar_bg_style.body.main_color = LV_COLOR_MAKE(0x3F,0x46,0x66);
+    bar_bg_style.body.grad_color = LV_COLOR_MAKE(0x3F,0x46,0x66);
+    bar_bg_style.body.radius = 5;
+
+    /* 进度条显示样式 */
+    lv_style_copy(&bar_q_style,&lv_style_plain_color);
+    bar_q_style.body.main_color = LV_COLOR_MAKE(0x52,0xCC,0x82);
+    bar_q_style.body.grad_color = LV_COLOR_MAKE(0x52,0xCC,0x82);
+    bar_q_style.body.radius = 5;
+    bar_q_style.body.padding.left = 0;//让指示器跟背景边框之间没有距离
+    bar_q_style.body.padding.top = 0;
+    bar_q_style.body.padding.right = 0;
+    bar_q_style.body.padding.bottom = 0;
+
+    
+
     imgbtn_suspend = lv_imgbtn_creat_n_mks(print_scr1, 
                                          imgbtn_suspend, 
                                          &M_Pause, 
@@ -218,6 +248,8 @@ void mks_draw_print(void) {
     lv_imgbtn_creat_n_mks(print_scr2 ,print_icon_SPEED,  &P_speed,  &P_speed, print_src2_first_pic_x, print_src2_first_pic_y+30, event_handler_none);
 
     bar_print = mks_lv_bar_set(print_scr2, bar_print, 440, 30, print_bar_pic_x, print_bar_pic_y, 0);
+    lv_bar_set_style(bar_print, LV_BAR_STYLE_BG , &bar_bg_style);
+    lv_bar_set_style(bar_print, LV_BAR_STYLE_INDIC , &bar_q_style);
 
     Label_p_suspend = mks_lvgl_long_sroll_label_with_wight_set_center(print_scr1, Label_power, print_src1_first_pic_x+10, 70, "Run", 50);
     Label_p_stop = mks_lvgl_long_sroll_label_with_wight_set_center(print_scr1, Label_power, print_src1_first_pic_x + 90, 70, "Stop", 50);
@@ -231,7 +263,9 @@ void mks_draw_print(void) {
 
     Label_power = mks_lvgl_long_sroll_label_with_wight_set_center(print_scr2, Label_power, print_first_data_label_x + 100, print_first_data_label_y, "0", 50);
     Label_caveSpeed = mks_lvgl_long_sroll_label_with_wight_set_center(print_scr2, Label_caveSpeed, print_first_data_label_x + 100, print_first_data_label_y+30, "0", 50);
-
+    
+    Label_print_file_name = mks_lvgl_long_sroll_label_with_wight_set_center(print_scr2, Label_print_file_name, print_first_data_label_x+300, print_first_data_label_y-50, file_print_send, 100);
+    bar_print_percen = mks_lvgl_long_sroll_label_with_wight_set_center(bar_print, bar_print_percen, 440, 0, "0%", 10);
 }
 
 static void event_btn_cancle(lv_obj_t* obj, lv_event_t event) {
@@ -330,12 +364,16 @@ void mks_draw_finsh_pupop(void) {
     mks_lvgl_long_sroll_label_with_wight_set(finsh_popup, Label_popup, 100, 80, "File is print done!", 150);
 }
 
+char bar_percen_str[10];
 void mks_print_bar_updata(void) {
 
     bar_print = mks_lv_bar_updata(bar_print, (uint16_t)sd_report_perc_complete());
+
+    sprintf(bar_percen_str, "%d%", (uint16_t)sd_report_perc_complete());
+    mks_lv_label_updata(bar_print_percen, bar_percen_str);
 }
 
-
+/****************************************************************************************pwr_popup****************************************************************************************/
 lv_obj_t *pwr_src;
 lv_obj_t *pwr_1_mm;
 lv_obj_t *pwr_10_mm;
@@ -344,6 +382,9 @@ lv_obj_t *pwr_label_10_mm;
 lv_obj_t *pwr_imgbtn_add;
 lv_obj_t *pwr_imgbtn_dec;
 lv_obj_t *pwr_btn_sure;
+
+lv_style_t pwr_btn1_style;
+lv_style_t pwr_btn2_style;
 
 static void event_pwr_setting_add(lv_obj_t* obj, lv_event_t event) {
     if (event == LV_EVENT_RELEASED) {
@@ -384,8 +425,18 @@ static void event_btn_pwr_1mm(lv_obj_t* obj, lv_event_t event) {
 
         if(mks_pwr_ctrl.pwr_len == PWR_10_PERSEN) {
             mks_pwr_ctrl.pwr_len = PWR_1_PERSEN;
-            lv_label_set_text(pwr_label_1_mm, "#000000 1% #");
-            lv_label_set_text(pwr_label_10_mm, "#ffffff 10% #");
+            lv_label_set_text(pwr_label_1_mm, "#ffffff 1% #");
+            lv_label_set_text(pwr_label_10_mm, "#000000 10% #");
+
+            pwr_btn1_style.body.main_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+            pwr_btn1_style.body.grad_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+            lv_btn_set_style(pwr_1_mm, LV_BTN_STYLE_REL, &pwr_btn1_style);
+            lv_btn_set_style(pwr_1_mm,LV_BTN_STYLE_PR,&pwr_btn1_style);
+
+            pwr_btn2_style.body.main_color = LV_COLOR_WHITE;
+            pwr_btn2_style.body.grad_color = LV_COLOR_WHITE;
+            lv_btn_set_style(pwr_10_mm, LV_BTN_STYLE_REL, &pwr_btn2_style);
+            lv_btn_set_style(pwr_10_mm,LV_BTN_STYLE_PR,&pwr_btn2_style); 
         }
     }
 }
@@ -395,8 +446,18 @@ static void event_btn_pwr_10mm(lv_obj_t* obj, lv_event_t event) {
 
         if(mks_pwr_ctrl.pwr_len == PWR_1_PERSEN) {
             mks_pwr_ctrl.pwr_len = PWR_10_PERSEN;
-            lv_label_set_text(pwr_label_1_mm, "#ffffff 1% #");
-            lv_label_set_text(pwr_label_10_mm, "#000000 10% #");
+            lv_label_set_text(pwr_label_1_mm, "#000000 1% #");
+            lv_label_set_text(pwr_label_10_mm, "#ffffff 10% #");
+
+            pwr_btn1_style.body.main_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+            pwr_btn1_style.body.grad_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+            lv_btn_set_style(pwr_10_mm, LV_BTN_STYLE_REL, &pwr_btn1_style);
+            lv_btn_set_style(pwr_10_mm,LV_BTN_STYLE_PR,&pwr_btn1_style);
+
+            pwr_btn2_style.body.main_color = LV_COLOR_WHITE;
+            pwr_btn2_style.body.grad_color = LV_COLOR_WHITE;
+            lv_btn_set_style(pwr_1_mm, LV_BTN_STYLE_REL, &pwr_btn2_style);
+            lv_btn_set_style(pwr_1_mm,LV_BTN_STYLE_PR,&pwr_btn2_style);
         }
     }
 }
@@ -421,30 +482,60 @@ void mks_print_pwr_set(void) {
     popup_style.body.radius = 17;
     lv_obj_set_style(pwr_src, &popup_style);
 
-    lv_style_copy(&btn_style, &lv_style_scr);
-    btn_style.body.main_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
-    btn_style.body.grad_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
-    btn_style.body.opa = LV_OPA_COVER;//设置背景色完全不透明
-    btn_style.text.color = LV_COLOR_WHITE;
-    btn_style.body.radius = 10; 
+    lv_style_copy(&pwr_btn1_style, &lv_style_scr);
+    pwr_btn1_style.body.main_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+    pwr_btn1_style.body.grad_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+    pwr_btn1_style.body.opa = LV_OPA_COVER;//设置背景色完全不透明
+    pwr_btn1_style.text.color = LV_COLOR_WHITE;
+    pwr_btn1_style.body.radius = 10; 
+
+    lv_style_copy(&pwr_btn2_style, &lv_style_scr);
+    pwr_btn2_style.body.main_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+    pwr_btn2_style.body.grad_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+    pwr_btn2_style.body.opa = LV_OPA_COVER;//设置背景色完全不透明
+    pwr_btn2_style.text.color = LV_COLOR_WHITE;
+    pwr_btn2_style.body.radius = 10; 
 
     pwr_1_mm = mks_lv_btn_set(pwr_src, pwr_1_mm, 100, 40, 40, 50, event_btn_pwr_1mm);
     pwr_10_mm = mks_lv_btn_set(pwr_src, pwr_10_mm, 100, 40, 200, 50, event_btn_pwr_10mm);
 
-	lv_btn_set_style(pwr_1_mm, LV_BTN_STYLE_REL, &btn_style);
-    lv_btn_set_style(pwr_1_mm,LV_BTN_STYLE_PR,&btn_style);
+    if(mks_pwr_ctrl.pwr_len == PWR_1_PERSEN) { 
+        pwr_btn1_style.body.main_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+        pwr_btn1_style.body.grad_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+        lv_btn_set_style(pwr_1_mm, LV_BTN_STYLE_REL, &pwr_btn1_style);
+        lv_btn_set_style(pwr_1_mm,LV_BTN_STYLE_PR,&pwr_btn1_style);
 
-	lv_btn_set_style(pwr_10_mm, LV_BTN_STYLE_REL, &btn_style);
-    lv_btn_set_style(pwr_10_mm,LV_BTN_STYLE_PR,&btn_style);
+        pwr_btn2_style.body.main_color = LV_COLOR_WHITE;
+        pwr_btn2_style.body.grad_color = LV_COLOR_WHITE;
+        lv_btn_set_style(pwr_10_mm, LV_BTN_STYLE_REL, &pwr_btn2_style);
+        lv_btn_set_style(pwr_10_mm,LV_BTN_STYLE_PR,&pwr_btn2_style); 
+    }else {
+        pwr_btn1_style.body.main_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+        pwr_btn1_style.body.grad_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+        lv_btn_set_style(pwr_10_mm, LV_BTN_STYLE_REL, &pwr_btn1_style);
+        lv_btn_set_style(pwr_10_mm,LV_BTN_STYLE_PR,&pwr_btn1_style);
 
-    pwr_label_1_mm = mks_lvgl_long_sroll_label_with_wight_set_center(pwr_1_mm, pwr_label_1_mm, 0, 0, "#000000 1%#", 100);
-    pwr_label_10_mm = mks_lvgl_long_sroll_label_with_wight_set_center(pwr_10_mm, pwr_label_10_mm, 0, 0, "#ffffff 10% #", 100);
+        pwr_btn2_style.body.main_color = LV_COLOR_WHITE;
+        pwr_btn2_style.body.grad_color = LV_COLOR_WHITE;
+        lv_btn_set_style(pwr_1_mm, LV_BTN_STYLE_REL, &pwr_btn2_style);
+        lv_btn_set_style(pwr_1_mm,LV_BTN_STYLE_PR,&pwr_btn2_style); 
+    }
 
+    if(mks_pwr_ctrl.pwr_len == PWR_1_PERSEN) {
+        pwr_label_1_mm = mks_lvgl_long_sroll_label_with_wight_set_center(pwr_1_mm, pwr_label_1_mm, 0, 0, "#ffffff 1%#", 50);
+        pwr_label_10_mm = mks_lvgl_long_sroll_label_with_wight_set_center(pwr_10_mm, pwr_label_10_mm, 0, 0, "#000000 10% #", 50);
+    }else{
+        pwr_label_1_mm = mks_lvgl_long_sroll_label_with_wight_set_center(pwr_1_mm, pwr_label_1_mm, 0, 0, "#000000 1%#", 50);
+        pwr_label_10_mm = mks_lvgl_long_sroll_label_with_wight_set_center(pwr_10_mm, pwr_label_10_mm, 0, 0, "#ffffff 10% #", 10);
+    }
+    
     pwr_imgbtn_add = lv_imgbtn_creat_mks(pwr_src, pwr_imgbtn_add, &add, &add, LV_ALIGN_IN_LEFT_MID, print_pwr_popup_add_btn_x,print_pwr_popup_add_btn_y, event_pwr_setting_add);
     pwr_imgbtn_dec = lv_imgbtn_creat_mks(pwr_src, pwr_imgbtn_dec, &reduce, &reduce, LV_ALIGN_IN_LEFT_MID, print_pwr_popup_add_btn_x+80,print_pwr_popup_add_btn_y, event_pwr_setting_dec);
     pwr_btn_sure = lv_imgbtn_creat_mks(pwr_src, pwr_imgbtn_dec, &confirm, &confirm, LV_ALIGN_IN_LEFT_MID, print_pwr_popup_add_btn_x+160,print_pwr_popup_add_btn_y, event_pwr_setting_confirm);
 }
 
+
+/****************************************************************************************speed_popup****************************************************************************************/
 
 lv_obj_t *speed_src;
 lv_obj_t *speed_1_mm;
@@ -454,6 +545,9 @@ lv_obj_t *speed_label_10_mm;
 lv_obj_t *speed_imgbtn_add;
 lv_obj_t *speed_imgbtn_dec;
 lv_obj_t *speed_btn_sure;
+
+lv_style_t speed_btn1_style;
+lv_style_t speed_btn2_style;
 
 static void event_speed_setting_add(lv_obj_t* obj, lv_event_t event) {
     if (event == LV_EVENT_RELEASED) {
@@ -498,8 +592,18 @@ static void event_speed_setting_confirm(lv_obj_t* obj, lv_event_t event) {
 static void event_btn_speed_1mm(lv_obj_t* obj, lv_event_t event) {
     if (event == LV_EVENT_RELEASED) {
 
-        if(mks_pwr_ctrl.pwr_len == PWR_10_PERSEN) {
-            mks_pwr_ctrl.pwr_len = PWR_1_PERSEN;
+        if(mks_speed_ctrl.speed_len == PWR_10_PERSEN) {
+            mks_speed_ctrl.speed_len = PWR_1_PERSEN;
+            
+            pwr_btn1_style.body.main_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+            pwr_btn1_style.body.grad_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+            lv_btn_set_style(pwr_10_mm, LV_BTN_STYLE_REL, &pwr_btn1_style);
+            lv_btn_set_style(pwr_10_mm,LV_BTN_STYLE_PR,&pwr_btn1_style);
+
+            pwr_btn2_style.body.main_color = LV_COLOR_WHITE;
+            pwr_btn2_style.body.grad_color = LV_COLOR_WHITE;
+            lv_btn_set_style(pwr_1_mm, LV_BTN_STYLE_REL, &pwr_btn2_style);
+            lv_btn_set_style(pwr_1_mm,LV_BTN_STYLE_PR,&pwr_btn2_style);
         }
     }
 }
@@ -526,29 +630,36 @@ void mks_print_speed_set(void) {
     popup_style.body.radius = 17;
     lv_obj_set_style(speed_src, &popup_style);
 
-    lv_style_copy(&btn_style, &lv_style_scr);
-    btn_style.body.main_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
-    btn_style.body.grad_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
-    btn_style.body.opa = LV_OPA_COVER;//设置背景色完全不透明
-    btn_style.text.color = LV_COLOR_WHITE;
-    btn_style.body.radius = 10; 
+    lv_style_copy(&pwr_btn1_style, &lv_style_scr);
+    pwr_btn1_style.body.main_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+    pwr_btn1_style.body.grad_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+    pwr_btn1_style.body.opa = LV_OPA_COVER;//设置背景色完全不透明
+    pwr_btn1_style.text.color = LV_COLOR_WHITE;
+    pwr_btn1_style.body.radius = 10; 
+
+    lv_style_copy(&pwr_btn2_style, &lv_style_scr);
+    pwr_btn2_style.body.main_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+    pwr_btn2_style.body.grad_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+    pwr_btn2_style.body.opa = LV_OPA_COVER;//设置背景色完全不透明
+    pwr_btn2_style.text.color = LV_COLOR_WHITE;
+    pwr_btn2_style.body.radius = 10; 
+
 
     speed_1_mm = mks_lv_btn_set(speed_src, speed_1_mm, 100, 40, 40, 50, event_btn_speed_1mm);
-	lv_btn_set_style(speed_1_mm, LV_BTN_STYLE_REL, &btn_style);
-    lv_btn_set_style(speed_1_mm,LV_BTN_STYLE_PR,&btn_style);
+	lv_btn_set_style(speed_1_mm, LV_BTN_STYLE_REL, &pwr_btn1_style);
+    lv_btn_set_style(speed_1_mm,LV_BTN_STYLE_PR,&pwr_btn1_style);
 
     speed_10_mm = mks_lv_btn_set(speed_src, speed_10_mm, 100, 40, 200, 50, event_btn_speed_10mm);
-	lv_btn_set_style(speed_10_mm, LV_BTN_STYLE_REL, &btn_style);
-    lv_btn_set_style(speed_10_mm,LV_BTN_STYLE_PR,&btn_style);
+	lv_btn_set_style(speed_10_mm, LV_BTN_STYLE_REL, &pwr_btn2_style);
+    lv_btn_set_style(speed_10_mm,LV_BTN_STYLE_PR,&pwr_btn2_style);
 
-    speed_label_1_mm = mks_lvgl_long_sroll_label_with_wight_set_center(speed_1_mm, speed_label_1_mm, 0, 0, "#000000 1%#", 100);
-    speed_label_10_mm = mks_lvgl_long_sroll_label_with_wight_set_center(speed_10_mm, speed_label_10_mm, 0, 0, "#ffffff 10% #", 100);
+    speed_label_1_mm = mks_lvgl_long_sroll_label_with_wight_set_center(speed_1_mm, speed_label_1_mm, 0, 0, "#000000 1%#", 50);
+    speed_label_10_mm = mks_lvgl_long_sroll_label_with_wight_set_center(speed_10_mm, speed_label_10_mm, 0, 0, "#ffffff 10% #", 50);
 
     speed_imgbtn_add = lv_imgbtn_creat_mks(speed_src, speed_imgbtn_add, &add, &add, LV_ALIGN_IN_LEFT_MID, print_pwr_popup_add_btn_x,print_pwr_popup_add_btn_y, event_speed_setting_add);
-    speed_imgbtn_dec = lv_imgbtn_creat_mks(speed_src, speed_imgbtn_dec, &reduce, &reduce, LV_ALIGN_IN_LEFT_MID, print_pwr_popup_add_btn_x+80,50, event_speed_setting_dec);
-    speed_btn_sure = lv_imgbtn_creat_mks(speed_src, speed_imgbtn_dec, &confirm, &confirm, LV_ALIGN_IN_LEFT_MID, print_pwr_popup_add_btn_x+160,50, event_pwr_setting_confirm);
+    speed_imgbtn_dec = lv_imgbtn_creat_mks(speed_src, speed_imgbtn_dec, &reduce, &reduce, LV_ALIGN_IN_LEFT_MID, print_pwr_popup_add_btn_x+80,print_pwr_popup_add_btn_y, event_speed_setting_dec);
+    speed_btn_sure = lv_imgbtn_creat_mks(speed_src, speed_imgbtn_dec, &confirm, &confirm, LV_ALIGN_IN_LEFT_MID, print_pwr_popup_add_btn_x+160,print_pwr_popup_add_btn_y, event_pwr_setting_confirm);
 }
-
 
 char print_xpos_str[50];
 char print_ypos_str[50];
@@ -576,14 +687,12 @@ void mks_print_data_updata(void) {
     sprintf(print_pwr_str, "%d", sys_rt_s_override);
     sprintf(print_speed_str, "%2d", sys_rt_f_override);
 
-
- 
-
     Label_x_pos = mks_lv_label_updata(Label_x_pos, print_xpos_str);
     Label_y_pos = mks_lv_label_updata(Label_y_pos, print_ypos_str);
     Label_z_pos = mks_lv_label_updata(Label_z_pos, print_zpos_str);
     Label_power = mks_lv_label_updata(Label_power, print_pwr_str);
     Label_caveSpeed = mks_lv_label_updata(Label_caveSpeed, print_speed_str);
+    
 }
 
 void mks_clear_print(void) {

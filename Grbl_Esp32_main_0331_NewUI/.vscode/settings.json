@@ -4,6 +4,10 @@
         "array": "cpp",
         "deque": "cpp",
         "vector": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "functional": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "utility": "cpp"
     }
 }

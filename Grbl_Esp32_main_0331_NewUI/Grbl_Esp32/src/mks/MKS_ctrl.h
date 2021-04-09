@@ -5,16 +5,7 @@
 // #include "Report.h"
 #include "../grbl.h"
 #include "MKS_LVGL.h"
-typedef enum {
 
-    BL_NONE,
-    BL_BEGIN,           //开始调整
-    BL_UP,
-    BL_DOWN,
-    BL_ADJ_ING,         //正在调整
-    BL_ADJ_END,         //调整结束
-
-}BLTOUCH_STATUS;
 
 
 typedef enum {
