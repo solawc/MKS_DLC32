@@ -399,6 +399,7 @@ namespace WebUI {
         int8_t wifiMode = wifi_radio_mode->get();
         if (wifiMode == ESP_WIFI_AP) {
             StartAP();
+            grbl_send(CLIENT_ALL, "Mode is AP\n");
             //start services
             wifi_services.begin();
         } else if (wifiMode == ESP_WIFI_STA) {

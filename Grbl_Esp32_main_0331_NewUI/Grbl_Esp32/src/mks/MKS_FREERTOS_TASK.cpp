@@ -46,11 +46,9 @@ void lvgl_disp_data_updata(void *parg) {
         }
         else if (mks_ui_page.mks_ui_page == MKS_UI_Ready) {  //只有在当前页面才更新数据
             ready_data_updata();
-            grbl_send(CLIENT_SERIAL, "ready\n");
         }
         else if(mks_ui_page.mks_ui_page == MKS_UI_Pring) { // 雕刻界面更新数据
             mks_print_data_updata();
-            grbl_send(CLIENT_SERIAL, "print\n");
         }
 
         vTaskDelay(100); // 500ms

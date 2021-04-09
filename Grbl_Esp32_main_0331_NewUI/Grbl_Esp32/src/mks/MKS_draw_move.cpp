@@ -241,6 +241,8 @@ void mks_draw_move(void) {
 	mks_src = lv_obj_create(NULL, NULL);
 	mks_src = lv_scr_act();
 
+	mks_ui_page.mks_ui_page = MKS_UI_Control;
+    mks_ui_page.wait_count = DEFAULT_UI_COUNT;
 	/* 背景层 */
 	tool_scr = lv_obj_create(mks_src, NULL);
 	lv_obj_set_size(tool_scr, 460, 90);
@@ -272,10 +274,10 @@ void mks_draw_move(void) {
 	lv_imgbtn_creat_mks(tool_scr, home, &Home, &Home, LV_ALIGN_CENTER, 90, -10, event_handler_home);
 	lv_imgbtn_creat_mks(tool_scr, postivs, &Positionting, &Positionting, LV_ALIGN_CENTER, 190, -10, event_handler_pos);
 
-	lv_imgbtn_creat_mks(move_scr, x_n, &X_N, &X_N, LV_ALIGN_CENTER, 0, -50, event_handler_x_n);
-    lv_imgbtn_creat_mks(move_scr, x_p, &X_P, &X_P, LV_ALIGN_CENTER, 0, 50, event_handler_x_p);
-    lv_imgbtn_creat_mks(move_scr, y_n, &Y_N, &Y_N, LV_ALIGN_CENTER, 90, 0, event_handler_y_n);
-    lv_imgbtn_creat_mks(move_scr, y_p, &Y_P, &Y_P, LV_ALIGN_CENTER, -90, 0, event_handler_y_p);
+	lv_imgbtn_creat_mks(move_scr, x_n, &X_N, &X_N, LV_ALIGN_CENTER, 90, 0, event_handler_x_n);
+    lv_imgbtn_creat_mks(move_scr, x_p, &X_P, &X_P, LV_ALIGN_CENTER, -90, 0, event_handler_x_p);
+    lv_imgbtn_creat_mks(move_scr, y_n, &Y_N, &Y_N, LV_ALIGN_CENTER, 0, -50, event_handler_y_n);
+    lv_imgbtn_creat_mks(move_scr, y_p, &Y_P, &Y_P, LV_ALIGN_CENTER, 0, 50, event_handler_y_p);
 
 	/* 按键样式 */
 	lv_style_copy(&btn_color, &lv_style_scr);
@@ -289,7 +291,6 @@ void mks_draw_move(void) {
 	btn_len_0_1 = mks_lv_btn_set(dist_scr, btn_len_0_1, 80, 40, 50, 20, event_handler_dis_0_1);
 	btn_len_1 = mks_lv_btn_set(dist_scr, btn_len_1, 80, 40, 50, 80, event_handler_dis_1);
 	btn_len_10 = mks_lv_btn_set(dist_scr, btn_len_10, 80, 40, 50, 140, event_handler_dis_10);
-
 
 	lv_btn_set_style(btn_len_0_1, LV_BTN_STYLE_REL, &btn_color);
 	lv_btn_set_style(btn_len_0_1,LV_BTN_STYLE_PR,&btn_color);

@@ -229,8 +229,8 @@ void mks_draw_craving(void) {
 	lv_imgbtn_creat_mks(caving_src1, Cback, &back, &back, LV_ALIGN_IN_LEFT_MID, 10, -10, event_handler_cback);
 
 	label_Cback = mks_lvgl_long_sroll_label_with_wight_set_center(caving_src1, label_Cback, caving_back_x,caving_back_y, "Back", 60);
-	label_up = mks_lvgl_long_sroll_label_with_wight_set_center(caving_src1, label_up, caving_up_x, caving_up_y, "UP", 60);
-	label_next = mks_lvgl_long_sroll_label_with_wight_set_center(caving_src1, label_next, caving_next_x, caving_next_y, "Next", 60);
+	label_up = mks_lvgl_long_sroll_label_with_wight_set_center(caving_src1, label_up, caving_up_x+20, caving_up_y+70, "UP", 60);
+	label_next = mks_lvgl_long_sroll_label_with_wight_set_center(caving_src1, label_next, caving_next_x, caving_next_y+70, "Next", 60);
 
 	if(mks_readSD_Status() == SDState::NotPresent)  // check sdcard is work
 	{
@@ -249,6 +249,9 @@ void mks_draw_craving(void) {
 		draw_file_btmimg();
 		lv_obj_del(caving_read_file_src1);
 	}	
+
+	mks_ui_page.mks_ui_page = MKS_UI_Caving;
+    mks_ui_page.wait_count = DEFAULT_UI_COUNT;
 }
 
 

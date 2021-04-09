@@ -71,6 +71,7 @@ typedef struct{
     bool                        is_mks_ts35_flag;   // 是否是通过TS35执行的雕刻功能
     bool                        wifi_connect_status;// wifi連接轉態檢測
     bool                        wifi_check_status;  // 是否需要檢測wifi連接
+    uint8_t                     wifi_back_from;     // 判断wifi界面是从哪里进去的 0=主界面， 1=关于界面
 }GRBL_CRTL;
 extern GRBL_CRTL mks_grbl;
 

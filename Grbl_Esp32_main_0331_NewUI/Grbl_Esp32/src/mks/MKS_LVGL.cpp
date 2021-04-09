@@ -108,13 +108,14 @@ void mks_grbl_parg_init(void) {
     mks_grbl.Y_Pos = 0;
     mks_grbl.mks_sd_file_times = 1;
     mks_grbl.mks_sd_status = 0;
-
+    mks_grbl.wifi_back_from = 0;
 
     mks_ui_page.mks_ui_page = MKS_UI_Ready;                  // 开机进入主页的标记
     mks_ui_page.wait_count = DEFAULT_UI_COUNT;                  // 允许10个周期的等待lvgl数据缓冲
     
     mks_wifi.wifi_show_page = 1;
     mks_wifi.wifi_scanf_status = wifi_none;
+
     mks_wifi.begin_scanf_num = 0;
 }
 

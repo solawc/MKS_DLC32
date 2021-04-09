@@ -85,7 +85,6 @@ static void event_handler_pwr_h(lv_obj_t* obj, lv_event_t event) {
 		lv_imgbtn_set_src(pwr_off, LV_BTN_STATE_REL, &SP_OFF);
 		MKS_GRBL_CMD_SEND("M3 S500\n");
 	}
-	
 }
 
 static void event_handler_cailb(lv_obj_t* obj, lv_event_t event) {

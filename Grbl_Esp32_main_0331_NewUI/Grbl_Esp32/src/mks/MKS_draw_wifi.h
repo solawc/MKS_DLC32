@@ -19,6 +19,16 @@ typedef enum {
     wifi_btn_h = 30,
     wifi_btn_label_size = 220,
 
+    wifi_popup_btn_sure_x = 120,
+    wifi_popup_btn_sure_y = 120,
+    wifi_popup_btn_sure_size_x = 100,
+    wifi_popup_btn_sure_size_y = 40,
+
+    wifi_popup_btn_cancle_x = 120,
+    wifi_popup_btn_cancle_y = 120,
+    wifi_popup_btn_cancle_size_x = 100,
+    wifi_popup_btn_cancle_size_y = 40,
+
 }WIFI_XY_POS_t;
 
 typedef enum{

@@ -524,7 +524,7 @@ void mks_print_pwr_set(void) {
         pwr_label_10_mm = mks_lvgl_long_sroll_label_with_wight_set_center(pwr_10_mm, pwr_label_10_mm, 0, 0, "#000000 10% #", 50);
     }else{
         pwr_label_1_mm = mks_lvgl_long_sroll_label_with_wight_set_center(pwr_1_mm, pwr_label_1_mm, 0, 0, "#000000 1%#", 50);
-        pwr_label_10_mm = mks_lvgl_long_sroll_label_with_wight_set_center(pwr_10_mm, pwr_label_10_mm, 0, 0, "#ffffff 10% #", 10);
+        pwr_label_10_mm = mks_lvgl_long_sroll_label_with_wight_set_center(pwr_10_mm, pwr_label_10_mm, 0, 0, "#ffffff 10% #", 50);
     }
     
     pwr_imgbtn_add = lv_imgbtn_creat_mks(pwr_src, pwr_imgbtn_add, &add, &add, LV_ALIGN_IN_LEFT_MID, print_pwr_popup_add_btn_x,print_pwr_popup_add_btn_y, event_pwr_setting_add);
@@ -598,13 +598,13 @@ static void event_btn_speed_1mm(lv_obj_t* obj, lv_event_t event) {
             
             speed_btn1_style.body.main_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
             speed_btn1_style.body.grad_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
-            lv_btn_set_style(speed_10_mm, LV_BTN_STYLE_REL, &speed_btn1_style);
-            lv_btn_set_style(speed_10_mm,LV_BTN_STYLE_PR,&speed_btn1_style);
+            lv_btn_set_style(speed_1_mm, LV_BTN_STYLE_REL, &speed_btn1_style);
+            lv_btn_set_style(speed_1_mm,LV_BTN_STYLE_PR,&speed_btn1_style);
 
             speed_btn2_style.body.main_color = LV_COLOR_WHITE;
             speed_btn2_style.body.grad_color = LV_COLOR_WHITE;
-            lv_btn_set_style(speed_1_mm, LV_BTN_STYLE_REL, &speed_btn2_style);
-            lv_btn_set_style(speed_1_mm,LV_BTN_STYLE_PR,&speed_btn2_style);
+            lv_btn_set_style(speed_10_mm, LV_BTN_STYLE_REL, &speed_btn2_style);
+            lv_btn_set_style(speed_10_mm,LV_BTN_STYLE_PR,&speed_btn2_style);
         }
     }
 }
@@ -614,17 +614,16 @@ static void event_btn_speed_10mm(lv_obj_t* obj, lv_event_t event) {
 
         if(mks_speed_ctrl.speed_len == SPEED_1_PERSEN) {
             mks_speed_ctrl.speed_len = SPEED_10_PERSEN;
-
             lv_label_set_text(speed_label_1_mm, "#ffffff 1% #");
             lv_label_set_text(speed_label_10_mm, "#000000 10% #");
 
-            speed_btn1_style.body.main_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
-            speed_btn1_style.body.grad_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+            speed_btn1_style.body.main_color = LV_COLOR_WHITE;
+            speed_btn1_style.body.grad_color = LV_COLOR_WHITE;
             lv_btn_set_style(speed_1_mm, LV_BTN_STYLE_REL, &speed_btn1_style);
             lv_btn_set_style(speed_1_mm,LV_BTN_STYLE_PR,&speed_btn1_style);
 
-            speed_btn2_style.body.main_color = LV_COLOR_WHITE;
-            speed_btn2_style.body.grad_color = LV_COLOR_WHITE;
+            speed_btn2_style.body.main_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+            speed_btn2_style.body.grad_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
             lv_btn_set_style(speed_10_mm, LV_BTN_STYLE_REL, &speed_btn2_style);
             lv_btn_set_style(speed_10_mm,LV_BTN_STYLE_PR,&speed_btn2_style);
         }
