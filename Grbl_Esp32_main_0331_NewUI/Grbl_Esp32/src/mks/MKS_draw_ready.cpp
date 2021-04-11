@@ -114,7 +114,7 @@ void mks_draw_ready(void) {
     ready_src.ready_btn_wifi_style.body.opa = LV_OPA_COVER;//设置背景色完全不透明
     ready_src.ready_btn_wifi_style.text.color = LV_COLOR_WHITE;
 
-    ready_src.ready_btn_wifi = mks_lv_btn_set(mks_src, ready_src.ready_btn_wifi, 120,30, READY_FIRST_LABEL_X+195, READY_FIRST_LABEL_Y+80, event_handler_wifi);
+    ready_src.ready_btn_wifi = mks_lv_btn_set(mks_src, ready_src.ready_btn_wifi, 150,30, READY_FIRST_LABEL_X+195, READY_FIRST_LABEL_Y+80, event_handler_wifi);
     lv_btn_set_style(ready_src.ready_btn_wifi, LV_BTN_STYLE_REL, &ready_src.ready_btn_wifi_style);
     lv_btn_set_style(ready_src.ready_btn_wifi,LV_BTN_STYLE_PR, &ready_src.ready_btn_wifi_style);
 
@@ -134,9 +134,9 @@ void mks_draw_ready(void) {
 
     if (mks_grbl.wifi_connect_status == true) {
         if(WiFi.getMode() == WIFI_STA) {
-                ready_src.ready_label_wifi_status = mks_lv_static_label(ready_src.ready_btn_wifi, ready_src.ready_label_wifi_status, 40, 0, WiFi.localIP().toString().c_str(), 110);
+                ready_src.ready_label_wifi_status = mks_lv_static_label(ready_src.ready_btn_wifi, ready_src.ready_label_wifi_status, 40, 0, WiFi.localIP().toString().c_str(), 130);
         }else{
-                ready_src.ready_label_wifi_status = mks_lv_static_label(ready_src.ready_btn_wifi, ready_src.ready_label_wifi_status, 40, 0, WiFi.softAPIP().toString().c_str(), 110);
+                ready_src.ready_label_wifi_status = mks_lv_static_label(ready_src.ready_btn_wifi, ready_src.ready_label_wifi_status, 40, 0, WiFi.softAPIP().toString().c_str(), 130);
             }
     } 
     else if (mks_grbl.wifi_connect_status == false) {
@@ -149,7 +149,7 @@ char ypos_str[50];
 char zpos_str[50];
 char mpwr_str[50];
 char wifi_status_str[50];
-char wifi_ip_str[100] = "IP:";
+char wifi_ip_str[100];
 
 
 void mks_widi_show_ip(IPAddress ip, uint8_t p) { 
@@ -191,6 +191,8 @@ void ready_data_updata(void) {
     sprintf(ypos_str, "%.2f", mks_print_position[1]);
     sprintf(zpos_str, "%.2f", mks_print_position[2]);
     sprintf(mpwr_str, "%.d%%",  sys_rt_s_override);
+    
+    
 
     // lv_label_set_static_text(label, char_array)
     lv_label_set_static_text(ready_src.ready_label_xpos, xpos_str);
@@ -200,12 +202,14 @@ void ready_data_updata(void) {
     
 
     wifi_ref_count++;
-    if(wifi_ref_count == 100) {
+    if(wifi_ref_count == 20) {
 
         if (mks_grbl.wifi_connect_status == true) {
             if(WiFi.getMode() == WIFI_STA) {
-                    ready_src.ready_label_wifi_status = mks_lv_label_updata(ready_src.ready_label_wifi_status, WiFi.localIP().toString().c_str());
+                    strcpy(wifi_ip_str, WiFi.localIP().toString().c_str());
+                    ready_src.ready_label_wifi_status = mks_lv_label_updata(ready_src.ready_label_wifi_status, wifi_ip_str);
             }else{
+                    strcpy(wifi_ip_str, WiFi.softAPIP().toString().c_str());
                     ready_src.ready_label_wifi_status = mks_lv_label_updata(ready_src.ready_label_wifi_status, WiFi.softAPIP().toString().c_str());
                 }
             } 

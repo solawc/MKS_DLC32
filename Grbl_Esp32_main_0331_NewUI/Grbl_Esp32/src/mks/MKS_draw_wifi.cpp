@@ -208,6 +208,7 @@ static lv_style_t line_style;
 
 MKS_WIFI_PAGE_T wifi_src;
 
+
 lv_point_t wifi_line_points1[] = {{0,45},{470,45}};
 lv_point_t wifi_line_points2[] = {{0,95},{470,95}};
 lv_point_t wifi_line_points3[] = {{0,145},{470,145}};
@@ -290,63 +291,116 @@ static void event_handler_wifi_bt1(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
         grbl_send(CLIENT_SERIAL ,"wifi connect\n");
-        mks_wifi_connect();
+        wifi_src.wifi_send_num = 1;
+        draw_pos_wifi_popup("Please enter password to connect",mks_wifi.wifi_name_str[wifi_src.wifi_send_num - 1]);
 	}
 }
 
 static void event_handler_wifi_bt2(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-        
+        grbl_send(CLIENT_SERIAL ,"wifi connect\n");
+        wifi_src.wifi_send_num = 2;
+        draw_pos_wifi_popup("Please enter password to connect",mks_wifi.wifi_name_str[wifi_src.wifi_send_num - 1]);
 	}
 }
 
 static void event_handler_wifi_bt3(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-
+        grbl_send(CLIENT_SERIAL ,"wifi connect\n");
+        wifi_src.wifi_send_num = 3;
+        draw_pos_wifi_popup("Please enter password to connect",mks_wifi.wifi_name_str[wifi_src.wifi_send_num - 1]);
 	}
 }
 
 static void event_handler_wifi_bt4(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-
+        grbl_send(CLIENT_SERIAL ,"wifi connect\n");
+        wifi_src.wifi_send_num = 4;
+        draw_pos_wifi_popup("Please enter password to connect",mks_wifi.wifi_name_str[wifi_src.wifi_send_num - 1]);
 	}
 }
 
 static void event_handler_wifi_bt5(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-
+        grbl_send(CLIENT_SERIAL ,"wifi connect\n");
+        wifi_src.wifi_send_num = 5;
+        draw_pos_wifi_popup("Please enter password to connect",mks_wifi.wifi_name_str[wifi_src.wifi_send_num - 1]);
 	}
 }
 
 static void event_handler_wifi_bt6(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-
+        grbl_send(CLIENT_SERIAL ,"wifi connect\n");
+        wifi_src.wifi_send_num = 6;
+        draw_pos_wifi_popup("Please enter password to connect",mks_wifi.wifi_name_str[wifi_src.wifi_send_num - 1]);
 	}
 }
 
 static void event_handler_wifi_bt7(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-
+        grbl_send(CLIENT_SERIAL ,"wifi connect\n");
+        wifi_src.wifi_send_num = 7;
+        draw_pos_wifi_popup("Please enter password to connect",mks_wifi.wifi_name_str[wifi_src.wifi_send_num - 1]);
 	}
 }
 
 static void event_handler_wifi_bt8(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-
+        grbl_send(CLIENT_SERIAL ,"wifi connect\n");
+        wifi_src.wifi_send_num = 8;
+        draw_pos_wifi_popup("Please enter password to connect",mks_wifi.wifi_name_str[wifi_src.wifi_send_num - 1]);
 	}
 }
+
+static void event_handler_wifi_kb_event(lv_obj_t* obj, lv_event_t event) {
+
+    char username_cmd[128] = "[ESP100]";
+    char password_cmd[128] = "[ESP101]";
+    char enter_cmd[2] = "\n";
+
+    if(obj == wifi_src.wifi_kb) {
+
+        lv_kb_def_event_cb(obj, event);
+
+        if(event == LV_EVENT_VALUE_CHANGED) {
+            
+        }else if(event == LV_EVENT_APPLY) {
+            
+            // strcpy(wifi_send_username, mks_wifi.wifi_name_str[wifi_src.wifi_send_num]);
+            // strcpy(wifi_send_password, lv_ta_get_text(wifi_src.wifi_tb));
+
+            strcat(username_cmd, mks_wifi.wifi_name_str[wifi_src.wifi_send_num-1]);
+            strcat(password_cmd, lv_ta_get_text(wifi_src.wifi_tb));
+            strcat(username_cmd,enter_cmd);
+            strcat(password_cmd,enter_cmd);
+
+            strcpy(wifi_send_username, username_cmd);
+            strcpy(wifi_send_password, password_cmd);
+
+            // wifi_src.wifi_kb_flag = wifi_kb_send_wifi_username;
+         
+            // lv_obj_del(wifi_src.wifi_kb); // 删除键盘
+            // lv_obj_del(wifi_src.wifi_tb); // 删除文本框
+            lv_obj_del(wifi_src.wifi_kb_src_1); // 删除键盘界面
+            // lv_obj_del(wifi_src.wifi_popup_scr_1); // 删除弹窗页面
+        }
+    }
+}
+
 
 void mks_draw_wifi(void) {
 
     mks_src = lv_obj_create(NULL, NULL);
 	mks_src = lv_scr_act();
+
+    wifi_src.wifi_kb_flag = wifi_kb_none_flag;   // 清空wifi连接状态
 
     wifi_src.wifi_src_1 = lv_obj_create(mks_src, NULL);
     lv_obj_set_size( wifi_src.wifi_src_1, wifi_src1_x_size, wifi_src1_y_size);
@@ -447,17 +501,13 @@ void mks_draw_wifi(void) {
 	wifi_src.wifi_label_next = mks_lvgl_long_sroll_label_with_wight_set_center(wifi_src.wifi_src_1, wifi_src.wifi_label_next, 350, -10+70, "Next", 60);
 }
 
-static void event_handler_wifi_kb(lv_obj_t* obj, lv_event_t event) { 
-    
-}
-
 void mks_draw_wifi_kb(void) {
 
     wifi_src.wifi_kb_src_1 = lv_obj_create(mks_src, NULL);
-    lv_obj_set_size(wifi_src.wifi_kb_src_1, wifi_src1_x_size, wifi_src1_y_size);
-    lv_obj_set_pos(wifi_src.wifi_kb_src_1, wifi_src1_x, wifi_src1_y);
+    lv_obj_set_size(wifi_src.wifi_kb_src_1, wifi_src_kb_x_size, wifi_src_kb_y_size);
+    lv_obj_set_pos(wifi_src.wifi_kb_src_1, wifi_src_kb_x, wifi_src_kb_y);
 
-    wifi_src.wifi_kb = mks_lv_set_kb(wifi_src.wifi_kb_src_1, wifi_src.wifi_kb, event_handler_wifi_kb);
+    wifi_src.wifi_kb = mks_lv_set_kb(wifi_src.wifi_kb_src_1, wifi_src.wifi_kb, event_handler_wifi_kb_event);
     wifi_src.wifi_tb = mks_lv_set_ta(wifi_src.wifi_kb_src_1 ,wifi_src.wifi_tb, wifi_src.wifi_kb);
 }
 
@@ -489,21 +539,31 @@ static void event_handler_wifi_popup_sure(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
 
+        wifi_src.wifi_kb_flag = wifi_kb_send_wifi_username;
+        lv_obj_del(wifi_src.wifi_popup_scr_1);
 	}
 }
 
 static void event_handler_wifi_popup_cancle(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-
+        lv_obj_del(wifi_src.wifi_popup_scr_1);
 	}
 }
+
+static void event_handler_wifi_popup_pw_enter(lv_obj_t* obj, lv_event_t event) {
+
+	if (event == LV_EVENT_RELEASED) {
+        mks_draw_wifi_kb();
+	}
+}
+
 
 void draw_pos_wifi_popup(const char *text, char *file_name) {
 
 	wifi_src.wifi_popup_scr_1 = lv_obj_create(mks_src, NULL);
-	lv_obj_set_size(wifi_src.wifi_popup_scr_1, move_popup_size_x, move_popup_size_y);
-    lv_obj_set_pos(wifi_src.wifi_popup_scr_1, move_popup_x, move_popup_y);
+	lv_obj_set_size(wifi_src.wifi_popup_scr_1, wifi_wifi_popup_x_size, wifi_wifi_popup_y_size);
+    lv_obj_set_pos(wifi_src.wifi_popup_scr_1, wifi_wifi_popup_x, wifi_wifi_popup_y);
 
 	lv_style_copy(&wifi_src.wifi_popup_scr_1_style, &lv_style_scr);
 	wifi_src.wifi_popup_scr_1_style.body.main_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
@@ -521,18 +581,66 @@ void draw_pos_wifi_popup(const char *text, char *file_name) {
     wifi_src.wifi_popup_btn_style.text.color = LV_COLOR_BLACK;
 	wifi_src.wifi_popup_btn_style.body.radius = 10;
 
-	wifi_src.wifi_popup_btn_sure = mks_lv_btn_set(wifi_src.wifi_popup_scr_1, wifi_src.wifi_popup_btn_sure, move_popup_btn_size_x, move_popup_btn_size_y, move_popup_btn_x, move_popup_btn_y, event_handler_wifi_popup_sure);
-    wifi_src.wifi_popup_btn_cancle = mks_lv_btn_set(wifi_src.wifi_popup_scr_1, wifi_src.wifi_popup_btn_cancle, move_popup_btn_size_x, move_popup_btn_size_y, move_popup_btn_x, move_popup_btn_y, event_handler_wifi_popup_cancle);
+	wifi_src.wifi_popup_btn_sure = mks_lv_btn_set(wifi_src.wifi_popup_scr_1, 
+                                                wifi_src.wifi_popup_btn_sure, 
+                                                wifi_popup_btn_sure_size_x, 
+                                                wifi_popup_btn_sure_size_y, 
+                                                wifi_popup_btn_sure_x, 
+                                                wifi_popup_btn_sure_y, 
+                                                event_handler_wifi_popup_sure);
+
+    wifi_src.wifi_popup_btn_cancle = mks_lv_btn_set(wifi_src.wifi_popup_scr_1, 
+                                                wifi_src.wifi_popup_btn_cancle, 
+                                                wifi_popup_btn_cancle_size_x, 
+                                                wifi_popup_btn_cancle_size_y, 
+                                                wifi_popup_btn_cancle_x, 
+                                                wifi_popup_btn_cancle_y, 
+                                                event_handler_wifi_popup_cancle);
+
+    wifi_src.wifi_popup_btn_pw_enter = mks_lv_btn_set(wifi_src.wifi_popup_scr_1, 
+                                                wifi_src.wifi_popup_btn_pw_enter, 
+                                                wifi_popup_btn_pw_enter_size_x, 
+                                                wifi_popup_btn_pw_enter_size_y, 
+                                                wifi_popup_btn_pw_enter_x, 
+                                                wifi_popup_btn_pw_enter_y, 
+                                                event_handler_wifi_popup_pw_enter);
 	lv_btn_set_style(wifi_src.wifi_popup_btn_sure, LV_BTN_STYLE_REL, &wifi_src.wifi_popup_btn_style);
 	lv_btn_set_style(wifi_src.wifi_popup_btn_sure,LV_BTN_STYLE_PR, &wifi_src.wifi_popup_btn_style);
-    lv_btn_set_style(wifi_src.wifi_popup_btn_sure, LV_BTN_STYLE_REL, &wifi_src.wifi_popup_btn_style);
-	lv_btn_set_style(wifi_src.wifi_popup_btn_sure,LV_BTN_STYLE_PR, &wifi_src.wifi_popup_btn_style);
+    lv_btn_set_style(wifi_src.wifi_popup_btn_cancle, LV_BTN_STYLE_REL, &wifi_src.wifi_popup_btn_style);
+	lv_btn_set_style(wifi_src.wifi_popup_btn_cancle,LV_BTN_STYLE_PR, &wifi_src.wifi_popup_btn_style);
+    lv_btn_set_style(wifi_src.wifi_popup_btn_pw_enter, LV_BTN_STYLE_REL, &wifi_src.wifi_popup_btn_style);
+	lv_btn_set_style(wifi_src.wifi_popup_btn_pw_enter,LV_BTN_STYLE_PR, &wifi_src.wifi_popup_btn_style);
 
-	wifi_src.wifi_popup_label = mks_lvgl_long_sroll_label_with_wight_set_center(wifi_src.wifi_popup_scr_1, wifi_src.wifi_popup_label, 110, 40, text, 200);
-    wifi_src.wifi_popup_file_name_label = mks_lvgl_long_sroll_label_with_wight_set_center(wifi_src.wifi_popup_scr_1, wifi_src.wifi_popup_file_name_label, 110, 60, file_name, 200);
+	wifi_src.wifi_popup_label = mks_lvgl_long_sroll_label_with_wight_set_center(wifi_src.wifi_popup_scr_1, wifi_src.wifi_popup_label, 40, 20, text, 320);
+    wifi_src.wifi_popup_file_name_label = mks_lvgl_long_sroll_label_with_wight_set_center(wifi_src.wifi_popup_scr_1, wifi_src.wifi_popup_file_name_label, 140, 40, file_name, 128);
 
-	wifi_src.wifi_btn_popup_sure_label = mks_lvgl_long_sroll_label_with_wight_set_center(wifi_src.wifi_popup_scr_1, wifi_src.wifi_btn_popup_sure_label, 0, 0, "Connect", 100);
-    wifi_src.wifi_btn_popup_cancle_label = mks_lvgl_long_sroll_label_with_wight_set_center(wifi_src.wifi_popup_scr_1, wifi_src.wifi_btn_popup_sure_label, 0, 0, "Cancle", 100);
+	wifi_src.wifi_btn_popup_sure_label = mks_lvgl_long_sroll_label_with_wight_set_center(wifi_src.wifi_popup_btn_sure, wifi_src.wifi_btn_popup_sure_label, 0, 0, "Connect", 80);
+    wifi_src.wifi_btn_popup_cancle_label = mks_lvgl_long_sroll_label_with_wight_set_center(wifi_src.wifi_popup_btn_cancle, wifi_src.wifi_btn_popup_sure_label, 0, 0, "Cancle", 80);
+    wifi_src.wifi_btn_popup_pw_enter_label = mks_lvgl_long_sroll_label_with_wight_set_center(wifi_src.wifi_popup_btn_pw_enter, wifi_src.wifi_btn_popup_pw_enter_label, 0, 0, "Password", 80);
+}
+
+void mks_wifi_connect(char *username, char *password) {
+
+    if(wifi_src.wifi_kb_flag == wifi_kb_send_wifi_username) {
+        MKS_GRBL_CMD_SEND(username);
+        wifi_src.wifi_kb_flag = wifi_kb_send_wifi_password;
+    }
+    else if(wifi_src.wifi_kb_flag == wifi_kb_send_wifi_password) {
+        MKS_GRBL_CMD_SEND(password);
+        wifi_src.wifi_kb_flag = wifi_kb_send_wifi_STA_mode;
+    }
+    else if(wifi_src.wifi_kb_flag == wifi_kb_send_wifi_STA_mode) {
+        MKS_GRBL_CMD_SEND("[ESP110]STA\n");
+        wifi_src.wifi_kb_flag = wifi_kb_send_wifi_PORT;
+    }
+    else if(wifi_src.wifi_kb_flag == wifi_kb_send_wifi_PORT) {
+        MKS_GRBL_CMD_SEND("[ESP131]8080\n");
+        wifi_src.wifi_kb_flag = wifi_kb_send_wifi_connect;
+    }
+    else if(wifi_src.wifi_kb_flag == wifi_kb_send_wifi_connect) {
+        WebUI::wifi_config.begin();
+        wifi_src.wifi_kb_flag = wifi_kb_none_flag;
+    }
 }
 
 void mks_clear_wifi(void) {

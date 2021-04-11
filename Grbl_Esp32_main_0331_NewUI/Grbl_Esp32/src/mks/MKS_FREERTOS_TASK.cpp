@@ -50,7 +50,9 @@ void lvgl_disp_data_updata(void *parg) {
         else if(mks_ui_page.mks_ui_page == MKS_UI_Pring) { // 雕刻界面更新数据
             mks_print_data_updata();
         }
-
+        else if(mks_ui_page.mks_ui_page == MKS_UI_Wifi) {   
+            mks_wifi_connect(wifi_send_username, wifi_send_password);   // 扫描wifi是否需要被发送指令连接
+        }
         vTaskDelay(100); // 500ms
     }
 }

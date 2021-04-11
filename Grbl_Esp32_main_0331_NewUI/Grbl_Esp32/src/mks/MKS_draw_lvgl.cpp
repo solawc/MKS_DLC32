@@ -277,7 +277,7 @@ lv_obj_t* mks_lv_set_ta(lv_obj_t* scr, lv_obj_t *ta, lv_obj_t *kb) {
 
     ta = lv_ta_create(scr, NULL); 
     lv_obj_align(ta, NULL, LV_ALIGN_IN_TOP_MID, 0, 10);
-    lv_ta_set_text(ta, "");
+    lv_ta_set_text(ta, "password");
     lv_kb_set_ta(kb, ta);
     return ta;
 }
