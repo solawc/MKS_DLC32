@@ -27,6 +27,10 @@ static lv_obj_t* Back;
 // lv_obj_t* Label_power_on_off;
 // lv_obj_t* Label_pwr_persen;
 
+
+lv_obj_t* pwr_label_high;
+lv_obj_t* pwr_label_low;
+lv_obj_t* pwr_label_off;
 lv_obj_t* label_cailb;
 static lv_obj_t* label_Back;
 
@@ -135,22 +139,26 @@ void mks_draw_power(void) {
 	cailb = lv_imgbtn_creat_mks(p_scr1, cailb, &Calibration, &Calibration, LV_ALIGN_CENTER,150, -10, event_handler_cailb);
 
 	if(mks_grbl.power_persen == P_10_PERSEN) {
-		pwr_high = lv_imgbtn_creat_n_mks(p_scr2, pwr_high, &SPD_H_PRE, &SPD_H_PRE,10, 40, event_handler_pwr_h);
-		pwr_low = lv_imgbtn_creat_n_mks(p_scr2, pwr_low, &SP_L_UP, &SP_L_UP,160, 40, event_handler_pwr_l);
-		pwr_off = lv_imgbtn_creat_n_mks(p_scr2, pwr_low, &SP_OFF, &SP_OFF, 310, 40, event_handler_pwr_on_off);
+		pwr_high = lv_imgbtn_creat_n_mks(p_scr2, pwr_high, &SPD_H_PRE, &SPD_H_PRE,10, 35, event_handler_pwr_h);
+		pwr_low = lv_imgbtn_creat_n_mks(p_scr2, pwr_low, &SP_L_UP, &SP_L_UP,160, 35, event_handler_pwr_l);
+		pwr_off = lv_imgbtn_creat_n_mks(p_scr2, pwr_low, &SP_OFF, &SP_OFF, 310, 35, event_handler_pwr_on_off);
 	}
 	else if(mks_grbl.power_persen == P_1_PERSEN) {
-		pwr_high = lv_imgbtn_creat_n_mks(p_scr2, pwr_high, &SP_H_UP, &SP_H_UP,10, 40, event_handler_pwr_h);
-		pwr_low = lv_imgbtn_creat_n_mks(p_scr2, pwr_low, &SP_L_PRE, &SP_L_PRE,160, 40, event_handler_pwr_l);
-		pwr_off = lv_imgbtn_creat_n_mks(p_scr2, pwr_low, &SP_OFF, &SP_OFF, 310, 40, event_handler_pwr_on_off);
+		pwr_high = lv_imgbtn_creat_n_mks(p_scr2, pwr_high, &SP_H_UP, &SP_H_UP,10, 35, event_handler_pwr_h);
+		pwr_low = lv_imgbtn_creat_n_mks(p_scr2, pwr_low, &SP_L_PRE, &SP_L_PRE,160, 35, event_handler_pwr_l);
+		pwr_off = lv_imgbtn_creat_n_mks(p_scr2, pwr_low, &SP_OFF, &SP_OFF, 310, 35, event_handler_pwr_on_off);
 	}else if(mks_grbl.power_persen == P_0_PERSEN) {
-		pwr_high = lv_imgbtn_creat_n_mks(p_scr2, pwr_high, &SP_H_UP, &SP_H_UP,10, 40, event_handler_pwr_h);
-		pwr_low = lv_imgbtn_creat_n_mks(p_scr2, pwr_low, &SP_L_UP, &SP_L_UP,160, 40, event_handler_pwr_l);
-		pwr_off = lv_imgbtn_creat_n_mks(p_scr2, pwr_low, &SP_ON, &SP_ON, 310, 40, event_handler_pwr_on_off);
+		pwr_high = lv_imgbtn_creat_n_mks(p_scr2, pwr_high, &SP_H_UP, &SP_H_UP,10, 35, event_handler_pwr_h);
+		pwr_low = lv_imgbtn_creat_n_mks(p_scr2, pwr_low, &SP_L_UP, &SP_L_UP,160, 35, event_handler_pwr_l);
+		pwr_off = lv_imgbtn_creat_n_mks(p_scr2, pwr_low, &SP_ON, &SP_ON, 310, 35, event_handler_pwr_on_off);
 	}
 
 	label_Back = mks_lvgl_long_sroll_label_with_wight_set_center(p_scr1, label_Back, 20,60, "Back", 50);
 	label_cailb = mks_lvgl_long_sroll_label_with_wight_set_center(p_scr1, label_cailb, 350, 60, "Z Home", 60);
+
+	pwr_label_high = mks_lvgl_long_sroll_label_with_wight_set_center(p_scr2, pwr_label_high, 60,170, "50%", 50);
+	pwr_label_low = mks_lvgl_long_sroll_label_with_wight_set_center(p_scr2, pwr_label_low, 210,170, "5%", 50);
+	pwr_label_off = mks_lvgl_long_sroll_label_with_wight_set_center(p_scr2, pwr_label_off, 360,170, "OFF", 50);
 } 
 
 

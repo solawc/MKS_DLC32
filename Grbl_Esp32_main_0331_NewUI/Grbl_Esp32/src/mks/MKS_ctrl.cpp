@@ -170,6 +170,8 @@ void mks_wifi_connect_test(char *ssid, char *password) {
 
     WebUI::wifi_sta_ssid->setStringValue(ssid);
     WebUI::wifi_sta_password->setStringValue(password);
-    WebUI::wifi_config.StartSTA();
+    WiFi.enableAP(false);
+    WiFi.mode(WIFI_STA);
+    WebUI::wifi_config.begin();
 }
 

@@ -113,7 +113,7 @@ static void reset_variables() {
     // Sync cleared gcode and planner positions to current system position.
     plan_sync_position();
     gc_sync_position();
-    report_init_message(CLIENT_ALL);
+    report_init_message(CLIENT_ALL); 
 
     /*LCD---GUI*/
     // if(!lcd_init_status) {

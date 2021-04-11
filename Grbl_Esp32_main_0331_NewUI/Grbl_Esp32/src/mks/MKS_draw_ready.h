@@ -28,12 +28,44 @@ typedef enum {
 
 }READY_XY_POS_t;
 
+
+
 typedef struct {
-    uint32_t mks_x_pos;
-    uint32_t mks_y_pos;
-    uint32_t mks_z_pos;
-}ready_data_t;
-extern ready_data_t ready_data;
+
+    lv_obj_t *ready_src_1;      //用于放应用选择
+
+    lv_style_t ready_src1_style;        //用于样式
+    lv_style_t ready_btn_wifi_style;
+
+    lv_obj_t* ready_imgbtn_Adjustment;  //用于创建图片按键
+    lv_obj_t* ready_imgbtn_Control;
+    lv_obj_t* ready_imgbtn_Sculpture;
+    lv_obj_t* ready_imgbtn_Tool;
+    
+    lv_obj_t* ready_imgbtn_status;
+    lv_obj_t* ready_imgbtn_xpos;
+    lv_obj_t* ready_imgbtn_ypos;
+    lv_obj_t* ready_imgbtn_zpos;
+    lv_obj_t* ready_imgbtn_pwr;
+    lv_obj_t* ready_imgbtn_wifi_status;
+
+    lv_obj_t* ready_btn_wifi;           //用于创建按键
+
+    lv_obj_t* ready_label_Adjustment;   //用于功能label
+    lv_obj_t* ready_label_Control;
+    lv_obj_t* ready_label_Sculpture;
+    lv_obj_t* ready_label_Tool;
+
+    lv_obj_t* ready_label_status;   //用于显示label
+    lv_obj_t* ready_label_xpos;
+    lv_obj_t* ready_label_ypos;
+    lv_obj_t* ready_label_zpos;
+    lv_obj_t* ready_label_mpwr;
+    lv_obj_t* ready_label_wifi_status;
+
+}MKS_PAGE_READY;
+
+
 
 
 void mks_draw_ready(void);
