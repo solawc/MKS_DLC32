@@ -43,8 +43,8 @@
 // I2S (steppers & other output-only pins)
 #define USE_I2S_OUT
 #define USE_I2S_STEPS
-#define DEFAULT_STEPPER ST_I2S_STREAM
-// #define DEFAULT_STEPPER ST_I2S_STATIC
+// #define DEFAULT_STEPPER ST_I2S_STREAM
+#define DEFAULT_STEPPER ST_I2S_STATIC
 
 #define I2S_OUT_BCK                 GPIO_NUM_16
 #define I2S_OUT_WS                  GPIO_NUM_17
