@@ -1087,6 +1087,8 @@ namespace WebUI {
 #ifdef WEB_COMMON
         new WebCommand(NULL, WEBCMD, WU, "ESP200", "SD/Status", showSDStatus);
         new WebCommand("STA|AP|BT|OFF", WEBCMD, WA, "ESP115", "Radio/State", setRadioState);
+
+        // new WebCommand("STA|AP|BT|OFF", WEBCMD, WA, "ESP777", "MKS WIFI", setRadioState);   //MKS
 #endif
 #ifdef ENABLE_WIFI
         new WebCommand(NULL, WEBCMD, WG, "ESP111", "System/IP", showIP);

@@ -167,6 +167,8 @@ namespace WebUI {
 
         // Limited size. Length is checked automatically by string setting
 
+        wifi_config.begin();  //mks
+
         return true;
     }
 
