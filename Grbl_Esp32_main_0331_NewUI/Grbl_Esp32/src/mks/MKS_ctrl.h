@@ -34,8 +34,9 @@ typedef enum {
 }mks_wifi_status_t;
 
 
-#define MKS_WIFI_NUM            8
+#define MKS_WIFI_NUM            16
 #define MKS_WIFI_NAME_LEN       128
+#define MKS_WIFI_DIS_PAGE       2
 typedef struct {
 
     char wifi_name_str[MKS_WIFI_NUM][MKS_WIFI_NAME_LEN];

@@ -29,7 +29,6 @@ typedef enum {
 }READY_XY_POS_t;
 
 
-
 typedef struct {
 
     lv_obj_t *ready_src_1;      //用于放应用选择

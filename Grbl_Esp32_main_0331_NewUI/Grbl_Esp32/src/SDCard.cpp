@@ -40,6 +40,15 @@ static char                comment[LINE_BUFFER_SIZE];  // Line to be executed. Z
   return true;
 }*/
 
+bool filename_check(char *str, uint16_t num) {
+
+    if(num > 128) return false;
+
+    if((str[num-1]== 'c') && str[num-2] == 'n') return true;
+    else return false;
+}
+
+char filename_check_str[255];
 void listDir(fs::FS& fs, const char* dirname, uint8_t levels, uint8_t client) {
     //char temp_filename[128]; // to help filter by extension	TODO: 128 needs a definition based on something
     File root = fs.open(dirname);
@@ -58,13 +67,17 @@ void listDir(fs::FS& fs, const char* dirname, uint8_t levels, uint8_t client) {
                 listDir(fs, file.name(), levels - 1, client);
             }
         } else {
-            grbl_sendf(CLIENT_ALL, "[FILE:%s|SIZE:%d]\r\n", file.name(), file.size());
+            strcpy(filename_check_str, file.name());
+            if(filename_check(filename_check_str, strlen(filename_check_str)) == true) {
+                grbl_sendf(CLIENT_ALL, "[FILE:%s|SIZE:%d]\r\n", file.name(), file.size());
+                // grbl_send(CLIENT_ALL, "check\n");
+            }
         }
         file = root.openNextFile();
     }
 }
 
-
+char mks_filename_check_str[255];
 void mks_listDir(fs::FS& fs, const char* dirname, uint8_t levels) { 
 
     File root = fs.open(dirname);    //建立文件根目录并打开文件系统
@@ -89,23 +102,23 @@ void mks_listDir(fs::FS& fs, const char* dirname, uint8_t levels) {
                 mks_listDir(fs, file.name(), levels - 1);
             }
         } else {
-            grbl_sendf(CLIENT_ALL, "[FILE:%s|SIZE:%d]\r\n", file.name(), file.size());
-            
-            if((mks_file_list.file_count >= ((mks_file_list.file_page * MKS_FILE_NUM)-(MKS_FILE_NUM))) && (mks_file_list.file_count < (mks_file_list.file_page * MKS_FILE_NUM))) {
-                memcpy(mks_file_list.filename_str[mks_file_list.file_begin_num], file.name(), MKS_FILE_NAME_LENGTH);
-                mks_file_list.file_begin_num++;
+
+            strcpy(mks_filename_check_str, file.name());
+
+            if(filename_check(mks_filename_check_str, strlen(mks_filename_check_str)) == true) {
+
+                if((mks_file_list.file_count >= ((mks_file_list.file_page * MKS_FILE_NUM)-(MKS_FILE_NUM))) 
+                    && (mks_file_list.file_count < (mks_file_list.file_page * MKS_FILE_NUM))) {
+
+                    strcpy(mks_file_list.filename_str[mks_file_list.file_begin_num], mks_filename_check_str);
+                    mks_file_list.file_begin_num++;
+                }
+                mks_file_list.file_count++;
+                if(mks_file_list.file_count >= (mks_file_list.file_page * MKS_FILE_NUM)) return;
             }
-            mks_file_list.file_count++;
         }
        file =  root.openNextFile();
     }
-}
-
-
-void mks_read_file() {
-
-
-
 }
 
 boolean openFile(fs::FS& fs, const char* path) {

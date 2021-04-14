@@ -150,9 +150,9 @@ void protocol_main_loop() {
                 if (readFileLine(fileLine, 255)) {
                 SD_ready_next = false;
                 report_status_message(execute_line(fileLine, SD_client, SD_auth_level), SD_client);
-                    if (mks_grbl.is_mks_ts35_flag == true) {
-                            mks_print_bar_updata();
-                    }
+                    // if (mks_grbl.is_mks_ts35_flag == true) {
+                    //         mks_print_bar_updata();
+                    // }
                 } else {
                     char temp[50];
                     sd_get_current_filename(temp);

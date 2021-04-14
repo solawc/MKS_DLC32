@@ -6,7 +6,7 @@
 #include "MKS_ctrl.h"
 #include "lvgl.h"
 #include "../Serial.h"
-
+#include "MKS_SDCard.h"
 
 
 #define MKS_GRBL_CMD_SEND(A)            serila_write_into_buffer((uint8_t *)A)   

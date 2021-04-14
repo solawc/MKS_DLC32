@@ -727,6 +727,10 @@ void mks_print_data_updata(void) {
     Label_z_pos = mks_lv_label_updata(Label_z_pos, print_zpos_str);
     Label_power = mks_lv_label_updata(Label_power, print_pwr_str);
     Label_caveSpeed = mks_lv_label_updata(Label_caveSpeed, print_speed_str);
+
+    if (mks_grbl.is_mks_ts35_flag == true) {
+        mks_print_bar_updata();
+    }
 }
 
 void mks_clear_print(void) {

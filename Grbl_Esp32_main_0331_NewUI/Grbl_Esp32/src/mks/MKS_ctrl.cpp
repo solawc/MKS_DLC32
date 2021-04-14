@@ -137,12 +137,16 @@ void mks_wifi_scanf(void) {
             grbl_send(CLIENT_SERIAL ,"waitting\n\n");
             break;
         default:
-            for (int i = 0; i < n; ++i) {
-                if( (i >= ((mks_wifi.wifi_show_page * MKS_WIFI_NUM) - MKS_WIFI_NUM)) && (i <= (mks_wifi.wifi_show_page * MKS_WIFI_NUM)) ) {
-                    memcpy(mks_wifi.wifi_name_str[mks_wifi.begin_scanf_num], WiFi.SSID(i).c_str(), 128);
-                    mks_wifi.begin_scanf_num++;
-                }
-                if(i > (mks_wifi.wifi_show_page * MKS_WIFI_NUM)) break;
+            // 获取16个wifi名
+            for (int i = 0; i < MKS_WIFI_NUM; ++i) {   
+                // if( (i >= ((mks_wifi.wifi_show_page * MKS_WIFI_NUM) - MKS_WIFI_NUM)) && (i <= (mks_wifi.wifi_show_page * MKS_WIFI_NUM)) ) {
+                //     memcpy(mks_wifi.wifi_name_str[mks_wifi.begin_scanf_num], WiFi.SSID(i).c_str(), 128);
+                //     mks_wifi.begin_scanf_num++;
+                // }
+                // if(i > (mks_wifi.wifi_show_page * MKS_WIFI_NUM)) break;
+
+                memcpy(mks_wifi.wifi_name_str[mks_wifi.begin_scanf_num], WiFi.SSID(i).c_str(), 128);
+                mks_wifi.begin_scanf_num++;
             }
 
             WiFi.scanDelete();

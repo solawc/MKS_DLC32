@@ -41,6 +41,7 @@ void disp_task_init(void) {
 void lvgl_disp_data_updata(void *parg) { 
 
     while(1) {
+
         if(mks_ui_page.mks_ui_page == MKS_UI_PAGE_LOADING) {
             /* Do not updata */
         }
