@@ -79,14 +79,24 @@ typedef struct {
     /* 底图显示 */
     lv_obj_t* print_scr1;           //上面部分
     lv_obj_t* print_scr2;           //下面部分
+    
     lv_obj_t* print_stop_popup;
     lv_obj_t* print_finsh_popup;
+    lv_obj_t *print_pwr_speed_src;
+
+    /* btn */
+    lv_obj_t *print_btn_1_mm;
+    lv_obj_t *print_btn_10_mm;
 
     /* imgbtn */
     lv_obj_t* print_imgbtn_suspend;
     lv_obj_t* print_imgbtn_stop;
     lv_obj_t* print_imgbtn_pwr;
     lv_obj_t* print_imgbtn_speed;
+
+    lv_obj_t *print_sp_imgbtn_add;
+    lv_obj_t *print_sp_imgbtn_dec;
+    lv_obj_t *print_sp_btn_sure;
 
     /* bar */
     lv_obj_t* print_bar_print;  //打印进度条
@@ -95,20 +105,41 @@ typedef struct {
     //样式
     lv_style_t printf_src_bg;   
     lv_style_t printf_popup_style;
+    lv_style_t print_popup_btn_style;    // 对话框按键样式
+    lv_style_t print_mm_btn1_style;
+    lv_style_t print_mm_btn2_style;
     lv_style_t print_bar_bg_style;
     lv_style_t print_bar_indic_style;
 
     /* Label*/
-    lv_obj_t* Label_suspend;
-lv_obj_t* Label_stop;
-lv_obj_t* Label_power;
-lv_obj_t* Label_caveSpeed;
+    lv_obj_t* print_Label_power;
+    lv_obj_t* print_Label_caveSpeed;
+
+    lv_obj_t* print_Label_p_suspend;
+    lv_obj_t* print_Label_p_stop;
+    lv_obj_t* print_Label_p_power;
+    lv_obj_t* print_Label_p_caveSpeed;
+
+    lv_obj_t* print_Label_x_pos;
+    lv_obj_t* print_Label_y_pos;
+    lv_obj_t* print_Label_z_pos;
+    lv_obj_t* print_Label_popup;
+    lv_obj_t* print_Label_popup_sure;
+    lv_obj_t* print_Label_popup_cancel;
+
+    lv_obj_t *print_label_1_mm;
+    lv_obj_t *print_label_10_mm;
+
+    /* icon */
+    lv_obj_t* print_icon_X;
+    lv_obj_t* print_icon_Y;
+    lv_obj_t* print_icon_Z;
+    lv_obj_t* print_icon_PWR;
+    lv_obj_t* print_icon_SPEED;
     
-
 }MKS_PRINT_PAGE_t;
-
-
-
+extern MKS_PRINT_PAGE_t print_src;
+// print_src.print_
 
 void mks_clear_print(void);
 void mks_draw_print(void);
