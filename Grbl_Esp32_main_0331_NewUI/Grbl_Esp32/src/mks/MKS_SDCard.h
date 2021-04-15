@@ -2,10 +2,10 @@
 #ifndef __mks_sdcard_h
 #define __mks_sdcard_h
 
+#include "MKS_LVGL.h"
 #include "FS.h"
 #include "SD.h"
 #include "SPI.h"
- 
 class SdCard
 {
 private:
@@ -23,6 +23,10 @@ public:
 	void readFile(  const char* path);
 
 	String readFileLine( const char* path, int num);
+
+	int Serch_data(const char* path, const char *str);
+
+	bool sd_data_update(const char* path, const char *str);
 
 	void writeFile(  const char* path, const char* message);
 

@@ -210,8 +210,8 @@ void mks_draw_craving(void) {
 	mks_ui_page.mks_ui_page = MKS_UI_Caving;
     mks_ui_page.wait_count = DEFAULT_UI_COUNT;
 
-	mks_src = lv_obj_create(NULL, NULL);
-	mks_src = lv_scr_act();
+	// mks_src = lv_obj_create(NULL, NULL);
+	// mks_src = lv_scr_act();
 
 	lv_style_copy(&caving_src1_style, &lv_style_scr);
     caving_src1_style.body.main_color = LV_COLOR_MAKE(0x1F, 0x23, 0x33); 

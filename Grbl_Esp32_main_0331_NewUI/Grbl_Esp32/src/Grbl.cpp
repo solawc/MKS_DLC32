@@ -21,11 +21,11 @@
 #include "Grbl.h"
 #include <WiFi.h>
 #include "mks/MKS_TS35.h"
-// #include "MKS_TS35.h"
 #include "mks/MKS_I2C.h"
 #include "mks/MKS_LVGL.h"
 #include "mks/MKS_draw_ready.h"
 #include "mks/MKS_ctrl.h"
+#include "mks/MKS_SDCard.h"
 
 void grbl_init() {
     pinMode(LCD_EN, OUTPUT);
@@ -73,7 +73,33 @@ void grbl_init() {
     Spindles::Spindle::select();
 #ifdef ENABLE_WIFI
     // WebUI::wifi_config.begin();
+
+    // String mks_ssid =  tf.readFileLine("/mks_wifi.txt",1);
+    // String mks_password =  tf.readFileLine("/mks_wifi.txt",2);
+    int sd_line = 0;
+    String mks_ssid;
+    String mks_password;
+
+    tf.init();
+
+    sd_line = tf.Serch_data("/mksconfig.txt", "wifi_ssid:");
+    if(sd_line) {
+        mks_ssid = tf.readFileLine("/mksconfig.txt",sd_line+1);
+        sd_line = 0;
+    }else {
+        grbl_send(CLIENT_SERIAL, "no read\n");
+    }
+        
+    sd_line = tf.Serch_data("/mksconfig.txt", "wifi_password:");
+    if(sd_line) {
+        mks_password = tf.readFileLine("/mksconfig.txt",sd_line+1);
+        sd_line = 0;
+    }else {
+        grbl_send(CLIENT_SERIAL, "no read\n");
+    }
+
     WiFi.scanNetworks(true); 
+    WiFi.begin(mks_ssid.c_str(), mks_password.c_str());
 #endif
 #ifdef ENABLE_BLUETOOTH
     WebUI::bt_config.begin();

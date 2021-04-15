@@ -54,15 +54,14 @@ typedef enum {
     print_src2_first_pic_y = 95,
 }PRINT_XY_t;
 
+
 typedef enum {
     PWR_1_PERSEN,
     PWR_10_PERSEN,
 }PWR_LEN_t;
 
 typedef struct {
-
     PWR_LEN_t pwr_len;
-
 }PWR_CTRL_t;
 
 typedef enum {
@@ -71,18 +70,40 @@ typedef enum {
 }SPEED_LEN_t;
 
 typedef struct {
-
     SPEED_LEN_t speed_len;
-
 }SPEED_CTRL_t;
 
 
 typedef struct {
 
     /* 底图显示 */
-    lv_obj_t* print_scr1;    
-    lv_obj_t* print_scr2;
+    lv_obj_t* print_scr1;           //上面部分
+    lv_obj_t* print_scr2;           //下面部分
+    lv_obj_t* print_stop_popup;
+    lv_obj_t* print_finsh_popup;
 
+    /* imgbtn */
+    lv_obj_t* print_imgbtn_suspend;
+    lv_obj_t* print_imgbtn_stop;
+    lv_obj_t* print_imgbtn_pwr;
+    lv_obj_t* print_imgbtn_speed;
+
+    /* bar */
+    lv_obj_t* print_bar_print;  //打印进度条
+    lv_obj_t* print_bar_print_percen;  //打印进度
+
+    //样式
+    lv_style_t printf_src_bg;   
+    lv_style_t printf_popup_style;
+    lv_style_t print_bar_bg_style;
+    lv_style_t print_bar_indic_style;
+
+    /* Label*/
+    lv_obj_t* Label_suspend;
+lv_obj_t* Label_stop;
+lv_obj_t* Label_power;
+lv_obj_t* Label_caveSpeed;
+    
 
 }MKS_PRINT_PAGE_t;
 

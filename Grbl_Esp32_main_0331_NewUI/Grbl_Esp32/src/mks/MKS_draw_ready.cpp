@@ -129,8 +129,6 @@ void mks_draw_ready(void) {
     ready_src.ready_label_zpos = mks_lv_static_label(mks_src, ready_src.ready_label_zpos, READY_FIRST_LABEL_X+320,READY_FIRST_LABEL_Y+45, "0", 50);
     ready_src.ready_label_mpwr = mks_lv_static_label(mks_src, ready_src.ready_label_mpwr, READY_FIRST_LABEL_X+60, READY_FIRST_LABEL_Y+85, "0", 50);
 
-    // label_wifi_ip = mks_lv_static_label(mks_src, label_wifi_ip, READY_FIRST_LABEL_X+60, READY_FIRST_LABEL_Y+120, "0.0.0.0", 100);
-    // ready_src.ready_label_wifi_status = mks_lv_static_label(ready_src.ready_btn_wifi, ready_src.ready_label_wifi_status, 40, 0, "Disconnect", 110);
 
     if (mks_grbl.wifi_connect_status == true) {
         if(WiFi.getMode() == WIFI_STA) {

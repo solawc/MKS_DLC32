@@ -1,7 +1,7 @@
 #include "MKS_ctrl.h"
 #include "../WebUI/WebSettings.h"
 #include "../WebUI/WifiConfig.h"
-
+#include "string.h"
 
 #define BLTOUCH_FREQ           50   //HZ
 #define RESOLUTION             16   //分辨率
@@ -161,21 +161,7 @@ void mks_wifi_scanf(void) {
 }
 
 
-void mks_wifi_connect(void) { 
 
-    WebUI::wifi_sta_ssid->setStringValue("MAKERBASE3D");
-    WebUI::wifi_sta_password->setStringValue("makerbase3d");
-    WiFi.enableAP(false);
-    WiFi.mode(WIFI_STA);
-    WebUI::wifi_config.begin();
-}
 
-void mks_wifi_connect_test(char *ssid, char *password) {
 
-    WebUI::wifi_sta_ssid->setStringValue(ssid);
-    WebUI::wifi_sta_password->setStringValue(password);
-    WiFi.enableAP(false);
-    WiFi.mode(WIFI_STA);
-    WebUI::wifi_config.begin();
-}
 

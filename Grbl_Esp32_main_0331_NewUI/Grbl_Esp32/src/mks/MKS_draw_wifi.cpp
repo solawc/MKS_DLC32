@@ -204,8 +204,8 @@ static void event_handler_wifi_kb_event(lv_obj_t* obj, lv_event_t event) {
 
 void mks_draw_wifi(void) {
 
-    mks_src = lv_obj_create(NULL, NULL);
-	mks_src = lv_scr_act();
+    // mks_src = lv_obj_create(NULL, NULL);
+	// mks_src = lv_scr_act();
 
     wifi_src.wifi_kb_flag = wifi_kb_none_flag;   // 清空wifi连接状态
 

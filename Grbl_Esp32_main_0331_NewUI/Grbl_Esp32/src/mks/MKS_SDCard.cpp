@@ -1,10 +1,11 @@
 #include "MKS_SDCard.h"
 
+SdCard tf;
 void SdCard::init()
 {
 
 	SPIClass* sd_spi = new SPIClass(HSPI); // another SPI
-	if (!SD.begin(15, *sd_spi)) // SD-Card SS pin is 15
+	if (!SD.begin(GPIO_NUM_15, *sd_spi)) // SD-Card SS pin is 15
 	{
 		Serial.println("Card Mount Failed");
 		return;
@@ -127,7 +128,7 @@ void SdCard::readFile(const char* path)
 
 String SdCard::readFileLine(const char* path, int num = 1)
 {
-	Serial.printf("Reading file: %s line: %d\n", path, num);
+	// Serial.printf("Reading file: %s line: %d\n", path, num);
 
 	File file = SD.open(path);
 	if (!file)
@@ -322,4 +323,42 @@ void SdCard::fileIO(const char* path)
 	end = millis() - start;
 	Serial.printf("%u bytes written for %u ms\n", 2048 * 512, end);
 	file.close();
+}
+
+int SdCard::Serch_data(const char* path, const char *str) {
+
+	int line_num = 0;
+	bool serch_status = true;
+	String p;
+	while(1) {
+		line_num++;
+		p = readFileLine(path, line_num);
+		if(strcmp(p.c_str(), str) == 0) {
+			
+			serch_status = true;
+			break;
+		} 
+		grbl_send(CLIENT_SERIAL ,p.c_str());
+		grbl_send(CLIENT_SERIAL ,"\n");
+		if(line_num == 255) {
+			break;
+			serch_status = false;
+		}
+	}	
+	if(serch_status == true) return line_num;
+	else return 0;
+}
+
+bool SdCard::sd_data_update(const char* path, const char *str) {
+	int sd_line = 0;
+	String data;
+	if(sd_line) {
+        data = tf.readFileLine("/mks_wifi.txt",sd_line);
+        grbl_send(CLIENT_SERIAL, "get ssid\n");
+        grbl_send(CLIENT_SERIAL, data.c_str());
+        grbl_send(CLIENT_SERIAL, "\n");
+        sd_line = 0;
+    }else {
+        grbl_send(CLIENT_SERIAL, "no read\n"); 
+    }
 }

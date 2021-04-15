@@ -112,8 +112,8 @@ static void event_handler_Back(lv_obj_t* obj, lv_event_t event) {
 void mks_draw_power(void) {
 
 	// char str[25];
-	mks_src = lv_obj_create(NULL, NULL);
-	mks_src = lv_scr_act();
+	// mks_src = lv_obj_create(NULL, NULL);
+	// mks_src = lv_scr_act();
 
 	p_scr1 = lv_obj_create(mks_src, NULL);
 	lv_obj_set_size(p_scr1, 460, 90);

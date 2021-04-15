@@ -1,13 +1,10 @@
 #ifndef __MKS_CTRL_H
 #define __MKS_CTRL_H
 
-// #include "GCode.h"
-// #include "Report.h"
 #include "../grbl.h"
 #include "MKS_LVGL.h"
 
-
-
+/**************************************************** BLTouch ************************************************/
 typedef enum {
     sp_none,    // 开始没状态
     sp_begin,   // 电机开始空闲
@@ -24,6 +21,8 @@ typedef struct {
 }mks_spindle_t;
 extern mks_spindle_t mks_spindle;
 
+
+/***************************************************** WIFI *************************************************/
 
 typedef enum {
 
@@ -46,6 +45,27 @@ typedef struct {
 
 }MKS_WIFI_t;
 extern MKS_WIFI_t mks_wifi;
+
+
+
+// class SD_UPDATA {
+
+// private:
+    
+// public:
+
+// };
+
+
+
+
+
+
+
+
+
+
+
 
 
 void bltouch_init(void);
