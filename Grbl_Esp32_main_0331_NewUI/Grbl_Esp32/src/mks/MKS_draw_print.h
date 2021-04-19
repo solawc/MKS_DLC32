@@ -141,6 +141,8 @@ typedef struct {
 extern MKS_PRINT_PAGE_t print_src;
 // print_src.print_
 
+extern String ddxd;
+
 void mks_clear_print(void);
 void mks_draw_print(void);
 void mks_draw_print_popup(const char* text);

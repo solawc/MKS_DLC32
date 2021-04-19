@@ -3,7 +3,7 @@
 PWR_CTRL_t mks_pwr_ctrl;
 SPEED_CTRL_t mks_speed_ctrl;
 MKS_PRINT_PAGE_t print_src;
-
+String ddxd;
 
 /* btn */
 static lv_obj_t* btn_popup_cancle;
@@ -212,6 +212,9 @@ static void event_btn_printdon(lv_obj_t* obj, lv_event_t event) {
         mks_grbl.run_status = GRBL_RESTARTING; 
         mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
         mks_ui_page.wait_count = 1;
+        
+        tf.deleteFile("/PLA.txt");
+
         lv_obj_del(print_src.print_finsh_popup);
         mks_clear_print();
         mks_draw_ready();
@@ -664,6 +667,11 @@ void mks_print_data_updata(void) {
     print_src.print_Label_power = mks_lv_label_updata(print_src.print_Label_power, print_pwr_str);
     print_src.print_Label_caveSpeed = mks_lv_label_updata(print_src.print_Label_caveSpeed, print_speed_str);
 
+    if(mks_grbl.run_status == GRBL_RUN) {
+        ddxd = sd_get_current_line_number();
+        tf.writeFile("/PLA.txt", ddxd.c_str());
+    }
+    
     if (mks_grbl.is_mks_ts35_flag == true) {
         mks_print_bar_updata();
     }

@@ -19,7 +19,7 @@ void lvgl_disp_task(void *parg) {
     }
 }
 
-// tskNO_AFFINIT
+// tskNO_AFFINIT 
 void disp_task_init(void) {
 
     xTaskCreatePinnedToCore(lvgl_disp_task,     // task
@@ -36,7 +36,7 @@ void disp_task_init(void) {
 
 #define DISP_UPDATA_TASK_STACK             4096
 #define DISP_UPDATA_TASK_PRO               1
-#define DISP_UPDATA_TASK_CORE              1
+#define DISP_UPDATA_TASK_CORE              0
 
 void lvgl_disp_data_updata(void *parg) { 
 

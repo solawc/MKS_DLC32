@@ -407,7 +407,10 @@ static void event_btn_sure(lv_obj_t* obj, lv_event_t event) {
 		mks_grbl.is_mks_ts35_flag = true;
         lv_obj_del(caving_Popup);
 		mks_clear_craving();
-		// strcat(str_cmd,(char*)&filename[mks_file_list.file_choose]);
+
+		ddxd = sd_get_current_line_number();
+        tf.writeFile("/PLA.txt", ddxd.c_str());
+
 		strcat(str_cmd,file_print_send);
 		MKS_GRBL_CMD_SEND(str_cmd);
 		MKS_GRBL_CMD_SEND("\n");
@@ -425,8 +428,6 @@ void mks_draw_caving_popup(uint8_t text, char *srt) {
 	lv_obj_set_pos(caving_Popup, 80,50);
 
 	lv_style_copy(&popup_style, &lv_style_scr);
-	// popup_style.body.main_color = LV_COLOR_MAKE(0x06, 0x08, 0x37);
-	// popup_style.body.grad_color = LV_COLOR_MAKE(0x06, 0x08, 0x37);
 	popup_style.body.main_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
     popup_style.body.grad_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
 	popup_style.text.color = LV_COLOR_BLACK;

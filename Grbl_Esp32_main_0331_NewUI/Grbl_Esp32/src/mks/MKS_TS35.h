@@ -47,8 +47,11 @@
 #define TFT_TOUCH_CS_H      digitalWrite(TOUCH_CS, HIGH)
 #define TFT_TOUCH_CS_L      digitalWrite(TOUCH_CS, LOW)
 
-#define LCD_BLK_ON          digitalWrite(LCD_EN, HIGH)
-#define LCD_BLK_OFF         digitalWrite(LCD_EN, LOW)
+// #define LCD_BLK_ON          digitalWrite(LCD_EN, HIGH)
+// #define LCD_BLK_OFF         digitalWrite(LCD_EN, LOW)
+
+#define LCD_BLK_ON          digitalWrite(LCD_EN, LOW)
+#define LCD_BLK_OFF         digitalWrite(LCD_EN, HIGH)
 
 #define TFT_LCD_BK_ON
 #define TFT_LCD_BK_OFF
