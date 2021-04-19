@@ -1,0 +1,23 @@
+set STOP FLG: True CONNECT BAUD: 115200
+set STOP FLG: True CONNECT BAUD: 115200
+com port closedset state: ESP_DL_SYNC
+serial port opened
+-----------
+baud:115200
+root baud:115200
+-------------
+===============BAUD : 115200===============CALL DEVICE SYNC
+connecting...
+chip sync ok
+mac l: 0xbdc0254cL
+mac h: 0x747c9e
+crc_cal: 116
+crc_read: 116
+crc_test: 0
+ESP32 MAC CRC OK
+get mac res: 1
+get flash id : 0x00164020manufacturer_id: 0x20
+device_id: 0x4016
+SET FLASH PARAMS
+Wrote 16384 bytes at 0x00008000 in 1.4 seconds (92.1 kbit/s)...Hash of data verified.Wrote 2392064 bytes at 0x00010000 in 209.0 seconds (91.6 kbit/s)...Hash of data verified.
+Leaving...com closed
