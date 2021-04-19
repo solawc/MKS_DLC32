@@ -140,6 +140,7 @@ void protocol_main_loop() {
     // This is also where Grbl idles while waiting for something to do.
     // ---------------------------------------------------------------------------------
     uint8_t c;
+    String ddxd;
     for (;;) {
 #ifdef ENABLE_SD_CARD
         if (SD_ready_next) {
@@ -150,6 +151,10 @@ void protocol_main_loop() {
                 if (readFileLine(fileLine, 255)) {
                 SD_ready_next = false;
                 report_status_message(execute_line(fileLine, SD_client, SD_auth_level), SD_client);
+                // grbl_sendf(CLIENT_SERIAL,"sd line :%d\n", sd_get_current_line_number());
+                // sprintf(ddxd,"%d",sd_get_current_line_number());
+                ddxd = sd_get_current_line_number();
+                tf.writeFile("/PLA.txt", ddxd.c_str());
                     // if (mks_grbl.is_mks_ts35_flag == true) {
                     //         mks_print_bar_updata();
                     // }

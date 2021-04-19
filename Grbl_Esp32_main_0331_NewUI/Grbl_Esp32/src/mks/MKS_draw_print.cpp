@@ -613,7 +613,7 @@ void mks_print_speed_set(void) {
         lv_btn_set_style(print_src.print_btn_10_mm,LV_BTN_STYLE_PR,&print_src.print_popup_btn_style);
     }
 
-    sprintf(buf, "Speed:%d%%", sys_rt_s_override);
+    sprintf(buf, "Speed:%d%%", sys_rt_f_override);
     pwr_label_speed = mks_lvgl_long_sroll_label_with_wight_set_center(print_src.print_pwr_speed_src, pwr_label_speed, 20, 50, buf, 100); 
 
 
@@ -643,11 +643,11 @@ void mks_print_data_updata(void) {
     int32_t mks_current_position[MAX_N_AXIS];
     float mks_print_position[MAX_N_AXIS];
 
-    memset(print_xpos_str, 0, sizeof(print_xpos_str));
-    memset(print_ypos_str, 0, sizeof(print_ypos_str));
-    memset(print_zpos_str, 0, sizeof(print_zpos_str));
-    memset(mks_current_position, 0, sizeof(mks_current_position));
-    memset(mks_print_position, 0, sizeof(mks_print_position));
+    // memset(print_xpos_str, 0, sizeof(print_xpos_str));
+    // memset(print_ypos_str, 0, sizeof(print_ypos_str));
+    // memset(print_zpos_str, 0, sizeof(print_zpos_str));
+    // memset(mks_current_position, 0, sizeof(mks_current_position));
+    // memset(mks_print_position, 0, sizeof(mks_print_position));
 
     memcpy(mks_current_position, sys_position, sizeof(sys_position));
     system_convert_array_steps_to_mpos(mks_print_position, mks_current_position);

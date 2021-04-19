@@ -79,9 +79,7 @@ void grbl_init() {
     int sd_line = 0;
     String mks_ssid;
     String mks_password;
-
     // tf.init();
-
     // sd_line = tf.Serch_data("/mksconfig.txt", "wifi_ssid:");
     // if(sd_line) {
     //     mks_ssid = tf.readFileLine("/mksconfig.txt",sd_line+1);
