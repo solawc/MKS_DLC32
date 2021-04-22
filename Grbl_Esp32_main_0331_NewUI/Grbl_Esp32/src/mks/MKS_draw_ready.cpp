@@ -79,7 +79,7 @@ void mks_draw_ready(void) {
 
     mks_src = lv_obj_create(NULL, NULL);
 	mks_src = lv_scr_act();
-
+    
     ready_src.ready_src_1 = lv_obj_create(mks_src, NULL);
     lv_obj_set_size(ready_src.ready_src_1, READY_src1_x_size, READY_src1_y_size);
     lv_obj_set_pos(ready_src.ready_src_1, READY_src1_x, READY_src1_y);
@@ -140,6 +140,9 @@ void mks_draw_ready(void) {
     else if (mks_grbl.wifi_connect_status == false) {
         ready_src.ready_label_wifi_status = mks_lv_static_label(ready_src.ready_btn_wifi, ready_src.ready_label_wifi_status, 40, 0, "Disconnect", 110);
     }  
+
+    mks_ui_page.mks_ui_page = MKS_UI_Ready;
+    mks_ui_page.wait_count = 1;
 }
 
 char xpos_str[50];

@@ -176,14 +176,12 @@ void mks_draw_print(void) {
     print_src.print_Label_p_power = mks_lvgl_long_sroll_label_with_wight_set_center(print_src.print_scr1, print_src.print_Label_p_power, print_src1_first_pic_x + 160, 70, "Power", 50);
     print_src.print_Label_p_caveSpeed = mks_lvgl_long_sroll_label_with_wight_set_center(print_src.print_scr1, print_src.print_Label_p_caveSpeed, print_src1_first_pic_x + 240, 70, "Speed", 50);
 
-    // Label_moveSpeed = mks_lv_static_label(print_scr2, Label_moveSpeed, print_first_data_label_x, print_first_data_label_y+60, "0", 50);
     print_src.print_Label_x_pos = mks_lvgl_long_sroll_label_with_wight_set_center(print_src.print_scr2, print_src.print_Label_x_pos, print_first_data_label_x+300, print_first_data_label_y,    "0", 50);
     print_src.print_Label_y_pos = mks_lvgl_long_sroll_label_with_wight_set_center(print_src.print_scr2, print_src.print_Label_y_pos, print_first_data_label_x+300, print_first_data_label_y+30, "0", 50);
     print_src.print_Label_z_pos = mks_lvgl_long_sroll_label_with_wight_set_center(print_src.print_scr2, print_src.print_Label_z_pos, print_first_data_label_x+300, print_first_data_label_y+60, "0", 50);
 
     print_src.print_Label_power = mks_lvgl_long_sroll_label_with_wight_set_center(print_src.print_scr2, print_src.print_Label_power, print_first_data_label_x + 100, print_first_data_label_y, "0", 50);
     print_src.print_Label_caveSpeed = mks_lvgl_long_sroll_label_with_wight_set_center(print_src.print_scr2, print_src.print_Label_caveSpeed, print_first_data_label_x + 100, print_first_data_label_y+30, "0", 50);
-    // Label_print_file_name = mks_lvgl_long_sroll_label_with_wight_set_center(print_scr2, Label_print_file_name, 10, print_first_data_label_y-50, file_print_send, 450);
     Label_print_file_name = mks_lvgl_long_sroll_label_with_wight_set_center(print_src.print_bar_print, Label_print_file_name, 10, 15, file_print_send, 400);
     print_src.print_bar_print_percen = mks_lvgl_long_sroll_label_with_wight_set_center(print_src.print_bar_print, print_src.print_bar_print_percen, 400, 15, "0%", 32);
 }
@@ -202,8 +200,7 @@ static void event_btn_sure(lv_obj_t* obj, lv_event_t event) {
         // lv_obj_del(stop_popup);
         mks_clear_print();
         mks_draw_ready();
-        mks_ui_page.mks_ui_page = MKS_UI_Ready;
-        mks_ui_page.wait_count = 1;
+       
     }
 }
 
@@ -288,7 +285,6 @@ void mks_draw_finsh_pupop(void) {
 
 char bar_percen_str[10];
 void mks_print_bar_updata(void) {
-
     print_src.print_bar_print = mks_lv_bar_updata(print_src.print_bar_print, (uint16_t)sd_report_perc_complete());
     sprintf(bar_percen_str, "%d%%", (uint16_t)sd_report_perc_complete());
     print_src.print_bar_print_percen = mks_lv_label_updata(print_src.print_bar_print_percen, bar_percen_str);
@@ -463,6 +459,7 @@ void mks_print_pwr_set(void) {
 /****************************************************************************************speed_popup****************************************************************************************/
 lv_obj_t *pwr_label_speed;
 char speed_add_dec_buf[20];
+
 static void event_speed_setting_add(lv_obj_t* obj, lv_event_t event) {
     if (event == LV_EVENT_RELEASED) {
         
@@ -619,7 +616,6 @@ void mks_print_speed_set(void) {
     sprintf(buf, "Speed:%d%%", sys_rt_f_override);
     pwr_label_speed = mks_lvgl_long_sroll_label_with_wight_set_center(print_src.print_pwr_speed_src, pwr_label_speed, 20, 50, buf, 100); 
 
-
     if(mks_speed_ctrl.speed_len == SPEED_1_PERSEN) {
         print_src.print_label_1_mm = mks_lvgl_long_sroll_label_with_wight_set_center(print_src.print_btn_1_mm, print_src.print_label_1_mm, 0, 0, "#ffffff 1%#", 50);
         print_src.print_label_10_mm = mks_lvgl_long_sroll_label_with_wight_set_center(print_src.print_btn_10_mm, print_src.print_label_10_mm, 0, 0, "#000000 10% #", 50);
@@ -634,44 +630,46 @@ void mks_print_speed_set(void) {
     print_src.print_sp_btn_sure = lv_imgbtn_creat_mks(print_src.print_pwr_speed_src, print_src.print_sp_btn_sure, &confirm, &confirm, LV_ALIGN_IN_LEFT_MID, print_pwr_popup_add_btn_x+160,print_pwr_popup_add_btn_y, event_speed_setting_confirm);
 }
 
-
-char print_xpos_str[50];
-char print_ypos_str[50];
-char print_zpos_str[50];
-char print_pwr_str[50];
-char print_speed_str[50];
+char print_xpos_str[10];
+char print_ypos_str[10];
+char print_zpos_str[10];
+char print_pwr_str[10];
+char print_speed_str[10];
 
 void mks_print_data_updata(void) {
 
     int32_t mks_current_position[MAX_N_AXIS];
     float mks_print_position[MAX_N_AXIS];
 
-    // memset(print_xpos_str, 0, sizeof(print_xpos_str));
-    // memset(print_ypos_str, 0, sizeof(print_ypos_str));
-    // memset(print_zpos_str, 0, sizeof(print_zpos_str));
-    // memset(mks_current_position, 0, sizeof(mks_current_position));
-    // memset(mks_print_position, 0, sizeof(mks_print_position));
+    memset(print_xpos_str, 0, sizeof(print_xpos_str));
+    memset(print_ypos_str, 0, sizeof(print_ypos_str));
+    memset(print_zpos_str, 0, sizeof(print_zpos_str));
+    memset(mks_current_position, 0, sizeof(mks_current_position));
+    memset(mks_print_position, 0, sizeof(mks_print_position));
 
     memcpy(mks_current_position, sys_position, sizeof(sys_position));
     system_convert_array_steps_to_mpos(mks_print_position, mks_current_position);
 
     sprintf(print_xpos_str, "%.2f", mks_print_position[0]);
-    sprintf(print_ypos_str, "%.2f", mks_print_position[1]);
-    sprintf(print_zpos_str, "%.2f", mks_print_position[2]);
-    sprintf(print_pwr_str, "%d%%", sys_rt_s_override);
-    sprintf(print_speed_str, "%2d%%", sys_rt_f_override);
-
     print_src.print_Label_x_pos = mks_lv_label_updata(print_src.print_Label_x_pos, print_xpos_str);
-    print_src.print_Label_y_pos = mks_lv_label_updata(print_src.print_Label_y_pos, print_ypos_str);
+
+    sprintf(print_ypos_str, "%.2f", mks_print_position[1]);
+    print_src.print_Label_y_pos = mks_lv_label_updata(print_src.print_Label_y_pos, print_ypos_str); 
+
+    sprintf(print_zpos_str, "%.2f", mks_print_position[2]);
     print_src.print_Label_z_pos = mks_lv_label_updata(print_src.print_Label_z_pos, print_zpos_str);
+
+    sprintf(print_pwr_str, "%d%%", sys_rt_s_override);
     print_src.print_Label_power = mks_lv_label_updata(print_src.print_Label_power, print_pwr_str);
+
+    sprintf(print_speed_str, "%2d%%", sys_rt_f_override);
     print_src.print_Label_caveSpeed = mks_lv_label_updata(print_src.print_Label_caveSpeed, print_speed_str);
 
     if(mks_grbl.run_status == GRBL_RUN) {
         ddxd = sd_get_current_line_number();
         tf.writeFile("/PLA.txt", ddxd.c_str());
     }
-    
+
     if (mks_grbl.is_mks_ts35_flag == true) {
         mks_print_bar_updata();
     }

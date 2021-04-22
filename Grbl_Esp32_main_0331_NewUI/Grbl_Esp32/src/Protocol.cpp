@@ -158,8 +158,11 @@ void protocol_main_loop() {
                     //         mks_print_bar_updata();
                     // }
                 } else {
+                    
                     char temp[50];
+
                     sd_get_current_filename(temp);
+
                     if (mks_grbl.is_mks_ts35_flag == true) { 
                         mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
                         mks_ui_page.wait_count = DEFAULT_UI_COUNT;
@@ -171,6 +174,7 @@ void protocol_main_loop() {
             }
         }
 #endif
+        // vTaskResume(lv_data_updata_tcb);
         // Receive one line of incoming serial data, as the data becomes available.
         // Filtering, if necessary, is done later in gc_execute_line(), so the
         // filtering is the same with serial and file input.
