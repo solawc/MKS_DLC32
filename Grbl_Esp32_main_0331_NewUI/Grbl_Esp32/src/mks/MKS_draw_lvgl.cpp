@@ -133,7 +133,7 @@ lv_obj_t* mks_lvgl_long_sroll_label_with_wight_set_center(lv_obj_t* scr, lv_obj_
 lv_obj_t* mks_lv_static_label(lv_obj_t* scr, lv_obj_t* lab, lv_coord_t x, lv_coord_t y, const char* text, lv_coord_t w) {
 
     lab = lv_label_create(scr, NULL);
-    lv_label_set_long_mode(lab, LV_LABEL_LONG_SROLL);
+    lv_label_set_long_mode(lab, LV_LABEL_LONG_BREAK);
     lv_obj_set_width(lab, w);
     lv_obj_set_height(lab, 20);
     lv_obj_set_pos(lab, x, y);

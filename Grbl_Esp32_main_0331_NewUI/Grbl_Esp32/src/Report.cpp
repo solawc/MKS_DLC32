@@ -236,6 +236,7 @@ void report_status_message(Error status_code, uint8_t client) {
 #endif
             break;
         default:
+        
 #ifdef ENABLE_SD_CARD
             // do we need to stop a running SD job?
             if (get_sd_state(false) == SDState::BusyPrinting) {

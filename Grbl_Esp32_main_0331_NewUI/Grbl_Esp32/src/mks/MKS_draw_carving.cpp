@@ -90,9 +90,6 @@ static void event_handler_up(lv_obj_t* obj, lv_event_t event) {
 				mks_file_list.file_count = 0;
 				mks_file_list.file_page--;
 
-				sprintf(p, "file page = %d", mks_file_list.file_page);
-				grbl_send(CLIENT_SERIAL, p);
-
 				mks_draw_file_loadig();
 				lv_refr_now(lv_refr_get_disp_refreshing());
 				mks_del_file_obj();
@@ -112,7 +109,6 @@ static void event_handler_next(lv_obj_t* obj, lv_event_t event) {
 	}
 	else {
 		if (event == LV_EVENT_RELEASED) {
-
 
 			if(mks_file_list.file_begin_num >= MKS_FILE_NUM) {
 				mks_file_list.file_begin_num = 0;
@@ -142,7 +138,7 @@ static void event_handler_cback(lv_obj_t* obj, lv_event_t event) {
 
 static void event_handler_file0(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
-		// grbl_sendf(CLIENT_SERIAL, "file0_name111:%s\n",file0_name);
+
 		mks_file_list.file_choose = 0;
 		mks_draw_caving_popup(mks_file_list.file_begin_num, mks_file_list.filename_str[0]);
 	}
@@ -150,7 +146,7 @@ static void event_handler_file0(lv_obj_t* obj, lv_event_t event) {
 
 static void event_handler_file1(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
-		// mks_draw_caving_popup(file1_name);
+
 		mks_file_list.file_choose = 1;
 		mks_draw_caving_popup(mks_file_list.file_begin_num, mks_file_list.filename_str[1]);
 	}
@@ -158,7 +154,7 @@ static void event_handler_file1(lv_obj_t* obj, lv_event_t event) {
 
 static void event_handler_file2(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
-		// mks_draw_caving_popup(file2_name);
+
 		mks_file_list.file_choose = 2;
 		mks_draw_caving_popup(mks_file_list.file_begin_num, mks_file_list.filename_str[2]);
 	}
@@ -166,7 +162,7 @@ static void event_handler_file2(lv_obj_t* obj, lv_event_t event) {
 
 static void event_handler_file3(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
-		// mks_draw_caving_popup(file3_name);
+
 		mks_file_list.file_choose = 3;
 		mks_draw_caving_popup(mks_file_list.file_begin_num, mks_file_list.filename_str[3]);
 	}
@@ -174,7 +170,7 @@ static void event_handler_file3(lv_obj_t* obj, lv_event_t event) {
 
 static void event_handler_file4(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
-		// mks_draw_caving_popup(file4_name);
+
 		mks_file_list.file_choose = 4;
 		mks_draw_caving_popup(mks_file_list.file_begin_num, mks_file_list.filename_str[4]);
 	}
@@ -182,7 +178,7 @@ static void event_handler_file4(lv_obj_t* obj, lv_event_t event) {
 
 static void event_handler_file5(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
-		// mks_draw_caving_popup(file5_name);
+
 		mks_file_list.file_choose = 5;
 		mks_draw_caving_popup(mks_file_list.file_begin_num, mks_file_list.filename_str[5]);
 	}
@@ -190,7 +186,7 @@ static void event_handler_file5(lv_obj_t* obj, lv_event_t event) {
 
 static void event_handler_file6(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
-		// mks_draw_caving_popup(file6_name);
+
 		mks_file_list.file_choose = 6;
 		mks_draw_caving_popup(mks_file_list.file_begin_num, mks_file_list.filename_str[6]);
 	}
@@ -198,7 +194,7 @@ static void event_handler_file6(lv_obj_t* obj, lv_event_t event) {
 
 static void event_handler_file7(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
-		// mks_draw_caving_popup(file7_name);
+
 		mks_file_list.file_choose = 7;
 		mks_draw_caving_popup(mks_file_list.file_begin_num, mks_file_list.filename_str[7]);
 	}
@@ -209,9 +205,6 @@ void mks_draw_craving(void) {
 
 	mks_ui_page.mks_ui_page = MKS_UI_Caving;
     mks_ui_page.wait_count = DEFAULT_UI_COUNT;
-
-	mks_src = lv_obj_create(NULL, NULL);
-	mks_src = lv_scr_act();
 
 	lv_style_copy(&caving_src1_style, &lv_style_scr);
     caving_src1_style.body.main_color = LV_COLOR_MAKE(0x1F, 0x23, 0x33); 
@@ -414,7 +407,10 @@ static void event_btn_sure(lv_obj_t* obj, lv_event_t event) {
 		mks_grbl.is_mks_ts35_flag = true;
         lv_obj_del(caving_Popup);
 		mks_clear_craving();
-		// strcat(str_cmd,(char*)&filename[mks_file_list.file_choose]);
+
+		ddxd = sd_get_current_line_number();
+        tf.writeFile("/PLA.txt", ddxd.c_str());
+
 		strcat(str_cmd,file_print_send);
 		MKS_GRBL_CMD_SEND(str_cmd);
 		MKS_GRBL_CMD_SEND("\n");
@@ -432,8 +428,6 @@ void mks_draw_caving_popup(uint8_t text, char *srt) {
 	lv_obj_set_pos(caving_Popup, 80,50);
 
 	lv_style_copy(&popup_style, &lv_style_scr);
-	// popup_style.body.main_color = LV_COLOR_MAKE(0x06, 0x08, 0x37);
-	// popup_style.body.grad_color = LV_COLOR_MAKE(0x06, 0x08, 0x37);
 	popup_style.body.main_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
     popup_style.body.grad_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
 	popup_style.text.color = LV_COLOR_BLACK;

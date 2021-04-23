@@ -49,3 +49,4 @@ uint32_t sd_get_current_line_number();
 void     sd_get_current_filename(char* name);
 
 void mks_listDir(fs::FS& fs, const char* dirname, uint8_t levels); // mks
+bool sd_serch_x_y(char *str);

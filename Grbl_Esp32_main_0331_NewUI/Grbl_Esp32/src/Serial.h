@@ -30,7 +30,7 @@
 #        define TX_BUFFER_SIZE 112
 #    else
 // #        define TX_BUFFER_SIZE 104
-#        define TX_BUFFER_SIZE 200
+#        define TX_BUFFER_SIZE 250
 #    endif
 #endif
 

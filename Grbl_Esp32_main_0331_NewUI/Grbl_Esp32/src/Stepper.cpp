@@ -220,6 +220,7 @@ void IRAM_ATTR onStepperDriverTimer(void* para) {
  * is to keep pulse timing as regular as possible.
  */
 static void stepper_pulse_func() {
+    
     auto n_axis = number_axis->get();
 
     if (motors_direction(st.dir_outbits)) {

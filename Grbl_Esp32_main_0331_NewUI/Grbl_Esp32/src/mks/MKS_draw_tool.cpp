@@ -59,8 +59,8 @@ static void event_btn_tool_back(lv_obj_t* obj, lv_event_t event) {
 
 void mks_draw_tool(void) {
 
-    mks_src = lv_obj_create(NULL, NULL);
-	mks_src = lv_scr_act();
+    // mks_src = lv_obj_create(NULL, NULL);
+	// mks_src = lv_scr_act();
 
     about_src1 = lv_obj_create(mks_src, NULL);
 	lv_obj_set_size(about_src1, about_src1_x_size, about_src1_y_size);

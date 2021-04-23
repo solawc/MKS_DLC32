@@ -25,7 +25,8 @@
 */
 
 #ifndef SEGMENT_BUFFER_SIZE
-#    define SEGMENT_BUFFER_SIZE 6
+// #    define SEGMENT_BUFFER_SIZE 6
+#    define SEGMENT_BUFFER_SIZE 16
 #endif
 
 #include "Grbl.h"
@@ -74,10 +75,10 @@ extern bool     stepper_idle;
 //extern uint8_t ganged_mode;
 
 enum stepper_id_t {
-    ST_TIMED = 0,
-    ST_RMT,
-    ST_I2S_STREAM,
-    ST_I2S_STATIC,
+  ST_TIMED = 0,
+  ST_RMT,
+  ST_I2S_STREAM,
+  ST_I2S_STATIC,
 };
 
 #ifndef DEFAULT_STEPPER

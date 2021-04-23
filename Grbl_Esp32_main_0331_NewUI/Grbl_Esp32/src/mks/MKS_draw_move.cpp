@@ -238,8 +238,8 @@ static void event_handler_back(lv_obj_t* obj, lv_event_t event) {
 
 void mks_draw_move(void) {
  
-	mks_src = lv_obj_create(NULL, NULL);
-	mks_src = lv_scr_act();
+	// mks_src = lv_obj_create(NULL, NULL);
+	// mks_src = lv_scr_act();
 
 	mks_ui_page.mks_ui_page = MKS_UI_Control;
     mks_ui_page.wait_count = DEFAULT_UI_COUNT;
