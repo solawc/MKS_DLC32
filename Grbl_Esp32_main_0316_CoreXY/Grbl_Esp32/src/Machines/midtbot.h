@@ -53,7 +53,7 @@
 #define X_LIMIT_PIN     GPIO_NUM_36
 #define Y_LIMIT_PIN     GPIO_NUM_35
 
-#define Z_SERVO_PIN             GPIO_NUM_34
+#define Z_SERVO_PI      GPIO_NUM_34
 
 // Set $Homing/Cycle0=Y and $Homing/Cycle1=X
 
