@@ -3,6 +3,7 @@
 PWR_CTRL_t mks_pwr_ctrl;
 SPEED_CTRL_t mks_speed_ctrl;
 MKS_PRINT_PAGE_t print_src;
+MKS_PRINT_DATA_UPDATA_t print_data_updata;
 String ddxd;
 
 /* btn */
@@ -198,15 +199,17 @@ static void event_btn_sure(lv_obj_t* obj, lv_event_t event) {
         spindle->stop();
         mks_grbl.run_status = GRBL_RESTARTING;
         // lv_obj_del(stop_popup);
+        mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
+        mks_ui_page.wait_count = 1;
         mks_clear_print();
         mks_draw_ready();
-       
     }
 }
 
 static void event_btn_printdon(lv_obj_t* obj, lv_event_t event) {
     if (event == LV_EVENT_RELEASED) {
         mks_grbl.run_status = GRBL_RESTARTING; 
+        
         mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
         mks_ui_page.wait_count = 1;
         
@@ -630,48 +633,71 @@ void mks_print_speed_set(void) {
     print_src.print_sp_btn_sure = lv_imgbtn_creat_mks(print_src.print_pwr_speed_src, print_src.print_sp_btn_sure, &confirm, &confirm, LV_ALIGN_IN_LEFT_MID, print_pwr_popup_add_btn_x+160,print_pwr_popup_add_btn_y, event_speed_setting_confirm);
 }
 
-char print_xpos_str[10];
-char print_ypos_str[10];
-char print_zpos_str[10];
-char print_pwr_str[10];
-char print_speed_str[10];
+// char print_xpos_str[10];
+// char print_ypos_str[10];
+// char print_zpos_str[10];
+// char print_pwr_str[10];
+// char print_speed_str[10];
 
 void mks_print_data_updata(void) {
 
     int32_t mks_current_position[MAX_N_AXIS];
     float mks_print_position[MAX_N_AXIS];
 
-    memset(print_xpos_str, 0, sizeof(print_xpos_str));
-    memset(print_ypos_str, 0, sizeof(print_ypos_str));
-    memset(print_zpos_str, 0, sizeof(print_zpos_str));
+    memset(print_data_updata.print_xpos_str, 0, sizeof(print_data_updata.print_xpos_str));
+    memset(print_data_updata.print_ypos_str, 0, sizeof(print_data_updata.print_ypos_str));
+    memset(print_data_updata.print_zpos_str, 0, sizeof(print_data_updata.print_zpos_str));
     memset(mks_current_position, 0, sizeof(mks_current_position));
     memset(mks_print_position, 0, sizeof(mks_print_position));
 
     memcpy(mks_current_position, sys_position, sizeof(sys_position));
     system_convert_array_steps_to_mpos(mks_print_position, mks_current_position);
 
-    sprintf(print_xpos_str, "%.2f", mks_print_position[0]);
-    print_src.print_Label_x_pos = mks_lv_label_updata(print_src.print_Label_x_pos, print_xpos_str);
+    print_data_updata.x_pos = mks_print_position[0];
+    print_data_updata.y_pos = mks_print_position[1];
+    print_data_updata.z_pos = mks_print_position[2];
 
-    sprintf(print_ypos_str, "%.2f", mks_print_position[1]);
-    print_src.print_Label_y_pos = mks_lv_label_updata(print_src.print_Label_y_pos, print_ypos_str); 
+    // sprintf(print_data_updata.print_xpos_str, "%.2f", mks_print_position[0]);
+    sprintf(print_data_updata.print_xpos_str, "%.2f", print_data_updata.x_pos);
+    print_src.print_Label_x_pos = mks_lv_label_updata(print_src.print_Label_x_pos, print_data_updata.print_xpos_str);
 
-    sprintf(print_zpos_str, "%.2f", mks_print_position[2]);
-    print_src.print_Label_z_pos = mks_lv_label_updata(print_src.print_Label_z_pos, print_zpos_str);
+    // sprintf(print_data_updata.print_ypos_str, "%.2f", mks_print_position[1]);
+    sprintf(print_data_updata.print_ypos_str, "%.2f", print_data_updata.y_pos);
+    print_src.print_Label_y_pos = mks_lv_label_updata(print_src.print_Label_y_pos, print_data_updata.print_ypos_str); 
 
-    sprintf(print_pwr_str, "%d%%", sys_rt_s_override);
-    print_src.print_Label_power = mks_lv_label_updata(print_src.print_Label_power, print_pwr_str);
+    // sprintf(print_data_updata.print_zpos_str, "%.2f", mks_print_position[2]);
+    sprintf(print_data_updata.print_zpos_str, "%.2f", print_data_updata.z_pos);
+    print_src.print_Label_z_pos = mks_lv_label_updata(print_src.print_Label_z_pos, print_data_updata.print_zpos_str);
 
-    sprintf(print_speed_str, "%2d%%", sys_rt_f_override);
-    print_src.print_Label_caveSpeed = mks_lv_label_updata(print_src.print_Label_caveSpeed, print_speed_str);
+    sprintf(print_data_updata.print_pwr_str, "%d%%", sys_rt_s_override);
+    print_src.print_Label_power = mks_lv_label_updata(print_src.print_Label_power, print_data_updata.print_pwr_str);
 
-    if(mks_grbl.run_status == GRBL_RUN) {
-        ddxd = sd_get_current_line_number();
-        tf.writeFile("/PLA.txt", ddxd.c_str());
+    sprintf(print_data_updata.print_speed_str, "%2d%%", sys_rt_f_override);
+    print_src.print_Label_caveSpeed = mks_lv_label_updata(print_src.print_Label_caveSpeed, print_data_updata.print_speed_str);
+
+    if( (print_data_updata.x_pos != print_data_updata.last_x_pos) || 
+        (print_data_updata.y_pos != print_data_updata.last_y_pos) ) {
+
+        if(mks_grbl.run_status == GRBL_RUN) {
+            ddxd = sd_get_current_line_number();
+            tf.writeFile("/PLA.txt", ddxd.c_str());
+        }
+
+        // 获取新的值
+        print_data_updata.last_x_pos = print_data_updata.x_pos;
+        print_data_updata.last_y_pos = print_data_updata.y_pos;
     }
-
-    if (mks_grbl.is_mks_ts35_flag == true) {
-        mks_print_bar_updata();
+    // if (SD_ready_next == false) {
+    //     if(mks_grbl.run_status == GRBL_RUN) {
+    //         ddxd = sd_get_current_line_number();
+    //         tf.writeFile("/PLA.txt", ddxd.c_str());
+    //     }
+    // }
+    
+    if (SD_ready_next == false) {
+        if (mks_grbl.is_mks_ts35_flag == true) {
+            mks_print_bar_updata();
+        }
     }
 }
 

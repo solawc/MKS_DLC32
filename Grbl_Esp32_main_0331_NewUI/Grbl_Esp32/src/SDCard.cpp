@@ -229,4 +229,39 @@ void sd_get_current_filename(char* name) {
         name[0] = 0;
     }
 }
+
+float x_pos_in = 0;
+float y_pos_in = 0;
+char x_or_y_in[10];
+bool sd_serch_x_y(char *str) {
+
+    uint8_t i=0;
+    uint8_t j=0;
+    grbl_send(CLIENT_SERIAL, str);
+    while(i < 10) {
+        if((str[i] == 'X') || ((str[i] == 'x'))) {
+            
+            while((str[i] != ' ') && (str[i] != 'F')) {
+                i++;
+                x_or_y_in[j] = str[i];
+                x_pos_in = atof(x_or_y_in);
+            }
+            // break;
+        }
+
+        if((str[i] == 'Y') || ((str[i] == 'y'))) {
+            
+            while((str[i] != ' ') && (str[i] != 'F')) {
+                i++;
+                x_or_y_in[j] = str[i];
+                y_pos_in = atof(x_or_y_in);
+            }
+            break;
+        }
+        i++;
+    }
+    grbl_sendf(CLIENT_SERIAL ,"xr=%f,yr=%f\n",x_pos_in, y_pos_in);
+} 
+
+
 #endif  //ENABLE_SD_CARD

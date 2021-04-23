@@ -163,7 +163,7 @@ String SdCard::readFileLine(const char* path, int num = 1)
 
 void SdCard::writeFile(const char* path, const char* message)
 {
-	Serial.printf("Writing file: %s\n", path);
+	// Serial.printf("Writing file: %s\n", path);
 
 	File file = SD.open(path, FILE_WRITE);
 	if (!file)
@@ -173,7 +173,7 @@ void SdCard::writeFile(const char* path, const char* message)
 	}
 	if (file.print(message))
 	{
-		Serial.println("File written");
+		// Serial.println("File written");
 	}
 	else
 	{

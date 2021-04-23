@@ -79,7 +79,7 @@ void mks_draw_ready(void) {
 
     mks_src = lv_obj_create(NULL, NULL);
 	mks_src = lv_scr_act();
-    
+
     ready_src.ready_src_1 = lv_obj_create(mks_src, NULL);
     lv_obj_set_size(ready_src.ready_src_1, READY_src1_x_size, READY_src1_y_size);
     lv_obj_set_pos(ready_src.ready_src_1, READY_src1_x, READY_src1_y);
@@ -193,15 +193,12 @@ void ready_data_updata(void) {
     sprintf(zpos_str, "%.2f", mks_print_position[2]);
     sprintf(mpwr_str, "%.d%%",  sys_rt_s_override);
     
-    
-
     // lv_label_set_static_text(label, char_array)
     lv_label_set_static_text(ready_src.ready_label_xpos, xpos_str);
     lv_label_set_static_text(ready_src.ready_label_ypos, ypos_str);
     lv_label_set_static_text(ready_src.ready_label_zpos, zpos_str);
     lv_label_set_static_text(ready_src.ready_label_mpwr, mpwr_str);
     
-
     wifi_ref_count++;
     if(wifi_ref_count == 20) {
 

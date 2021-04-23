@@ -139,7 +139,26 @@ typedef struct {
     
 }MKS_PRINT_PAGE_t;
 extern MKS_PRINT_PAGE_t print_src;
-// print_src.print_
+
+typedef struct {
+
+    char print_xpos_str[10];
+    char print_ypos_str[10];
+    char print_zpos_str[10];
+    char print_pwr_str[10];
+    char print_speed_str[10];
+    
+    float x_pos = 0;
+    float y_pos = 0;
+    float z_pos = 0;
+
+    float last_x_pos = 0;
+    float last_y_pos = 0;
+    float last_z_pos = 0;
+
+}MKS_PRINT_DATA_UPDATA_t;
+
+
 
 extern String ddxd;
 
