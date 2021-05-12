@@ -22,6 +22,12 @@
 
 #define MACHINE_NAME            "MKS DLC32 CoreXY"
 
+// I2S (steppers & other output-only pins)
+#define USE_I2S_OUT
+#define USE_I2S_STEPS
+// #define DEFAULT_STEPPER ST_I2S_STREAM
+#define DEFAULT_STEPPER ST_I2S_STATIC
+
 #define CUSTOM_CODE_FILENAME    "../Custom/CoreXY.cpp"
 
 #define USE_KINEMATICS      // there are kinematic equations for this machine
@@ -29,22 +35,14 @@
 #define USE_MACHINE_INIT    // There is some custom initialization for this machine
 #define USE_CUSTOM_HOMING
 
-
 #ifdef N_AXIS
     #undef N_AXIS
 #endif
 #define N_AXIS 3
 
-
 #ifdef ENABLE_SD_CARD
     #undef ENABLE_SD_CARD
 #endif
-
-// I2S (steppers & other output-only pins)
-#define USE_I2S_OUT
-#define USE_I2S_STEPS
-// #define DEFAULT_STEPPER ST_I2S_STREAM
-#define DEFAULT_STEPPER ST_I2S_STATIC
 
 #define I2S_OUT_BCK                 GPIO_NUM_16
 #define I2S_OUT_WS                  GPIO_NUM_17
@@ -69,7 +67,7 @@
 #define Y_LIMIT_PIN                 GPIO_NUM_35
 #define Z_LIMIT_PIN                 GPIO_NUM_34
 
-#define PROBE_PIN                   GPIO_NUM_2     
+// #define PROBE_PIN                   GPIO_NUM_2     
 
 #define LCD_SCK				        GPIO_NUM_18
 #define LCD_MISO				    GPIO_NUM_19

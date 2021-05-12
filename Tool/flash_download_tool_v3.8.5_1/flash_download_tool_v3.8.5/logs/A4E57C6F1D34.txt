@@ -1,68 +1,0 @@
-set STOP FLG: True CONNECT BAUD: 115200
-com port closedset state: ESP_DL_SYNC
-serial port opened
------------
-baud:115200
-root baud:115200
--------------
-===============BAUD : 115200===============CALL DEVICE SYNC
-connecting...
-chip sync ok
-mac l: 0x7c6f1d34L
-mac h: 0x72a4e5
-crc_cal: 114
-crc_read: 114
-crc_test: 0
-ESP32 MAC CRC OK
-get mac res: 1
-get flash id : 0x00164020manufacturer_id: 0x20
-device_id: 0x4016
-SET FLASH PARAMS
-com closed
-set STOP FLG: True CONNECT BAUD: 115200
-com port closedset state: ESP_DL_SYNC
-serial port opened
------------
-baud:115200
-root baud:115200
--------------
-===============BAUD : 115200===============CALL DEVICE SYNC
-connecting...
-chip sync ok
-mac l: 0x7c6f1d34L
-mac h: 0x72a4e5
-crc_cal: 114
-crc_read: 114
-crc_test: 0
-ESP32 MAC CRC OK
-get mac res: 1
-get flash id : 0x00164020manufacturer_id: 0x20
-device_id: 0x4016
-SET FLASH PARAMS
-com closed
-set STOP FLG: True CONNECT BAUD: 115200
-com port closedset state: ESP_DL_SYNC
-serial port opened
------------
-baud:115200
-root baud:115200
--------------
-===============BAUD : 115200===============CALL DEVICE SYNC
-connecting...
-chip sync ok
-mac l: 0x7c6f1d34L
-mac h: 0x72a4e5
-crc_cal: 114
-crc_read: 114
-crc_test: 0
-ESP32 MAC CRC OK
-get mac res: 1
-get flash id : 0x00164020manufacturer_id: 0x20
-device_id: 0x4016
-SET FLASH PARAMS
-<<<<<<< HEAD
-Wrote 32768 bytes at 0x00001000 in 0.5 seconds (556.6 kbit/s)...Hash of data verified.Wrote 16384 bytes at 0x00008000 in 0.2 seconds (624.2 kbit/s)...Hash of data verified.Wrote 16384 bytes at 0x0000e000 in 0.2 seconds (639.4 kbit/s)...Hash of data verified.Wrote 2539520 bytes at 0x00010000 in 38.3 seconds (530.9 kbit/s)...Hash of data verified.
-=======
-Wrote 32768 bytes at 0x00001000 in 0.5 seconds (540.5 kbit/s)...Hash of data verified.Wrote 16384 bytes at 0x00008000 in 0.2 seconds (598.5 kbit/s)...Hash of data verified.Wrote 16384 bytes at 0x0000e000 in 0.2 seconds (598.5 kbit/s)...Hash of data verified.Wrote 1720320 bytes at 0x00010000 in 27.0 seconds (509.4 kbit/s)...Hash of data verified.
->>>>>>> b14246ee081bcbe60008095a84bf71b78b943d38
-Leaving...com closed

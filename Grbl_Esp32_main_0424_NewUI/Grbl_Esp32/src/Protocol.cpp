@@ -144,7 +144,6 @@ void protocol_main_loop() {
 #ifdef ENABLE_SD_CARD
         if (SD_ready_next) {
             char fileLine[255];
-
             if(mks_grbl.run_status == GRBL_PAUSE) {
                 spindle->stop();
             }else {

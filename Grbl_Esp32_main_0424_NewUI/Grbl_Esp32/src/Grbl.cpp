@@ -133,7 +133,6 @@ static void reset_variables() {
         mks_ui_page.wait_count = 1;
         mks_grbl.run_status = GRBL_STOP;
     }
-
 }
 
 void run_once() {

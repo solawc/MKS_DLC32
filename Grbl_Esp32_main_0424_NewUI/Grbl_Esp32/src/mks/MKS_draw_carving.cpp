@@ -366,23 +366,96 @@ void draw_file_btmimg(void) {
 
 void mks_del_file_obj(void) {
 
-	lv_obj_del(file_0);
-	lv_obj_del(file_1);
-	lv_obj_del(file_2);
-	lv_obj_del(file_3);
-	lv_obj_del(file_4);
-	lv_obj_del(file_5);
-	lv_obj_del(file_6);
-	lv_obj_del(file_7); 
+	if(mks_file_list.file_begin_num == 1) {
+		lv_obj_del(file_0);
+		lv_obj_del(Label_file_0);
+	}
+	else if(mks_file_list.file_begin_num == 2){
+		lv_obj_del(file_0);
+		lv_obj_del(file_1);
+		lv_obj_del(Label_file_0);
+		lv_obj_del(Label_file_1);
+	}
+	else if(mks_file_list.file_begin_num == 3){
+		lv_obj_del(file_0);
+		lv_obj_del(file_1);
+		lv_obj_del(file_2);
+		lv_obj_del(Label_file_0);
+		lv_obj_del(Label_file_1);
+		lv_obj_del(Label_file_2);
+	}
+	else if(mks_file_list.file_begin_num == 4){
+		lv_obj_del(file_0);
+		lv_obj_del(file_1);
+		lv_obj_del(file_2);
+		lv_obj_del(file_3);
+		lv_obj_del(Label_file_0);
+		lv_obj_del(Label_file_1);
+		lv_obj_del(Label_file_2);
+		lv_obj_del(Label_file_3);
 
-	lv_obj_del(Label_file_0);
-	lv_obj_del(Label_file_1);
-	lv_obj_del(Label_file_2);
-	lv_obj_del(Label_file_3);
-	lv_obj_del(Label_file_4);
-	lv_obj_del(Label_file_5);
-	lv_obj_del(Label_file_6);
-	lv_obj_del(Label_file_7);
+	}
+	else if(mks_file_list.file_begin_num == 5){
+		lv_obj_del(file_0);
+		lv_obj_del(file_1);
+		lv_obj_del(file_2);
+		lv_obj_del(file_3);
+		lv_obj_del(file_4);
+		lv_obj_del(Label_file_0);
+		lv_obj_del(Label_file_1);
+		lv_obj_del(Label_file_2);
+		lv_obj_del(Label_file_3);
+		lv_obj_del(Label_file_4);
+	}
+	else if(mks_file_list.file_begin_num == 6){
+		lv_obj_del(file_0);
+		lv_obj_del(file_1);
+		lv_obj_del(file_2);
+		lv_obj_del(file_3);
+		lv_obj_del(file_4);
+		lv_obj_del(file_5);
+		lv_obj_del(Label_file_0);
+		lv_obj_del(Label_file_1);
+		lv_obj_del(Label_file_2);
+		lv_obj_del(Label_file_3);
+		lv_obj_del(Label_file_4);
+		lv_obj_del(Label_file_5);
+	}
+	else if(mks_file_list.file_begin_num == 7){
+		lv_obj_del(file_0);
+		lv_obj_del(file_1);
+		lv_obj_del(file_2);
+		lv_obj_del(file_3);
+		lv_obj_del(file_4);
+		lv_obj_del(file_5);
+		lv_obj_del(file_6);
+		lv_obj_del(Label_file_0);
+		lv_obj_del(Label_file_1);
+		lv_obj_del(Label_file_2);
+		lv_obj_del(Label_file_3);
+		lv_obj_del(Label_file_4);
+		lv_obj_del(Label_file_5);
+		lv_obj_del(Label_file_6);
+	}
+	else if(mks_file_list.file_begin_num == 8){
+		lv_obj_del(file_0);
+		lv_obj_del(file_1);
+		lv_obj_del(file_2);
+		lv_obj_del(file_3);
+		lv_obj_del(file_4);
+		lv_obj_del(file_5);
+		lv_obj_del(file_6);
+		lv_obj_del(file_7); 
+
+		lv_obj_del(Label_file_0);
+		lv_obj_del(Label_file_1);
+		lv_obj_del(Label_file_2);
+		lv_obj_del(Label_file_3);
+		lv_obj_del(Label_file_4);
+		lv_obj_del(Label_file_5);
+		lv_obj_del(Label_file_6);
+		lv_obj_del(Label_file_7);
+	}
 }
 
 

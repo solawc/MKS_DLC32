@@ -392,6 +392,12 @@ static void event_pwr_setting_confirm(lv_obj_t* obj, lv_event_t event) {
 void mks_print_pwr_set(void) { 
 
     char buf[20]; 
+
+    lv_obj_set_click(print_src.print_imgbtn_suspend, false);
+    lv_obj_set_click(print_src.print_imgbtn_stop, false);
+    lv_obj_set_click(print_src.print_imgbtn_pwr, false);
+    lv_obj_set_click(print_src.print_imgbtn_speed, false);
+
     print_src.print_pwr_speed_src = lv_obj_create(mks_src, NULL);
     lv_obj_set_size(print_src.print_pwr_speed_src, 350, 200);
     lv_obj_set_pos(print_src.print_pwr_speed_src, 75, 50);
@@ -503,6 +509,11 @@ static void event_speed_setting_dec(lv_obj_t* obj, lv_event_t event) {
 
 static void event_speed_setting_confirm(lv_obj_t* obj, lv_event_t event) {
     if (event == LV_EVENT_RELEASED) {
+
+        lv_obj_set_click(print_src.print_imgbtn_suspend, true);
+        lv_obj_set_click(print_src.print_imgbtn_stop, true);
+        lv_obj_set_click(print_src.print_imgbtn_pwr, true);
+        lv_obj_set_click(print_src.print_imgbtn_speed, true);
         lv_obj_del(print_src.print_pwr_speed_src);
     }
 }
@@ -554,6 +565,12 @@ static void event_btn_speed_10mm(lv_obj_t* obj, lv_event_t event) {
 void mks_print_speed_set(void) { 
 
     char buf[20]; 
+
+    lv_obj_set_click(print_src.print_imgbtn_suspend, false);
+    lv_obj_set_click(print_src.print_imgbtn_stop, false);
+    lv_obj_set_click(print_src.print_imgbtn_pwr, false);
+    lv_obj_set_click(print_src.print_imgbtn_speed, false);
+
     print_src.print_pwr_speed_src = lv_obj_create(mks_src, NULL);
     lv_obj_set_size(print_src.print_pwr_speed_src, 350, 200);
     lv_obj_set_pos(print_src.print_pwr_speed_src, 80, 50);
@@ -687,12 +704,13 @@ void mks_print_data_updata(void) {
         print_data_updata.last_x_pos = print_data_updata.x_pos;
         print_data_updata.last_y_pos = print_data_updata.y_pos;
     }
-    // if (SD_ready_next == false) {
-    //     if(mks_grbl.run_status == GRBL_RUN) {
-    //         ddxd = sd_get_current_line_number();
-    //         tf.writeFile("/PLA.txt", ddxd.c_str());
-    //     }
-    // }
+    
+    if (SD_ready_next == false) {
+        if(mks_grbl.run_status == GRBL_RUN) {
+            ddxd = sd_get_current_line_number();
+            tf.writeFile("/PLA.txt", ddxd.c_str());
+        }
+    }
     
     if (SD_ready_next == false) {
         if (mks_grbl.is_mks_ts35_flag == true) {
