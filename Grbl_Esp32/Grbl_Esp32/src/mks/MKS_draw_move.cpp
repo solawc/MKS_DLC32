@@ -48,19 +48,21 @@ LV_IMG_DECLARE(Y_N);
 LV_IMG_DECLARE(Y_P);			
 LV_IMG_DECLARE(Hhome);			
 
+
+
 static void event_handler_x_n(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
 		if(mks_grbl.move_dis == M_0_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91X0.1F1000\n");
+			MKS_GRBL_CMD_SEND("G91X0.1F200\n");
 		
 		}
 		else if (mks_grbl.move_dis == M_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91X1.0F1000\n");
+			MKS_GRBL_CMD_SEND("G91X1.0F200\n");
 		
 		}
 		else if (mks_grbl.move_dis == M_10_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91X10.0F1000\n");
+			MKS_GRBL_CMD_SEND("G91X10.0F200\n");
 			
 		}
 	}
@@ -72,13 +74,13 @@ static void event_handler_x_p(lv_obj_t* obj, lv_event_t event) {
 		//MKS_GRBL_CMD_SEND((uint8_t *)"$J=G91X-10.0F300\n");
 
 		if(mks_grbl.move_dis == M_0_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91X-0.1F1000\n");
+			MKS_GRBL_CMD_SEND("G91X-0.1F200\n");
 		}
 		else if (mks_grbl.move_dis == M_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91X-1.0F1000\n");
+			MKS_GRBL_CMD_SEND("G91X-1.0F200\n");
 		}
 		else if (mks_grbl.move_dis == M_10_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91X-10.0F1000\n");
+			MKS_GRBL_CMD_SEND("G91X-10.0F200\n");
 		}
 	}
 }
@@ -89,13 +91,13 @@ static void event_handler_y_n(lv_obj_t* obj, lv_event_t event) {
 		// MKS_GRBL_CMD_SEND("$J=G91Y10.0F300\n");
 
 		if(mks_grbl.move_dis == M_0_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Y0.1F1000\n");
+			MKS_GRBL_CMD_SEND("G91Y0.1F200\n");
 		}
 		else if (mks_grbl.move_dis == M_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Y1.0F1000\n");
+			MKS_GRBL_CMD_SEND("G91Y1.0F200\n");
 		}
 		else if (mks_grbl.move_dis == M_10_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Y10.0F1000\n");
+			MKS_GRBL_CMD_SEND("G91Y10.0F200\n");
 		}
 	}
 }
@@ -104,46 +106,16 @@ static void event_handler_y_p(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
 		if(mks_grbl.move_dis == M_0_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Y-0.1F1000\n");
+			MKS_GRBL_CMD_SEND("G91Y-0.1F1000\n");
 		}
 		else if (mks_grbl.move_dis == M_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Y-1.0F1000\n");
+			MKS_GRBL_CMD_SEND("G91Y-1.0F1000\n");
 		}
 		else if (mks_grbl.move_dis == M_10_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Y-10.0F1000\n");
+			MKS_GRBL_CMD_SEND("G91Y-10.0F1000\n");
 		}
 	}
 }
-
-// static void event_handler_z_n(lv_obj_t* obj, lv_event_t event) {
-
-// 	if (event == LV_EVENT_RELEASED) {
-// 		if(mks_grbl.move_dis == M_0_1_MM) {
-// 			MKS_GRBL_CMD_SEND("$J=G91Z0.1F1000\n");
-// 		}
-// 		else if (mks_grbl.move_dis == M_1_MM) {
-// 			MKS_GRBL_CMD_SEND("$J=G91Z1.0F1000\n");
-// 		}
-// 		else if (mks_grbl.move_dis == M_10_MM) {
-// 			MKS_GRBL_CMD_SEND("$J=G91Z10.0F1000\n");
-// 		}
-// 	}
-// }
-
-// static void event_handler_z_p(lv_obj_t* obj, lv_event_t event) {
-
-// 	if (event == LV_EVENT_RELEASED) {
-// 		if(mks_grbl.move_dis == M_0_1_MM) {
-// 			MKS_GRBL_CMD_SEND("$J=G91Z-0.1F1000\n");
-// 		}
-// 		else if (mks_grbl.move_dis == M_1_MM) {
-// 			MKS_GRBL_CMD_SEND("$J=G91Z-1.0F1000\n");
-// 		}
-// 		else if (mks_grbl.move_dis == M_10_MM) {
-// 			MKS_GRBL_CMD_SEND("$J=G91Z-10.0F1000\n");
-// 		}
-// 	}
-// }
 
 static void event_handler_len(lv_obj_t* obj, lv_event_t event) {
 
@@ -173,6 +145,7 @@ static void event_handler_unlock(lv_obj_t* obj, lv_event_t event) {
 		if(homing_enable->get()) {
 			MKS_GRBL_CMD_SEND("$X\n");
 		}
+
 		draw_pos_popup("Unlock success");
 	}
 }
@@ -276,11 +249,11 @@ void mks_draw_move(void) {
 	lv_obj_set_style(dist_scr, &mbk_color);
 	lv_obj_set_style(tool_scr, &mbk_color);
 
-	lv_imgbtn_creat_mks(tool_scr, Back, &back, &back, LV_ALIGN_IN_LEFT_MID, 10, -10 , event_handler_back);
-    lv_imgbtn_creat_mks(tool_scr, m_unlock, &Unlock, &Unlock, LV_ALIGN_CENTER, -10, -10, event_handler_unlock);
-	lv_imgbtn_creat_mks(tool_scr, home, &Home, &Home, LV_ALIGN_CENTER, 90, -10, event_handler_home);
-	lv_imgbtn_creat_mks(tool_scr, postivs, &Positionting, &Positionting, LV_ALIGN_CENTER, 190, -10, event_handler_pos);
-	lv_imgbtn_creat_mks(tool_scr, hhome, &Hhome, &Hhome, LV_ALIGN_CENTER, -110, -10, event_handler_hhome);
+	Back = lv_imgbtn_creat_mks(tool_scr, Back, &back, &back, LV_ALIGN_IN_LEFT_MID, 10, -10 , event_handler_back);
+    m_unlock = lv_imgbtn_creat_mks(tool_scr, m_unlock, &Unlock, &Unlock, LV_ALIGN_CENTER, -10, -10, event_handler_unlock);
+	home = lv_imgbtn_creat_mks(tool_scr, home, &Home, &Home, LV_ALIGN_CENTER, 90, -10, event_handler_home);
+	postivs = lv_imgbtn_creat_mks(tool_scr, postivs, &Positionting, &Positionting, LV_ALIGN_CENTER, 190, -10, event_handler_pos);
+	hhome = lv_imgbtn_creat_mks(tool_scr, hhome, &Hhome, &Hhome, LV_ALIGN_CENTER, -110, -10, event_handler_hhome);
 
 	lv_imgbtn_creat_mks(move_scr, x_n, &X_N, &X_N, LV_ALIGN_CENTER, 90, 0, event_handler_x_n);
     lv_imgbtn_creat_mks(move_scr, x_p, &X_P, &X_P, LV_ALIGN_CENTER, -90, 0, event_handler_x_p);
@@ -357,9 +330,9 @@ static void event_handler_popup_sure(lv_obj_t* obj, lv_event_t event) {
 void draw_pos_popup(const char *text) {
 
 	lv_obj_set_click(Back, false);
-    lv_obj_set_click(m_unlock, false);
-    lv_obj_set_click(home, false);
-    lv_obj_set_click(postivs, false);
+	lv_obj_set_click(m_unlock, false);
+	lv_obj_set_click(home, false);
+	lv_obj_set_click(postivs, false);
 	lv_obj_set_click(hhome, false);
 
 	move_popup_scr = lv_obj_create(mks_src, NULL);
