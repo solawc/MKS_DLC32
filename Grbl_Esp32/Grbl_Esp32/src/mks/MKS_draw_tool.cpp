@@ -74,7 +74,10 @@ void mks_draw_tool(void) {
     lv_obj_set_style(about_src1, &about_src1_style);
 
     lv_imgbtn_creat_mks(about_src1, tool_img_back, &back, &back, LV_ALIGN_IN_LEFT_MID, 10, -10, event_btn_tool_back);
+
+#if defined(USE_WIFI)
     lv_imgbtn_creat_mks(about_src1, tool_img_wifi, &wifi_log, &wifi_log, LV_ALIGN_CENTER, 50, -10, event_btn_tool_wifi);
+#endif
 
     lv_style_copy(&style_line, &lv_style_plain);
     style_line.line.color = LV_COLOR_MAKE(0x00, 0x3b, 0x75);
@@ -88,7 +91,10 @@ void mks_draw_tool(void) {
     // lv_line_set_style(tool_line3, LV_LINE_STYLE_MAIN, &style_line);
     
     mks_lvgl_long_sroll_label_with_wight_set_center(about_src1, label_tool_back, 20, 60, "Back", 60);
+
+#if defined(USE_WIFI)
     mks_lvgl_long_sroll_label_with_wight_set_center(about_src1, label_tool_wifi, 270, 60, "Wifi", 60);
+#endif
 
     mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, label_board_version, 10, 120, "Board:MKS DLC32 V1.07, VN:2", 400);
 	mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, label_Firmware_version, 10, 170, "Firmware:MKS DLC32 V1.0 SDK-1.3.0", 400);

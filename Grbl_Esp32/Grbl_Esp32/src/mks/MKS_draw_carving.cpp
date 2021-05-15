@@ -238,6 +238,7 @@ void mks_draw_craving(void) {
 		lv_refr_now(lv_refr_get_disp_refreshing());
 		mks_listDir(SD, "/",MKS_FILE_DEEP);
 		draw_file_btmimg();
+
 		// draw_file_btmimg_1(mks_file_list.file_begin_num);
 		lv_obj_del(caving_read_file_src1);
 	}	

@@ -180,7 +180,7 @@ static void event_handler_unlock(lv_obj_t* obj, lv_event_t event) {
 static void event_handler_home(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-       MKS_GRBL_CMD_SEND("$J=G90X0Y0F800\n");
+       MKS_GRBL_CMD_SEND("$J=G90X0Y0F1600\n");
 	   draw_pos_popup("Homing success");
 	}
 }
@@ -242,7 +242,7 @@ static void event_handler_back(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
         mks_clear_move();
-		mks_ui_page.mks_ui_page = MKS_UI_Ready;
+		mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
         mks_ui_page.wait_count = DEFAULT_UI_COUNT;
         mks_draw_ready();
 	}
@@ -250,11 +250,6 @@ static void event_handler_back(lv_obj_t* obj, lv_event_t event) {
 
 void mks_draw_move(void) {
  
-	// mks_src = lv_obj_create(NULL, NULL);
-	// mks_src = lv_scr_act();
-
-	mks_ui_page.mks_ui_page = MKS_UI_Control;
-    mks_ui_page.wait_count = DEFAULT_UI_COUNT;
 	/* 背景层 */
 	tool_scr = lv_obj_create(mks_src, NULL);
 	lv_obj_set_size(tool_scr, 460, 90);
@@ -286,9 +281,6 @@ void mks_draw_move(void) {
 	lv_imgbtn_creat_mks(tool_scr, home, &Home, &Home, LV_ALIGN_CENTER, 90, -10, event_handler_home);
 	lv_imgbtn_creat_mks(tool_scr, postivs, &Positionting, &Positionting, LV_ALIGN_CENTER, 190, -10, event_handler_pos);
 	lv_imgbtn_creat_mks(tool_scr, hhome, &Hhome, &Hhome, LV_ALIGN_CENTER, -110, -10, event_handler_hhome);
-
-	
-
 
 	lv_imgbtn_creat_mks(move_scr, x_n, &X_N, &X_N, LV_ALIGN_CENTER, 90, 0, event_handler_x_n);
     lv_imgbtn_creat_mks(move_scr, x_p, &X_P, &X_P, LV_ALIGN_CENTER, -90, 0, event_handler_x_p);
@@ -336,6 +328,9 @@ void mks_draw_move(void) {
 		label_len_10 = mks_lvgl_long_sroll_label_with_wight_set_center(btn_len_10, label_len_10, 0, 0, "#000000 10mm#", 50);
 	else 
 		label_len_10 = mks_lvgl_long_sroll_label_with_wight_set_center(btn_len_10, label_len_10, 0, 0, "#ffffff 10mm#", 50);
+
+	mks_ui_page.mks_ui_page = MKS_UI_Control;
+    mks_ui_page.wait_count = DEFAULT_UI_COUNT;
 }
 
 
@@ -349,23 +344,29 @@ lv_obj_t* move_popup_label_dis;
 static void event_handler_popup_sure(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-		// lv_obj_set_click(m_unlock, false);
-		// lv_obj_set_click(postivs, false);
-		// lv_obj_set_click(home, false);
-		// lv_obj_set_click(Back, false);
+		lv_obj_set_click(Back, true);
+		lv_obj_set_click(m_unlock, true);
+		lv_obj_set_click(home, true);
+		lv_obj_set_click(postivs, true);
+		lv_obj_set_click(hhome, true);
+
 		lv_obj_del(move_popup_scr);
 	}
 }
 
 void draw_pos_popup(const char *text) {
 
+	lv_obj_set_click(Back, false);
+    lv_obj_set_click(m_unlock, false);
+    lv_obj_set_click(home, false);
+    lv_obj_set_click(postivs, false);
+	lv_obj_set_click(hhome, false);
+
 	move_popup_scr = lv_obj_create(mks_src, NULL);
 	lv_obj_set_size(move_popup_scr, move_popup_size_x, move_popup_size_y);
     lv_obj_set_pos(move_popup_scr, move_popup_x, move_popup_y);
 
 	lv_style_copy(&move_popup_color, &lv_style_scr);
-    // move_popup_color.body.main_color = LV_COLOR_MAKE(0x1F, 0x23, 0x33); 
-    // move_popup_color.body.grad_color = LV_COLOR_MAKE(0x1F, 0x23, 0x33); 
 	move_popup_color.body.main_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
     move_popup_color.body.grad_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
     move_popup_color.text.color = LV_COLOR_BLACK;

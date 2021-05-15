@@ -59,11 +59,13 @@ static void event_handler_Tool(lv_obj_t* obj, lv_event_t event) {
 static void event_handler_wifi(lv_obj_t* obj, lv_event_t event) { 
 	
 	if (event == LV_EVENT_RELEASED) {
+#if defined(USE_WIFI)
         lv_clean_curren_screen();
         mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
         mks_ui_page.wait_count = DEFAULT_UI_COUNT;
         mks_grbl.wifi_back_from = 0;
         mks_draw_wifi();
+#endif
 	}
 }
 

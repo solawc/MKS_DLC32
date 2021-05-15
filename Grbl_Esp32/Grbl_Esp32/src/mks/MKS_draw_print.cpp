@@ -214,12 +214,9 @@ static void event_btn_sure(lv_obj_t* obj, lv_event_t event) {
 static void event_btn_printdon(lv_obj_t* obj, lv_event_t event) {
     if (event == LV_EVENT_RELEASED) {
         mks_grbl.run_status = GRBL_RESTARTING; 
-        
         mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
         mks_ui_page.wait_count = 1;
-        
         tf.deleteFile("/PLA.txt");
-
         lv_obj_del(print_src.print_finsh_popup);
         mks_clear_print();
         mks_draw_ready();

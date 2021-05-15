@@ -27,6 +27,9 @@
 #endif
 #define N_AXIS 3
 
+// #define USE_BL_TOUCH
+// #define USE_WIFI
+
 
 #ifdef ENABLE_SD_CARD
     #undef ENABLE_SD_CARD

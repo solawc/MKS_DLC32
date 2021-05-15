@@ -11,8 +11,8 @@ void lvgl_disp_task(void *parg) {
     mks_draw_ready();
     disp_task_data_updata();
     mks_grbl.wifi_connect_enable = true;
-    // wifi_config.begin();
-    LCD_BLK_ON;
+    // LCD_BLK_ON;
+    LCD_BLK_OFF;
     while(1) {
         
         lv_task_handler();

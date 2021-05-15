@@ -134,7 +134,11 @@ void mks_draw_power(void) {
 	lv_obj_set_style(p_scr2, &p_bkl_color);
 
 	Back = lv_imgbtn_creat_mks(p_scr1, Back, &back, &back, LV_ALIGN_IN_LEFT_MID, 10, -10, event_handler_Back);
+
+#if defined(USE_BL_TOUCH)
 	cailb = lv_imgbtn_creat_mks(p_scr1, cailb, &Calibration, &Calibration, LV_ALIGN_CENTER,150, -10, event_handler_cailb);
+#endif
+
 
 	if(mks_grbl.power_persen == P_10_PERSEN) {
 		pwr_high = lv_imgbtn_creat_n_mks(p_scr2, pwr_high, &SPD_H_PRE, &SPD_H_PRE,10, 35, event_handler_pwr_h);
@@ -152,7 +156,10 @@ void mks_draw_power(void) {
 	}
 
 	label_Back = mks_lvgl_long_sroll_label_with_wight_set_center(p_scr1, label_Back, 20,60, "Back", 50);
+
+#if defined(USE_BL_TOUCH)
 	label_cailb = mks_lvgl_long_sroll_label_with_wight_set_center(p_scr1, label_cailb, 350, 60, "Z Home", 60);
+#endif
 
 	pwr_label_high = mks_lvgl_long_sroll_label_with_wight_set_center(p_scr2, pwr_label_high, 60,170, "50%", 50);
 	pwr_label_low = mks_lvgl_long_sroll_label_with_wight_set_center(p_scr2, pwr_label_low, 210,170, "5%", 50);
