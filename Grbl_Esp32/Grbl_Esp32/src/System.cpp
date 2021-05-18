@@ -185,6 +185,7 @@ void system_convert_array_steps_to_mpos(float* position, int32_t* steps) {
     }
     motors_to_cartesian(position, motors, n_axis);
 }
+
 float* system_get_mpos() {
     static float position[MAX_N_AXIS];
     system_convert_array_steps_to_mpos(position, sys_position);

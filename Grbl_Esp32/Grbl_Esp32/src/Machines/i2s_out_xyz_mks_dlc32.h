@@ -89,8 +89,8 @@
 #define GRBL_SPI_MOSI 			    GPIO_NUM_13
 #define GRBL_SPI_SS 			    GPIO_NUM_15
 #define SDCARD_DET_PIN 			    GPIO_NUM_39
-#define GRBL_SPI_FREQ 			    4000000
-// #define GRBL_SPI_FREQ 			    24000000
+// #define GRBL_SPI_FREQ 			    4000000
+#define GRBL_SPI_FREQ 			    24000000
 
 // === Default settings
 // #define DEFAULT_STEP_PULSE_MICROSECONDS I2S_OUT_USEC_PER_PULSE

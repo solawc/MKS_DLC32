@@ -29,6 +29,7 @@
 #include "mks/MKS_SDCard.h"
 
 void grbl_init() {
+
     pinMode(LCD_EN, OUTPUT);
     LCD_BLK_ON;
     
@@ -44,7 +45,7 @@ void grbl_init() {
     display_init();
     // grbl_msg_sendf(CLIENT_SERIAL, MsgLevel::Info, "Grbl_ESP32 Ver %s Date %s", GRBL_VERSION, GRBL_VERSION_BUILD);  // print grbl_esp32 verion info
     // grbl_msg_sendf(CLIENT_SERIAL, MsgLevel::Info, "Compiled with ESP32 SDK:%s", ESP.getSdkVersion());              // print the SDK version
-    grbl_msg_sendf(CLIENT_SERIAL, MsgLevel::Info, "MKS GRBL Ver $s, buile %s", GRBL_VERSION, GRBL_VERSION_BUILD);  // print grbl_esp32 verion info
+    grbl_msg_sendf(CLIENT_SERIAL, MsgLevel::Info, "MKS DLC32 Version:s, Buile %s", GRBL_VERSION, GRBL_VERSION_BUILD);  // print grbl_esp32 verion info
     // grbl_msg_sendf(CLIENT_SERIAL, MsgLevel::Info, "Compiled with ESP32 SDK:%s", ESP.getSdkVersion());              // print the SDK version
 
 // show the map name at startup
@@ -130,48 +131,20 @@ static void reset_variables() {
         tft_TS35_init();
         disp_task_init();
         mks_grbl_parg_init();
-
-
-        // while(1) {
-        //     LCD_BLK_ON;
-        //     grbl_send(CLIENT_SERIAL, "LCD_ON\n");
-        //     delay_ms(2000);
-        //     LCD_BLK_OFF;
-        //     grbl_send(CLIENT_SERIAL, "LCD_OFF\n");
-        //     delay_ms(2000);
-
-        //     LCD_BLK_ON;
-        //     grbl_send(CLIENT_SERIAL, "LCD_ON\n");
-        //     delay_ms(2000);
-        //     LCD_BLK_OFF;
-        //     grbl_send(CLIENT_SERIAL, "LCD_OFF\n");
-        //     delay_ms(2000);
-
-        //     LCD_BLK_ON;
-        //     grbl_send(CLIENT_SERIAL, "LCD_ON\n");
-        //     delay_ms(2000);
-        //     LCD_BLK_OFF;
-        //     grbl_send(CLIENT_SERIAL, "LCD_OFF\n");
-        //     delay_ms(2000);
-        // }
-        
         
 #if defined(USE_BL_TOUCH)
         BLTOUCH_push_up();
         delay_ms(100);
         BLTOUCH_push_down();
 #endif
-
     }
 
     mks_motor_unclock();
     spindle_check_init();
 
-    if(mks_grbl.run_status == GRBL_RESTARTING) {
-        // mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
-        // mks_ui_page.wait_count = DEFAULT_UI_COUNT;
-        mks_grbl.run_status = GRBL_STOP;
-    }
+//     if(mks_grbl.run_status == GRBL_RESTARTING) {
+//         mks_grbl.run_status = GRBL_STOP;
+//     }
 }
 
 void run_once() {

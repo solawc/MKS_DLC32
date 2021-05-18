@@ -190,9 +190,9 @@ void mks_draw_bl_touch(void) {
 
 void bl_touch_run(void) {
 	mks_draw_bl_touch();
-	MKS_GRBL_CMD_SEND("$J=G91Z10F1000\n");  //Z抬升10
+	MKS_GRBL_CMD_SEND("G91Z10F100\n");  //Z抬升10
 	BLTOUCH_push_down();					//弹出探针
-	MKS_GRBL_CMD_SEND("$J=G91Z-30F1000\n"); //Z下降30
+	MKS_GRBL_CMD_SEND("G91Z-30F100\n"); //Z下降30
 	mks_grbl.bl_status = BL_ADJ_ING;
 }
 

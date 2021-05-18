@@ -1,4 +1,5 @@
 #include "MKS_draw_print.h"
+#include "../System.h"
 
 PWR_CTRL_t mks_pwr_ctrl;
 SPEED_CTRL_t mks_speed_ctrl;
@@ -31,19 +32,34 @@ LV_IMG_DECLARE(M_pwr);
 LV_IMG_DECLARE(P_speed);
 
 static void event_handler_suspend(lv_obj_t* obj, lv_event_t event) {
+
+    
     if (event == LV_EVENT_RELEASED) {
-        if(mks_grbl.run_status == GRBL_RUN) {
-            // sys_rt_exec_accessory_override.bit.spindleOvrStop = false;
-            lv_imgbtn_set_src(print_src.print_imgbtn_suspend, LV_BTN_STATE_PR, &M_start);
-            lv_imgbtn_set_src(print_src.print_imgbtn_suspend, LV_BTN_STATE_REL, &M_start);
-            lv_label_set_static_text(print_src.print_Label_p_suspend, "Run");
-            mks_grbl.run_status = GRBL_PAUSE;
-        } else if(mks_grbl.run_status == GRBL_PAUSE) {       
+        // if(mks_grbl.run_status == GRBL_RUN) {
+        //     // sys_rt_exec_accessory_override.bit.spindleOvrStop = false;
+        //     lv_imgbtn_set_src(print_src.print_imgbtn_suspend, LV_BTN_STATE_PR, &M_start);
+        //     lv_imgbtn_set_src(print_src.print_imgbtn_suspend, LV_BTN_STATE_REL, &M_start);
+        //     lv_label_set_static_text(print_src.print_Label_p_suspend, "Run");
+        //     mks_grbl.run_status = GRBL_PAUSE;
+        // } else if(mks_grbl.run_status == GRBL_PAUSE) {       
+        //     lv_imgbtn_set_src(print_src.print_imgbtn_suspend, LV_BTN_STATE_PR, &M_Pause);
+        //     lv_imgbtn_set_src(print_src.print_imgbtn_suspend, LV_BTN_STATE_REL, &M_Pause);
+        //     lv_label_set_static_text(print_src.print_Label_p_suspend, "Pause");
+        //     mks_grbl.run_status = GRBL_RUN;
+        // }
+
+        if(sys.state == State::Hold) {
             lv_imgbtn_set_src(print_src.print_imgbtn_suspend, LV_BTN_STATE_PR, &M_Pause);
             lv_imgbtn_set_src(print_src.print_imgbtn_suspend, LV_BTN_STATE_REL, &M_Pause);
             lv_label_set_static_text(print_src.print_Label_p_suspend, "Pause");
-            mks_grbl.run_status = GRBL_RUN;
-        }
+            MKS_GRBL_CMD_SEND("~");
+        }   
+        else if(sys.state == State::Cycle)    {
+            lv_imgbtn_set_src(print_src.print_imgbtn_suspend, LV_BTN_STATE_PR, &M_start);
+            lv_imgbtn_set_src(print_src.print_imgbtn_suspend, LV_BTN_STATE_REL, &M_start);
+            lv_label_set_static_text(print_src.print_Label_p_suspend, "Run");
+            MKS_GRBL_CMD_SEND("!");
+        } 
     }
 }
 
@@ -107,11 +123,6 @@ void mks_draw_print(void) {
     print_src.printf_src_bg.body.radius = 17;
 	lv_obj_set_style(print_src.print_scr1, &print_src.printf_src_bg);
     lv_obj_set_style(print_src.print_scr2, &print_src.printf_src_bg);
-
-    // lv_style_copy(&print_src.print_bar_bg_style,&lv_style_plain_color);
-    // print_src.print_bar_bg_style.body.main_color = LV_COLOR_MAKE(0xBB,0xBB,0xBB);
-    // print_src.print_bar_bg_style.body.grad_color = LV_COLOR_MAKE(0xBB,0xBB,0xBB);
-    // print_src.print_bar_bg_style.body.radius = LV_RADIUS_CIRCLE;//绘制圆角
     
     /* 进度条背景样式 */
     lv_style_copy(&print_src.print_bar_bg_style, &lv_style_plain_color);
@@ -186,6 +197,8 @@ void mks_draw_print(void) {
     Label_print_file_name = mks_lvgl_long_sroll_label_with_wight_set_center(print_src.print_bar_print, Label_print_file_name, 10, 15, file_print_send, 400);
     print_src.print_bar_print_percen = mks_lvgl_long_sroll_label_with_wight_set_center(print_src.print_bar_print, print_src.print_bar_print_percen, 400, 15, "0%", 32);
 
+    lv_refr_now(lv_refr_get_disp_refreshing());
+
     mks_ui_page.mks_ui_page = MKS_UI_Pring;  //进入雕刻界面
 	mks_ui_page.wait_count = DEFAULT_UI_COUNT;
 }
@@ -197,23 +210,24 @@ static void event_btn_cancle(lv_obj_t* obj, lv_event_t event) {
 }
 
 static void event_btn_sure(lv_obj_t* obj, lv_event_t event) {
+    
+    uint16_t buf_cmd[]={0x18};
     if (event == LV_EVENT_RELEASED) {
         closeFile();
-        spindle->stop();
-        mks_grbl.run_status = GRBL_RESTARTING;
-        // lv_obj_del(stop_popup);
+        // mks_grbl.run_status = GRBL_RESTARTING;
         mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
         mks_ui_page.wait_count = 1;
         mks_clear_print();
         MKS_GRBL_CMD_SEND("M3 S0\n");
         MKS_GRBL_CMD_SEND("G90X0Y0F800\n");
+        MKS_GRBL_CMD_SEND(buf_cmd);
         mks_draw_ready();
     }
 }
 
 static void event_btn_printdon(lv_obj_t* obj, lv_event_t event) {
     if (event == LV_EVENT_RELEASED) {
-        mks_grbl.run_status = GRBL_RESTARTING; 
+        // mks_grbl.run_status = GRBL_RESTARTING; 
         mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
         mks_ui_page.wait_count = 1;
         tf.deleteFile("/PLA.txt");
@@ -288,7 +302,7 @@ void mks_draw_finsh_pupop(void) {
     mks_lvgl_long_sroll_label_with_wight_set(print_src.print_finsh_popup, print_src.print_Label_popup, 100, 80, "File is print done!", 150);
 }
 
-char bar_percen_str[10];
+char bar_percen_str[20];
 void mks_print_bar_updata(void) {
     print_src.print_bar_print = mks_lv_bar_updata(print_src.print_bar_print, (uint16_t)sd_report_perc_complete());
     sprintf(bar_percen_str, "%d%%", (uint16_t)sd_report_perc_complete());
@@ -299,9 +313,6 @@ void mks_print_bar_updata(void) {
 
 
 lv_obj_t *pwr_label_power;
-
-// lv_style_t pwr_btn1_style;
-// lv_style_t pwr_btn2_style;
 
 char power_add_dec_buf[20];
 static void event_pwr_setting_add(lv_obj_t* obj, lv_event_t event) {
@@ -658,17 +669,17 @@ void mks_print_speed_set(void) {
 
 void mks_print_data_updata(void) {
 
-    int32_t mks_current_position[MAX_N_AXIS];
+    // int32_t mks_current_position[MAX_N_AXIS];
     float mks_print_position[MAX_N_AXIS];
 
-    memset(print_data_updata.print_xpos_str, 0, sizeof(print_data_updata.print_xpos_str));
-    memset(print_data_updata.print_ypos_str, 0, sizeof(print_data_updata.print_ypos_str));
-    memset(print_data_updata.print_zpos_str, 0, sizeof(print_data_updata.print_zpos_str));
-    memset(mks_current_position, 0, sizeof(mks_current_position));
-    memset(mks_print_position, 0, sizeof(mks_print_position));
+    // memset(print_data_updata.print_xpos_str, 0, sizeof(print_data_updata.print_xpos_str));
+    // memset(print_data_updata.print_ypos_str, 0, sizeof(print_data_updata.print_ypos_str));
+    // memset(print_data_updata.print_zpos_str, 0, sizeof(print_data_updata.print_zpos_str));
+    // memset(mks_current_position, 0, sizeof(mks_current_position));
+    // memset(mks_print_position, 0, sizeof(mks_print_position));
 
-    memcpy(mks_current_position, sys_position, sizeof(sys_position));
-    system_convert_array_steps_to_mpos(mks_print_position, mks_current_position);
+    // memcpy(mks_current_position, sys_position, sizeof(sys_position));
+    system_convert_array_steps_to_mpos(mks_print_position, sys_position);
 
     print_data_updata.x_pos = mks_print_position[0];
     print_data_updata.y_pos = mks_print_position[1];
@@ -695,10 +706,10 @@ void mks_print_data_updata(void) {
     if( (print_data_updata.x_pos != print_data_updata.last_x_pos) || 
         (print_data_updata.y_pos != print_data_updata.last_y_pos) ) {
 
-        if(mks_grbl.run_status == GRBL_RUN) {
-            ddxd = sd_get_current_line_number();
-            tf.writeFile("/PLA.txt", ddxd.c_str());
-        }
+        // if(mks_grbl.run_status == GRBL_RUN) {
+            // ddxd = sd_get_current_line_number();
+            // tf.writeFile("/PLA.txt", ddxd.c_str());
+        // }
 
         // 获取新的值
         print_data_updata.last_x_pos = print_data_updata.x_pos;
@@ -706,7 +717,8 @@ void mks_print_data_updata(void) {
     }
     
     if (SD_ready_next == false) {
-        if(mks_grbl.run_status == GRBL_RUN) {
+        // if(mks_grbl.run_status == GRBL_RUN) {
+        if(sys.state == State::Cycle) {
             ddxd = sd_get_current_line_number();
             tf.writeFile("/PLA.txt", ddxd.c_str());
         }

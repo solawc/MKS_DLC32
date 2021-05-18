@@ -382,8 +382,6 @@ void draw_pos_wifi_popup(const char *text, char *file_name) {
 	lv_obj_set_style(wifi_src.wifi_popup_scr_1, &wifi_src.wifi_popup_scr_1_style);
 
 	lv_style_copy(&wifi_src.wifi_popup_btn_style, &lv_style_scr);
-    // move_popup_btn_style.body.main_color = LV_COLOR_MAKE(0x5C, 0xE6, 0x93);
-    // move_popup_btn_style.body.grad_color = LV_COLOR_MAKE(0x5C, 0xE6, 0x93);
 	wifi_src.wifi_popup_btn_style.body.main_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
     wifi_src.wifi_popup_btn_style.body.grad_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
     wifi_src.wifi_popup_btn_style.body.opa = LV_OPA_COVER;//设置背景色完全不透明
@@ -453,7 +451,6 @@ void mks_wifi_connect(char *username, char *password) {
 }
 
 void mks_clear_wifi(void) {
-    // mks_grbl.wifi_check_status = false;
 	lv_obj_clean(mks_src);
 }
 

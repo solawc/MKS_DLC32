@@ -76,6 +76,15 @@ static void event_handler_none(lv_obj_t* obj, lv_event_t event) {
 	}
 }
 
+// char xpos_str[50] = "0.00";
+// char status_str[50];
+// char ypos_str[50] = "0.00";
+// char zpos_str[50] = "0.00";
+// char mpwr_str[50] = "100%";
+// char wifi_status_str[50];
+// char wifi_ip_str[100];
+
+
 void mks_draw_ready(void) {
 
     mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
@@ -126,11 +135,16 @@ void mks_draw_ready(void) {
     mks_lvgl_long_sroll_label_with_wight_set_center(ready_src.ready_src_1, ready_src.ready_label_Sculpture, 250, 80, "Sculpture", 100);
     mks_lvgl_long_sroll_label_with_wight_set_center(ready_src.ready_src_1, ready_src.ready_label_Tool, 360, 80, "Tool", 100);
 
-    // label_status = mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, label_status, READY_FIRST_LABEL_X, READY_FIRST_LABEL_Y, " ", 50);
+    ready_src.ready_label_status = mks_lv_static_label(mks_src, ready_src.ready_label_status, READY_FIRST_LABEL_X, READY_FIRST_LABEL_Y+110, " ", 50);
     ready_src.ready_label_xpos = mks_lv_static_label(mks_src, ready_src.ready_label_xpos, READY_FIRST_LABEL_X+60, READY_FIRST_LABEL_Y+45, "0", 50);
     ready_src.ready_label_ypos = mks_lv_static_label(mks_src, ready_src.ready_label_ypos, READY_FIRST_LABEL_X+190,READY_FIRST_LABEL_Y+45, "0", 50);
     ready_src.ready_label_zpos = mks_lv_static_label(mks_src, ready_src.ready_label_zpos, READY_FIRST_LABEL_X+320,READY_FIRST_LABEL_Y+45, "0", 50);
     ready_src.ready_label_mpwr = mks_lv_static_label(mks_src, ready_src.ready_label_mpwr, READY_FIRST_LABEL_X+60, READY_FIRST_LABEL_Y+85, "0", 50);
+
+    // ready_src.ready_label_xpos = mks_lv_static_label(mks_src, ready_src.ready_label_xpos, READY_FIRST_LABEL_X+60, READY_FIRST_LABEL_Y+45, xpos_str, 50);
+    // ready_src.ready_label_ypos = mks_lv_static_label(mks_src, ready_src.ready_label_ypos, READY_FIRST_LABEL_X+190,READY_FIRST_LABEL_Y+45, ypos_str, 50);
+    // ready_src.ready_label_zpos = mks_lv_static_label(mks_src, ready_src.ready_label_zpos, READY_FIRST_LABEL_X+320,READY_FIRST_LABEL_Y+45, zpos_str, 50);
+    // ready_src.ready_label_mpwr = mks_lv_static_label(mks_src, ready_src.ready_label_mpwr, READY_FIRST_LABEL_X+60, READY_FIRST_LABEL_Y+85, mpwr_str, 50);
 
 
     if (mks_grbl.wifi_connect_status == true) {
@@ -144,24 +158,24 @@ void mks_draw_ready(void) {
         ready_src.ready_label_wifi_status = mks_lv_static_label(ready_src.ready_btn_wifi, ready_src.ready_label_wifi_status, 40, 0, "Disconnect", 110);
     }  
 
+    lv_refr_now(lv_refr_get_disp_refreshing());
     mks_ui_page.mks_ui_page = MKS_UI_Ready;
     mks_ui_page.wait_count = 1;
 }
 
-char xpos_str[50];
-char ypos_str[50];
-char zpos_str[50];
-char mpwr_str[50];
+char xpos_str[50] = "0.0";
+char status_str[50];
+char ypos_str[50] = "0.0";
+char zpos_str[50] = "0.0";
+char mpwr_str[50] = "100%";
 char wifi_status_str[50];
 char wifi_ip_str[100];
-
 
 void mks_widi_show_ip(IPAddress ip, uint8_t p) { 
     if(p) {
         strcat(wifi_ip_str, ip.toString().c_str());
         // label_wifi_ip = mks_lv_label_updata(label_wifi_ip, wifi_ip_str);
     }else {
-        // label_wifi_ip = mks_lv_label_updata(label_wifi_ip, " ");
     }
 }
 
@@ -169,34 +183,24 @@ void mks_widi_show_ip(IPAddress ip, uint8_t p) {
 void ready_data_updata(void) {
 
     static uint8_t wifi_ref_count = 0;
-    int32_t mks_current_position[MAX_N_AXIS];
-    float mks_print_position[MAX_N_AXIS];
+    // int32_t mks_current_position[MAX_N_AXIS];
+    static float mks_print_position[MAX_N_AXIS];
 
-    memset(xpos_str, 0, sizeof(xpos_str));
-    memset(ypos_str, 0, sizeof(ypos_str));
-    memset(zpos_str, 0, sizeof(zpos_str));
-    memset(mks_current_position, 0, sizeof(mks_current_position));
-    memset(mks_print_position, 0, sizeof(mks_print_position));
+    // memset(xpos_str, 0, sizeof(xpos_str));
+    // memset(ypos_str, 0, sizeof(ypos_str));
+    // memset(zpos_str, 0, sizeof(zpos_str));
+    // memset(mks_current_position, 0, sizeof(mks_current_position));
+    // memset(mks_print_position, 0, sizeof(mks_print_position));
 
-    memcpy(mks_current_position, sys_position, sizeof(sys_position));
-    system_convert_array_steps_to_mpos(mks_print_position, mks_current_position);
+    // memcpy(mks_current_position, sys_position, sizeof(sys_position));
+    // system_convert_array_steps_to_mpos(mks_print_position, mks_current_position);  //sys_position
+    system_convert_array_steps_to_mpos(mks_print_position, sys_position);
 
-    //      if (sys.state == State::Alarm)         lv_label_set_text(label_status, "Alarm");
-    // else if (sys.state == State::Idle)          lv_label_set_text(label_status, "Idle");
-    // else if (sys.state == State::CheckMode)     lv_l abel_set_text(label_status, "CheckMode");
-    // else if (sys.state == State::Homing)        lv_label_set_text(label_status, "Homing");
-    // else if (sys.state == State::Cycle)         lv_label_set_text(label_status, "Run");
-    // else if (sys.state == State::Hold)          lv_label_set_text(label_status, "Hold");
-    // else if (sys.state == State::Jog)           lv_label_set_text(label_status, "Jog");
-    // else if (sys.state == State::SafetyDoor)    lv_label_set_text(label_status, "SafetyDoor");
-    // else if (sys.state == State::Sleep)         lv_label_set_text(label_status, "Sleep");
-
-    sprintf(xpos_str, "%.2f", mks_print_position[0]);
-    sprintf(ypos_str, "%.2f", mks_print_position[1]);
-    sprintf(zpos_str, "%.2f", mks_print_position[2]);
+    sprintf(xpos_str, "%.1f", mks_print_position[0]);
+    sprintf(ypos_str, "%.1f", mks_print_position[1]);
+    sprintf(zpos_str, "%.1f", mks_print_position[2]);
     sprintf(mpwr_str, "%.d%%",  sys_rt_s_override);
     
-    // lv_label_set_static_text(label, char_array)
     lv_label_set_static_text(ready_src.ready_label_xpos, xpos_str);
     lv_label_set_static_text(ready_src.ready_label_ypos, ypos_str);
     lv_label_set_static_text(ready_src.ready_label_zpos, zpos_str);

@@ -25,4 +25,5 @@ void mks_draw_move(void);
 // void draw_pos_popup(void);
 void mks_clear_move(void);
 void draw_pos_popup(const char *text);
+void draw_pos_popup_1(const char *text);
 #endif

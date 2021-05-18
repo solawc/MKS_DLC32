@@ -85,7 +85,7 @@ static void event_handler_up(lv_obj_t* obj, lv_event_t event) {
 			if(mks_file_list.file_page == 1) {
 
 			}else {
-				mks_file_list.file_count = 0;
+			mks_file_list.file_count = 0;
 				mks_file_list.file_page--;
 				mks_draw_file_loadig();
 				lv_refr_now(lv_refr_get_disp_refreshing());
@@ -96,6 +96,7 @@ static void event_handler_up(lv_obj_t* obj, lv_event_t event) {
 				draw_file_btmimg();
 				// draw_file_btmimg_1(mks_file_list.file_begin_num);
 				lv_obj_del(caving_read_file_src1);
+				SD.end();
 			}
 		}
 	}
@@ -113,16 +114,14 @@ static void event_handler_next(lv_obj_t* obj, lv_event_t event) {
 				
 				mks_file_list.file_count = 0;
 				mks_file_list.file_page++;
-
 				mks_draw_file_loadig();
 				lv_refr_now(lv_refr_get_disp_refreshing());
-				// mks_del_file_obj_1(mks_file_list.file_begin_num);
 				mks_del_file_obj();
 				mks_file_list.file_begin_num = 0;
 				mks_listDir(SD, "/",MKS_FILE_DEEP);
 				draw_file_btmimg();
-				// draw_file_btmimg_1(mks_file_list.file_begin_num);
 				lv_obj_del(caving_read_file_src1);
+				SD.end();
 			}
 		}
 	}
@@ -204,6 +203,8 @@ static void event_handler_file7(lv_obj_t* obj, lv_event_t event) {
 
 void mks_draw_craving(void) {
 
+	SDState state = get_sd_state(true);
+
 	lv_style_copy(&caving_src1_style, &lv_style_scr);
     caving_src1_style.body.main_color = LV_COLOR_MAKE(0x1F, 0x23, 0x33); 
     caving_src1_style.body.grad_color = LV_COLOR_MAKE(0x1F, 0x23, 0x33); 
@@ -223,7 +224,8 @@ void mks_draw_craving(void) {
 	label_up = mks_lvgl_long_sroll_label_with_wight_set_center(caving_src1, label_up, caving_up_x+20, caving_up_y+70, "UP", 60);
 	label_next = mks_lvgl_long_sroll_label_with_wight_set_center(caving_src1, label_next, caving_next_x, caving_next_y+70, "Next", 60);
 
-	if(mks_readSD_Status() == SDState::NotPresent)  // check sdcard is work
+	// if(mks_readSD_Status() == SDState::NotPresent)  // check sdcard is work
+	if(state == SDState::NotPresent)
 	{
 		mks_grbl.mks_sd_status = 0;	// no sd insert
 		mks_lvgl_long_sroll_label_set(mks_src, Label_NoFile, 200, 150, "No SD Card");
@@ -238,9 +240,8 @@ void mks_draw_craving(void) {
 		lv_refr_now(lv_refr_get_disp_refreshing());
 		mks_listDir(SD, "/",MKS_FILE_DEEP);
 		draw_file_btmimg();
-
-		// draw_file_btmimg_1(mks_file_list.file_begin_num);
 		lv_obj_del(caving_read_file_src1);
+		SD.end();
 	}	
 	mks_ui_page.mks_ui_page = MKS_UI_Caving;
     mks_ui_page.wait_count = DEFAULT_UI_COUNT;
@@ -514,7 +515,6 @@ void mks_del_file_obj(void) {
 	}
 }
 
-
 static void event_btn_cancle(lv_obj_t* obj, lv_event_t event) {
 
     if (event == LV_EVENT_RELEASED) {
@@ -525,7 +525,11 @@ static void event_btn_cancle(lv_obj_t* obj, lv_event_t event) {
 static void event_btn_sure(lv_obj_t* obj, lv_event_t event) {
 	char str_cmd[255] = "[ESP220]";
     if (event == LV_EVENT_RELEASED) {
-		mks_grbl.run_status = GRBL_RUN;
+
+		if(sys.state != State::Idle) {
+			lv_obj_del(caving_Popup);
+		}
+		// mks_grbl.run_status = GRBL_RUN;
 		mks_grbl.is_mks_ts35_flag = true;
 
 		mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING; 
@@ -559,7 +563,7 @@ void mks_draw_caving_popup(uint8_t text, char *srt) {
     btn_style.body.main_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
     btn_style.body.grad_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
 	btn_style.body.radius = 10;
-    btn_style.body.opa = LV_OPA_COVER;//设置背景色完全不透明
+    btn_style.body.opa = LV_OPA_COVER; // 设置背景色完全不透明
     btn_style.text.color = LV_COLOR_WHITE;
 
 	btn_popup_sure = mks_lv_btn_set(caving_Popup, btn_popup_sure, 100,40,10,130,event_btn_sure);

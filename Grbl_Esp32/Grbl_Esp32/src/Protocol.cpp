@@ -144,9 +144,9 @@ void protocol_main_loop() {
 #ifdef ENABLE_SD_CARD
         if (SD_ready_next) {
             char fileLine[255];
-            if(mks_grbl.run_status == GRBL_PAUSE) {
-                spindle->stop();
-            }else {
+            // if(mks_grbl.run_status == GRBL_PAUSE) {
+            //     spindle->stop();
+            // }else {
                 if (readFileLine(fileLine, 255)) {
                 SD_ready_next = false;
                 report_status_message(execute_line(fileLine, SD_client, SD_auth_level), SD_client);
@@ -161,7 +161,7 @@ void protocol_main_loop() {
                     grbl_notifyf("SD print done", "%s print is successful", temp);
                     closeFile();  // close file and clear SD ready/running flags
                 }
-            }
+            // }
         }
 #endif
         // Receive one line of incoming serial data, as the data becomes available.
@@ -284,13 +284,13 @@ void protocol_exec_rt_system() {
         if ((alarm == ExecAlarm::HardLimit) || (alarm == ExecAlarm::SoftLimit)) {
             report_feedback_message(Message::CriticalEvent);
             sys_rt_exec_state.bit.reset = false;  // Disable any existing reset
-            do {
-                // Block everything, except reset and status reports, until user issues reset or power
-                // cycles. Hard limits typically occur while unattended or not paying attention. Gives
-                // the user and a GUI time to do what is needed before resetting, like killing the
-                // incoming stream. The same could be said about soft limits. While the position is not
-                // lost, continued streaming could cause a serious crash if by chance it gets executed.
-            } while (!sys_rt_exec_state.bit.reset);
+            // do {  // mks limit disable
+            //     // Block everything, except reset and status reports, until user issues reset or power
+            //     // cycles. Hard limits typically occur while unattended or not paying attention. Gives
+            //     // the user and a GUI time to do what is needed before resetting, like killing the
+            //     // incoming stream. The same could be said about soft limits. While the position is not
+            //     // lost, continued streaming could cause a serious crash if by chance it gets executed.
+            // } while (!sys_rt_exec_state.bit.reset);
         }
         sys_rt_exec_alarm = ExecAlarm::None;
     }

@@ -97,7 +97,7 @@ void mks_grbl_parg_init(void) {
     mks_grbl.language = SimpleChinese;
     mks_grbl.light_status = GRBL_Light_Off;
     mks_grbl.move_dis = M_0_1_MM;
-    mks_grbl.run_status = GRBL_STOP;
+    // mks_grbl.run_status = GRBL_STOP;
     mks_grbl.bl_status = BL_NONE;               
     mks_grbl.is_mks_ts35_flag = false;
     mks_grbl.wifi_check_status = false;

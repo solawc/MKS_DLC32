@@ -61,7 +61,7 @@ typedef struct{
     GRBL_LIGHT_STATUS           light_status;       // 灯状态
     GRBL_POWER                  power_persen;       // 功率步长设置
     BLTOUCH_STATUS              bl_status;          // BLTOUCH运行状态
-    GRBL_RUN_STATUS_t           run_status;         // 运行状态
+    // GRBL_RUN_STATUS_t           run_status;         // 运行状态
     // uint8_t                     power_persen;       // 功率百分比
     uint16_t                    cave_speed;         // 雕刻速度
     uint16_t                    move_speed;         // 移动速度

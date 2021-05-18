@@ -62,13 +62,6 @@ void listDir(fs::FS& fs, const char* dirname, uint8_t levels, uint8_t client) {
     }
     File file = root.openNextFile();
     while (file) {
-        // if (file.isDirectory()) {
-        //     if (levels) {
-        //         listDir(fs, file.name(), levels - 1, client);
-        //     }
-        // } else {
-        //     grbl_sendf(CLIENT_ALL, "[FILE:%s|SIZE:%d]\r\n", file.name(), file.size());
-        // }
         if (file.isDirectory()) {
             if (levels) {
                 listDir(fs, file.name(), levels - 1, client);
@@ -100,7 +93,7 @@ void mks_listDir(fs::FS& fs, const char* dirname, uint8_t levels) {
         // ...找不到文件夹（根文件夹）
         return;
     }
-    File file = root.openNextFile(); //进入下一级文件目录
+    File file = root.openNextFile(); 
     
     while(file) {
 
