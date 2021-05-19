@@ -58,5 +58,7 @@ lv_obj_t* mks_lv_set_ta(lv_obj_t* scr, lv_obj_t *ta, lv_obj_t *kb);
 /* line */
 lv_obj_t* mks_lv_set_line(lv_obj_t* scr, lv_obj_t * line, lv_point_t *line_points);
 
+void draw_global_popup(const char *text);
+
 
 #endif 

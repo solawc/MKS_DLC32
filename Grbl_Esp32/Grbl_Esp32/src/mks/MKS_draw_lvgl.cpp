@@ -1,6 +1,13 @@
 #include "MKS_draw_lvgl.h"
 
-lv_obj_t *mks_src;    // 主背景页
+lv_obj_t *mks_src;          // 主背景页
+
+lv_obj_t *global_popup;     // 全局提示
+lv_obj_t *global_popup_btn_sure;     
+lv_obj_t *global_popup_label_sure;     
+lv_obj_t *global_popup_label_text;  
+lv_style_t p_global_popup_color;
+lv_style_t p_global_popup_btn_color;
 
 /* 
  * Author   :MKS
@@ -292,6 +299,52 @@ lv_obj_t* mks_lv_set_line(lv_obj_t* scr, lv_obj_t * line, lv_point_t *line_point
     // lv_obj_align(line, NULL, LV_ALIGN_CENTER, 0, 0);
 
     return line;
+}
+
+
+static void event_handler_globel_popup_sure(lv_obj_t* obj, lv_event_t event) { 
+
+    if (event == LV_EVENT_RELEASED) { 
+        lv_obj_del(global_popup);
+    }
+}
+
+void draw_global_popup(const char *text) {
+
+    if(global_popup != NULL) {
+        lv_obj_del(global_popup);
+    }
+
+	global_popup = lv_obj_create(mks_src, NULL);
+	lv_obj_set_size(global_popup, move_popup_size_x, move_popup_size_y);
+    lv_obj_set_pos(global_popup, move_popup_x, move_popup_y);
+
+	lv_style_copy(&p_global_popup_color, &lv_style_scr);
+	p_global_popup_color.body.main_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
+    p_global_popup_color.body.grad_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
+    p_global_popup_color.text.color = LV_COLOR_BLACK;
+    p_global_popup_color.body.radius = 17;
+	lv_obj_set_style(global_popup, &p_global_popup_color);
+
+	lv_style_copy(&p_global_popup_btn_color, &lv_style_scr);
+	p_global_popup_btn_color.body.main_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+    p_global_popup_btn_color.body.grad_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+    p_global_popup_btn_color.body.opa = LV_OPA_COVER;//设置背景色完全不透明
+    p_global_popup_btn_color.text.color = LV_COLOR_WHITE;
+	p_global_popup_btn_color.body.radius = 10;
+
+	global_popup_btn_sure = mks_lv_btn_set(global_popup, 
+                                        global_popup_btn_sure, 
+                                        move_popup_btn_size_x, 
+                                        move_popup_btn_size_y,
+                                        move_popup_btn_x, 
+                                        move_popup_btn_y, 
+                                        event_handler_globel_popup_sure);
+	lv_btn_set_style(global_popup_btn_sure, LV_BTN_STYLE_REL, &p_global_popup_btn_color);
+	lv_btn_set_style(global_popup_btn_sure,LV_BTN_STYLE_PR, &p_global_popup_btn_color);
+
+	global_popup_label_text = mks_lvgl_long_sroll_label_with_wight_set_center(global_popup, global_popup_label_text, 100, 50, text, 200);
+	global_popup_label_text = mks_lvgl_long_sroll_label_with_wight_set_center(global_popup_btn_sure, global_popup_label_text, 50, 0, "Yes",50);
 }
 
 

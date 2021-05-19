@@ -141,10 +141,6 @@ static void reset_variables() {
 
     mks_motor_unclock();
     spindle_check_init();
-
-//     if(mks_grbl.run_status == GRBL_RESTARTING) {
-//         mks_grbl.run_status = GRBL_STOP;
-//     }
 }
 
 void run_once() {

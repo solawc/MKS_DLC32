@@ -183,23 +183,16 @@ void mks_widi_show_ip(IPAddress ip, uint8_t p) {
 void ready_data_updata(void) {
 
     static uint8_t wifi_ref_count = 0;
-    // int32_t mks_current_position[MAX_N_AXIS];
     static float mks_print_position[MAX_N_AXIS];
 
-    // memset(xpos_str, 0, sizeof(xpos_str));
-    // memset(ypos_str, 0, sizeof(ypos_str));
-    // memset(zpos_str, 0, sizeof(zpos_str));
-    // memset(mks_current_position, 0, sizeof(mks_current_position));
-    // memset(mks_print_position, 0, sizeof(mks_print_position));
-
-    // memcpy(mks_current_position, sys_position, sizeof(sys_position));
-    // system_convert_array_steps_to_mpos(mks_print_position, mks_current_position);  //sys_position
     system_convert_array_steps_to_mpos(mks_print_position, sys_position);
 
     sprintf(xpos_str, "%.1f", mks_print_position[0]);
     sprintf(ypos_str, "%.1f", mks_print_position[1]);
     sprintf(zpos_str, "%.1f", mks_print_position[2]);
-    sprintf(mpwr_str, "%.d%%",  sys_rt_s_override);
+    // sprintf(mpwr_str, "%.d%%",  sys_rt_s_override);
+    sprintf(mpwr_str, "%d",  sys.spindle_speed);
+    
     
     lv_label_set_static_text(ready_src.ready_label_xpos, xpos_str);
     lv_label_set_static_text(ready_src.ready_label_ypos, ypos_str);

@@ -139,6 +139,7 @@ void protocol_main_loop() {
     // Primary loop! Upon a system abort, this exits back to main() to reset the system.
     // This is also where Grbl idles while waiting for something to do.
     // ---------------------------------------------------------------------------------
+    MKS_GRBL_CMD_SEND("$x\n");   // 主动解锁
     int c;
     for (;;) {
 #ifdef ENABLE_SD_CARD
@@ -283,7 +284,9 @@ void protocol_exec_rt_system() {
         // Halt everything upon a critical event flag. Currently hard and soft limits flag this.
         if ((alarm == ExecAlarm::HardLimit) || (alarm == ExecAlarm::SoftLimit)) {
             report_feedback_message(Message::CriticalEvent);
-            sys_rt_exec_state.bit.reset = false;  // Disable any existing reset
+
+            draw_global_popup("Hard limit!");
+            // sys_rt_exec_state.bit.reset = false;  // Disable any existing reset
             // do {  // mks limit disable
             //     // Block everything, except reset and status reports, until user issues reset or power
             //     // cycles. Hard limits typically occur while unattended or not paying attention. Gives

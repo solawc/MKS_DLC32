@@ -29,10 +29,12 @@ typedef enum {
 
     caving_first_file_x = -180,
     caving_first_file_y = 0,
-    caving_first_file_label_x = 30,
+    caving_first_file_label_x = 20,
     caving_first_file_label_y = 170,
     caving_first_x_offset = 120,
     caving_first_y_offset = 105,
+
+    caving_file_name_show = 80,
 
 }CAVING_XY_t;
 

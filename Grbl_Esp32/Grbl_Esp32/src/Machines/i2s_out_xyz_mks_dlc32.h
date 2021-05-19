@@ -89,8 +89,8 @@
 #define GRBL_SPI_MOSI 			    GPIO_NUM_13
 #define GRBL_SPI_SS 			    GPIO_NUM_15
 #define SDCARD_DET_PIN 			    GPIO_NUM_39
-// #define GRBL_SPI_FREQ 			    4000000
-#define GRBL_SPI_FREQ 			    24000000
+#define GRBL_SPI_FREQ 			    4000000
+// #define GRBL_SPI_FREQ 			    24000000
 
 // === Default settings
 // #define DEFAULT_STEP_PULSE_MICROSECONDS I2S_OUT_USEC_PER_PULSE
@@ -126,7 +126,7 @@
 #define DEFAULT_HOMING_ENABLE           	0  // false
 #define DEFAULT_HOMING_DIR_MASK         	3 // move positive dir Z,negative X,Y
 #define DEFAULT_HOMING_FEED_RATE        	100.0 // mm/min
-#define DEFAULT_HOMING_SEEK_RATE        	200.0 // mm/min
+#define DEFAULT_HOMING_SEEK_RATE        	800.0 // mm/min
 #define DEFAULT_HOMING_DEBOUNCE_DELAY   	250 // msec (0-65k)
 #define DEFAULT_HOMING_PULLOFF          	1.0 // mm
 

@@ -13,7 +13,7 @@ void lvgl_disp_task(void *parg) {
     // lv_draw_ready();
     mks_draw_ready();
     // disp_task_data_updata();
-    uint8_t count = 0;
+    // uint8_t count = 0;
     mks_grbl.wifi_connect_enable = true;
     // LCD_BLK_ON;
     LCD_BLK_OFF;
@@ -21,26 +21,46 @@ void lvgl_disp_task(void *parg) {
 
         lv_task_handler();
 
-        if(count == 50) {    // 200ms 执行一次更新
-            mks_page_data_updata();
-            count = 0;
-        }
-        count++;
+        // if(count == 40) {    // (5*50)ms 执行一次更新
+        mks_page_data_updata();
+        //     count = 0;
+        // }
+        // count++;
+
         vTaskDelay(5); // 5ms
     }
 }
 
+uint8_t count_updata = 0;
 static void mks_page_data_updata(void) { 
 
     if(mks_ui_page.mks_ui_page == MKS_UI_PAGE_LOADING) {
-    /* Do not updata */
+        /* Do not updata */
+        return ;
     }
     else if (mks_ui_page.mks_ui_page == MKS_UI_Ready) {  //只有在当前页面才更新数据
-        if(SD_ready_next == false) ready_data_updata();
+
+        if((count_updata == 20) || (count_updata > 20) ) {        // 20*5=100ms
+            if(SD_ready_next == false) ready_data_updata();
+            count_updata = 0;
+        }
     }
     else if(mks_ui_page.mks_ui_page == MKS_UI_Pring) { // 雕刻界面更新数据
-        if(SD_ready_next == false)  mks_print_data_updata();
+
+        if((count_updata == 200) || (count_updata > 200) ) { // 200*5=1000ms = 1s
+            if(SD_ready_next == false)  mks_print_data_updata();
+            count_updata = 0;
+        }
     }
+    else if(mks_ui_page.mks_ui_page == MKS_UI_Control) {  //控制界面
+
+        if((count_updata == 20) || (count_updata > 20) ) { // 200*5=1000ms = 1s
+            hard_home_check();
+            soft_home_check();
+            count_updata = 0;
+        }
+    }
+    count_updata++;
 }
 
 // // tskNO_AFFINIT 

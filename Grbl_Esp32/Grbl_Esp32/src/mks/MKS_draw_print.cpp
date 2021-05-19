@@ -706,11 +706,6 @@ void mks_print_data_updata(void) {
     if( (print_data_updata.x_pos != print_data_updata.last_x_pos) || 
         (print_data_updata.y_pos != print_data_updata.last_y_pos) ) {
 
-        // if(mks_grbl.run_status == GRBL_RUN) {
-            // ddxd = sd_get_current_line_number();
-            // tf.writeFile("/PLA.txt", ddxd.c_str());
-        // }
-
         // 获取新的值
         print_data_updata.last_x_pos = print_data_updata.x_pos;
         print_data_updata.last_y_pos = print_data_updata.y_pos;

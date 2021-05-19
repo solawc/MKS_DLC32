@@ -374,30 +374,10 @@ void client_write(uint8_t client, const char* text) {
         Uart0.write(text);
 #endif
     }
-
-    // if(client == CLIENT_LCD) {
-    //     // WebUI::mks_lcd.write((const uint8_t*)text, strlen(text));
-    //     Uart0.write(text);
-    // }
 }
 
 
-// void user_m30() {
-//     char gcode_line[20];
-//     sprintf(gcode_line, "G90G0X%3.2f\r", ATARI_PAPER_WIDTH);  //
-//     WebUI::inputBuffer.push(gcode_line);
-// }
-
 void serila_write_into_buffer(uint8_t *data) {
-
-    // uint16_t k=0;
-    // do{
-    //     // client_buffer[CLIENT_SERIAL].write(data[k]);
-    //     client_buffer[CLIENT_LCD].write(data[k]);
-
-    //     k++;
-    // }while((data[k] != '\0') && k != 255);
-    // // client_write(CLIENT_SERIAL, (char *)data);
 
     WebUI::inputBuffer.push((const char *)data);
 }
