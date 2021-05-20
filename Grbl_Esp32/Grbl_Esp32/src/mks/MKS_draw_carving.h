@@ -10,7 +10,7 @@ extern char file3_name[40];
 extern char file4_name[40];
 extern char file5_name[40];
 extern char file_print_send[128];
-
+extern bool file_popup_select_flag;
 
 typedef enum {
 
@@ -64,4 +64,6 @@ void mks_del_file_obj_1(uint8_t num);
 
 void mks_draw_caving_popup(uint8_t text, char *srt);
 void mks_draw_file_loadig(void);
+
+void start_print(void);
 #endif

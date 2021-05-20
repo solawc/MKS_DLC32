@@ -9,7 +9,7 @@
 #include "MKS_draw_tool.h"
 #include "MKS_draw_carving.h"
 #include "MKS_draw_setting.h"
-#include "MKS_draw_home.h"
+#include "MKS_draw_inFile.h"
 #include "MKS_draw_move.h"
 #include "MKS_draw_power.h"
 #include "MKS_draw_language.h"
@@ -17,6 +17,7 @@
 #include "MKS_draw_print.h"
 #include "MKS_draw_config.h"
 #include "MKS_draw_wifi.h"
+#include "MKS_draw_frame.h"
 
 extern lv_obj_t *mks_src;
 

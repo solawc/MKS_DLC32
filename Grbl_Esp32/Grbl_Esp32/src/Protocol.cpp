@@ -283,9 +283,19 @@ void protocol_exec_rt_system() {
         report_alarm_message(alarm);
         // Halt everything upon a critical event flag. Currently hard and soft limits flag this.
         if ((alarm == ExecAlarm::HardLimit) || (alarm == ExecAlarm::SoftLimit)) {
-            report_feedback_message(Message::CriticalEvent);
+            // report_feedback_message(Message::CriticalEvent);
 
-            draw_global_popup("Hard limit!");
+            // if(ui_move_ctrl.limit_dis_delay_count == 2) {
+            if(alarm == ExecAlarm::HardLimit) {
+                draw_global_popup("Hard limit!");
+            }else if(alarm == ExecAlarm::SoftLimit) {
+                draw_global_popup("Soft limit!");
+            }
+            
+                // ui_move_ctrl.limit_dis_delay_count = 0;
+            // }
+            // ui_move_ctrl.limit_dis_delay_count++;
+            
             // sys_rt_exec_state.bit.reset = false;  // Disable any existing reset
             // do {  // mks limit disable
             //     // Block everything, except reset and status reports, until user issues reset or power

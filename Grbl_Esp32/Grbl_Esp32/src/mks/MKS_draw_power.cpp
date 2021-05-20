@@ -52,6 +52,7 @@ static void event_handler_pwr_on_off(lv_obj_t* obj, lv_event_t event) {
 		lv_imgbtn_set_src(power_page.pwr_low, LV_BTN_STATE_PR, &SP_L_UP);
 		lv_imgbtn_set_src(power_page.pwr_low, LV_BTN_STATE_REL, &SP_L_UP);
 		MKS_GRBL_CMD_SEND("M3 S0\n");
+		MKS_GRBL_CMD_SEND("G0\n");
 	}
 }
 
@@ -74,7 +75,8 @@ static void event_handler_pwr_l(lv_obj_t* obj, lv_event_t event) {
 		lv_imgbtn_set_src(power_page.pwr_off, LV_BTN_STATE_PR, &SP_OFF);
 		lv_imgbtn_set_src(power_page.pwr_off, LV_BTN_STATE_REL, &SP_OFF);
 		MKS_GRBL_CMD_SEND("M3 S50\n");
-		MKS_GRBL_CMD_SEND("$J=G91X0.01F1000\n");
+		// MKS_GRBL_CMD_SEND("$J=G91X0.01F1000\n");
+		MKS_GRBL_CMD_SEND("G1 F1000\n");
 	}
 }
 
@@ -95,7 +97,8 @@ static void event_handler_pwr_h(lv_obj_t* obj, lv_event_t event) {
 		lv_imgbtn_set_src(power_page.pwr_off, LV_BTN_STATE_PR, &SP_OFF);
 		lv_imgbtn_set_src(power_page.pwr_off, LV_BTN_STATE_REL, &SP_OFF);
 		MKS_GRBL_CMD_SEND("M3 S500\n");
-		MKS_GRBL_CMD_SEND("$J=G91X0.01F1000\n");
+		// MKS_GRBL_CMD_SEND("$J=G91X0.01F1000\n");
+		MKS_GRBL_CMD_SEND("G1 F1000\n");
 	}
 }
 
@@ -115,7 +118,6 @@ static void event_handler_Back(lv_obj_t* obj, lv_event_t event) {
 		mks_draw_ready();
 	}
 }
-
 
 void mks_draw_power(void) {
 
@@ -199,7 +201,7 @@ void draw_pwr_popup_1(const char *text) {
 	lv_style_copy(&power_page.p_popup_color, &lv_style_scr);
 	power_page.p_popup_color.body.main_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
     power_page.p_popup_color.body.grad_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
-    power_page.p_popup_color.text.color = LV_COLOR_BLACK;
+    power_page.p_popup_color.text.color = LV_COLOR_WHITE;
     power_page.p_popup_color.body.radius = 17;
 	lv_obj_set_style(power_page.p_popup, &power_page.p_popup_color);
 
@@ -215,13 +217,13 @@ void draw_pwr_popup_1(const char *text) {
 										move_popup_btn_size_x, 
 										move_popup_btn_size_y, 
 										move_popup_btn_x,
-										 move_popup_btn_y, 
-										 event_handler_popup_sure_1);
+										move_popup_btn_y, 
+										event_handler_popup_sure_1);
 	lv_btn_set_style(power_page.btn_sure, LV_BTN_STYLE_REL, &power_page.p_popup_btn_color);
 	lv_btn_set_style(power_page.btn_sure,LV_BTN_STYLE_PR, &power_page.p_popup_btn_color);
 
-	power_page.label_sure = mks_lvgl_long_sroll_label_with_wight_set_center(power_page.p_popup, power_page.label_sure, 100, 50, text, 200);
-	power_page.label_popup = mks_lvgl_long_sroll_label_with_wight_set_center(power_page.p_popup, power_page.label_popup, 50, 0, "YES",50);
+	power_page.label_sure = mks_lvgl_long_sroll_label_with_wight_set_center(power_page.p_popup, power_page.label_sure, 90, 50, text, 200);
+	power_page.label_popup = mks_lvgl_long_sroll_label_with_wight_set_center(power_page.btn_sure, power_page.label_popup, 50, 0, "YES",50);
 }
 
 

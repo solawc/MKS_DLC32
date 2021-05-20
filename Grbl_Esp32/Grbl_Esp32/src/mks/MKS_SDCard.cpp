@@ -3,7 +3,6 @@
 SdCard tf;
 void SdCard::init()
 {
-
 	SPIClass* sd_spi = new SPIClass(HSPI); // another SPI
 	if (!SD.begin(GPIO_NUM_15, *sd_spi)) // SD-Card SS pin is 15
 	{

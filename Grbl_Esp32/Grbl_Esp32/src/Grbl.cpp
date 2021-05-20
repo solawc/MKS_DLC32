@@ -45,12 +45,12 @@ void grbl_init() {
     display_init();
     // grbl_msg_sendf(CLIENT_SERIAL, MsgLevel::Info, "Grbl_ESP32 Ver %s Date %s", GRBL_VERSION, GRBL_VERSION_BUILD);  // print grbl_esp32 verion info
     // grbl_msg_sendf(CLIENT_SERIAL, MsgLevel::Info, "Compiled with ESP32 SDK:%s", ESP.getSdkVersion());              // print the SDK version
-    grbl_msg_sendf(CLIENT_SERIAL, MsgLevel::Info, "MKS DLC32 Version:s, Buile %s", GRBL_VERSION, GRBL_VERSION_BUILD);  // print grbl_esp32 verion info
+    // grbl_msg_sendf(CLIENT_SERIAL, MsgLevel::Info, "MKS DLC32 Version:s, Buile %s", GRBL_VERSION, GRBL_VERSION_BUILD);  // print grbl_esp32 verion info
     // grbl_msg_sendf(CLIENT_SERIAL, MsgLevel::Info, "Compiled with ESP32 SDK:%s", ESP.getSdkVersion());              // print the SDK version
 
 // show the map name at startup
 #ifdef MACHINE_NAME
-    report_machine_type(CLIENT_SERIAL);
+    // report_machine_type(CLIENT_SERIAL);
 #endif
     settings_init();  // Load Grbl settings from non-volatile storage
     stepper_init();   // Configure stepper pins and interrupt timers

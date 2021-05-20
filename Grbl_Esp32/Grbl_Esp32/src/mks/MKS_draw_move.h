@@ -71,11 +71,14 @@ typedef enum {
 
 typedef struct{
 
-    MKS_HOMING_T hard_homing_status;    // 硬限位回零配置
-    MKS_HOMING_T soft_homing_status;    // 软限位回零配置
+    MKS_HOMING_T hard_homing_status;        // 硬限位回零配置
+    MKS_HOMING_T soft_homing_status;        // 软限位回零配置
+    uint8_t      limit_dis_delay_count=0;     // 类似于消抖
     
 }MKS_MOVE_CTRL_T;
 
+extern MKS_MOVE_PAGE move_page;
+extern MKS_MOVE_CTRL_T ui_move_ctrl;
 
 
 void mks_draw_move(void);

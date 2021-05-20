@@ -94,9 +94,9 @@ void my_print(lv_log_level_t level, const char * file, uint32_t line, const char
 #endif
 
 void mks_grbl_parg_init(void) {
-    mks_grbl.language = SimpleChinese;
+    mks_grbl.language = English;
     mks_grbl.light_status = GRBL_Light_Off;
-    mks_grbl.move_dis = M_0_1_MM;
+    mks_grbl.move_dis = M_10_MM;
     // mks_grbl.run_status = GRBL_STOP;
     mks_grbl.bl_status = BL_NONE;               
     mks_grbl.is_mks_ts35_flag = false;

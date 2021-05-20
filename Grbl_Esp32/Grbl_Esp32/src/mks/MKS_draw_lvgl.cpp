@@ -306,14 +306,19 @@ static void event_handler_globel_popup_sure(lv_obj_t* obj, lv_event_t event) {
 
     if (event == LV_EVENT_RELEASED) { 
         lv_obj_del(global_popup);
+        mks_grbl.popup_1_flag = false;
     }
 }
 
 void draw_global_popup(const char *text) {
 
-    if(global_popup != NULL) {
-        lv_obj_del(global_popup);
-    }
+    // if(global_popup != NULL) {
+    //     lv_obj_del(global_popup);
+    // }
+
+    if(mks_grbl.popup_1_flag == true) return;
+
+    mks_grbl.popup_1_flag = true;
 
 	global_popup = lv_obj_create(mks_src, NULL);
 	lv_obj_set_size(global_popup, move_popup_size_x, move_popup_size_y);

@@ -119,7 +119,7 @@ void mks_listDir(fs::FS& fs, const char* dirname, uint8_t levels) {
                 if(mks_file_list.file_count >= (mks_file_list.file_page * MKS_FILE_NUM)) return;
             }
         }
-       file =  root.openNextFile();
+        file =  root.openNextFile();
     }
 }
 

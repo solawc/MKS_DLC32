@@ -19,6 +19,9 @@ static lv_style_t caving_src1_style;
 /* BTN */
 static lv_obj_t* btn_popup_cancle;
 static lv_obj_t* btn_popup_sure;
+static lv_obj_t* btn_popup_frame;
+
+bool file_popup_select_flag = false;
 
 
 /* imgbtn */
@@ -140,7 +143,11 @@ static void event_handler_file0(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
 		// grbl_send(CLIENT_SERIAL, "file0\n");
 		mks_file_list.file_choose = 0;
-		mks_draw_caving_popup(mks_file_list.file_begin_num, mks_file_list.filename_str[0]);
+		// mks_draw_caving_popup(mks_file_list.file_begin_num, mks_file_list.filename_str[0]);
+
+		mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
+		lv_obj_clean(mks_src);
+		mks_draw_inFile(mks_file_list.filename_str[0]);
 	}
 }
 
@@ -530,19 +537,59 @@ void mks_del_file_obj(void) {
 	}
 }
 
+void disable_file_click() {
+
+	if(mks_file_list.file_begin_num == 1) {
+		lv_obj_set_click(move_page.Back, true);
+	}
+	else if(mks_file_list.file_begin_num == 2) {
+
+	}
+}
+
+void enable_file_click() {
+
+
+}
+
 static void event_btn_cancle(lv_obj_t* obj, lv_event_t event) {
 
     if (event == LV_EVENT_RELEASED) {
+		file_popup_select_flag = false;
         lv_obj_del(caving_Popup);
 	}
+}
+
+void start_print(void) { 
+
+	char str_cmd[255] = "[ESP220]";
+
+	file_popup_select_flag = false;
+
+	// mks_grbl.run_status = GRBL_RUN;
+	mks_grbl.is_mks_ts35_flag = true;
+
+	mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING; 
+	mks_ui_page.wait_count = DEFAULT_UI_COUNT;
+ 
+	ddxd = sd_get_current_line_number();
+	tf.writeFile("/PLA.txt", ddxd.c_str());
+
+	strcat(str_cmd,file_print_send);
+	strcat(str_cmd,"\n");
+	MKS_GRBL_CMD_SEND(str_cmd);
+	mks_draw_print();
 }
 
 static void event_btn_sure(lv_obj_t* obj, lv_event_t event) {
 	char str_cmd[255] = "[ESP220]";
     if (event == LV_EVENT_RELEASED) {
 
+		file_popup_select_flag = false;
+
 		if(sys.state != State::Idle) {
 			lv_obj_del(caving_Popup);
+			return ;
 		}
 		// mks_grbl.run_status = GRBL_RUN;
 		mks_grbl.is_mks_ts35_flag = true;
@@ -569,7 +616,22 @@ static void event_btn_sure_alarm(lv_obj_t* obj, lv_event_t event) {
 	}
 }
 
+static void event_btn_frame(lv_obj_t* obj, lv_event_t event) {
+
+	if (event == LV_EVENT_RELEASED) {
+		lv_obj_del(caving_Popup);
+		mks_draw_frame();
+		lv_refr_now(lv_refr_get_disp_refreshing());
+		mks_run_frame(frame_ctrl.file_name);
+	}
+}
+
 void mks_draw_caving_popup(uint8_t text, char *srt) {
+
+	if(file_popup_select_flag == true) return;
+
+	file_popup_select_flag = true;
+
 	caving_Popup = lv_obj_create(mks_src, NULL);
 	lv_obj_set_size(caving_Popup ,350, 200);
 	lv_obj_set_pos(caving_Popup, 80,50);
@@ -593,6 +655,12 @@ void mks_draw_caving_popup(uint8_t text, char *srt) {
     lv_btn_set_style(btn_popup_sure,LV_BTN_STYLE_PR,&btn_style);
 	mks_lvgl_long_sroll_label_with_wight_set_center(btn_popup_sure, Label_popup_sure, 50, 0, "Yes",50);
 
+
+	btn_popup_frame = mks_lv_btn_set(caving_Popup, btn_popup_frame, 100,40,130,130,event_btn_frame);
+	lv_btn_set_style(btn_popup_frame, LV_BTN_STYLE_REL, &btn_style);
+    lv_btn_set_style(btn_popup_frame,LV_BTN_STYLE_PR,&btn_style);
+	mks_lvgl_long_sroll_label_with_wight_set_center(btn_popup_frame, Label_popup_sure, 60, 0, "Frame",50);
+	
 	btn_popup_cancle = mks_lv_btn_set(caving_Popup, btn_popup_cancle, 100,40,240,130,event_btn_cancle);
 	lv_btn_set_style(btn_popup_cancle, LV_BTN_STYLE_REL, &btn_style);
     lv_btn_set_style(btn_popup_cancle,LV_BTN_STYLE_PR,&btn_style);
@@ -600,7 +668,11 @@ void mks_draw_caving_popup(uint8_t text, char *srt) {
 
 	// memcpy(file_print_send, srt, MKS_FILE_NAME_LENGTH);
 	memset(file_print_send, 0, sizeof(file_print_send));
+	memset(frame_ctrl.file_name, 0, sizeof(frame_ctrl.file_name));
+	
 	strcpy(file_print_send, srt);
+	strcpy(frame_ctrl.file_name, srt);
+
 	mks_lvgl_long_sroll_label_with_wight_set(caving_Popup, Label_popup_file_name, 100, 40, file_print_send, 255);
 	mks_lvgl_long_sroll_label_with_wight_set(caving_Popup, Label_popup, 100, 60, "Is Caving this File?",255);
 }

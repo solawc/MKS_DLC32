@@ -30,6 +30,7 @@
 // #define USE_BL_TOUCH
 // #define USE_WIFI
 
+#define ENABLE_SOFTWARE_DEBOUNCE
 
 #ifdef ENABLE_SD_CARD
     #undef ENABLE_SD_CARD
@@ -109,7 +110,7 @@
 #define DEFAULT_STEPPER_IDLE_LOCK_TIME      5
 
 #define DEFAULT_STEPPING_INVERT_MASK    	0 // uint8_t
-#define DEFAULT_DIRECTION_INVERT_MASK   	0 // uint8_t
+#define DEFAULT_DIRECTION_INVERT_MASK   	2 // uint8_t
 #define DEFAULT_INVERT_ST_ENABLE        	0 // boolean
 #define DEFAULT_INVERT_LIMIT_PINS       	1 // boolean
 #define DEFAULT_INVERT_PROBE_PIN        	0 // boolean
@@ -120,13 +121,13 @@
 #define DEFAULT_ARC_TOLERANCE       		0.002 // mm
 #define DEFAULT_REPORT_INCHES       		0   // false
 
-#define DEFAULT_SOFT_LIMIT_ENABLE 			0   // false
+#define DEFAULT_SOFT_LIMIT_ENABLE 			1   // false
 #define DEFAULT_HARD_LIMIT_ENABLE 			1   // false
 
-#define DEFAULT_HOMING_ENABLE           	0  // false
-#define DEFAULT_HOMING_DIR_MASK         	3 // move positive dir Z,negative X,Y
-#define DEFAULT_HOMING_FEED_RATE        	100.0 // mm/min
-#define DEFAULT_HOMING_SEEK_RATE        	800.0 // mm/min
+#define DEFAULT_HOMING_ENABLE           	1  // false
+#define DEFAULT_HOMING_DIR_MASK         	1 // move positive dir Z,negative X,Y
+#define DEFAULT_HOMING_FEED_RATE        	300.0 // mm/min
+#define DEFAULT_HOMING_SEEK_RATE        	1000.0 // mm/min
 #define DEFAULT_HOMING_DEBOUNCE_DELAY   	250 // msec (0-65k)
 #define DEFAULT_HOMING_PULLOFF          	1.0 // mm
 
@@ -155,8 +156,8 @@
 #define DEFAULT_Y_ACCELERATION 500.0 // mm/sec^2
 #define DEFAULT_Z_ACCELERATION 500.0 // mm/sec^2
 
-#define DEFAULT_X_MAX_TRAVEL 240.0 // mm NOTE: Must be a positive value.
-#define DEFAULT_Y_MAX_TRAVEL 240.0 // mm NOTE: Must be a positive value.
+#define DEFAULT_X_MAX_TRAVEL 300.0 // mm NOTE: Must be a positive value.
+#define DEFAULT_Y_MAX_TRAVEL 300.0 // mm NOTE: Must be a positive value.
 #define DEFAULT_Z_MAX_TRAVEL 80.0 // mm NOTE: Must be a positive value.
 
 // #define DEFAULT_X_MAX_TRAVEL 390 // mm NOTE: Must be a positive value.

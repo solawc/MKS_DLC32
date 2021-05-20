@@ -42,6 +42,7 @@ static void event_handler_Sculpture(lv_obj_t* obj, lv_event_t event) {
         lv_clean_curren_screen();
         mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
         mks_ui_page.wait_count = DEFAULT_UI_COUNT;
+        file_popup_select_flag = false;
         mks_draw_craving();
 	}
 }
