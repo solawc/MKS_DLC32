@@ -64,6 +64,6 @@ void mks_del_file_obj_1(uint8_t num);
 
 void mks_draw_caving_popup(uint8_t text, char *srt);
 void mks_draw_file_loadig(void);
-
+void get_print_file_name(char *srt);
 void start_print(void);
 #endif

@@ -23,6 +23,7 @@
 */
 
 #include "Grbl.h"
+#include "mks/MKS_draw_lvgl.h"
 
 // M_PI is not defined in standard C/C++ but some compilers
 // support it anyway.  The following suppresses Intellisense
@@ -49,7 +50,11 @@ bool mc_line(float* target, plan_line_data_t* pl_data) {
     // from everywhere in Grbl.
     if (soft_limits->get()) {
         // NOTE: Block jog state. Jogging is a special case and soft limits are handled independently.
-        if (sys.state != State::Jog) {
+        // if (sys.state != State::Jog) {
+        //     limits_soft_check(target);
+        // }  // mks_fix
+
+        if((sys.state != State::Jog) && (mks_ui_page.mks_ui_page != MKS_UI_Pring)) {
             limits_soft_check(target);
         }
     }

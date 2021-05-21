@@ -21,11 +21,7 @@ void lvgl_disp_task(void *parg) {
 
         lv_task_handler();
 
-        // if(count == 40) {    // (5*50)ms 执行一次更新
         mks_page_data_updata();
-        //     count = 0;
-        // }
-        // count++;
 
         vTaskDelay(5); // 5ms
     }
@@ -48,7 +44,16 @@ static void mks_page_data_updata(void) {
     else if(mks_ui_page.mks_ui_page == MKS_UI_Pring) { // 雕刻界面更新数据
 
         if((count_updata == 200) || (count_updata > 200) ) { // 200*5=1000ms = 1s
-            if(SD_ready_next == false)  mks_print_data_updata();
+            if(SD_ready_next == false) {
+                mks_print_data_updata();
+                // if(sys.state == State::Idle) {
+                //     MKS_GRBL_CMD_SEND("M3 S0\n");
+                //     MKS_GRBL_CMD_SEND("~");
+                //     mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
+                //     mks_clear_print();
+                //     mks_draw_ready();
+                // }
+            } 
             count_updata = 0;
         }
     }

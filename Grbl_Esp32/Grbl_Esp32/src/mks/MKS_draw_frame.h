@@ -10,6 +10,15 @@ typedef enum {
     FRAME_SRC_SIZE_X = 480-1,
     FRAME_SRC_SIZE_Y = 320-1,
 
+    FRAME_IMGBTN_X = 10,
+    FRAME_IMGBTN_Y = 10,
+
+    FRAME_LABEL_FILE_NAME_X = 150,
+    FRAME_LABEL_FILE_NAME_Y = 80,
+
+    FRAME_LABEL_RUN_STATUS_X = 160,
+    FRAME_LABEL_RUN_STATUS_Y = 100,
+
 }FRAM_XY_POS;
 
 
@@ -26,6 +35,7 @@ typedef struct {
 typedef enum {
     FRAME_NONE,
     FRAWM_READ_SD,
+    FRAWM_READ_SD_BUSY,
     FRAM_RUN,
     FRAM_END,
 }FRAME_STATUS;
@@ -48,6 +58,7 @@ typedef struct {
     char file_name[128];
     char x_value[10];
     char y_value[10];
+    uint8_t cancle_enable;
 }FRAME_CRTL_T;
 extern FRAME_CRTL_T frame_ctrl;
 

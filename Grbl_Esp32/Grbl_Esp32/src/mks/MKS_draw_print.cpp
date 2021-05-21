@@ -104,6 +104,9 @@ void mks_draw_print(void) {
     char y_pos_str[30];
     char cave_s_str[50];
     char move_s_str[50];
+    char print_file_name[128];
+    memcpy(print_file_name, file_print_send, sizeof(file_print_send));
+    if(print_file_name[0] == '/') print_file_name[0] = ' ';
 
     mks_pwr_ctrl.pwr_len = PWR_1_PERSEN;
     mks_speed_ctrl.speed_len = SPEED_1_PERSEN;
@@ -194,7 +197,9 @@ void mks_draw_print(void) {
 
     print_src.print_Label_power = mks_lvgl_long_sroll_label_with_wight_set_center(print_src.print_scr2, print_src.print_Label_power, print_first_data_label_x + 100, print_first_data_label_y, "0", 50);
     print_src.print_Label_caveSpeed = mks_lvgl_long_sroll_label_with_wight_set_center(print_src.print_scr2, print_src.print_Label_caveSpeed, print_first_data_label_x + 100, print_first_data_label_y+30, "0", 50);
-    Label_print_file_name = mks_lvgl_long_sroll_label_with_wight_set_center(print_src.print_bar_print, Label_print_file_name, 10, 15, file_print_send, 400);
+    
+
+    Label_print_file_name = mks_lvgl_long_sroll_label_with_wight_set_center(print_src.print_bar_print, Label_print_file_name, 10, 15, print_file_name, 400);
     print_src.print_bar_print_percen = mks_lvgl_long_sroll_label_with_wight_set_center(print_src.print_bar_print, print_src.print_bar_print_percen, 400, 15, "0%", 32);
 
     lv_refr_now(lv_refr_get_disp_refreshing());
@@ -287,7 +292,7 @@ void mks_draw_finsh_pupop(void) {
     print_src.print_popup_btn_style.body.main_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
     print_src.print_popup_btn_style.body.grad_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
     print_src.print_popup_btn_style.body.opa = LV_OPA_COVER;//设置背景色完全不透明
-    print_src.print_popup_btn_style.text.color = LV_COLOR_BLACK;
+    print_src.print_popup_btn_style.text.color = LV_COLOR_WHITE;
     print_src.print_popup_btn_style.body.radius = 10; 
 
     btn_finsh_popup_sure = lv_btn_create(print_src.print_finsh_popup, NULL);
@@ -297,7 +302,7 @@ void mks_draw_finsh_pupop(void) {
     lv_btn_set_style(btn_finsh_popup_sure, LV_BTN_STYLE_REL, &print_src.print_popup_btn_style);
     lv_btn_set_style(btn_finsh_popup_sure,LV_BTN_STYLE_PR,&print_src.print_popup_btn_style);
 
-    mks_lvgl_label_set(btn_finsh_popup_sure, print_src.print_Label_popup_sure, 80, 10, "Yes");
+    mks_lvgl_long_sroll_label_with_wight_set_center(btn_finsh_popup_sure, print_src.print_Label_popup_sure, 50, 0, "Yes", 50);
 
     mks_lvgl_long_sroll_label_with_wight_set(print_src.print_finsh_popup, print_src.print_Label_popup, 100, 80, "File is print done!", 150);
 }

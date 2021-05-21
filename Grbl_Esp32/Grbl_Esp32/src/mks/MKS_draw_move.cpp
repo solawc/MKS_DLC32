@@ -18,15 +18,15 @@ static void event_handler_x_n(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
 
 		if(mks_grbl.move_dis == M_0_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91X0.1F200\n");
+			MKS_GRBL_CMD_SEND("$J=G91X0.1F1000\n");
 		
 		}
 		else if (mks_grbl.move_dis == M_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91X1.0F200\n");
+			MKS_GRBL_CMD_SEND("$J=G91X1.0F1000\n");
 		
 		}
 		else if (mks_grbl.move_dis == M_10_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91X10.0F200\n");
+			MKS_GRBL_CMD_SEND("$J=G91X10.0F1000\n");
 		}
 	}
 }
@@ -36,13 +36,13 @@ static void event_handler_x_p(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
 
 		if(mks_grbl.move_dis == M_0_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91X-0.1F200\n");
+			MKS_GRBL_CMD_SEND("$J=G91X-0.1F1000\n");
 		}
 		else if (mks_grbl.move_dis == M_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91X-1.0F200\n");
+			MKS_GRBL_CMD_SEND("$J=G91X-1.0F1000\n");
 		}
 		else if (mks_grbl.move_dis == M_10_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91X-10.0F200\n");
+			MKS_GRBL_CMD_SEND("$J=G91X-10.0F1000\n");
 		}
 	}
 }
@@ -52,13 +52,13 @@ static void event_handler_y_n(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
 
 		if(mks_grbl.move_dis == M_0_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Y0.1F200\n");
+			MKS_GRBL_CMD_SEND("$J=G91Y0.1F1000\n");
 		}
 		else if (mks_grbl.move_dis == M_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Y1.0F200\n");
+			MKS_GRBL_CMD_SEND("$J=G91Y1.0F1000\n");
 		}
 		else if (mks_grbl.move_dis == M_10_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Y10.0F200\n");
+			MKS_GRBL_CMD_SEND("$J=G91Y10.0F1000\n");
 		}
 	}
 }
@@ -68,13 +68,13 @@ static void event_handler_y_p(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
 
 		if(mks_grbl.move_dis == M_0_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Y-0.1F200\n");
+			MKS_GRBL_CMD_SEND("$J=G91Y-0.1F1000\n");
 		}
 		else if (mks_grbl.move_dis == M_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Y-1.0F200\n");
+			MKS_GRBL_CMD_SEND("$J=G91Y-1.0F1000\n");
 		}
 		else if (mks_grbl.move_dis == M_10_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Y-10.0F200\n");
+			MKS_GRBL_CMD_SEND("$J=G91Y-10.0F1000\n");
 		}
 	}
 }
