@@ -174,7 +174,6 @@ void polocte_cmd(char *str) {
         }
         str++;
     }
-    
 }
 
 void mks_frame_init(void) { 
@@ -223,18 +222,50 @@ void mks_run_frame(char *parameter) {
     frame_ctrl.frame_starus = FRAM_RUN;
     frame_status_dis(frame_ctrl.frame_starus);
 
-    sprintf(frame_cmd, "G90X%fY%fF400\n", frame_ctrl.x_min, frame_ctrl.y_min);  // point 1
+    // MKS_GRBL_CMD_SEND("M3 S5\n");
+    // sprintf(frame_cmd, "$J=G90X%fY%fF1600\n", frame_ctrl.x_min, frame_ctrl.y_min);  // point 1
+    // MKS_GRBL_CMD_SEND(frame_cmd);
+
+    // sprintf(frame_cmd, "$J=G90X%fY%fF1600\n", frame_ctrl.x_min, frame_ctrl.y_max);  // point 2
+    // MKS_GRBL_CMD_SEND(frame_cmd);
+
+    // sprintf(frame_cmd, "$J=G90X%fY%fF1600\n", frame_ctrl.x_max, frame_ctrl.y_max); // point 3
+    // MKS_GRBL_CMD_SEND(frame_cmd);
+
+    // sprintf(frame_cmd, "$J=G90X%fY%fF1600\n", frame_ctrl.x_max, frame_ctrl.y_min);// point 4 
+    // MKS_GRBL_CMD_SEND(frame_cmd);
+
+    // MKS_GRBL_CMD_SEND("$J=G90X0Y0F1600\n");
+    // MKS_GRBL_CMD_SEND("M5\n");
+
+    // G0 X[left] Y[bottom]
+    // M3 S[$30*3/100] F1000
+    // G1 Y[top] 
+    // G1 X[right]
+    // G1 Y[bottom] 
+    // G1 X[left]
+    // M5
+
+    sprintf(frame_cmd, "G0 X%f Y%f F300\n",frame_ctrl.x_min, frame_ctrl.y_min);  // point 1
     MKS_GRBL_CMD_SEND(frame_cmd);
 
-    sprintf(frame_cmd, "G90X%fY%fF400\n", frame_ctrl.x_min, frame_ctrl.y_max);  // point 2
+    MKS_GRBL_CMD_SEND("M3 S5\n");
+
+    sprintf(frame_cmd, "G1 Y%f F500\n",frame_ctrl.y_max);  // point 1
     MKS_GRBL_CMD_SEND(frame_cmd);
 
-    sprintf(frame_cmd, "G90X%fY%fF400\n", frame_ctrl.x_max, frame_ctrl.y_max); // point 3
+    sprintf(frame_cmd, "G1 X%f F500\n", frame_ctrl.x_max);  // point 2
     MKS_GRBL_CMD_SEND(frame_cmd);
 
-    sprintf(frame_cmd, "G90X%fY%fF400\n", frame_ctrl.x_max, frame_ctrl.y_min);// point 4 
-
+    sprintf(frame_cmd, "G1 Y%f F500\n", frame_ctrl.y_min); // point 3
     MKS_GRBL_CMD_SEND(frame_cmd);
+
+    sprintf(frame_cmd, "G1 Y%f F500\n", frame_ctrl.x_min);// point 4 
+    MKS_GRBL_CMD_SEND(frame_cmd);
+
+    MKS_GRBL_CMD_SEND("M5\n");
+    MKS_GRBL_CMD_SEND("G0 X0 Y0 F300\n");
+    
     frame_ctrl.frame_starus = FRAM_END;
     frame_status_dis(frame_ctrl.frame_starus);
 

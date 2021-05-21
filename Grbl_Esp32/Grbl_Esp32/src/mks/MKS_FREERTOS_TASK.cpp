@@ -46,13 +46,13 @@ static void mks_page_data_updata(void) {
         if((count_updata == 200) || (count_updata > 200) ) { // 200*5=1000ms = 1s
             if(SD_ready_next == false) {
                 mks_print_data_updata();
-                // if(sys.state == State::Idle) {
-                //     MKS_GRBL_CMD_SEND("M3 S0\n");
-                //     MKS_GRBL_CMD_SEND("~");
-                //     mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
-                //     mks_clear_print();
-                //     mks_draw_ready();
-                // }
+                if(sys.state == State::Idle) {
+                    // MKS_GRBL_CMD_SEND("M3 S0\n");
+                    MKS_GRBL_CMD_SEND("~");
+                    // mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
+                    // mks_clear_print();
+                    // mks_draw_ready();
+                }
             } 
             count_updata = 0;
         }
