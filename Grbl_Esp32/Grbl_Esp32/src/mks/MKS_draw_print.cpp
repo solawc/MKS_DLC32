@@ -340,18 +340,21 @@ static void event_pwr_setting_add(lv_obj_t* obj, lv_event_t event) {
 }
 
 static void event_pwr_setting_dec(lv_obj_t* obj, lv_event_t event) {
+
+    uint16_t temp;
+
     if (event == LV_EVENT_RELEASED) {
-        
+
         if(mks_pwr_ctrl.pwr_len == PWR_1_PERSEN) {
-            sys_rt_s_override -= SpindleSpeedOverride::FineIncrement;
-        if (sys_rt_s_override < SpindleSpeedOverride::Min) {
-            sys_rt_s_override = SpindleSpeedOverride::Min;
-        }
+            // sys_rt_s_override -= SpindleSpeedOverride::FineIncrement;
+            // if (sys_rt_s_override < SpindleSpeedOverride::Min) {
+            //     sys_rt_s_override = SpindleSpeedOverride::Min;
+            // }
         }else if(mks_pwr_ctrl.pwr_len == PWR_10_PERSEN) {
-            sys_rt_s_override -= SpindleSpeedOverride::CoarseIncrement;
-            if (sys_rt_s_override < SpindleSpeedOverride::Min) {
-                sys_rt_s_override = SpindleSpeedOverride::Min;
-            }
+            // sys_rt_s_override -= SpindleSpeedOverride::CoarseIncrement;
+            // if (sys_rt_s_override < SpindleSpeedOverride::Min) {
+            //     sys_rt_s_override = SpindleSpeedOverride::Min;
+            // }
         }
         sprintf(power_add_dec_buf, "Power:%d%%", sys_rt_s_override);
         lv_label_set_static_text(pwr_label_power, power_add_dec_buf);

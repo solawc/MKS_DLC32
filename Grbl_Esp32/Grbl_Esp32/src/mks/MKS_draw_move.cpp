@@ -118,8 +118,14 @@ static void event_handler_home(lv_obj_t* obj, lv_event_t event) {
 static void event_handler_pos(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-    	MKS_GRBL_CMD_SEND("G92X0Y0Z0\n");
-		draw_pos_popup("Positioning success");
+ 
+		if(sys.state != State::Jog) {
+			MKS_GRBL_CMD_SEND("G92X0Y0Z0\n");
+			draw_pos_popup("Positioning success");
+		}else {
+			draw_pos_popup("Please wait machina stop!");
+		}
+    	
 	}
 }
 
