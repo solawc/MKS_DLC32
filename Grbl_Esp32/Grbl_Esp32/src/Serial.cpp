@@ -100,7 +100,7 @@ void heapCheckTask(void* pvParameters) {
 void client_init() {
 #ifdef DEBUG_REPORT_HEAP_SIZE
     // For a 2000-word stack, uxTaskGetStackHighWaterMark reports 288 words available
-    xTaskCreatePinnedToCore(heapCheckTask, "heapTask", 2000, NULL, 1, NULL, 1);
+    xTaskCreatePinnedToCore(heapCheckTask, "ADC_WIDTH_10BiteapTask", 2000, NULL, 1, NULL, 1);
 #endif
 
 #ifdef REVERT_TO_ARDUINO_SERIAL

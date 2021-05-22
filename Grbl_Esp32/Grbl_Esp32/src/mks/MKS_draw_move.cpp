@@ -126,10 +126,15 @@ static void event_handler_pos(lv_obj_t* obj, lv_event_t event) {
 static void event_handler_hhome(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-    	// MKS_GRBL_CMD_SEND("$X\n");
-		MKS_GRBL_CMD_SEND("$H\n");
-		ui_move_ctrl.hard_homing_status = HOMING_START;
-		draw_pos_popup_2("Hard Homing...");
+
+		if(hard_limits->get()) {
+			MKS_GRBL_CMD_SEND("$H\n");
+			ui_move_ctrl.hard_homing_status = HOMING_START;
+			draw_pos_popup_2("Hard Homing...");
+		}
+		else {
+			draw_pos_popup_2("No Enable Hard Homing...");
+		}
 	}
 }
 
@@ -368,8 +373,8 @@ void draw_pos_popup_1(const char *text) {
 	move_popup_label_sure = mks_lvgl_long_sroll_label_with_wight_set_center(move_popup_btn_sure, move_popup_label_sure, 50, 0, "YES",50);
 }
 
-void draw_pos_popup_2(const char *text) {
 
+void draw_pos_popup_2(const char *text) {
 	lv_obj_set_click(move_page.Back, false);
 	lv_obj_set_click(move_page.m_unlock, false);
 	lv_obj_set_click(move_page.home, false);

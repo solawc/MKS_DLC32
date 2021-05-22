@@ -16,8 +16,8 @@ typedef enum {
     FRAME_LABEL_FILE_NAME_X = 150,
     FRAME_LABEL_FILE_NAME_Y = 80,
 
-    FRAME_LABEL_RUN_STATUS_X = 160,
-    FRAME_LABEL_RUN_STATUS_Y = 100,
+    FRAME_LABEL_RUN_STATUS_X = 180,
+    FRAME_LABEL_RUN_STATUS_Y = 150,
 
 }FRAM_XY_POS;
 
@@ -65,4 +65,5 @@ extern FRAME_CRTL_T frame_ctrl;
 
 void mks_draw_frame(void);
 void mks_run_frame(char *parameter);
+void mks_frame_init(void);
 #endif

@@ -107,6 +107,8 @@ bool can_park() {
   GRBL PRIMARY LOOP:
 */
 void protocol_main_loop() {
+
+    static bool first_restart = true;
     client_reset_read_buffer(CLIENT_ALL);
     empty_lines();
     //uint8_t client = CLIENT_SERIAL; // default client
@@ -140,6 +142,12 @@ void protocol_main_loop() {
     // This is also where Grbl idles while waiting for something to do.
     // ---------------------------------------------------------------------------------
     MKS_GRBL_CMD_SEND("$x\n");   // 主动解锁
+    uint16_t re_cmd[] = {0x18};
+    if(first_restart == true) {
+      MKS_GRBL_CMD_SEND(re_cmd);  
+      first_restart = false; 
+    }
+    
     int c;
     for (;;) {
 #ifdef ENABLE_SD_CARD

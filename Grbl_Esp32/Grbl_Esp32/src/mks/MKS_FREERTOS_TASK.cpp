@@ -10,19 +10,14 @@ static void mks_page_data_updata(void);
 
 void lvgl_disp_task(void *parg) { 
     mks_lvgl_init();
-    // lv_draw_ready();
     mks_draw_ready();
-    // disp_task_data_updata();
-    // uint8_t count = 0;
     mks_grbl.wifi_connect_enable = true;
     // LCD_BLK_ON;
     LCD_BLK_OFF;
     while(1) {
 
         lv_task_handler();
-
         mks_page_data_updata();
-
         vTaskDelay(5); // 5ms
     }
 }

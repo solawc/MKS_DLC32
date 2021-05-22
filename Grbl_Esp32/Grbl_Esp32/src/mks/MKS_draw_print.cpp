@@ -265,12 +265,12 @@ void mks_draw_print_popup(const char* text) {
     btn_popup_sure = mks_lv_btn_set(print_src.print_stop_popup, btn_popup_sure, 100,40,10,130,event_btn_sure);
 	lv_btn_set_style(btn_popup_sure, LV_BTN_STYLE_REL, &print_src.print_popup_btn_style);
     lv_btn_set_style(btn_popup_sure,LV_BTN_STYLE_PR,&print_src.print_popup_btn_style);
-	mks_lvgl_long_sroll_label_with_wight_set(btn_popup_sure, print_src.print_Label_popup_sure, 30, 0, "Yes",48);
+	mks_lvgl_long_sroll_label_with_wight_set(btn_popup_sure, print_src.print_Label_popup_sure, 30, 0, "Yes",50);
 
 	btn_popup_cancle = mks_lv_btn_set(print_src.print_stop_popup, btn_popup_cancle, 100,40,240,130,event_btn_cancle);
 	lv_btn_set_style(btn_popup_cancle, LV_BTN_STYLE_REL, &print_src.print_popup_btn_style);
     lv_btn_set_style(btn_popup_cancle,LV_BTN_STYLE_PR,&print_src.print_popup_btn_style);
-	mks_lvgl_long_sroll_label_with_wight_set(btn_popup_cancle, print_src.print_Label_popup_sure, 20, 0, "Cancle", 96);
+	mks_lvgl_long_sroll_label_with_wight_set_center(btn_popup_cancle, print_src.print_Label_popup_sure, 50, 0, "Cancle", 50);
 
     mks_lvgl_long_sroll_label_with_wight_set(print_src.print_stop_popup, print_src.print_Label_popup, 80, 60, text, 200);
 }

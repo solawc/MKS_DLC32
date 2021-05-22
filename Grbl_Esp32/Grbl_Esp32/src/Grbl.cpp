@@ -138,7 +138,6 @@ static void reset_variables() {
         BLTOUCH_push_down();
 #endif
     }
-
     mks_motor_unclock();
     spindle_check_init();
 }
