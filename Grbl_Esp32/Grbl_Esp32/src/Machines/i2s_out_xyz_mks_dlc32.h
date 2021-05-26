@@ -28,7 +28,7 @@
 #define N_AXIS 3
 
 // #define USE_BL_TOUCH
-// #define USE_WIFI
+#define USE_WIFI
 
 #define ENABLE_SOFTWARE_DEBOUNCE
 

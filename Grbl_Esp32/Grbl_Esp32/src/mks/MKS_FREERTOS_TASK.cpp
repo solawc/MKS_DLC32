@@ -81,6 +81,26 @@ static void mks_page_data_updata(void) {
             }
         }
     }
+    else if(mks_ui_page.mks_ui_page == MKS_UI_Wifi) {
+        if((mks_wifi.wifi_scanf_status == wifi_scanf_begin) || (mks_wifi.wifi_scanf_status == wifi_scanf_waitting)) {
+            mks_wifi_scanf();
+        }else if(mks_wifi.wifi_scanf_status == wifi_scanf_succeed){
+            mks_lv_clean_ui();
+            mks_draw_wifi_show();
+            mks_wifi.wifi_scanf_status = wifi_none;
+        }else if(mks_wifi.wifi_scanf_status == wifi_connecting) {
+            if(mks_grbl.wifi_connect_status == true) {
+                mks_lv_clean_ui();
+                mks_draw_wifi();
+                mks_wifi.wifi_scanf_status = wifi_none;
+            }
+        }
+        else if(mks_wifi.wifi_scanf_status == wifi_scanf_fail) {
+            mks_lv_clean_ui();
+            mks_draw_wifi();
+            mks_wifi.wifi_scanf_status = wifi_none;
+        }
+    }
     
     count_updata++;
 }

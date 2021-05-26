@@ -132,23 +132,20 @@ void mks_wifi_scanf(void) {
         case -2:                      // Scan not triggered
             WiFi.scanNetworks(true);  // Begin async scan
             grbl_send(CLIENT_SERIAL ,"scanNetworks\n\n");
+            mks_wifi.wifi_scanf_status = wifi_scanf_begin;
             break;
         case -1:  // Scan in progress
             grbl_send(CLIENT_SERIAL ,"waitting\n\n");
+            mks_wifi.wifi_scanf_status = wifi_scanf_waitting;
             break;
         default:
             // 获取16个wifi名
-            for (int i = 0; i < MKS_WIFI_NUM; ++i) {   
-                // if( (i >= ((mks_wifi.wifi_show_page * MKS_WIFI_NUM) - MKS_WIFI_NUM)) && (i <= (mks_wifi.wifi_show_page * MKS_WIFI_NUM)) ) {
-                //     memcpy(mks_wifi.wifi_name_str[mks_wifi.begin_scanf_num], WiFi.SSID(i).c_str(), 128);
-                //     mks_wifi.begin_scanf_num++;
-                // }
-                // if(i > (mks_wifi.wifi_show_page * MKS_WIFI_NUM)) break;
-
+            for (int i = 0; i < MKS_WIFI_NUM; ++i) {  
                 memcpy(mks_wifi.wifi_name_str[mks_wifi.begin_scanf_num], WiFi.SSID(i).c_str(), 128);
+                mks_wifi.wifi_rssi[i] = WiFi.RSSI(i);
                 mks_wifi.begin_scanf_num++;
             }
-
+            mks_wifi.wifi_scanf_status = wifi_scanf_succeed;
             WiFi.scanDelete();
             // Restart the scan in async mode so new data will be available
             // when we ask again.
@@ -159,6 +156,34 @@ void mks_wifi_scanf(void) {
             break;
         }
 }
+
+bool mks_get_wifi_status(void) { 
+
+    wl_status_t status;
+    status = WiFiSTAClass::status();
+    if(status == WL_CONNECTED) {
+        return true;
+    }else {
+        return false;
+    }
+}
+
+uint8_t wifi_check_count = 0;
+bool mks_wifi_check_is_out(bool flag) {
+
+    if(flag == true) {
+        wifi_check_count = 0;
+        return true;
+    }else {
+        wifi_check_count++;
+        if(wifi_check_count == 10) {
+            WebUI::wifi_config.end();
+            wifi_check_count = 0;
+            return false;
+        }
+    }
+}
+
 
 
 

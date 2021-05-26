@@ -200,22 +200,28 @@ void ready_data_updata(void) {
     lv_label_set_static_text(ready_src.ready_label_zpos, zpos_str);
     lv_label_set_static_text(ready_src.ready_label_mpwr, mpwr_str);
     
-    wifi_ref_count++;
-    if(wifi_ref_count == 20) {
+    // wifi_ref_count++;
+    // if(wifi_ref_count == 20) {
 
-        if (mks_grbl.wifi_connect_status == true) {
-            if(WiFi.getMode() == WIFI_STA) {
-                    strcpy(wifi_ip_str, WiFi.localIP().toString().c_str());
-                    ready_src.ready_label_wifi_status = mks_lv_label_updata(ready_src.ready_label_wifi_status, wifi_ip_str);
-            }else{
-                    strcpy(wifi_ip_str, WiFi.softAPIP().toString().c_str());
-                    ready_src.ready_label_wifi_status = mks_lv_label_updata(ready_src.ready_label_wifi_status, WiFi.softAPIP().toString().c_str());
-                }
-            } 
-            else if (mks_grbl.wifi_connect_status == false) {
-                ready_src.ready_label_wifi_status = mks_lv_label_updata(ready_src.ready_label_wifi_status, "Disconnect");
-            }  
-        wifi_ref_count = 0;
+    //     if (mks_grbl.wifi_connect_status == true) {
+    //         if(WiFi.getMode() == WIFI_STA) {
+    //                 strcpy(wifi_ip_str, WiFi.localIP().toString().c_str());
+    //                 ready_src.ready_label_wifi_status = mks_lv_label_updata(ready_src.ready_label_wifi_status, wifi_ip_str);
+    //         }else{
+    //                 strcpy(wifi_ip_str, WiFi.softAPIP().toString().c_str());
+    //                 ready_src.ready_label_wifi_status = mks_lv_label_updata(ready_src.ready_label_wifi_status, WiFi.softAPIP().toString().c_str());
+    //             }
+    //         } 
+    //         else if (mks_grbl.wifi_connect_status == false) {
+    //             ready_src.ready_label_wifi_status = mks_lv_label_updata(ready_src.ready_label_wifi_status, "Disconnect");
+    //         }  
+    //     wifi_ref_count = 0;
+    // }
+     if (mks_get_wifi_status() == false){
+        ready_src.ready_label_wifi_status = mks_lv_label_updata(ready_src.ready_label_wifi_status, "Disconnect");
+     }
+    else {
+        ready_src.ready_label_wifi_status = mks_lv_label_updata(ready_src.ready_label_wifi_status, "Connect");
     }
 }
 

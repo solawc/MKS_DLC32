@@ -60,6 +60,8 @@ typedef enum{
 }wifi_kb_flag_t;
 
 
+
+
 typedef struct {
 
     wifi_kb_flag_t wifi_kb_flag;
@@ -99,9 +101,16 @@ typedef struct {
 
     lv_obj_t *wifi_kb;                  // wifi键盘
     lv_obj_t *wifi_tb;
+    lv_obj_t *wifi_btn_connect;
+    lv_obj_t *wifi_label_username;
+    lv_obj_t *wifi_label_password;
+    lv_obj_t *wifi_label_connect;
+    lv_obj_t *wifi_label_riss;
+    lv_obj_t *wifi_label_ip;
 
-    lv_obj_t *wifi_imgbtn_up;           // 图片按键
-    lv_obj_t *wifi_imgbtn_next;
+    lv_obj_t *wifi_btn_up; 
+    lv_obj_t *wifi_btn_next;
+    lv_obj_t *wifi_btn_scanf; 
     lv_obj_t *wifi_imgbtn_back;
 
     lv_obj_t *wifi_label_line1;         // label
@@ -114,12 +123,16 @@ typedef struct {
     lv_obj_t *wifi_label_line8;
     lv_obj_t *wifi_label_up;
     lv_obj_t *wifi_label_next;
+    lv_obj_t *wifi_label_scanf; 
     lv_obj_t *wifi_label_back;
-    lv_obj_t *wifi_popup_label;
-    lv_obj_t *wifi_popup_file_name_label;
-    lv_obj_t *wifi_btn_popup_sure_label;
-    lv_obj_t *wifi_btn_popup_cancle_label;
-    lv_obj_t *wifi_btn_popup_pw_enter_label;
+
+    lv_obj_t *wifi_label_info;
+
+    // lv_obj_t *wifi_popup_label;
+    // lv_obj_t *wifi_popup_file_name_label;
+    // lv_obj_t *wifi_btn_popup_sure_label;
+    // lv_obj_t *wifi_btn_popup_cancle_label;
+    // lv_obj_t *wifi_btn_popup_pw_enter_label;
 }MKS_WIFI_PAGE_T;
 extern MKS_WIFI_PAGE_T wifi_src;
 
@@ -134,4 +147,7 @@ void mks_wifi_show_label(void);
 void mks_draw_wifi_kb(void);
 void mks_wifi_connect(char *username, char *password);
 void draw_pos_wifi_popup(const char *text, char *file_name);
+void mks_draw_wifi_scanf(void);     // 提示扫描界面
+void mks_draw_wifi_show(void);           // 正常wifi界面
+void mks_draw_wifi_had_connect(void);
 #endif

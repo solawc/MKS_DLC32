@@ -27,8 +27,11 @@ extern mks_spindle_t mks_spindle;
 typedef enum {
 
     wifi_none,
-    wifi_scanf_errs,
+    wifi_scanf_begin,
+    wifi_scanf_waitting,
     wifi_scanf_succeed,
+    wifi_scanf_fail,
+    wifi_connecting,
 
 }mks_wifi_status_t;
 
@@ -39,9 +42,13 @@ typedef enum {
 typedef struct {
 
     char wifi_name_str[MKS_WIFI_NUM][MKS_WIFI_NAME_LEN];
+    int32_t wifi_rssi[MKS_WIFI_NUM];    // wifi信号强度
     uint8_t begin_scanf_num;        // 每次记录都从0开始    
     uint8_t wifi_show_page;         // 记录WiFi显示的页码   
-    mks_wifi_status_t wifi_scanf_status;       
+    mks_wifi_status_t wifi_scanf_status;    
+    uint8_t wifi_choose;  
+
+    char wifi_name_connect[MKS_WIFI_NAME_LEN];
 
 }MKS_WIFI_t;
 extern MKS_WIFI_t mks_wifi;
@@ -82,4 +89,6 @@ void spindle_check(void);
 
 void mks_wifi_scanf(void);
 void mks_wifi_connect(void);
+bool mks_get_wifi_status(void);
+bool mks_wifi_check_is_out(bool flag);
 #endif

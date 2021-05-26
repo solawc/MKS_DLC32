@@ -21,6 +21,12 @@ typedef enum {
 }GRBL_MOVE_DIS;
 
 typedef enum {
+    LOW_SPEED,
+    MID_SPEED,
+    HIGHT_SPEED,
+}GRBL_MOVE_SPEED;
+
+typedef enum {
     SimpleChinese,      
     Chinese,
     English,
@@ -57,6 +63,7 @@ typedef enum {
 
 typedef struct{
     GRBL_MOVE_DIS               move_dis;           // 移动距离
+    GRBL_MOVE_SPEED             move_speed;         // 移动速度
     GRBL_Language               language;           // 语言设置
     GRBL_LIGHT_STATUS           light_status;       // 灯状态
     GRBL_POWER                  power_persen;       // 功率步长设置
@@ -64,7 +71,6 @@ typedef struct{
     // GRBL_RUN_STATUS_t           run_status;         // 运行状态
     // uint8_t                     power_persen;       // 功率百分比
     uint16_t                    cave_speed;         // 雕刻速度
-    uint16_t                    move_speed;         // 移动速度
     uint16_t                    X_Pos;              // x坐标
     uint16_t                    Y_Pos;              // y坐标
     uint8_t                     mks_sd_status;      // sd卡是否插入, 0:没检测到SD卡， 1:检测到SD卡

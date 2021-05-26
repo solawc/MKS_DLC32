@@ -41,9 +41,12 @@ typedef struct {
     lv_obj_t* home;
     lv_obj_t* hhome;
 
-    lv_obj_t* btn_len_0_1;
-    lv_obj_t* btn_len_1;
-    lv_obj_t* btn_len_10;
+    // lv_obj_t* btn_len_0_1;
+    // lv_obj_t* btn_len_1;
+    // lv_obj_t* btn_len_10;
+    lv_obj_t* btn_len;
+    lv_obj_t* btn_speed;
+
     lv_obj_t* Back;
 
     /* Label */
@@ -53,9 +56,11 @@ typedef struct {
     lv_obj_t* Label_postivs;
     lv_obj_t* Label_home;
 
-    lv_obj_t* label_len_0_1;
-    lv_obj_t* label_len_1;
-    lv_obj_t* label_len_10;
+    // lv_obj_t* label_len_0_1;
+    // lv_obj_t* label_len_1;
+    // lv_obj_t* label_len_10;
+    lv_obj_t* label_len;
+    lv_obj_t* label_speed;
 
 }MKS_MOVE_PAGE;
 

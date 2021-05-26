@@ -888,8 +888,6 @@ static void event_fram_size_no(lv_obj_t* obj, lv_event_t event) {
 	}
 }
 
-
-
 static void event_btn_frame(lv_obj_t* obj, lv_event_t event) {
 
 	uint32_t file_size = mks_file_list.file_size[mks_file_list.file_choose];   
@@ -899,7 +897,6 @@ static void event_btn_frame(lv_obj_t* obj, lv_event_t event) {
 		lv_obj_del(caving_Popup);
 
 		if(file_size >= 1024*1024) {
-
 			mks_draw_common_popup("Warring!", 
 								"File size is too big",
 								"Do you want to connute?",
