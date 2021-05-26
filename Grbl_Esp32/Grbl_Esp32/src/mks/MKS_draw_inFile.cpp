@@ -75,7 +75,7 @@ void mks_draw_inFile(char *fn) {
 
 	if(fn[0] == '/') fn[0] = ' ';
 
-	mks_lvgl_long_sroll_label_with_wight_set_center(infile_page.btn_cancle, infile_page.label_cancle, 17, 65, "Cancle", 50);
+	mks_lvgl_long_sroll_label_with_wight_set_center(infile_page.btn_cancle, infile_page.label_cancle, 17, 65, "Cancel", 50);
 	mks_lvgl_long_sroll_label_with_wight_set_center(infile_page.btn_frame, infile_page.label_frame, 17, 65, "Frame", 50);
 	mks_lvgl_long_sroll_label_with_wight_set_center(infile_page.btn_sure_print, infile_page.label_cancle, 17, 65, "Yes", 50);
 	mks_lvgl_long_sroll_label_with_wight_set_center(infile_page.inFile_src, infile_page.label_file_name, 150, 65, fn, 256);

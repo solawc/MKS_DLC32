@@ -74,7 +74,6 @@
 #define LCD_EN					    GPIO_NUM_5     
 #define LCD_RST					    GPIO_NUM_27     
 #define LCD_CS					    GPIO_NUM_25
-
 #define TOUCH_CS				    GPIO_NUM_26
 #define BEEPER					    I2SO(7)
 
@@ -156,8 +155,8 @@
 #define DEFAULT_Y_ACCELERATION 500.0 // mm/sec^2
 #define DEFAULT_Z_ACCELERATION 500.0 // mm/sec^2
 
-#define DEFAULT_X_MAX_TRAVEL 300.0 // mm NOTE: Must be a positive value.
-#define DEFAULT_Y_MAX_TRAVEL 300.0 // mm NOTE: Must be a positive value.
+#define DEFAULT_X_MAX_TRAVEL 285.0 // mm NOTE: Must be a positive value.
+#define DEFAULT_Y_MAX_TRAVEL 272.0 // mm NOTE: Must be a positive value.
 #define DEFAULT_Z_MAX_TRAVEL 80.0 // mm NOTE: Must be a positive value.
 
 // #define DEFAULT_X_MAX_TRAVEL 390 // mm NOTE: Must be a positive value.

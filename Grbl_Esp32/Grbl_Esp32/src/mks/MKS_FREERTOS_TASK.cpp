@@ -9,20 +9,27 @@ TaskHandle_t lv_disp_tcb = NULL;
 static void mks_page_data_updata(void);
 
 void lvgl_disp_task(void *parg) { 
+
+    TickType_t       xLastWakeTime;
+    const TickType_t xDisplayFrequency = 5;                  // in ticks (typically ms)
+    xLastWakeTime                      = xTaskGetTickCount();  // Initialise the xLastWakeTime variable with the current time.
+    // vTaskDelay(1000);
+
     mks_lvgl_init();
     mks_draw_ready();
     mks_grbl.wifi_connect_enable = true;
-    // LCD_BLK_ON;
     LCD_BLK_OFF;
-    while(1) {
 
+    while(1) {
         lv_task_handler();
         mks_page_data_updata();
-        vTaskDelay(5); // 5ms
+        // vTaskDelay(5); // 5ms
+        vTaskDelayUntil(&xLastWakeTime, xDisplayFrequency);
     }
 }
 
 uint8_t count_updata = 0;
+uint8_t fram_count = 0;
 static void mks_page_data_updata(void) { 
 
     if(mks_ui_page.mks_ui_page == MKS_UI_PAGE_LOADING) {
@@ -42,11 +49,7 @@ static void mks_page_data_updata(void) {
             if(SD_ready_next == false) {
                 mks_print_data_updata();
                 if(sys.state == State::Idle) {
-                    // MKS_GRBL_CMD_SEND("M3 S0\n");
                     MKS_GRBL_CMD_SEND("~");
-                    // mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
-                    // mks_clear_print();
-                    // mks_draw_ready();
                 }
             } 
             count_updata = 0;
@@ -54,12 +57,31 @@ static void mks_page_data_updata(void) {
     }
     else if(mks_ui_page.mks_ui_page == MKS_UI_Control) {  //控制界面
 
-        if((count_updata == 20) || (count_updata > 20) ) { // 200*5=1000ms = 1s
+        if((count_updata == 20) || (count_updata > 20) ) { // 20*5=100ms = 1s
             hard_home_check();
             soft_home_check();
             count_updata = 0;
         }
     }
+    else if(mks_ui_page.mks_ui_page == MKS_UI_Frame) { 
+        
+        if((count_updata == 100) || (count_updata > 100) ) { // 100*5=100ms = 1s
+            if(frame_ctrl.is_begin_run == true) {
+
+                    if(mks_get_frame_status() == true) {
+                        if(fram_count == 10) {
+                            frame_finsh_popup();
+                            frame_ctrl.is_begin_run = false;
+                            fram_count = 0;
+                        }
+                        fram_count++;
+                    }else {
+                        fram_count = 0;
+                    }
+            }
+        }
+    }
+    
     count_updata++;
 }
 
@@ -77,42 +99,3 @@ void disp_task_init(void) {
                                                 // core
     );
 }
-
-
-// #define DISP_UPDATA_TASK_STACK             4096
-// #define DISP_UPDATA_TASK_PRO               6
-// #define DISP_UPDATA_TASK_CORE              1
-
-// TaskHandle_t lv_data_updata_tcb = NULL;
-
-// void lvgl_disp_data_updata(void *parg) { 
-
-//     while(1) {
-
-//         // if(mks_ui_page.mks_ui_page == MKS_UI_PAGE_LOADING) {
-//         //     /* Do not updata */
-//         // }
-//         // else if (mks_ui_page.mks_ui_page == MKS_UI_Ready) {  //只有在当前页面才更新数据
-//         //     if(SD_ready_next == false) ready_data_updata();
-//         // }
-//         // else if(mks_ui_page.mks_ui_page == MKS_UI_Pring) { // 雕刻界面更新数据
-
-//         //     if(SD_ready_next == false)  mks_print_data_updata();
-//         // }
-//         vTaskDelay(1000); // 500ms
-//     }
-// }
-           
-// void disp_task_data_updata(void) {
-
-//     xTaskCreatePinnedToCore(lvgl_disp_data_updata,     // task
-//                             "updata disp",              // name for task
-//                             DISP_UPDATA_TASK_STACK,    // size of task stack
-//                             NULL,               // parameters
-//                             DISP_UPDATA_TASK_PRO,      // priority
-//                             // nullptr,
-//                             &lv_data_updata_tcb,
-//                             DISP_UPDATA_TASK_CORE      // must run the task on same core
-//                                                 // core
-//     );
-// }

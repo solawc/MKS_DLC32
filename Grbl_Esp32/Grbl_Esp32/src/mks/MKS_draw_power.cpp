@@ -112,8 +112,8 @@ static void event_handler_cailb(lv_obj_t* obj, lv_event_t event) {
 static void event_handler_Back(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-		mks_clear_power();
-		mks_ui_page.mks_ui_page = MKS_UI_Ready;
+		mks_lv_clean_ui();
+		mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
         mks_ui_page.wait_count = DEFAULT_UI_COUNT;
 		mks_draw_ready();
 	}
@@ -223,7 +223,7 @@ void draw_pwr_popup_1(const char *text) {
 	lv_btn_set_style(power_page.btn_sure,LV_BTN_STYLE_PR, &power_page.p_popup_btn_color);
 
 	power_page.label_sure = mks_lvgl_long_sroll_label_with_wight_set_center(power_page.p_popup, power_page.label_sure, 90, 50, text, 200);
-	power_page.label_popup = mks_lvgl_long_sroll_label_with_wight_set_center(power_page.btn_sure, power_page.label_popup, 50, 0, "YES",50);
+	power_page.label_popup = mks_lvgl_long_sroll_label_with_wight_set_center(power_page.btn_sure, power_page.label_popup, 50, 0, "Yes",50);
 }
 
 

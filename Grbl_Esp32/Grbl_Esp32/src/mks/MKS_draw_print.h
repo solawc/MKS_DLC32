@@ -97,6 +97,7 @@ typedef struct {
     lv_obj_t *print_sp_imgbtn_add;
     lv_obj_t *print_sp_imgbtn_dec;
     lv_obj_t *print_sp_btn_sure;
+    lv_obj_t *print_sp_btn_return;
 
     /* bar */
     lv_obj_t* print_bar_print;  //打印进度条
@@ -156,7 +157,19 @@ typedef struct {
     float last_y_pos = 0;
     float last_z_pos = 0;
 
+
 }MKS_PRINT_DATA_UPDATA_t;
+
+
+typedef struct {
+
+    // 获取当前的值
+    uint16_t cur_spindle_speed;
+    uint16_t cur_spindle_pwr;
+    bool _need_to_start_write;          // 需要按下开始才写入
+    
+
+}MKS_PRINT_SETTING_T;
 
 
 

@@ -69,6 +69,5 @@ typedef struct {
 
 
 void mks_draw_ready(void);
-void lv_clean_curren_screen(void);
 void ready_data_updata(void);
 #endif

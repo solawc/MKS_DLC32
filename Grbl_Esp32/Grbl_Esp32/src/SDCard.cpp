@@ -113,6 +113,9 @@ void mks_listDir(fs::FS& fs, const char* dirname, uint8_t levels) {
                     && (mks_file_list.file_count < (mks_file_list.file_page * MKS_FILE_NUM))) {
                     memset(mks_file_list.filename_str[mks_file_list.file_begin_num], 0, sizeof(mks_file_list.filename_str[mks_file_list.file_begin_num]));
                     strcpy(mks_file_list.filename_str[mks_file_list.file_begin_num], mks_filename_check_str);
+
+                    mks_file_list.file_size[mks_file_list.file_begin_num] = file.size();
+                    
                     mks_file_list.file_begin_num++;
                 }
                 mks_file_list.file_count++;

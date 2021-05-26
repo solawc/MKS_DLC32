@@ -39,25 +39,25 @@ void mks_draw_frame(void) {
 	lv_obj_set_pos(frame_page.frame_src, FRAME_SRC_X, FRAME_SRC_Y);
 	lv_obj_set_style(frame_page.frame_src, &frame_page.frame_src_style);
 
-    lv_imgbtn_creat_n_mks(frame_page.frame_src, 
-                        frame_page.label_cancle, 
-                        &back, &back, 
-                        // LV_ALIGN_IN_LEFT_MID, 
-                        FRAME_IMGBTN_X, 
-                        FRAME_IMGBTN_Y, 
-                        event_handler_cancle);
+    // lv_imgbtn_creat_n_mks(frame_page.frame_src, 
+    //                     frame_page.label_cancle, 
+    //                     &back, &back, 
+    //                     // LV_ALIGN_IN_LEFT_MID, 
+    //                     FRAME_IMGBTN_X, 
+    //                     FRAME_IMGBTN_Y, 
+    //                     event_handler_cancle);
     
-    frame_page.label_cancle = mks_lvgl_long_sroll_label_with_wight_set_center(frame_page.frame_src, 
-                                                                            frame_page.label_cancle, 
-                                                                            FRAME_IMGBTN_X, 
-                                                                            FRAME_IMGBTN_Y+50, 
-                                                                            "Cancle", 
-                                                                            102);
+    // frame_page.label_cancle = mks_lvgl_long_sroll_label_with_wight_set_center(frame_page.frame_src, 
+    //                                                                         frame_page.label_cancle, 
+    //                                                                         FRAME_IMGBTN_X, 
+    //                                                                         FRAME_IMGBTN_Y+50, 
+    //                                                                         "Cancel", 
+    //                                                                         102);
     
     frame_page.label_text = mks_lvgl_long_sroll_label_with_wight_set_center(frame_page.frame_src, 
                                                                             frame_page.label_text, 
                                                                             FRAME_LABEL_RUN_STATUS_X, 
-                                                                            FRAME_LABEL_RUN_STATUS_Y+50, 
+                                                                            FRAME_LABEL_RUN_STATUS_Y+10, 
                                                                             "Wait draw frame...", 
                                                                             255);
     mks_ui_page.mks_ui_page = MKS_UI_Frame;
@@ -189,11 +189,37 @@ void mks_frame_init(void) {
 }
 
 
+void event_handle_yes(lv_obj_t* obj, lv_event_t event) {
+
+    if(event == LV_EVENT_RELEASED) {
+        lv_obj_del(com_p1.com_popup_src);
+        frame_ctrl.out = false;
+        mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING; 
+	    mks_ui_page.wait_count = DEFAULT_UI_COUNT;
+        mks_lv_clean_ui();
+        start_print();
+    }
+}
+
+void event_handle_no(lv_obj_t* obj, lv_event_t event) {
+
+    if(event == LV_EVENT_RELEASED) {
+        lv_obj_del(com_p1.com_popup_src);
+        mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING; 
+	    mks_ui_page.wait_count = DEFAULT_UI_COUNT;
+        frame_ctrl.out = false;
+        mks_lv_clean_ui();
+        mks_draw_craving();
+    }
+}
+
+
 void mks_run_frame(char *parameter) {
 
     char frame_cmd[20];
 
     frame_ctrl.cancle_enable = true;
+    frame_ctrl.out = true;
 
     grbl_send(CLIENT_SERIAL ,"run frame\n");
     if (sys.state != State::Idle && sys.state != State::Alarm) {    // 判断SD卡状态
@@ -203,7 +229,6 @@ void mks_run_frame(char *parameter) {
         return ;
     }
 
-
     mks_lv_label_updata(frame_page.label_text, "Loading file...");
     lv_refr_now(lv_refr_get_disp_refreshing());
 
@@ -212,46 +237,90 @@ void mks_run_frame(char *parameter) {
 
     // grbl_send(CLIENT_SERIAL ,"begin po\n");
     char fileLine[255];
+    uint8_t point_last_num = 1;
+    uint32_t point_count = 0;
     while (readFileLine(fileLine, 255)) {
+
+        if(point_count == 255*6) {
+            switch(point_last_num) {
+
+            case 1: 
+                mks_lv_label_updata(frame_page.label_text, "Loading file.");
+                lv_refr_now(lv_refr_get_disp_refreshing());
+            break;
+
+            case 2: 
+                mks_lv_label_updata(frame_page.label_text, "Loading file..");
+                lv_refr_now(lv_refr_get_disp_refreshing());
+            break;
+
+            case 3: 
+                mks_lv_label_updata(frame_page.label_text, "Loading file...");
+                lv_refr_now(lv_refr_get_disp_refreshing());
+            break;
+            }
+
+            point_last_num++;
+            if( point_last_num >= 3) {
+                point_last_num = 1;
+            } 
+            
+            point_count = 0;
+        }
+        point_count++;
+        
         polocte_cmd(fileLine);
     }
-    printf("x_max=%.2f, x_min=%.2f, y_max=%.2f, y_max=%.2f\n",frame_ctrl.x_max, frame_ctrl.x_min,frame_ctrl.y_max,frame_ctrl.y_min);
-    grbl_send(CLIENT_SERIAL ,"po finsh\n");
     closeFile();
-
 
     mks_lv_label_updata(frame_page.label_text, "Running...");
     lv_refr_now(lv_refr_get_disp_refreshing());
 
-    sprintf(frame_cmd, "G0 X%f Y%f F300\n",frame_ctrl.x_min, frame_ctrl.y_min);  // point 1
-    MKS_GRBL_CMD_SEND(frame_cmd);
+    // sprintf(frame_cmd, "G0 X%f Y%f F300\n",frame_ctrl.x_min, frame_ctrl.y_min);  // point 1
+    // MKS_GRBL_CMD_SEND(frame_cmd);
 
     MKS_GRBL_CMD_SEND("M3 S5\n");
 
-    sprintf(frame_cmd, "G1 Y%f F500\n",frame_ctrl.y_max);  // point 1
+    sprintf(frame_cmd, "G1 Y%f F1000\n",frame_ctrl.y_max);  // point 1
     MKS_GRBL_CMD_SEND(frame_cmd);
 
-    sprintf(frame_cmd, "G1 X%f F500\n", frame_ctrl.x_max);  // point 2
+    sprintf(frame_cmd, "G1 X%f F1000\n", frame_ctrl.x_max);  // point 2
     MKS_GRBL_CMD_SEND(frame_cmd);
 
-    sprintf(frame_cmd, "G1 Y%f F500\n", frame_ctrl.y_min); // point 3
+    sprintf(frame_cmd, "G1 Y%f F1000\n", frame_ctrl.y_min); // point 3
     MKS_GRBL_CMD_SEND(frame_cmd);
 
-    sprintf(frame_cmd, "G1 X%f F500\n", frame_ctrl.x_min);// point 4 
+    sprintf(frame_cmd, "G1 X%f F1000\n", frame_ctrl.x_min);// point 4 
     MKS_GRBL_CMD_SEND(frame_cmd);
 
     MKS_GRBL_CMD_SEND("M5\n");
     MKS_GRBL_CMD_SEND("G0 X0 Y0 F300\n");
-    
-    // frame_ctrl.frame_starus = FRAM_END;
-    // frame_status_dis(frame_ctrl.frame_starus);
 
-    mks_lv_label_updata(frame_page.label_text, "Frame finsh...");
-    lv_refr_now(lv_refr_get_disp_refreshing());
-
+    frame_ctrl.is_begin_run = true;
     frame_ctrl.cancle_enable = true;
+
     return ;
 }
+
+void frame_finsh_popup(void) {
+
+    mks_draw_common_popup("Info", 
+                        "Do you want to carve?",
+                        " ",
+                        event_handle_yes,
+                        event_handle_no);
+}
+
+bool mks_get_frame_status(void) { 
+
+    if(sys.state == State::Idle) {
+        frame_ctrl.is_finsh_run = true;
+    }else{
+        frame_ctrl.is_finsh_run = false;
+    }
+    return frame_ctrl.is_finsh_run;
+}
+
 
 
 

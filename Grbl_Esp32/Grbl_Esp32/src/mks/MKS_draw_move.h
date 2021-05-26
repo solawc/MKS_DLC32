@@ -89,4 +89,5 @@ void draw_pos_popup_1(const char *text);
 void hard_home_check(void);
 void soft_home_check(void);
 void draw_pos_popup_2(const char *text);
+bool mks_get_motor_status(void);
 #endif

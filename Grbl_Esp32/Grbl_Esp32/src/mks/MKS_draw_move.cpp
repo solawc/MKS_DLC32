@@ -18,15 +18,15 @@ static void event_handler_x_n(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
 
 		if(mks_grbl.move_dis == M_0_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91X0.1F1000\n");
+			MKS_GRBL_CMD_SEND("$J=G91X0.1F2000\n");
 		
 		}
 		else if (mks_grbl.move_dis == M_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91X1.0F1000\n");
+			MKS_GRBL_CMD_SEND("$J=G91X1.0F2000\n");
 		
 		}
 		else if (mks_grbl.move_dis == M_10_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91X10.0F1000\n");
+			MKS_GRBL_CMD_SEND("$J=G91X10.0F2000\n");
 		}
 	}
 }
@@ -36,13 +36,13 @@ static void event_handler_x_p(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
 
 		if(mks_grbl.move_dis == M_0_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91X-0.1F1000\n");
+			MKS_GRBL_CMD_SEND("$J=G91X-0.1F2000\n");
 		}
 		else if (mks_grbl.move_dis == M_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91X-1.0F1000\n");
+			MKS_GRBL_CMD_SEND("$J=G91X-1.0F2000\n");
 		}
 		else if (mks_grbl.move_dis == M_10_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91X-10.0F1000\n");
+			MKS_GRBL_CMD_SEND("$J=G91X-10.0F2000\n");
 		}
 	}
 }
@@ -52,13 +52,13 @@ static void event_handler_y_n(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
 
 		if(mks_grbl.move_dis == M_0_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Y0.1F1000\n");
+			MKS_GRBL_CMD_SEND("$J=G91Y0.1F2000\n");
 		}
 		else if (mks_grbl.move_dis == M_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Y1.0F1000\n");
+			MKS_GRBL_CMD_SEND("$J=G91Y1.0F2000\n");
 		}
 		else if (mks_grbl.move_dis == M_10_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Y10.0F1000\n");
+			MKS_GRBL_CMD_SEND("$J=G91Y10.0F2000\n");
 		}
 	}
 }
@@ -68,13 +68,13 @@ static void event_handler_y_p(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
 
 		if(mks_grbl.move_dis == M_0_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Y-0.1F1000\n");
+			MKS_GRBL_CMD_SEND("$J=G91Y-0.1F2000\n");
 		}
 		else if (mks_grbl.move_dis == M_1_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Y-1.0F1000\n");
+			MKS_GRBL_CMD_SEND("$J=G91Y-1.0F2000\n");
 		}
 		else if (mks_grbl.move_dis == M_10_MM) {
-			MKS_GRBL_CMD_SEND("$J=G91Y-10.0F1000\n");
+			MKS_GRBL_CMD_SEND("$J=G91Y-10.0F2000\n");
 		}
 	}
 }
@@ -108,7 +108,12 @@ static void event_handler_unlock(lv_obj_t* obj, lv_event_t event) {
 static void event_handler_home(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-       MKS_GRBL_CMD_SEND("$J=G90X0Y0F1600\n");
+
+		// 保证激光不会打开
+		MKS_GRBL_CMD_SEND("M5\n");
+		mks_grbl.power_persen = P_0_PERSEN;
+
+       	MKS_GRBL_CMD_SEND("$J=G90X0Y0F2000\n");
 		// draw_pos_popup("Homing success");
 		draw_pos_popup_2("      Homing...");
 		ui_move_ctrl.soft_homing_status = HOMING_START;
@@ -119,20 +124,20 @@ static void event_handler_pos(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
  
-		if(sys.state != State::Jog) {
+		if(sys.state == State::Idle && mks_get_motor_status() ) {
 			MKS_GRBL_CMD_SEND("G92X0Y0Z0\n");
 			draw_pos_popup("Positioning success");
 		}else {
-			draw_pos_popup("Please wait machina stop!");
+			draw_pos_popup("Please wait machine stop!");
 		}
-    	
 	}
 }
 
 static void event_handler_hhome(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-
+		MKS_GRBL_CMD_SEND("M5\n");
+		mks_grbl.power_persen = P_0_PERSEN;
 		if(hard_limits->get()) {
 			MKS_GRBL_CMD_SEND("$H\n");
 			ui_move_ctrl.hard_homing_status = HOMING_START;
@@ -181,7 +186,7 @@ static void event_handler_dis_10(lv_obj_t* obj, lv_event_t event) {
 static void event_handler_back(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-        mks_clear_move();
+        mks_lv_clean_ui();
 		mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
         mks_ui_page.wait_count = DEFAULT_UI_COUNT;
         mks_draw_ready();
@@ -335,7 +340,7 @@ void draw_pos_popup(const char *text) {
 	lv_btn_set_style(move_popup_btn_sure, LV_BTN_STYLE_REL, &move_popup_btn_style);
 	lv_btn_set_style(move_popup_btn_sure,LV_BTN_STYLE_PR, &move_popup_btn_style);
 
-	move_popup_label_dis = mks_lvgl_long_sroll_label_with_wight_set_center(move_popup_scr, move_popup_label_dis, 100, 50, text, 200);
+	move_popup_label_dis = mks_lvgl_long_sroll_label_with_wight_set_center(move_popup_scr, move_popup_label_dis, 90, 50, text, 200);
 	move_popup_label_sure = mks_lvgl_long_sroll_label_with_wight_set_center(move_popup_btn_sure, move_popup_label_sure, 50, 0, "Yes",50);
 }
 
@@ -376,7 +381,7 @@ void draw_pos_popup_1(const char *text) {
 	lv_btn_set_style(move_popup_btn_sure,LV_BTN_STYLE_PR, &move_popup_btn_style);
 
 	move_popup_label_dis = mks_lvgl_long_sroll_label_with_wight_set_center(move_popup_scr, move_popup_label_dis, 100, 50, text, 200);
-	move_popup_label_sure = mks_lvgl_long_sroll_label_with_wight_set_center(move_popup_btn_sure, move_popup_label_sure, 50, 0, "YES",50);
+	move_popup_label_sure = mks_lvgl_long_sroll_label_with_wight_set_center(move_popup_btn_sure, move_popup_label_sure, 50, 0, "Yes",50);
 }
 
 
@@ -474,7 +479,10 @@ void soft_home_check(void) {
 
 }
 
+bool mks_get_motor_status(void) { 
 
+	return stepper_idle;
+}
 
 void mks_clear_move(void) {
 	lv_obj_clean(mks_src);

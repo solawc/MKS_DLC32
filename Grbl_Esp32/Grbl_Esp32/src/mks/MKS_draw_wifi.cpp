@@ -422,7 +422,7 @@ void draw_pos_wifi_popup(const char *text, char *file_name) {
     wifi_src.wifi_popup_file_name_label = mks_lvgl_long_sroll_label_with_wight_set_center(wifi_src.wifi_popup_scr_1, wifi_src.wifi_popup_file_name_label, 140, 40, file_name, 128);
 
 	wifi_src.wifi_btn_popup_sure_label = mks_lvgl_long_sroll_label_with_wight_set_center(wifi_src.wifi_popup_btn_sure, wifi_src.wifi_btn_popup_sure_label, 0, 0, "Connect", 80);
-    wifi_src.wifi_btn_popup_cancle_label = mks_lvgl_long_sroll_label_with_wight_set_center(wifi_src.wifi_popup_btn_cancle, wifi_src.wifi_btn_popup_sure_label, 0, 0, "Cancle", 80);
+    wifi_src.wifi_btn_popup_cancle_label = mks_lvgl_long_sroll_label_with_wight_set_center(wifi_src.wifi_popup_btn_cancle, wifi_src.wifi_btn_popup_sure_label, 0, 0, "Cancel", 80);
     wifi_src.wifi_btn_popup_pw_enter_label = mks_lvgl_long_sroll_label_with_wight_set_center(wifi_src.wifi_popup_btn_pw_enter, wifi_src.wifi_btn_popup_pw_enter_label, 0, 0, "Password", 80);
 }
 

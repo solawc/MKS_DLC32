@@ -43,6 +43,7 @@ typedef enum {
 #define MKS_FILE_DEEP  1
 typedef struct {
     char filename_str[MKS_FILE_NUM][MKS_FILE_NAME_LENGTH];
+    uint32_t file_size[MKS_FILE_NUM];
     uint16_t file_begin_num;        // 它用来计数，并选择数组的位置,filename_str[file_begin_num][...]
     uint16_t file_count;            // 它用来计算从第几个文件开始存名字
     uint16_t file_page;             // 它从1开始

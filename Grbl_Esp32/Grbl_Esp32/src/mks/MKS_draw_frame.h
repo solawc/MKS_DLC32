@@ -59,6 +59,11 @@ typedef struct {
     char x_value[10];
     char y_value[10];
     uint8_t cancle_enable;
+
+    bool is_finsh_run;          // 检测是否巡边完成
+    bool is_begin_run;          // 开始检测
+    bool out;
+
 }FRAME_CRTL_T;
 extern FRAME_CRTL_T frame_ctrl;
 
@@ -66,4 +71,6 @@ extern FRAME_CRTL_T frame_ctrl;
 void mks_draw_frame(void);
 void mks_run_frame(char *parameter);
 void mks_frame_init(void);
+bool mks_get_frame_status(void);
+void frame_finsh_popup(void);
 #endif

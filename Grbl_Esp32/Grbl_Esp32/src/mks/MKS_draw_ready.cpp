@@ -18,7 +18,7 @@ LV_IMG_DECLARE(M_pwr);
 static void event_handler_Adjustment(lv_obj_t* obj, lv_event_t event) { 
 	
 	if (event == LV_EVENT_RELEASED) {
-        lv_clean_curren_screen();
+        mks_lv_clean_ui();
         mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
         mks_ui_page.wait_count = DEFAULT_UI_COUNT;
         mks_draw_power();
@@ -28,7 +28,7 @@ static void event_handler_Adjustment(lv_obj_t* obj, lv_event_t event) {
 static void event_handler_Control(lv_obj_t* obj, lv_event_t event) { 
 	
 	if (event == LV_EVENT_RELEASED) {
-        lv_clean_curren_screen();
+        mks_lv_clean_ui();
         mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
         mks_ui_page.wait_count = DEFAULT_UI_COUNT;
         mks_draw_move();
@@ -39,7 +39,7 @@ static void event_handler_Control(lv_obj_t* obj, lv_event_t event) {
 static void event_handler_Sculpture(lv_obj_t* obj, lv_event_t event) { 
 	
 	if (event == LV_EVENT_RELEASED) {
-        lv_clean_curren_screen();
+        mks_lv_clean_ui();
         mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
         mks_ui_page.wait_count = DEFAULT_UI_COUNT;
         file_popup_select_flag = false;
@@ -50,7 +50,7 @@ static void event_handler_Sculpture(lv_obj_t* obj, lv_event_t event) {
 static void event_handler_Tool(lv_obj_t* obj, lv_event_t event) { 
 	
 	if (event == LV_EVENT_RELEASED) {
-        lv_clean_curren_screen();
+        mks_lv_clean_ui();
         mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
         mks_ui_page.wait_count = DEFAULT_UI_COUNT;
         mks_draw_tool();
@@ -61,7 +61,7 @@ static void event_handler_wifi(lv_obj_t* obj, lv_event_t event) {
 	
 	if (event == LV_EVENT_RELEASED) {
 #if defined(USE_WIFI)
-        lv_clean_curren_screen();
+        mks_lv_clean_ui();
         mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
         mks_ui_page.wait_count = DEFAULT_UI_COUNT;
         mks_grbl.wifi_back_from = 0;
@@ -219,9 +219,6 @@ void ready_data_updata(void) {
     }
 }
 
-void lv_clean_curren_screen(void) {
-    lv_obj_clean(mks_src);
-}
 
 
 

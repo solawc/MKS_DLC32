@@ -2,12 +2,15 @@
 
 lv_obj_t *mks_src;          // 主背景页
 
-lv_obj_t *global_popup;     // 全局提示
-lv_obj_t *global_popup_btn_sure;     
-lv_obj_t *global_popup_label_sure;     
-lv_obj_t *global_popup_label_text;  
-lv_style_t p_global_popup_color;
-lv_style_t p_global_popup_btn_color;
+// lv_obj_t *global_popup;     // 全局提示
+// lv_obj_t *global_popup_btn_sure;     
+// lv_obj_t *global_popup_label_sure;     
+// lv_obj_t *global_popup_label_text;  
+// lv_style_t p_global_popup_color;
+// lv_style_t p_global_popup_btn_color;
+
+COMMON_POPUP_T com_p1;
+COMMON_POPUP_T com_p2;
 
 /* 
  * Author   :MKS
@@ -59,14 +62,14 @@ lv_obj_t* mks_lvgl_label_set(lv_obj_t *scr, lv_obj_t *lab, lv_coord_t x, lv_coor
  * Describe :Set wrap label
  * Data     :2021/03/02
 */
-lv_obj_t* mks_lvgl_label_set_align_center(lv_obj_t *scr, lv_obj_t *lab, lv_coord_t x, lv_coord_t y, const char *text) {
+lv_obj_t* mks_lvgl_label_set_align_center(lv_obj_t *scr, lv_obj_t *lab, lv_coord_t x, lv_coord_t y, const char *text, lv_coord_t w) {
     lab = lv_label_create(scr, NULL);                                                          
-    lv_label_set_long_mode(lab, LV_LABEL_LONG_BREAK);  
-    lv_label_set_recolor(lab,true);                                  
-    lv_obj_set_width(lab, 80);
+    lv_label_set_long_mode(lab, LV_LABEL_LONG_BREAK);                               
+    lv_obj_set_width(lab, w);
     lv_obj_set_height(lab,20);
-    lv_label_set_align(lab, LV_ALIGN_CENTER);
-    lv_obj_set_pos(lab, x, y);
+    // lv_label_set_align(lab, LV_ALIGN_CENTER);
+    lv_obj_align(lab, scr, LV_ALIGN_CENTER, x, y);
+    // lv_obj_set_pos(lab, x, y);
     lv_label_set_recolor(lab, true);                                                  
     lv_label_set_text(lab, text);
     return lab;
@@ -301,56 +304,103 @@ lv_obj_t* mks_lv_set_line(lv_obj_t* scr, lv_obj_t * line, lv_point_t *line_point
     return line;
 }
 
+void mks_lv_clean_ui(void) { 
+
+    mks_grbl.popup_1_flag = false;
+    lv_obj_clean(mks_src);
+}
+
 
 static void event_handler_globel_popup_sure(lv_obj_t* obj, lv_event_t event) { 
 
     if (event == LV_EVENT_RELEASED) { 
-        lv_obj_del(global_popup);
+        lv_obj_del(com_p2.com_popup_src);
+
+        if(mks_ui_page.mks_ui_page == MKS_UI_Frame) {
+            frame_ctrl.out = false;
+            mks_lv_clean_ui();
+            mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
+            mks_draw_ready();
+        }
         mks_grbl.popup_1_flag = false;
+        frame_ctrl.is_begin_run = false;
     }
 }
 
 void draw_global_popup(const char *text) {
 
-    // if(global_popup != NULL) {
-    //     lv_obj_del(global_popup);
-    // }
-
     if(mks_grbl.popup_1_flag == true) return;
-
     mks_grbl.popup_1_flag = true;
 
-	global_popup = lv_obj_create(mks_src, NULL);
-	lv_obj_set_size(global_popup, move_popup_size_x, move_popup_size_y);
-    lv_obj_set_pos(global_popup, move_popup_x, move_popup_y);
+	com_p2.com_popup_src = lv_obj_create(mks_src, NULL);
+	lv_obj_set_size(com_p2.com_popup_src, move_popup_size_x, move_popup_size_y);
+    lv_obj_set_pos(com_p2.com_popup_src, move_popup_x, move_popup_y);
 
-	lv_style_copy(&p_global_popup_color, &lv_style_scr);
-	p_global_popup_color.body.main_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
-    p_global_popup_color.body.grad_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
-    p_global_popup_color.text.color = LV_COLOR_BLACK;
-    p_global_popup_color.body.radius = 17;
-	lv_obj_set_style(global_popup, &p_global_popup_color);
+	lv_style_copy(&com_p2.com_popup_sytle, &lv_style_scr);
+	com_p2.com_popup_sytle.body.main_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
+    com_p2.com_popup_sytle.body.grad_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
+    com_p2.com_popup_sytle.text.color = LV_COLOR_BLACK;
+    com_p2.com_popup_sytle.body.radius = 17;
+	lv_obj_set_style(com_p2.com_popup_src, &com_p2.com_popup_sytle);
 
-	lv_style_copy(&p_global_popup_btn_color, &lv_style_scr);
-	p_global_popup_btn_color.body.main_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
-    p_global_popup_btn_color.body.grad_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
-    p_global_popup_btn_color.body.opa = LV_OPA_COVER;//设置背景色完全不透明
-    p_global_popup_btn_color.text.color = LV_COLOR_WHITE;
-	p_global_popup_btn_color.body.radius = 10;
+	lv_style_copy(&com_p2.com_btn_sytle, &lv_style_scr);
+	com_p2.com_btn_sytle.body.main_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+    com_p2.com_btn_sytle.body.grad_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+    com_p2.com_btn_sytle.body.opa = LV_OPA_COVER;//设置背景色完全不透明
+    com_p2.com_btn_sytle.text.color = LV_COLOR_WHITE;
+	com_p2.com_btn_sytle.body.radius = 10;
 
-	global_popup_btn_sure = mks_lv_btn_set(global_popup, 
-                                        global_popup_btn_sure, 
-                                        move_popup_btn_size_x, 
-                                        move_popup_btn_size_y,
-                                        move_popup_btn_x, 
-                                        move_popup_btn_y, 
-                                        event_handler_globel_popup_sure);
-	lv_btn_set_style(global_popup_btn_sure, LV_BTN_STYLE_REL, &p_global_popup_btn_color);
-	lv_btn_set_style(global_popup_btn_sure,LV_BTN_STYLE_PR, &p_global_popup_btn_color);
+	com_p2.btn_yes = mks_lv_btn_set(com_p2.com_popup_src, 
+                                    com_p2.btn_yes, 
+                                    move_popup_btn_size_x, 
+                                    move_popup_btn_size_y,
+                                    move_popup_btn_x, 
+                                    move_popup_btn_y, 
+                                    event_handler_globel_popup_sure);
+	lv_btn_set_style(com_p2.btn_yes, LV_BTN_STYLE_REL, &com_p2.com_btn_sytle);
+	lv_btn_set_style(com_p2.btn_yes,LV_BTN_STYLE_PR, &com_p2.com_btn_sytle);
 
-	global_popup_label_text = mks_lvgl_long_sroll_label_with_wight_set_center(global_popup, global_popup_label_text, 100, 50, text, 200);
-	global_popup_label_text = mks_lvgl_long_sroll_label_with_wight_set_center(global_popup_btn_sure, global_popup_label_text, 50, 0, "Yes",50);
+	com_p2.label_line1 = mks_lvgl_label_set_align_center(com_p2.com_popup_src, com_p2.label_line1, 0, -30, text, 16*sizeof(com_p1.label_line1)+1);
+	com_p2.label_yes = mks_lvgl_long_sroll_label_with_wight_set_center(com_p2.btn_yes, com_p2.label_yes, 50, 0, "Yes",50);
 }
+
+
+void mks_draw_common_popup(char *title, char *line1, char *line2, lv_event_cb_t event_cb_yes, lv_event_cb_t event_cancle) {
+
+	com_p1.com_popup_src = lv_obj_create(mks_src, NULL);
+	lv_obj_set_size(com_p1.com_popup_src ,350, 200);
+	lv_obj_set_pos(com_p1.com_popup_src, 80,50);
+
+	lv_style_copy(&com_p1.com_popup_sytle, &lv_style_scr);
+	com_p1.com_popup_sytle.body.main_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
+    com_p1.com_popup_sytle.body.grad_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
+	com_p1.com_popup_sytle.text.color = LV_COLOR_BLACK;
+	com_p1.com_popup_sytle.body.radius = 17;
+	lv_obj_set_style(com_p1.com_popup_src, &com_p1.com_popup_sytle);
+	
+	lv_style_copy(&com_p1.com_btn_sytle, &lv_style_scr);
+    com_p1.com_btn_sytle.body.main_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+    com_p1.com_btn_sytle.body.grad_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+	com_p1.com_btn_sytle.body.radius = 10;
+    com_p1.com_btn_sytle.body.opa = LV_OPA_COVER; // 设置背景色完全不透明
+    com_p1.com_btn_sytle.text.color = LV_COLOR_WHITE;
+	
+	com_p1.btn_yes = mks_lv_btn_set(com_p1.com_popup_src, com_p1.btn_yes, 100,40,10,130, event_cb_yes);
+	lv_btn_set_style(com_p1.btn_yes, LV_BTN_STYLE_REL, &com_p1.com_btn_sytle);
+    lv_btn_set_style(com_p1.btn_yes,LV_BTN_STYLE_PR,&com_p1.com_btn_sytle);
+	mks_lvgl_long_sroll_label_with_wight_set_center(com_p1.btn_yes, com_p1.label_yes, 50, 0, "Yes",50);
+
+	com_p1.btn_cancle = mks_lv_btn_set(com_p1.com_popup_src, com_p1.btn_cancle, 100,40,240,130, event_cancle);
+	lv_btn_set_style(com_p1.btn_cancle, LV_BTN_STYLE_REL, &com_p1.com_btn_sytle);
+    lv_btn_set_style(com_p1.btn_cancle,LV_BTN_STYLE_PR, &com_p1.com_btn_sytle);
+	mks_lvgl_long_sroll_label_with_wight_set_center(com_p1.btn_cancle, com_p1.label_cancle, 50, 0, "Cancel",50);
+
+	mks_lvgl_label_set_align_center(com_p1.com_popup_src, com_p1.label_title, 0, -60, title, 16*sizeof(com_p1.label_title));
+	mks_lvgl_label_set_align_center(com_p1.com_popup_src, com_p1.label_line1, 0, -20, line1,16*sizeof(com_p1.label_line1)*3);
+    mks_lvgl_label_set_align_center(com_p1.com_popup_src, com_p1.label_line2, 0, 0, line2,16*sizeof(com_p1.label_line2)*3);
+}
+
+
 
 
 
