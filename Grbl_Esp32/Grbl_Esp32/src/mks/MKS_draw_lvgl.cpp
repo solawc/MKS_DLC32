@@ -11,7 +11,8 @@ lv_obj_t *mks_src;          // 主背景页
 
 COMMON_POPUP_T com_p1;
 COMMON_POPUP_T com_p2;
-
+COMMON_POPUP_T com_p_info;
+COMMON_POPUP_T com_p_info_com;
 /* 
  * Author   :MKS
  * Describe :Set gradient background (support LVGL V6, can not use v7)
@@ -140,6 +141,56 @@ lv_obj_t* mks_lvgl_long_sroll_label_with_wight_set_center(lv_obj_t* scr, lv_obj_
     return lab;
 }
 
+
+
+
+/*
+ * 用于显示文件名
+*/
+lv_obj_t* label_for_file(lv_obj_t* scr, lv_obj_t* lab, lv_coord_t x, lv_coord_t y, const char* text, lv_coord_t w) {
+
+    lab = lv_label_create(scr, NULL);
+    lv_label_set_long_mode(lab, LV_LABEL_LONG_SROLL_CIRC);
+    lv_obj_set_width(lab, w);
+    lv_label_set_recolor(lab, true);
+    lv_label_set_text(lab, text);
+    lv_label_set_align(lab ,LV_LABEL_ALIGN_CENTER);
+    lv_obj_align(lab, NULL, LV_ALIGN_CENTER, x, y);
+    return lab;
+}
+
+
+/*
+ * 用于按键里面的文本
+*/
+lv_obj_t* label_for_app_name(lv_obj_t* scr, lv_obj_t* lab,lv_coord_t x, lv_coord_t y, const char* text) {
+    lab = lv_label_create(scr, NULL);
+    lv_label_set_long_mode(lab, LV_LABEL_LONG_EXPAND);
+    lv_label_set_recolor(lab, true);
+    lv_label_set_text(lab, text);
+    lv_label_set_align(lab ,LV_LABEL_ALIGN_CENTER);
+    lv_obj_align(lab, NULL, LV_ALIGN_CENTER, x, y);
+    return lab;
+}
+
+
+/*
+ * 用于文本显示
+ * 用于提示框显示
+*/
+lv_obj_t* label_for_screen(lv_obj_t* scr, lv_obj_t* lab, lv_coord_t x, lv_coord_t y, const char* text) {
+
+    lab = lv_label_create(scr, NULL);
+    lv_label_set_long_mode(lab, LV_LABEL_LONG_EXPAND);
+    lv_label_set_recolor(lab, true);
+    lv_label_set_text(lab, text);
+	lv_label_set_align(lab, LV_LABEL_ALIGN_CENTER);
+    lv_obj_align(lab, scr, LV_ALIGN_CENTER, x, y);
+    return lab;
+}
+
+
+
 lv_obj_t* mks_lv_static_label(lv_obj_t* scr, lv_obj_t* lab, lv_coord_t x, lv_coord_t y, const char* text, lv_coord_t w) {
 
     lab = lv_label_create(scr, NULL);
@@ -175,6 +226,17 @@ lv_obj_t* lv_imgbtn_creat_mks(lv_obj_t *scr ,lv_obj_t *imgbtn, const void * img_
     lv_imgbtn_set_src(imgbtn, LV_BTN_STATE_PR, img_pr);
     lv_imgbtn_set_src(imgbtn, LV_BTN_STATE_REL, img_rel);
     lv_imgbtn_set_state(imgbtn, LV_BTN_STATE_REL);
+    lv_obj_align(imgbtn, scr, align,x_mod, y_mod);
+    lv_obj_set_event_cb(imgbtn, event_cb);
+    return imgbtn;
+}
+
+lv_obj_t* lv_imgbtn_creat_mks1(lv_obj_t *scr ,lv_obj_t *imgbtn, const void * img_pr, const void * img_rel, lv_align_t align, lv_coord_t x_mod, lv_coord_t y_mod, lv_event_cb_t event_cb) {
+    imgbtn = lv_imgbtn_create(scr, NULL);
+    lv_imgbtn_set_src(imgbtn, LV_BTN_STATE_PR, img_pr);
+    lv_imgbtn_set_src(imgbtn, LV_BTN_STATE_REL, img_rel);
+    lv_imgbtn_set_state(imgbtn, LV_BTN_STATE_REL);
+    lv_obj_set_size(imgbtn,100, 95);
     lv_obj_align(imgbtn, NULL, align,x_mod, y_mod);
     lv_obj_set_event_cb(imgbtn, event_cb);
     return imgbtn;
@@ -216,6 +278,16 @@ lv_obj_t* mks_lv_btn_set(lv_obj_t* scr, lv_obj_t* btn, lv_coord_t btn_w, lv_coor
     btn = lv_btn_create(scr, NULL);
     lv_obj_set_size(btn, btn_w, btn_h);
     lv_obj_set_pos(btn, x, y);
+    lv_obj_set_event_cb(btn, event_cb);
+    return btn;
+}
+
+lv_obj_t* mks_lv_btn_set_for_screen(lv_obj_t* scr, lv_obj_t* btn, lv_coord_t btn_w, lv_coord_t btn_h, lv_coord_t x, lv_coord_t y, lv_event_cb_t event_cb) {
+
+    btn = lv_btn_create(scr, NULL);
+    lv_obj_set_size(btn, btn_w, btn_h);
+    // lv_obj_set_pos(btn, x, y);
+    lv_obj_align(btn, NULL, LV_ALIGN_CENTER, x, y);
     lv_obj_set_event_cb(btn, event_cb);
     return btn;
 }
@@ -281,6 +353,8 @@ lv_obj_t* mks_lv_set_kb(lv_obj_t* scr, lv_obj_t *kb, lv_event_cb_t event_cb) {
     lv_kb_set_style(kb, LV_KB_STYLE_BTN_REL, &rel_style);
     lv_kb_set_style(kb, LV_KB_STYLE_BTN_PR, &pr_style);
     lv_obj_set_event_cb(kb, event_cb);
+
+    return kb;
 }
 
 lv_obj_t* mks_lv_set_ta(lv_obj_t* scr, lv_obj_t *ta, lv_obj_t *kb) { 
@@ -352,18 +426,18 @@ void draw_global_popup(const char *text) {
     com_p2.com_btn_sytle.text.color = LV_COLOR_WHITE;
 	com_p2.com_btn_sytle.body.radius = 10;
 
-	com_p2.btn_yes = mks_lv_btn_set(com_p2.com_popup_src, 
-                                    com_p2.btn_yes, 
-                                    move_popup_btn_size_x, 
-                                    move_popup_btn_size_y,
-                                    move_popup_btn_x, 
-                                    move_popup_btn_y, 
-                                    event_handler_globel_popup_sure);
+	com_p2.btn_yes = mks_lv_btn_set_for_screen(com_p2.com_popup_src, 
+                                                com_p2.btn_yes, 
+                                                move_popup_btn_size_x, 
+                                                move_popup_btn_size_y,
+                                                move_popup_btn_x, 
+                                                move_popup_btn_y, 
+                                                event_handler_globel_popup_sure);
 	lv_btn_set_style(com_p2.btn_yes, LV_BTN_STYLE_REL, &com_p2.com_btn_sytle);
 	lv_btn_set_style(com_p2.btn_yes,LV_BTN_STYLE_PR, &com_p2.com_btn_sytle);
 
-	com_p2.label_line1 = mks_lvgl_label_set_align_center(com_p2.com_popup_src, com_p2.label_line1, 0, -30, text, 16*sizeof(com_p1.label_line1)+1);
-	com_p2.label_yes = mks_lvgl_long_sroll_label_with_wight_set_center(com_p2.btn_yes, com_p2.label_yes, 50, 0, "Yes",50);
+	com_p2.label_line1 = label_for_screen(com_p2.com_popup_src, com_p2.label_line1, 0, -30, text);
+	com_p2.label_yes = label_for_app_name(com_p2.btn_yes, com_p2.label_yes, 0, 0, "Yes");
 }
 
 
@@ -397,9 +471,75 @@ void mks_draw_common_popup(char *title, char *line1, char *line2, lv_event_cb_t 
     lv_btn_set_style(com_p1.btn_cancle,LV_BTN_STYLE_PR, &com_p1.com_btn_sytle);
 	mks_lvgl_long_sroll_label_with_wight_set_center(com_p1.btn_cancle, com_p1.label_cancle, 50, 0, "Cancel",50);
 
-	mks_lvgl_label_set_align_center(com_p1.com_popup_src, com_p1.label_title, 0, -60, title, 16*sizeof(com_p1.label_title));
-	mks_lvgl_label_set_align_center(com_p1.com_popup_src, com_p1.label_line1, 0, -20, line1,16*sizeof(com_p1.label_line1)*3);
-    mks_lvgl_label_set_align_center(com_p1.com_popup_src, com_p1.label_line2, 0, 0, line2,16*sizeof(com_p1.label_line2)*3);
+    label_for_screen(com_p1.com_popup_src, com_p1.label_title, 0, -60, title);
+	label_for_screen(com_p1.com_popup_src, com_p1.label_line1, 0, -20, line1);
+    label_for_screen(com_p1.com_popup_src, com_p1.label_line2, 0, 0, line2);
+}
+
+void mks_draw_common_pupup_info(char *title,char *line1, char *line2) {
+
+    com_p_info.com_popup_src = lv_obj_create(mks_src, NULL);
+	lv_obj_set_size(com_p_info.com_popup_src ,350, 200);
+	lv_obj_set_pos(com_p_info.com_popup_src, 80,50);
+
+    lv_style_copy(&com_p_info.com_popup_sytle, &lv_style_scr);
+	com_p_info.com_popup_sytle.body.main_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
+    com_p_info.com_popup_sytle.body.grad_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
+	com_p_info.com_popup_sytle.text.color = LV_COLOR_BLACK;
+	com_p_info.com_popup_sytle.body.radius = 17;
+	lv_obj_set_style(com_p_info.com_popup_src, &com_p_info.com_popup_sytle);
+
+    label_for_screen(com_p_info.com_popup_src, com_p_info.label_title, 0, -60, title);
+	label_for_screen(com_p_info.com_popup_src, com_p_info.label_line1, 0, -20, line1);
+    label_for_screen(com_p_info.com_popup_src, com_p_info.label_line2, 0, 0, line2);
+}
+
+void mks_draw_common_popup_info_com(char *title, char *line1, char *line2, lv_event_cb_t event_cb_yes) {
+
+	com_p_info_com.com_popup_src = lv_obj_create(mks_src, NULL);
+	lv_obj_set_size(com_p_info_com.com_popup_src ,350, 200);
+	lv_obj_set_pos(com_p_info_com.com_popup_src, 80,50);
+
+	lv_style_copy(&com_p_info_com.com_popup_sytle, &lv_style_scr);
+	com_p_info_com.com_popup_sytle.body.main_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
+    com_p_info_com.com_popup_sytle.body.grad_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
+	com_p_info_com.com_popup_sytle.text.color = LV_COLOR_BLACK;
+	com_p_info_com.com_popup_sytle.body.radius = 17;
+	lv_obj_set_style(com_p_info_com.com_popup_src, &com_p_info_com.com_popup_sytle);
+	
+	lv_style_copy(&com_p_info_com.com_btn_sytle, &lv_style_scr);
+    com_p_info_com.com_btn_sytle.body.main_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+    com_p_info_com.com_btn_sytle.body.grad_color = LV_COLOR_MAKE(0x3F, 0x46, 0x66);
+	com_p_info_com.com_btn_sytle.body.radius = 10;
+    com_p_info_com.com_btn_sytle.body.opa = LV_OPA_COVER; // 设置背景色完全不透明
+    com_p_info_com.com_btn_sytle.text.color = LV_COLOR_WHITE;
+	
+	// com_p_info_com.btn_yes = mks_lv_btn_set(com_p_info_com.com_popup_src, com_p_info_com.btn_yes, 100,40,10,130, event_cb_yes);
+    com_p_info_com.btn_yes = mks_lv_btn_set_for_screen(com_p_info_com.com_popup_src, com_p_info_com.btn_yes, 100, 40, 0, 60, event_cb_yes);
+    
+	lv_btn_set_style(com_p_info_com.btn_yes, LV_BTN_STYLE_REL, &com_p_info_com.com_btn_sytle);
+    lv_btn_set_style(com_p_info_com.btn_yes,LV_BTN_STYLE_PR,&com_p_info_com.com_btn_sytle);
+	mks_lvgl_long_sroll_label_with_wight_set_center(com_p_info_com.btn_yes, com_p_info_com.label_yes, 50, 0, "Yes",50);
+
+    label_for_screen(com_p_info_com.com_popup_src, com_p_info_com.label_title, 0, -60, title);
+	label_for_screen(com_p_info_com.com_popup_src, com_p_info_com.label_line1, 0, -20, line1);
+    label_for_screen(com_p_info_com.com_popup_src, com_p_info_com.label_line2, 0, 0, line2);
+}
+
+void common_pupup_info_del(void) { 
+    lv_obj_del(com_p_info.com_popup_src);
+}
+
+void common_popup_del(void) { 
+    lv_obj_del(com_p2.com_popup_src);
+}
+
+void common_popup_com_del(void) { 
+    lv_obj_del(com_p_info_com.com_popup_src);
+}
+
+void global_popup_del(void) { 
+    lv_obj_del(com_p1.com_popup_src);
 }
 
 

@@ -61,8 +61,6 @@ typedef struct {
     lv_obj_t* ready_label_zpos;
     lv_obj_t* ready_label_mpwr;
     lv_obj_t* ready_label_wifi_status;
-    
-
 }MKS_PAGE_READY;
 
 

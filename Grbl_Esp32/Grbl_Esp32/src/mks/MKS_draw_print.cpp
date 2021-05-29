@@ -321,19 +321,11 @@ static void event_pwr_setting_add(lv_obj_t* obj, lv_event_t event) {
     if (event == LV_EVENT_RELEASED) {
         
         if(mks_pwr_ctrl.pwr_len == PWR_1_PERSEN) {
-            // sys_rt_s_override += SpindleSpeedOverride::FineIncrement;
-            // if (sys_rt_s_override > SpindleSpeedOverride::Max) {
-            //     sys_rt_s_override = SpindleSpeedOverride::Max;
-            // }
             print_setting.cur_spindle_pwr += SpindleSpeedOverride::FineIncrement;
             if(print_setting.cur_spindle_pwr > SpindleSpeedOverride::Max) {
                 print_setting.cur_spindle_pwr = SpindleSpeedOverride::Max;    
             }
         }else if(mks_pwr_ctrl.pwr_len == PWR_10_PERSEN) {
-            // sys_rt_s_override += SpindleSpeedOverride::CoarseIncrement;
-            // if (sys_rt_s_override > SpindleSpeedOverride::Max) {
-            //     sys_rt_s_override = SpindleSpeedOverride::Max;
-            // }
             print_setting.cur_spindle_pwr += SpindleSpeedOverride::CoarseIncrement;
             if(print_setting.cur_spindle_pwr > SpindleSpeedOverride::Max) {
                 print_setting.cur_spindle_pwr = SpindleSpeedOverride::Max;    
@@ -351,19 +343,11 @@ static void event_pwr_setting_dec(lv_obj_t* obj, lv_event_t event) {
     if (event == LV_EVENT_RELEASED) {
 
         if(mks_pwr_ctrl.pwr_len == PWR_1_PERSEN) {
-            // sys_rt_s_override -= SpindleSpeedOverride::FineIncrement;
-            // if (sys_rt_s_override < SpindleSpeedOverride::Min) {
-            //     sys_rt_s_override = SpindleSpeedOverride::Min;
-            // }
             print_setting.cur_spindle_pwr -= SpindleSpeedOverride::FineIncrement;
             if(print_setting.cur_spindle_pwr < SpindleSpeedOverride::Min) {
                 print_setting.cur_spindle_pwr = SpindleSpeedOverride::Min;
             }
         }else if(mks_pwr_ctrl.pwr_len == PWR_10_PERSEN) {
-            // sys_rt_s_override -= SpindleSpeedOverride::CoarseIncrement;
-            // if (sys_rt_s_override < SpindleSpeedOverride::Min) {
-            //     sys_rt_s_override = SpindleSpeedOverride::Min;
-            // }
             print_setting.cur_spindle_pwr -= SpindleSpeedOverride::CoarseIncrement;
             if(print_setting.cur_spindle_pwr < SpindleSpeedOverride::Min) {
                 print_setting.cur_spindle_pwr = SpindleSpeedOverride::Min;
@@ -542,20 +526,12 @@ static void event_speed_setting_add(lv_obj_t* obj, lv_event_t event) {
     if (event == LV_EVENT_RELEASED) {
         
         if(mks_speed_ctrl.speed_len == SPEED_1_PERSEN) {
-            // sys_rt_f_override += FeedOverride::FineIncrement;
-            // if (sys_rt_f_override > FeedOverride::Max) {
-            //     sys_rt_f_override = FeedOverride::Max;
-            // }
             print_setting.cur_spindle_speed += FeedOverride::FineIncrement;
             if(print_setting.cur_spindle_speed > FeedOverride::Max) {
                 print_setting.cur_spindle_speed = FeedOverride::Max;
             }
 
         }else if(mks_speed_ctrl.speed_len == SPEED_10_PERSEN) {
-            // sys_rt_f_override += FeedOverride::CoarseIncrement;
-            // if (sys_rt_f_override > FeedOverride::Max) {
-            //     sys_rt_f_override = FeedOverride::Max;
-            // }
             print_setting.cur_spindle_speed += FeedOverride::CoarseIncrement;
             if(print_setting.cur_spindle_speed > FeedOverride::Max) {
                 print_setting.cur_spindle_speed = FeedOverride::Max;
@@ -570,19 +546,11 @@ static void event_speed_setting_dec(lv_obj_t* obj, lv_event_t event) {
     if (event == LV_EVENT_RELEASED) {
         
         if(mks_speed_ctrl.speed_len == SPEED_1_PERSEN) {
-            // sys_rt_f_override -= FeedOverride::FineIncrement;
-            // if (sys_rt_f_override > FeedOverride::Max) {
-            //     sys_rt_f_override = FeedOverride::Max;
-            // }    
             print_setting.cur_spindle_speed -= FeedOverride::FineIncrement;
             if(print_setting.cur_spindle_speed < FeedOverride::Min) {
                 print_setting.cur_spindle_speed = FeedOverride::Min;
             }
         }else if(mks_speed_ctrl.speed_len == SPEED_10_PERSEN) {
-            // sys_rt_f_override -= FeedOverride::CoarseIncrement;
-            // if (sys_rt_f_override > FeedOverride::Max) {
-            //     sys_rt_f_override = FeedOverride::Max;
-            // }
             print_setting.cur_spindle_speed -= FeedOverride::CoarseIncrement;
             if(print_setting.cur_spindle_speed < FeedOverride::Min) {
                 print_setting.cur_spindle_speed = FeedOverride::Min;

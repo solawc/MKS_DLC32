@@ -103,6 +103,13 @@ static void event_handler_wifi_back(lv_obj_t* obj, lv_event_t event) {
 	}
 }
 
+static void event_handler_wifi_disconnect(lv_obj_t* obj, lv_event_t event) {
+
+	if (event == LV_EVENT_RELEASED) {
+
+	}
+}
+
 static void event_handler_wifi_bt1(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
@@ -217,6 +224,8 @@ static void event_handler_wifi_kb_event(lv_obj_t* obj, lv_event_t event) {
 
 void mks_draw_wifi(void) {
 
+    mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING; 
+	mks_ui_page.wait_count = DEFAULT_UI_COUNT;
     
     if(mks_get_wifi_status() == false) {    // 进入没有连接的页面
 
@@ -347,6 +356,9 @@ void mks_draw_wifi_show(void) {
     wifi_src.wifi_label_up = mks_lvgl_long_sroll_label_with_wight_set_center(wifi_src.wifi_btn_up, wifi_src.wifi_label_up, 0, 0, "UP", 60);
 	wifi_src.wifi_label_next = mks_lvgl_long_sroll_label_with_wight_set_center(wifi_src.wifi_btn_next, wifi_src.wifi_label_next, 0, 0, "Next", 60);
     wifi_src.wifi_label_scanf = mks_lvgl_long_sroll_label_with_wight_set_center(wifi_src.wifi_btn_scanf, wifi_src.wifi_label_scanf, 0, 0, "Scanf", 60);
+
+    mks_ui_page.mks_ui_page = MKS_UI_Wifi; 
+	mks_ui_page.wait_count = DEFAULT_UI_COUNT;
 }
 
 void mks_draw_wifi_had_connect(void) {
@@ -354,13 +366,19 @@ void mks_draw_wifi_had_connect(void) {
     char us_str[255]="WIFI:";
     char ip_str[255]="IP:";
 
-    wifi_src.wifi_imgbtn_back = lv_imgbtn_creat_n_mks(mks_src, wifi_src.wifi_imgbtn_back, &back, &back, 480-60, 320-60, event_handler_wifi_back);
-    mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, wifi_src.wifi_label_back, 480-60, 320-20, "Back", 60);
+    wifi_src.wifi_btn_disconnect = mks_lv_btn_set(mks_src, wifi_src.wifi_btn_disconnect, 100, 50,  480-60, 60, event_handler_wifi_disconnect);
+    label_for_app_name(wifi_src.wifi_btn_disconnect, wifi_src.wifi_label_back, 0, 0, "Disconnect");
+
+    wifi_src.wifi_imgbtn_back = mks_lv_btn_set(mks_src, wifi_src.wifi_imgbtn_back, 100, 50,  480-60, 320-60, event_handler_wifi_back);
+    label_for_app_name(wifi_src.wifi_imgbtn_back, wifi_src.wifi_label_back, 0, 0, "Back");
 
     strcat(us_str, mks_wifi.wifi_name_connect);
     strcat(ip_str, WiFi.localIP().toString().c_str());
     wifi_src.wifi_label_username = mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, wifi_src.wifi_label_username, 10, 10, us_str, 0);
     wifi_src.wifi_label_ip = mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, wifi_src.wifi_label_ip, 10, 30, ip_str , 0);
+
+    mks_ui_page.mks_ui_page = MKS_UI_Wifi; 
+	mks_ui_page.wait_count = DEFAULT_UI_COUNT;
 }
 
 static void event_handler_wifi_connnect(lv_obj_t* obj, lv_event_t event) {
@@ -392,17 +410,87 @@ static void event_handler_wifi_connnect(lv_obj_t* obj, lv_event_t event) {
 	}
 }
 
+uint8_t  wifi_div(int32_t rssi) {
+
+    uint8_t ma = 0;
+
+    if((rssi>=-15)) {
+        ma = 0;
+        return ma;
+    }
+    else if((rssi >= -30) && (rssi < -15)) 
+    {
+        ma = 1;
+        return ma;
+    }
+    
+    else if((rssi >= -40) && (rssi < -30)) {
+        ma = 2;
+        return ma;
+    }
+    
+    else if((rssi >= -40) && (rssi < -50)) {
+         ma = 3;
+         return ma;
+    }
+   
+    else if((rssi >= -50) && (rssi < -60)) {
+         ma = 4;
+         return ma;
+    }
+   
+    else if((rssi >= -60) && (rssi < -70)) {
+         ma = 5;
+         return ma;
+    }
+   
+    else if((rssi >= -70) && (rssi < -80)) {
+         ma = 6;
+         return ma;
+    }
+   
+    else if((rssi >= -80) && (rssi < -85)) {
+         ma = 7;
+         return ma;
+    }
+   
+    else if((rssi >= -85) && (rssi < -90)) {
+         ma = 8;
+         return ma;
+    }
+   
+    else if((rssi >= -95) && (rssi < -100)){
+         ma = 9;
+         return ma;
+    }
+    
+    else if((rssi >= -100) && (rssi < -105)) {
+        ma = 10;
+        return ma;
+    }
+    else {
+        ma = 10;
+        return ma;
+    }
+}
+
 
 
 void mks_draw_wifi_kb(char *username) {
-
-    char un_str[146]="username:";
-    char rssi_str[146];
-
-    wifi_src.wifi_kb_src_1 = lv_obj_create(mks_src, NULL);
+    char un_str[255]="username:";
+    char rssi_str[255];
+    uint8_t get_rssi = 0;
     
+    wifi_src.wifi_kb_src_1 = lv_obj_create(mks_src, NULL);
     lv_obj_set_size(wifi_src.wifi_kb_src_1, wifi_src_kb_x_size, wifi_src_kb_y_size);
     lv_obj_set_pos(wifi_src.wifi_kb_src_1, wifi_src_kb_x, wifi_src_kb_y);
+
+    lv_style_copy(&wifi_src.wifi_src_style, &lv_style_scr);
+	wifi_src.wifi_src_style.body.main_color = LV_COLOR_MAKE(0x13, 0x12, 0x1a); 
+    wifi_src.wifi_src_style.body.grad_color = LV_COLOR_MAKE(0x13, 0x12, 0x1a); 
+    wifi_src.wifi_src_style.text.color = LV_COLOR_WHITE;
+    wifi_src.wifi_src_style.body.radius = 17;
+	lv_obj_set_style(wifi_src.wifi_kb_src_1, &wifi_src.wifi_src_style);
 
     wifi_src.wifi_kb = mks_lv_set_kb(wifi_src.wifi_kb_src_1, wifi_src.wifi_kb, event_handler_wifi_kb_event);
     wifi_src.wifi_tb = mks_lv_set_ta(wifi_src.wifi_kb_src_1 ,wifi_src.wifi_tb, wifi_src.wifi_kb);
@@ -410,7 +498,10 @@ void mks_draw_wifi_kb(char *username) {
     wifi_src.wifi_btn_connect = mks_lv_btn_set(wifi_src.wifi_kb_src_1, wifi_src.wifi_btn_connect,80, 80, 300, 10, event_handler_wifi_connnect);
 
     strcat(un_str, username);
-    sprintf(rssi_str, "RSSI:%d", mks_wifi.wifi_rssi[mks_wifi.wifi_choose]);
+
+    get_rssi = wifi_div(mks_wifi.wifi_rssi[mks_wifi.wifi_choose]);
+
+    sprintf(rssi_str, "RSSI:%d", get_rssi);
     
     wifi_src.wifi_label_username = mks_lvgl_long_sroll_label_with_wight_set_center(wifi_src.wifi_kb_src_1, wifi_src.wifi_label_username, 10, 5, un_str, 0);
     wifi_src.wifi_label_password = mks_lvgl_long_sroll_label_with_wight_set_center(wifi_src.wifi_kb_src_1, wifi_src.wifi_label_password, 10, 30,"password:", 0);
@@ -467,7 +558,6 @@ static void event_handler_wifi_popup_pw_enter(lv_obj_t* obj, lv_event_t event) {
 
 
 void draw_pos_wifi_popup(const char *text, char *file_name) {
-
 	// wifi_src.wifi_popup_scr_1 = lv_obj_create(mks_src, NULL);
 	// lv_obj_set_size(wifi_src.wifi_popup_scr_1, wifi_wifi_popup_x_size, wifi_wifi_popup_y_size);
     // lv_obj_set_pos(wifi_src.wifi_popup_scr_1, wifi_wifi_popup_x, wifi_wifi_popup_y);
@@ -522,6 +612,7 @@ void draw_pos_wifi_popup(const char *text, char *file_name) {
 	// wifi_src.wifi_btn_popup_sure_label = mks_lvgl_long_sroll_label_with_wight_set_center(wifi_src.wifi_popup_btn_sure, wifi_src.wifi_btn_popup_sure_label, 0, 0, "Connect", 80);
     // wifi_src.wifi_btn_popup_cancle_label = mks_lvgl_long_sroll_label_with_wight_set_center(wifi_src.wifi_popup_btn_cancle, wifi_src.wifi_btn_popup_sure_label, 0, 0, "Cancel", 80);
     // wifi_src.wifi_btn_popup_pw_enter_label = mks_lvgl_long_sroll_label_with_wight_set_center(wifi_src.wifi_popup_btn_pw_enter, wifi_src.wifi_btn_popup_pw_enter_label, 0, 0, "Password", 80);
+    
     char get_name[128];
     strcpy(get_name, file_name);
     mks_lv_clean_ui();

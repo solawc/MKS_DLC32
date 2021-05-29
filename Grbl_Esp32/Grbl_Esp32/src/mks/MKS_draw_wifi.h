@@ -107,10 +107,12 @@ typedef struct {
     lv_obj_t *wifi_label_connect;
     lv_obj_t *wifi_label_riss;
     lv_obj_t *wifi_label_ip;
+    lv_style_t wifi_src_style;
 
     lv_obj_t *wifi_btn_up; 
     lv_obj_t *wifi_btn_next;
     lv_obj_t *wifi_btn_scanf; 
+    lv_obj_t *wifi_btn_disconnect;      // 断开连接
     lv_obj_t *wifi_imgbtn_back;
 
     lv_obj_t *wifi_label_line1;         // label
@@ -136,6 +138,20 @@ typedef struct {
 }MKS_WIFI_PAGE_T;
 extern MKS_WIFI_PAGE_T wifi_src;
 
+
+typedef enum {
+    WIFI_RSSI_NANO,
+    WIFI_RSSI_1,
+    WIFI_RSSI_2,
+    WIFI_RSSI_3,
+    WIFI_RSSI_4,
+    WIFI_RSSI_5,
+    WIFI_RSSI_6,
+    WIFI_RSSI_7,
+    WIFI_RSSI_8,
+    WIFI_RSSI_9,
+    WIFI_RSSI_10,
+}WIFI_RSSI_T;
 
 
 void mks_draw_wifi(void);

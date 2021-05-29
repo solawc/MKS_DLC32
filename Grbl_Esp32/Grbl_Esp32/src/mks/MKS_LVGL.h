@@ -95,6 +95,8 @@ typedef enum {
     MKS_UI_Pring,
     MKS_UI_Tool,
     MKS_UI_Wifi,
+    MKS_UI_WIFI_UNCONNECT,
+    MKS_UI_WIFI_CONNECT,
     MKS_UI_Frame,
     MKS_UI_inFile,
 

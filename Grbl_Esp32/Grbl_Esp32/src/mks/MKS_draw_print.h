@@ -172,6 +172,15 @@ typedef struct {
 }MKS_PRINT_SETTING_T;
 
 
+typedef struct {
+
+    uint32_t time_count;    // 总的时间计数
+    uint32_t time_h;        // 时
+    uint32_t time_min;      // 分
+    uint32_t time_s;        // 秒
+
+}MKS_PRINT_TIME_T;          // 时间管理控制器
+
 
 extern String ddxd;
 

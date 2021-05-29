@@ -15,7 +15,13 @@ LV_IMG_DECLARE(Hhome);
 
 
 
+static void event_henadle_pupup_com(lv_obj_t* obj, lv_event_t event) { 
 
+	if (event == LV_EVENT_RELEASED) {
+		set_click_status(true);
+		common_popup_com_del();
+	}
+}
 
 static void event_handler_x_n(lv_obj_t* obj, lv_event_t event) {
 
@@ -135,7 +141,9 @@ static void event_handler_unlock(lv_obj_t* obj, lv_event_t event) {
         // mks_clear_move();
 		// motors_set_disable(true);
 		MKS_GRBL_CMD_SEND("$X\n");
-		draw_pos_popup("Unlock success");
+		// draw_pos_popup("Unlock success");
+		set_click_status(false);
+		mks_draw_common_popup_info_com("Info", "Unlock success!", " ", event_henadle_pupup_com);
 	}
 }
 
@@ -149,7 +157,9 @@ static void event_handler_home(lv_obj_t* obj, lv_event_t event) {
 
        	MKS_GRBL_CMD_SEND("$J=G90X0Y0F2000\n");
 		// draw_pos_popup("Homing success");
-		draw_pos_popup_2("      Homing...");
+		// draw_pos_popup_2("      Homing...");
+		set_click_status(false);
+		mks_draw_common_pupup_info("Info", "Homing...", " ");
 		ui_move_ctrl.soft_homing_status = HOMING_START;
 	}
 }
@@ -157,12 +167,15 @@ static void event_handler_home(lv_obj_t* obj, lv_event_t event) {
 static void event_handler_pos(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
- 
+		
+		set_click_status(false);
 		if(sys.state == State::Idle && mks_get_motor_status() ) {
 			MKS_GRBL_CMD_SEND("G92X0Y0Z0\n");
-			draw_pos_popup("Positioning success");
+			// draw_pos_popup("Positioning success");
+			mks_draw_common_popup_info_com("Info", "Positioning success", " ", event_henadle_pupup_com);
 		}else {
-			draw_pos_popup("Please wait machine stop!");
+			// draw_pos_popup("Please wait machine stop!");
+			mks_draw_common_popup_info_com("Warring", "Please wait machine stop!", " ", event_henadle_pupup_com);
 		}
 	}
 }
@@ -172,49 +185,19 @@ static void event_handler_hhome(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
 		MKS_GRBL_CMD_SEND("M5\n");
 		mks_grbl.power_persen = P_0_PERSEN;
+		set_click_status(false);
 		if(hard_limits->get()) {
 			MKS_GRBL_CMD_SEND("$H\n");
 			ui_move_ctrl.hard_homing_status = HOMING_START;
-			draw_pos_popup_2("Hard Homing...");
+			// draw_pos_popup_2("Hard Homing...");
+			mks_draw_common_pupup_info("Info", "Homing...", " ");
 		}
 		else {
-			draw_pos_popup_2("No Enable Hard Homing...");
+			// draw_pos_popup_2("No Enable Hard Homing...");
+			mks_draw_common_popup_info_com("Warring", "No Enable Hard Homing...", " ", event_henadle_pupup_com);
 		}
 	}
 }
-
-// static void event_handler_dis_0_1(lv_obj_t* obj, lv_event_t event) {
-
-// 	if (event == LV_EVENT_RELEASED) {
-// 		mks_grbl.move_dis = M_0_1_MM;
-
-// 		lv_label_set_text(move_page.label_len_0_1, "#000000 0.1mm#");
-// 		lv_label_set_text(move_page.label_len_1, "#ffffff 1mm#");
-// 		lv_label_set_text(move_page.label_len_10, "#ffffff 10mm#");
-// 	}
-// }
-
-// static void event_handler_dis_1(lv_obj_t* obj, lv_event_t event) {
-
-// 	if (event == LV_EVENT_RELEASED) {
-// 		mks_grbl.move_dis = M_1_MM;
-// 		lv_label_set_text(move_page.label_len_1, "#000000 1mm#");
-// 		lv_label_set_text(move_page.label_len_0_1, "#ffffff 0.1mm#");
-// 		lv_label_set_text(move_page.label_len_10, "#ffffff 10mm#");
-// 	}
-// }
-
-// static void event_handler_dis_10(lv_obj_t* obj, lv_event_t event) {
-
-// 	if (event == LV_EVENT_RELEASED) {
-
-// 		mks_grbl.move_dis = M_10_MM;
-
-// 		lv_label_set_text(move_page.label_len_10, "#000000 10mm#");
-// 		lv_label_set_text(move_page.label_len_0_1, "#ffffff 0.1mm#");
-// 		lv_label_set_text(move_page.label_len_1, "#ffffff 1mm#");
-// 	}
-// }
 
 static void event_handler_len_set(lv_obj_t* obj, lv_event_t event) {
 
@@ -275,9 +258,6 @@ void mks_draw_move(void) {
 	lv_obj_set_size(move_page.dist_scr, 180, 200);
     lv_obj_set_pos(move_page.dist_scr, 290, 110);
 
-	mks_ui_page.mks_ui_page = MKS_UI_Control;
-    mks_ui_page.wait_count = DEFAULT_UI_COUNT;
-
 	/* 背景层样式 */
 	lv_style_copy(&move_page.mbk_color, &lv_style_scr);
     move_page.mbk_color.body.main_color = LV_COLOR_MAKE(0x1F, 0x23, 0x33); 
@@ -307,14 +287,11 @@ void mks_draw_move(void) {
     move_page.btn_color.text.color = LV_COLOR_BLACK;
 	move_page.btn_color.body.radius = 10;
 
-	/* 按键创建 */
-	// move_page.btn_len_0_1 = mks_lv_btn_set(move_page.dist_scr, move_page.btn_len_0_1, 80, 40, 50, 20, event_handler_dis_0_1);
-	// move_page.btn_len_1 = mks_lv_btn_set(move_page.dist_scr, move_page.btn_len_1, 80, 40, 50, 80, event_handler_dis_1);
-	// move_page.btn_len_10 = mks_lv_btn_set(move_page.dist_scr, move_page.btn_len_10, 80, 40, 50, 140, event_handler_dis_10);
-
-
-	move_page.btn_len = mks_lv_btn_set(move_page.dist_scr, move_page.btn_len, 120, 50, 40, 40, event_handler_len_set);
-	move_page.btn_speed = mks_lv_btn_set(move_page.dist_scr, move_page.btn_speed, 120, 50, 40, 130, event_handler_speed);
+	// move_page.btn_len = mks_lv_btn_set(move_page.dist_scr, move_page.btn_len, 120, 50, 40, 40, event_handler_len_set);
+	// move_page.btn_speed = mks_lv_btn_set(move_page.dist_scr, move_page.btn_speed, 120, 50, 40, 130, event_handler_speed);
+	move_page.btn_len = mks_lv_btn_set_for_screen(move_page.dist_scr, move_page.btn_len, 120, 50, 0, -40, event_handler_len_set);
+	move_page.btn_speed = mks_lv_btn_set_for_screen(move_page.dist_scr, move_page.btn_speed, 120, 50, 0, 40, event_handler_speed);
+	
 
 	lv_btn_set_style(move_page.btn_len, LV_BTN_STYLE_REL, &move_page.btn_color);
 	lv_btn_set_style(move_page.btn_len, LV_BTN_STYLE_PR, &move_page.btn_color);
@@ -328,21 +305,6 @@ void mks_draw_move(void) {
 	mks_lvgl_long_sroll_label_with_wight_set_center(move_page.tool_scr, move_page.Label_home, 300, 65, "Home", 50);
 	mks_lvgl_long_sroll_label_with_wight_set_center(move_page.tool_scr, move_page.Label_postivs, 390, 65, "Position", 100);
 	mks_lvgl_long_sroll_label_with_wight_set_center(move_page.tool_scr, move_page.Label_unlock, 100, 65, "HHome", 80);
-
-	// if(mks_grbl.move_dis == M_0_1_MM) 
-	// 	move_page.label_len_0_1 = mks_lvgl_long_sroll_label_with_wight_set_center(move_page.btn_len_0_1, move_page.label_len_0_1, 0, 0, "#000000 0.1mm#", 50);
-	// else 
-	// 	move_page.label_len_0_1 = mks_lvgl_long_sroll_label_with_wight_set_center(move_page.btn_len_0_1, move_page.label_len_0_1, 0, 0, "#ffffff 0.1mm#", 50);
-
-	// if(mks_grbl.move_dis == M_1_MM) 
-	// 	move_page.label_len_1 = mks_lvgl_long_sroll_label_with_wight_set_center(move_page.btn_len_1, move_page.label_len_1, 0, 0, "#000000 1mm#", 50);
-	// else 
-	// 	move_page.label_len_1 = mks_lvgl_long_sroll_label_with_wight_set_center(move_page.btn_len_1, move_page.label_len_1, 0, 0, "#ffffff 1mm#", 50);
-
-	// if(mks_grbl.move_dis == M_10_MM) 
-	// 	move_page.label_len_10 = mks_lvgl_long_sroll_label_with_wight_set_center(move_page.btn_len_10, move_page.label_len_10, 0, 0, "#000000 10mm#", 50);
-	// else 
-	// 	move_page.label_len_10 = mks_lvgl_long_sroll_label_with_wight_set_center(move_page.btn_len_10, move_page.label_len_10, 0, 0, "#ffffff 10mm#", 50);
 
 	if(mks_grbl.move_dis == M_0_1_MM) {
 		move_page.label_len = mks_lvgl_long_sroll_label_with_wight_set_center(move_page.btn_len, move_page.label_len, 0, 0, "0.1mm", 50);
@@ -364,6 +326,13 @@ void mks_draw_move(void) {
     mks_ui_page.wait_count = DEFAULT_UI_COUNT;
 }
 
+void set_click_status(bool status) {
+	lv_obj_set_click(move_page.Back, status);
+	lv_obj_set_click(move_page.m_unlock, status);
+	lv_obj_set_click(move_page.home, status);
+	lv_obj_set_click(move_page.postivs, status);
+	lv_obj_set_click(move_page.hhome, status);
+}
 
 lv_obj_t* move_popup_scr;
 lv_style_t move_popup_color;
@@ -491,6 +460,9 @@ void draw_pos_popup_2(const char *text) {
 	move_popup_label_dis = mks_lvgl_long_sroll_label_with_wight_set_center(move_popup_scr, move_popup_label_dis, 100, 50, text, 200);
 }
 
+
+
+
 void hard_home_check(void) {
 	switch(ui_move_ctrl.hard_homing_status) {
 
@@ -514,14 +486,18 @@ void hard_home_check(void) {
 
 		case HOMING_SUCCEED:
 			ui_move_ctrl.hard_homing_status = HOMING_NONE;
-			lv_obj_del(move_popup_scr);
-			draw_pos_popup_1("Homing succeed!");
+			// lv_obj_del(move_popup_scr);
+			// draw_pos_popup_1("Homing succeed!");
+			common_pupup_info_del();
+			mks_draw_common_popup_info_com("Info", "Homing succeed!", " ", event_henadle_pupup_com);
 		break;
 
 		case HOMING_FAIL:
 			ui_move_ctrl.hard_homing_status = HOMING_NONE;
-			lv_obj_del(move_popup_scr);
-			draw_pos_popup_1("Homing fail,please unlock!");
+			// lv_obj_del(move_popup_scr);
+			// draw_pos_popup_1("Homing fail,please unlock!");
+			common_pupup_info_del();
+			mks_draw_common_popup_info_com("Info", "Homing fail", "please unlock!", event_henadle_pupup_com);
 		break;
 	}
 }
@@ -549,24 +525,26 @@ void soft_home_check(void) {
 		break;
 
 		case HOMING_SUCCEED:
-			lv_obj_del(move_popup_scr);
-			ui_move_ctrl.soft_homing_status = HOMING_NONE;
-			draw_pos_popup_1("Homing success!");
+			// lv_obj_del(move_popup_scr);
 			
+			ui_move_ctrl.soft_homing_status = HOMING_NONE;
+			
+			common_pupup_info_del();
+			// draw_pos_popup_1("Homing success!");
+			mks_draw_common_popup_info_com("Info", "Homing succeed!", " ", event_henadle_pupup_com);
 		break;
 
 		case HOMING_FAIL:
-			lv_obj_del(move_popup_scr);
+			// lv_obj_del(move_popup_scr);
 			ui_move_ctrl.soft_homing_status = HOMING_NONE;
-			draw_pos_popup_1("Homing fail");
-			
+			common_pupup_info_del();
+			// draw_pos_popup_1("Homing fail");
+			mks_draw_common_popup_info_com("Info", "Homing fail", " ", event_henadle_pupup_com);
 		break;
 	}
-
 }
 
 bool mks_get_motor_status(void) { 
-
 	return stepper_idle;
 }
 
