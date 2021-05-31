@@ -163,6 +163,7 @@ void protocol_main_loop() {
                         mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
                         mks_ui_page.wait_count = DEFAULT_UI_COUNT;
                         mks_draw_finsh_pupop(); // show print finsh 
+                        
                     }
                     grbl_notifyf("SD print done", "%s print is successful", temp);
                     closeFile();  // close file and clear SD ready/running flags

@@ -64,6 +64,12 @@ typedef struct {
     bool is_begin_run;          // 开始检测
     bool out;
 
+    bool lb_flag;
+    float x_first_pos;
+    float y_first_pos;
+    float x_last_pos;
+    float y_last_pos;
+
 }FRAME_CRTL_T;
 extern FRAME_CRTL_T frame_ctrl;
 

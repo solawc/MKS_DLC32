@@ -131,11 +131,11 @@ void mks_wifi_scanf(void) {
     switch (n) {
         case -2:                      // Scan not triggered
             WiFi.scanNetworks(true);  // Begin async scan
-            grbl_send(CLIENT_SERIAL ,"scanNetworks\n\n");
+            // grbl_send(CLIENT_SERIAL ,"scanNetworks\n\n");
             mks_wifi.wifi_scanf_status = wifi_scanf_begin;
             break;
         case -1:  // Scan in progress
-            grbl_send(CLIENT_SERIAL ,"waitting\n\n");
+            // grbl_send(CLIENT_SERIAL ,"waitting\n\n");
             mks_wifi.wifi_scanf_status = wifi_scanf_waitting;
             break;
         default:

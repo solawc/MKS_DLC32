@@ -57,6 +57,8 @@ typedef enum{
     wifi_kb_send_wifi_STA_mode,
     wifi_kb_send_wifi_PORT,         // 8080
     wifi_kb_send_wifi_connect,
+
+    wifi_kb_send_wifi_disconnect,   // 断开连接
 }wifi_kb_flag_t;
 
 
@@ -162,6 +164,7 @@ void mks_wifi_del_label(void);
 void mks_wifi_show_label(void);
 void mks_draw_wifi_kb(void);
 void mks_wifi_connect(char *username, char *password);
+void mks_draw_wifi_disconnrcting(void);
 void draw_pos_wifi_popup(const char *text, char *file_name);
 void mks_draw_wifi_scanf(void);     // 提示扫描界面
 void mks_draw_wifi_show(void);           // 正常wifi界面

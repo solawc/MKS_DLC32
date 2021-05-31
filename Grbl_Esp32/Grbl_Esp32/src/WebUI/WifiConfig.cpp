@@ -404,9 +404,7 @@ namespace WebUI {
         } else if (wifiMode == ESP_WIFI_STA) {
             if (!StartSTA()) {
                 grbl_sendf(CLIENT_ALL, "[MSG:Cannot connect to %s]\r\n", wifi_sta_ssid->get());
-
                 mks_wifi.wifi_scanf_status = wifi_scanf_fail;
-
                 StartAP();
             }
             //start services

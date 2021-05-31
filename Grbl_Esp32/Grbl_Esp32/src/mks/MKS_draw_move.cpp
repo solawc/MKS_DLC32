@@ -143,7 +143,7 @@ static void event_handler_unlock(lv_obj_t* obj, lv_event_t event) {
 		MKS_GRBL_CMD_SEND("$X\n");
 		// draw_pos_popup("Unlock success");
 		set_click_status(false);
-		mks_draw_common_popup_info_com("Info", "Unlock success!", " ", event_henadle_pupup_com);
+		mks_draw_common_popup_info_com("Info", "Unlock success!", "", event_henadle_pupup_com);
 	}
 }
 

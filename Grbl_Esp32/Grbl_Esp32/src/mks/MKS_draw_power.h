@@ -21,13 +21,11 @@ typedef struct {
     lv_obj_t* label_sure;
     lv_obj_t* label_popup;
 
-
     lv_obj_t* pwr_label_high;
     lv_obj_t* pwr_label_low;
     lv_obj_t* pwr_label_off;
     lv_obj_t* label_cailb;
     lv_obj_t* label_Back;
-
 
     lv_style_t p_bkl_color;
     lv_style_t p_popup_color;
@@ -35,7 +33,11 @@ typedef struct {
 
 }POWER_PAGE_T;
 
-
+typedef enum {
+    PWR_IMGBTN_HIGH_X_POS = 70,
+    PWR_IMGBTN_HIGH_Y_POS = 50,
+    PWR_IMGBTN_OFFSET_X = 130,
+}PWR_XY_POS_T;
 
 
 void mks_draw_power(void);

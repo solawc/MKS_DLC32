@@ -90,9 +90,11 @@ static void mks_page_data_updata(void) {
             mks_wifi.wifi_scanf_status = wifi_none;
         }else if(mks_wifi.wifi_scanf_status == wifi_connecting) {
             if(mks_grbl.wifi_connect_status == true) {
-                mks_lv_clean_ui();
-                mks_draw_wifi();
-                mks_wifi.wifi_scanf_status = wifi_none;
+                if(mks_get_wifi_status() == true) {            // 确认连接上
+                    mks_lv_clean_ui();
+                    mks_draw_wifi();
+                    mks_wifi.wifi_scanf_status = wifi_none;
+                }
             }
         }
         else if(mks_wifi.wifi_scanf_status == wifi_scanf_fail) {
@@ -100,8 +102,15 @@ static void mks_page_data_updata(void) {
             mks_draw_wifi();
             mks_wifi.wifi_scanf_status = wifi_none;
         }
+        else if(mks_wifi.wifi_scanf_status == wifi_disconnecting) {
+            
+            if(mks_get_wifi_status() == false) {  // 确认断开
+                mks_wifi.wifi_scanf_status = wifi_scanf_begin;   // 重新扫描
+                mks_lv_clean_ui();
+                mks_draw_wifi();
+            }
+        }
     }
-    
     count_updata++;
 }
 

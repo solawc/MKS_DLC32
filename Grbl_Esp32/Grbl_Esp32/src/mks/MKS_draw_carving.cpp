@@ -970,8 +970,8 @@ void mks_draw_caving_popup(uint8_t text, char *srt) {
 	if(file_name[0] == '/') file_name[0] = ' ';
 	// mks_lvgl_long_sroll_label_with_wight_set(caving_Popup, Label_popup_file_name, 100, 40, file_name, 255);
 	// mks_lvgl_long_sroll_label_with_wight_set(caving_Popup, Label_popup, 100, 60, "Is Caving this File?",255);
-	label_for_screen(caving_Popup, Label_popup_file_name, 100, 40, file_name);
-	label_for_screen(caving_Popup, Label_popup, 100, 60, "Is Caving this File?");
+	label_for_screen(caving_Popup, Label_popup_file_name, 0, -20, file_name);
+	label_for_screen(caving_Popup, Label_popup, 0, 0, "Is Caving this File?");
 	
 }
 

@@ -42,7 +42,7 @@ typedef enum {
     print_pwr_popup_add_btn_size_y = 40,
 
     print_bar_pic_x = 10,
-    print_bar_pic_y = 10,
+    print_bar_pic_y = 35,
 
     print_first_data_label_x = 10,
     print_first_data_label_y = 100,

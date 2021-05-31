@@ -197,7 +197,7 @@ void mks_draw_print(void) {
     
 
     Label_print_file_name = mks_lvgl_long_sroll_label_with_wight_set_center(print_src.print_bar_print, Label_print_file_name, 10, 15, print_file_name, 400);
-    print_src.print_bar_print_percen = mks_lvgl_long_sroll_label_with_wight_set_center(print_src.print_bar_print, print_src.print_bar_print_percen, 400, 15, "0%", 32);
+    print_src.print_bar_print_percen = label_for_app_name(print_src.print_bar_print, print_src.print_bar_print_percen, 190, 0, "0%");
 
     lv_refr_now(lv_refr_get_disp_refreshing());
 
@@ -207,6 +207,11 @@ void mks_draw_print(void) {
 
 static void event_btn_cancle(lv_obj_t* obj, lv_event_t event) {
     if (event == LV_EVENT_RELEASED) {
+        
+        lv_obj_set_click(print_src.print_imgbtn_suspend, true);
+        lv_obj_set_click(print_src.print_imgbtn_stop, true);
+        lv_obj_set_click(print_src.print_imgbtn_pwr, true);
+        lv_obj_set_click(print_src.print_imgbtn_speed, true);
         lv_obj_del(print_src.print_stop_popup);
     }
 }
@@ -215,6 +220,12 @@ static void event_btn_sure(lv_obj_t* obj, lv_event_t event) {
     
     uint16_t buf_cmd[]={0x18};
     if (event == LV_EVENT_RELEASED) {
+
+        lv_obj_set_click(print_src.print_imgbtn_suspend, true);
+        lv_obj_set_click(print_src.print_imgbtn_stop, true);
+        lv_obj_set_click(print_src.print_imgbtn_pwr, true);
+        lv_obj_set_click(print_src.print_imgbtn_speed, true);
+
         closeFile();
         // mks_grbl.run_status = GRBL_RESTARTING;
         mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
@@ -230,6 +241,12 @@ static void event_btn_sure(lv_obj_t* obj, lv_event_t event) {
 static void event_btn_printdon(lv_obj_t* obj, lv_event_t event) {
     if (event == LV_EVENT_RELEASED) {
         // mks_grbl.run_status = GRBL_RESTARTING; 
+
+        lv_obj_set_click(print_src.print_imgbtn_suspend, true);
+        lv_obj_set_click(print_src.print_imgbtn_stop, true);
+        lv_obj_set_click(print_src.print_imgbtn_pwr, true);
+        lv_obj_set_click(print_src.print_imgbtn_speed, true);
+
         mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
         mks_ui_page.wait_count = 1;
         tf.deleteFile("/PLA.txt");
@@ -240,7 +257,12 @@ static void event_btn_printdon(lv_obj_t* obj, lv_event_t event) {
 }
 
 void mks_draw_print_popup(const char* text) {
-
+    
+    lv_obj_set_click(print_src.print_imgbtn_suspend, false);
+    lv_obj_set_click(print_src.print_imgbtn_stop, false);
+    lv_obj_set_click(print_src.print_imgbtn_pwr, false);
+    lv_obj_set_click(print_src.print_imgbtn_speed, false);
+    //  need cancle click
     print_src.print_stop_popup = lv_obj_create(mks_src, NULL);
     lv_obj_set_size(print_src.print_stop_popup, print_popup_size_x, print_popup_size_y);
     lv_obj_set_pos(print_src.print_stop_popup, print_popup_x, print_popup_y);
@@ -268,11 +290,15 @@ void mks_draw_print_popup(const char* text) {
 	lv_btn_set_style(btn_popup_cancle, LV_BTN_STYLE_REL, &print_src.print_popup_btn_style);
     lv_btn_set_style(btn_popup_cancle,LV_BTN_STYLE_PR,&print_src.print_popup_btn_style);
 	mks_lvgl_long_sroll_label_with_wight_set_center(btn_popup_cancle, print_src.print_Label_popup_sure, 50, 0, "Cancel", 50);
-
     mks_lvgl_long_sroll_label_with_wight_set(print_src.print_stop_popup, print_src.print_Label_popup, 80, 60, text, 200);
 }
 
 void mks_draw_finsh_pupop(void) { 
+
+    lv_obj_set_click(print_src.print_imgbtn_suspend, false);
+    lv_obj_set_click(print_src.print_imgbtn_stop, false);
+    lv_obj_set_click(print_src.print_imgbtn_pwr, false);
+    lv_obj_set_click(print_src.print_imgbtn_speed, false);
 
     print_src.print_finsh_popup = lv_obj_create(mks_src, NULL);
     lv_obj_set_size(print_src.print_finsh_popup, 350, 200);
@@ -299,9 +325,11 @@ void mks_draw_finsh_pupop(void) {
     lv_btn_set_style(btn_finsh_popup_sure, LV_BTN_STYLE_REL, &print_src.print_popup_btn_style);
     lv_btn_set_style(btn_finsh_popup_sure,LV_BTN_STYLE_PR,&print_src.print_popup_btn_style);
 
-    mks_lvgl_long_sroll_label_with_wight_set_center(btn_finsh_popup_sure, print_src.print_Label_popup_sure, 50, 0, "Yes", 50);
-
-    mks_lvgl_long_sroll_label_with_wight_set(print_src.print_finsh_popup, print_src.print_Label_popup, 100, 80, "File is print done!", 150);
+    // mks_lvgl_long_sroll_label_with_wight_set_center(btn_finsh_popup_sure, print_src.print_Label_popup_sure, 50, 0, "Yes", 50);
+    // mks_lvgl_long_sroll_label_with_wight_set(print_src.print_finsh_popup, print_src.print_Label_popup, 100, 80, "File is print done!", 150);
+    label_for_app_name(btn_finsh_popup_sure, print_src.print_Label_popup_sure, 0, 0, "Yes");
+    label_for_screen(print_src.print_finsh_popup, print_src.print_Label_popup, 0, -20, "File is print done!");
+    
 }
 
 char bar_percen_str[20];

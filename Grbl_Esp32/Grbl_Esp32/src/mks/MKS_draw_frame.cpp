@@ -23,7 +23,6 @@ static void event_handler_cancle(lv_obj_t* obj, lv_event_t event) {
     }
 }
 
-
 void mks_draw_frame(void) { 
 
     mks_frame_init();
@@ -123,18 +122,23 @@ void mks_openSDFile(char* parameter) {
 }
 
 
+// bool lb_flag = false;
+
 void polocte_cmd(char *str) {
     
+    if(strstr(str ,"Bounds")) {
+        frame_ctrl.lb_flag == true;
+    }
+
     if(strstr(str, "G0")) {
         frame_ctrl.have_g0 = 1;
-        // printf("have G0\n");
     }
     else if(strstr(str, "G1")) {
         frame_ctrl.have_g1 = 1;
-        // printf("have G1\n");
     }
 
-    while( *str != '\0' && frame_ctrl.safe_count < FRAME_BUFF_SIZE -1) {      
+    
+    while( *str != '\0' && frame_ctrl.safe_count < FRAME_BUFF_SIZE -1 ) {      
         if((frame_ctrl.have_g0 == 1)||(frame_ctrl.have_g1==1)) {
             
             if(*str == 'X') {
@@ -149,6 +153,9 @@ void polocte_cmd(char *str) {
                     frame_ctrl.x_or_y++;
                 }
                 frame_ctrl.x_temp = atof(frame_ctrl.x_value);
+
+                if(frame_ctrl.lb_flag) frame_ctrl.x_first_pos = frame_ctrl.x_temp;  // 判断是否是相对坐标
+                
                 if(frame_ctrl.x_temp > frame_ctrl.x_max) frame_ctrl.x_max = frame_ctrl.x_temp;
 
                 if(frame_ctrl.x_temp < frame_ctrl.x_min) frame_ctrl.x_min = frame_ctrl.x_temp;
@@ -166,12 +173,48 @@ void polocte_cmd(char *str) {
                     frame_ctrl.x_or_y++;
                 }
                 frame_ctrl.y_temp = atof(frame_ctrl.y_value);
+
+                if(frame_ctrl.lb_flag) frame_ctrl.y_first_pos = frame_ctrl.y_temp; // 判断是否是相对坐标
+
                 if(frame_ctrl.y_temp > frame_ctrl.y_max) frame_ctrl.y_max = frame_ctrl.y_temp;
 
                 if(frame_ctrl.y_temp < frame_ctrl.y_min) frame_ctrl.y_min = frame_ctrl.y_temp;
                 else if(frame_ctrl.y_min == 0) frame_ctrl.y_min = frame_ctrl.y_temp;
             }
-        }
+
+            if(frame_ctrl.lb_flag) {
+                
+                if(*str == 'X') {
+                    str++;
+                    memset(frame_ctrl.x_value, '\0', sizeof(frame_ctrl.x_value));
+                    frame_ctrl.x_or_y = &frame_ctrl.x_value[0];
+                    while(*str !=' ' && *str!='\r' && *str!='\n') {
+                        
+                        *frame_ctrl.x_or_y = *str;
+
+                        str++;
+                        frame_ctrl.x_or_y++;
+                    }
+                    frame_ctrl.x_temp = atof(frame_ctrl.x_value);
+                    if(frame_ctrl.lb_flag) frame_ctrl.x_last_pos = frame_ctrl.x_temp;  // 判断是否是相对坐标
+                
+                }
+
+                if(*str == 'Y') {
+                    str++;
+                    memset(frame_ctrl.y_value, '\0', sizeof(frame_ctrl.x_value));
+                    frame_ctrl.x_or_y = &frame_ctrl.y_value[0];
+                    while(*str !=' ' && *str!='\r' && *str!='\n') {
+                        
+                        *frame_ctrl.x_or_y = *str;
+                        str++;
+                        frame_ctrl.x_or_y++;
+                    }
+                    frame_ctrl.y_temp = atof(frame_ctrl.y_value);
+                    if(frame_ctrl.lb_flag) frame_ctrl.y_last_pos = frame_ctrl.y_temp; // 判断是否是相对坐标
+                }
+            } 
+        } // end
         str++;
     }
 }
@@ -186,6 +229,7 @@ void mks_frame_init(void) {
     frame_ctrl.have_g0 = 0;
     frame_ctrl.have_g1 = 0;
     frame_ctrl.cancle_enable = false;
+    frame_ctrl.lb_flag = false;
 }
 
 
@@ -239,11 +283,11 @@ void mks_run_frame(char *parameter) {
     char fileLine[255];
     uint8_t point_last_num = 1;
     uint32_t point_count = 0;
+
     while (readFileLine(fileLine, 255)) {
 
         if(point_count == 255*6) {
             switch(point_last_num) {
-
             case 1: 
                 mks_lv_label_updata(frame_page.label_text, "Loading file.");
                 lv_refr_now(lv_refr_get_disp_refreshing());
@@ -264,35 +308,44 @@ void mks_run_frame(char *parameter) {
             if( point_last_num >= 3) {
                 point_last_num = 1;
             } 
-            
             point_count = 0;
         }
         point_count++;
-        
         polocte_cmd(fileLine);
     }
     closeFile();
-
     mks_lv_label_updata(frame_page.label_text, "Running...");
     lv_refr_now(lv_refr_get_disp_refreshing());
 
-    // sprintf(frame_cmd, "G0 X%f Y%f F300\n",frame_ctrl.x_min, frame_ctrl.y_min);  // point 1
-    // MKS_GRBL_CMD_SEND(frame_cmd);
-
     MKS_GRBL_CMD_SEND("M3 S5\n");
 
-    sprintf(frame_cmd, "G1 Y%f F1000\n",frame_ctrl.y_max);  // point 1
-    MKS_GRBL_CMD_SEND(frame_cmd);
+    if(!frame_ctrl.lb_flag) {
+        sprintf(frame_cmd, "G1 Y%f F1000\n",frame_ctrl.y_max);  // point 1
+        MKS_GRBL_CMD_SEND(frame_cmd);
 
-    sprintf(frame_cmd, "G1 X%f F1000\n", frame_ctrl.x_max);  // point 2
-    MKS_GRBL_CMD_SEND(frame_cmd);
+        sprintf(frame_cmd, "G1 X%f F1000\n", frame_ctrl.x_max);  // point 2
+        MKS_GRBL_CMD_SEND(frame_cmd);
 
-    sprintf(frame_cmd, "G1 Y%f F1000\n", frame_ctrl.y_min); // point 3
-    MKS_GRBL_CMD_SEND(frame_cmd);
+        sprintf(frame_cmd, "G1 Y%f F1000\n", frame_ctrl.y_min); // point 3
+        MKS_GRBL_CMD_SEND(frame_cmd);
 
-    sprintf(frame_cmd, "G1 X%f F1000\n", frame_ctrl.x_min);// point 4 
-    MKS_GRBL_CMD_SEND(frame_cmd);
+        sprintf(frame_cmd, "G1 X%f F1000\n", frame_ctrl.x_min);// point 4 
+        MKS_GRBL_CMD_SEND(frame_cmd);
+    }else {
 
+        sprintf(frame_cmd, "G1 Y%f F1000\n",abs(frame_ctrl.y_max - frame_ctrl.y_min));  // point 1
+        MKS_GRBL_CMD_SEND(frame_cmd);
+
+        sprintf(frame_cmd, "G1 X%f F1000\n", abs(frame_ctrl.x_max - frame_ctrl.x_min));  // point 2
+        MKS_GRBL_CMD_SEND(frame_cmd);
+
+        sprintf(frame_cmd, "G1 Y%f F1000\n", -(abs(frame_ctrl.y_max - frame_ctrl.y_min))); // point 3
+        MKS_GRBL_CMD_SEND(frame_cmd);
+
+        sprintf(frame_cmd, "G1 X%f F1000\n", -(abs(frame_ctrl.x_max - frame_ctrl.x_min)));// point 4 
+        MKS_GRBL_CMD_SEND(frame_cmd);
+    }
+    
     MKS_GRBL_CMD_SEND("M5\n");
     MKS_GRBL_CMD_SEND("G0 X0 Y0 F300\n");
 

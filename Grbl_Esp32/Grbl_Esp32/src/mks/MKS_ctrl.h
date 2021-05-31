@@ -32,12 +32,13 @@ typedef enum {
     wifi_scanf_succeed,
     wifi_scanf_fail,
     wifi_connecting,
+    wifi_disconnecting,
 
 }mks_wifi_status_t;
 
 
 #define MKS_WIFI_NUM            16
-#define MKS_WIFI_NAME_LEN       128
+#define MKS_WIFI_NAME_LEN       256
 #define MKS_WIFI_DIS_PAGE       2
 typedef struct {
 

@@ -251,7 +251,6 @@ lv_obj_t* lv_imgbtn_creat_n_mks(lv_obj_t *scr ,lv_obj_t *imgbtn, const void * im
     lv_obj_set_pos(imgbtn, x_mod, y_mod);
     lv_obj_set_event_cb(imgbtn, event_cb);
     return imgbtn;
-
 }
 
 /* 
@@ -263,7 +262,6 @@ lv_obj_t* lv_imgbtn_img_set(lv_obj_t *imgbtn, const void * img_pr, const void * 
 
     lv_imgbtn_set_src(imgbtn, LV_BTN_STATE_PR, img_pr);
     lv_imgbtn_set_src(imgbtn, LV_BTN_STATE_REL, img_rel);
-
     return imgbtn;
 }
 
@@ -381,7 +379,6 @@ lv_obj_t* mks_lv_set_line(lv_obj_t* scr, lv_obj_t * line, lv_point_t *line_point
 }
 
 void mks_lv_clean_ui(void) { 
-
     mks_grbl.popup_1_flag = false;
     lv_obj_clean(mks_src);
 }

@@ -13,13 +13,10 @@ typedef enum {
     about_first_line_x = 10,
     about_first_line_y = 150,
 
-    // about_first_btn_x = 10,
-    // about_first_btn_y = 120,
-    // about_btn_w = 220,
-    // about_btn_h = 30,
-    // about_btn_label_size = 220,
-
 }ABOUT_XY_POS_t;
+
+
+
 
 
 // void lv_draw_tool(void);
