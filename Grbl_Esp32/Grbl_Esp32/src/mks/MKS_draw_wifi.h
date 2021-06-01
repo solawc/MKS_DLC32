@@ -3,6 +3,8 @@
 
 #include "mks_draw_lvgl.h"
 
+#if defined(USE_WIFI)
+
 extern char wifi_send_username[128];
 extern char wifi_send_password[128];
 
@@ -125,36 +127,15 @@ typedef struct {
     lv_obj_t *wifi_label_line6;
     lv_obj_t *wifi_label_line7; 
     lv_obj_t *wifi_label_line8;
+
     lv_obj_t *wifi_label_up;
     lv_obj_t *wifi_label_next;
     lv_obj_t *wifi_label_scanf; 
     lv_obj_t *wifi_label_back;
 
     lv_obj_t *wifi_label_info;
-
-    // lv_obj_t *wifi_popup_label;
-    // lv_obj_t *wifi_popup_file_name_label;
-    // lv_obj_t *wifi_btn_popup_sure_label;
-    // lv_obj_t *wifi_btn_popup_cancle_label;
-    // lv_obj_t *wifi_btn_popup_pw_enter_label;
 }MKS_WIFI_PAGE_T;
 extern MKS_WIFI_PAGE_T wifi_src;
-
-
-typedef enum {
-    WIFI_RSSI_NANO,
-    WIFI_RSSI_1,
-    WIFI_RSSI_2,
-    WIFI_RSSI_3,
-    WIFI_RSSI_4,
-    WIFI_RSSI_5,
-    WIFI_RSSI_6,
-    WIFI_RSSI_7,
-    WIFI_RSSI_8,
-    WIFI_RSSI_9,
-    WIFI_RSSI_10,
-}WIFI_RSSI_T;
-
 
 void mks_draw_wifi(void);
 void mks_clear_wifi(void);
@@ -169,4 +150,6 @@ void draw_pos_wifi_popup(const char *text, char *file_name);
 void mks_draw_wifi_scanf(void);     // 提示扫描界面
 void mks_draw_wifi_show(void);           // 正常wifi界面
 void mks_draw_wifi_had_connect(void);
+#endif
+
 #endif

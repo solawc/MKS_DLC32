@@ -27,7 +27,6 @@ lv_obj_t* mks_lvgl_draw_bk(lv_obj_t * scr, lv_style_t * dest_style, const lv_sty
     return scr;
 }
 
-
 /* 
  * Author   :MKS
  * Describe :Set monochrome background

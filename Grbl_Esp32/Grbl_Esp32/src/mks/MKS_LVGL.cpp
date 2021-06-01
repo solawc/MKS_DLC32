@@ -110,10 +110,12 @@ void mks_grbl_parg_init(void) {
     mks_ui_page.mks_ui_page = MKS_UI_Ready;                     // 开机进入主页的标记
     mks_ui_page.wait_count = DEFAULT_UI_COUNT;                  // 允许10个周期的等待lvgl数据缓冲
     
+    #if defined(USE_WIFI)
     mks_wifi.wifi_show_page = 1;
     mks_wifi.wifi_scanf_status = wifi_none;
     mks_grbl.wifi_connect_enable = false;
     mks_wifi.begin_scanf_num = 0;
+    #endif
 }
 
 /* MKS SD FILE */

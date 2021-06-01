@@ -81,6 +81,7 @@ static void mks_page_data_updata(void) {
             }
         }
     }
+    #if defined(USE_WIFI)
     else if(mks_ui_page.mks_ui_page == MKS_UI_Wifi) {
         if((mks_wifi.wifi_scanf_status == wifi_scanf_begin) || (mks_wifi.wifi_scanf_status == wifi_scanf_waitting)) {
             mks_wifi_scanf();
@@ -111,6 +112,7 @@ static void mks_page_data_updata(void) {
             }
         }
     }
+    #endif
     count_updata++;
 }
 

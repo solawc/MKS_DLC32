@@ -219,7 +219,9 @@ namespace WebUI {
             default:
                 break;
         }
-        mks_wifi_check_is_out(mks_grbl.wifi_connect_status);
+        #if defined(USE_WIFI)
+            mks_wifi_check_is_out(mks_grbl.wifi_connect_status);
+        #endif
     }
 
     /*
@@ -366,7 +368,6 @@ namespace WebUI {
     /**
      * Stop WiFi
      */
-
     void WiFiConfig::StopWiFi() {
         //Sanity check
         if ((WiFi.getMode() == WIFI_STA) || (WiFi.getMode() == WIFI_AP_STA)) {
@@ -404,7 +405,9 @@ namespace WebUI {
         } else if (wifiMode == ESP_WIFI_STA) {
             if (!StartSTA()) {
                 grbl_sendf(CLIENT_ALL, "[MSG:Cannot connect to %s]\r\n", wifi_sta_ssid->get());
-                mks_wifi.wifi_scanf_status = wifi_scanf_fail;
+                #if defined(USE_WIFI)
+                    mks_wifi.wifi_scanf_status = wifi_scanf_fail;
+                #endif
                 StartAP();
             }
             //start services

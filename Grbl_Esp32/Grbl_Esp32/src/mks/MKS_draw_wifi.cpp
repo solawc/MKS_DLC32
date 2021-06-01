@@ -1,6 +1,8 @@
 #include "mks_draw_wifi.h"
 #include "../WebUI/WifiConfig.h"
 
+
+#if defined(USE_WIFI)
 static lv_style_t btn_press_style;
 static lv_style_t line_style;
 
@@ -49,7 +51,6 @@ LV_IMG_DECLARE(Previous);			//先申明此图片
 static void event_handler_wifi_up(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-
         if(mks_wifi.wifi_show_page == 1) {
 
         }else{
@@ -79,14 +80,12 @@ static void event_handler_wifi_next(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
         mks_wifi_del_label();
-        // mks_wifi_scanf();
         if(mks_wifi.wifi_show_page == 1) {
                 mks_wifi.wifi_show_page = 2;
         }else if(mks_wifi.wifi_show_page == 2) {
 
         }
         mks_wifi_show_label();
-        // mks_wifi.wifi_show_page++;
 	}
 }
 
@@ -111,7 +110,10 @@ static void event_handler_wifi_disconnect(lv_obj_t* obj, lv_event_t event) {
         wifi_src.wifi_kb_flag = wifi_kb_send_wifi_disconnect;
 	}
 }
+#endif
 
+
+#if defined(USE_WIFI)
 static void event_handler_wifi_bt1(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
@@ -550,5 +552,7 @@ void mks_clear_wifi(void) {
 	lv_obj_clean(mks_src);
 }
 
+
+#endif
 
 

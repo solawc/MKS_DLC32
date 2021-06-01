@@ -61,7 +61,9 @@ static void event_handler_wifi(lv_obj_t* obj, lv_event_t event) {
 	
 	if (event == LV_EVENT_RELEASED) {
 		mks_clear_setting();
+		#if defined(USE_WIFI)
 		mks_draw_wifi();
+		#endif
 	}
 }
 

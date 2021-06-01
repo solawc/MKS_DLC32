@@ -216,12 +216,14 @@ void ready_data_updata(void) {
     //         }  
     //     wifi_ref_count = 0;
     // }
+    #if defined(USE_WIFI)
      if (mks_get_wifi_status() == false){
         ready_src.ready_label_wifi_status = mks_lv_label_updata(ready_src.ready_label_wifi_status, "Disconnect");
      }
     else {
         ready_src.ready_label_wifi_status = mks_lv_label_updata(ready_src.ready_label_wifi_status, "Connect");
     }
+    #endif
 }
 
 

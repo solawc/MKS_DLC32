@@ -37,23 +37,21 @@ typedef enum {
 }mks_wifi_status_t;
 
 
+#if defined(USE_WIFI)
 #define MKS_WIFI_NUM            16
-#define MKS_WIFI_NAME_LEN       256
+#define MKS_WIFI_NAME_LEN       128
 #define MKS_WIFI_DIS_PAGE       2
 typedef struct {
-
     char wifi_name_str[MKS_WIFI_NUM][MKS_WIFI_NAME_LEN];
     int32_t wifi_rssi[MKS_WIFI_NUM];    // wifi信号强度
     uint8_t begin_scanf_num;        // 每次记录都从0开始    
     uint8_t wifi_show_page;         // 记录WiFi显示的页码   
     mks_wifi_status_t wifi_scanf_status;    
     uint8_t wifi_choose;  
-
     char wifi_name_connect[MKS_WIFI_NAME_LEN];
-
 }MKS_WIFI_t;
 extern MKS_WIFI_t mks_wifi;
-
+#endif
 
 
 // class SD_UPDATA {

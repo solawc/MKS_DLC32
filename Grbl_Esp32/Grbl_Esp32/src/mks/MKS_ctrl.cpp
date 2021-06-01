@@ -116,6 +116,7 @@ void spindle_check(void) {
 }
 
 /***********************************************************************MKS WIFI*************************************************************/
+#if defined(USE_WIFI)
 MKS_WIFI_t mks_wifi;
 const char mks_ssid[] = "MAKERBASE3D";
 const char mks_password[] = "makerbase3d";
@@ -183,7 +184,7 @@ bool mks_wifi_check_is_out(bool flag) {
         }
     }
 }
-
+#endif
 
 
 

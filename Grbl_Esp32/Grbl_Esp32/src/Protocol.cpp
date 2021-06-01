@@ -227,7 +227,9 @@ void protocol_main_loop() {
         }
         
         if(mks_ui_page.mks_ui_page == MKS_UI_Wifi) {   
+            #if defined(USE_WIFI)
             mks_wifi_connect(wifi_send_username, wifi_send_password);   // 扫描wifi是否需要被发送指令连接
+            #endif
         }
     }
     return; /* Never reached */

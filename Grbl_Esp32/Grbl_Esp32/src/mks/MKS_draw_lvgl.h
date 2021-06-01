@@ -29,7 +29,6 @@ typedef struct {
     lv_style_t com_popup_sytle;
     lv_style_t com_btn_sytle;
 
-
     lv_obj_t *btn_yes;
     lv_obj_t *btn_cancle;            
 
@@ -38,6 +37,8 @@ typedef struct {
     lv_obj_t *label_title;               //弹窗标题
     lv_obj_t *label_line1;
     lv_obj_t *label_line2;
+
+    lv_obj_t *mux;                      // 做互斥用
 
 }COMMON_POPUP_T;
 
