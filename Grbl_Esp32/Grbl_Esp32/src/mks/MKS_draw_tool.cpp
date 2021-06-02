@@ -95,8 +95,14 @@ void mks_draw_tool(void) {
 #if defined(USE_WIFI)
     mks_lvgl_long_sroll_label_with_wight_set_center(about_src1, label_tool_wifi, 270, 60, "Wifi", 60);
 #endif
-    mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, label_board_version, 10, 120, "Board:MKS DLC32 V1.07, VN:2", 400);
-	mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, label_Firmware_version, 10, 170, "Firmware:MKS DLC32 V1.0 SDK-1.3.0", 400);
+    mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, label_board_version, 10, 120, "Board:MKS DLC32 V003", 400);
+    #if defined(USE_V_A) 
+	    mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, label_Firmware_version, 10, 170, "Firmware:MKS DLC32 V1.10 A", 400);
+    #elif defined(USE_V_B)
+        mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, label_Firmware_version, 10, 170, "Firmware:MKS DLC32 V1.10 B", 400);
+    #else 
+        mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, label_Firmware_version, 10, 170, "Firmware:MKS DLC32 V1.10 C", 400);
+    #endif
     mks_ui_page.mks_ui_page = MKS_UI_Tool; 
 }
 

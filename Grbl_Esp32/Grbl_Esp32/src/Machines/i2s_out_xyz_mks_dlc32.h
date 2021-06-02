@@ -20,7 +20,13 @@
     along with Grbl_ESP32.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#define MACHINE_NAME            "MKS DLC32 V1.09"
+// #define USE_V_A
+// #define USE_V_B
+#define USE_V_C
+
+
+#define MACHINE_NAME            "MKS DLC32 V1.10"
+
 
 #ifdef N_AXIS
     #undef N_AXIS
@@ -28,7 +34,9 @@
 #define N_AXIS 3
 
 // #define USE_BL_TOUCH
-#define USE_WIFI
+#if defined(USE_V_C)
+    #define USE_WIFI
+#endif
 
 #define ENABLE_SOFTWARE_DEBOUNCE
 

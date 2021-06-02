@@ -178,7 +178,8 @@ bool mks_wifi_check_is_out(bool flag) {
     }else {
         wifi_check_count++;
         if(wifi_check_count == 10) {
-            WebUI::wifi_config.end();
+            // WebUI::wifi_config.end();
+            MKS_GRBL_CMD_SEND("[ESP115]OFF\n");
             wifi_check_count = 0;
             return false;
         }

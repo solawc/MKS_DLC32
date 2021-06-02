@@ -357,8 +357,6 @@ void mks_run_frame(char *parameter) {
 
 void frame_finsh_popup(void) {
 
-    
-
     mks_draw_common_popup("Info", 
                         "Do you want to carve?",
                         " ",

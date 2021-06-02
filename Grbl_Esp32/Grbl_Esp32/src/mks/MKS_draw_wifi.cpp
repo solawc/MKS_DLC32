@@ -228,8 +228,8 @@ static void event_handler_wifi_kb_event(lv_obj_t* obj, lv_event_t event) {
 
 void mks_draw_wifi(void) {
 
-    mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING; 
-	mks_ui_page.wait_count = DEFAULT_UI_COUNT;
+    // mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING; 
+	// mks_ui_page.wait_count = DEFAULT_UI_COUNT;
     
     if(mks_get_wifi_status() == false) {    // 进入没有连接的页面
 
@@ -434,8 +434,8 @@ uint8_t wifi_div(int32_t rssi) {
 
 
 void mks_draw_wifi_kb(char *username) {
-    char un_str[255]="username:";
-    char rssi_str[255];
+    char un_str[138]="username:";
+    char rssi_str[138];
     uint8_t get_rssi = 0;
 
     wifi_src.wifi_kb_src_1 = lv_obj_create(mks_src, NULL);

@@ -99,7 +99,7 @@ static void mks_page_data_updata(void) {
             mks_draw_wifi_show();
             mks_wifi.wifi_scanf_status = wifi_none;
         }else if(mks_wifi.wifi_scanf_status == wifi_connecting) {
-            if(mks_grbl.wifi_connect_status == true) {
+            if(mks_grbl.wifi_connect_status == true) {          // 正在连接状态
                 if(mks_get_wifi_status() == true) {            // 确认连接上
                     mks_lv_clean_ui();
                     mks_draw_wifi();
@@ -120,6 +120,7 @@ static void mks_page_data_updata(void) {
                 mks_draw_wifi();
             }
         }
+        count_updata = 0;
     }
     #endif
     count_updata++;

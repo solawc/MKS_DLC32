@@ -152,12 +152,12 @@ static void event_handler_file0(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
 		// grbl_send(CLIENT_SERIAL, "file0\n");
 		mks_file_list.file_choose = 0;
-		// mks_draw_caving_popup(mks_file_list.file_begin_num, mks_file_list.filename_str[0]);
+		mks_draw_caving_popup(mks_file_list.file_begin_num, mks_file_list.filename_str[0]);
 
-		mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
-		mks_lv_clean_ui();
-		get_print_file_name(mks_file_list.filename_str[0]);
-		mks_draw_inFile(mks_file_list.filename_str[0]);
+		// mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
+		// mks_lv_clean_ui();
+		// get_print_file_name(mks_file_list.filename_str[0]);
+		// mks_draw_inFile(mks_file_list.filename_str[0]);
 	}
 }
 
