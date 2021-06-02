@@ -426,8 +426,8 @@ void draw_global_popup(const char *text) {
                                                 com_p2.btn_yes, 
                                                 move_popup_btn_size_x, 
                                                 move_popup_btn_size_y,
-                                                move_popup_btn_x, 
-                                                move_popup_btn_y, 
+                                                0, 
+                                                60, 
                                                 event_handler_globel_popup_sure);
 	lv_btn_set_style(com_p2.btn_yes, LV_BTN_STYLE_REL, &com_p2.com_btn_sytle);
 	lv_btn_set_style(com_p2.btn_yes,LV_BTN_STYLE_PR, &com_p2.com_btn_sytle);
@@ -438,7 +438,7 @@ void draw_global_popup(const char *text) {
 
 
 void mks_draw_common_popup(char *title, char *line1, char *line2, lv_event_cb_t event_cb_yes, lv_event_cb_t event_cancle) {
-
+    
 	com_p1.com_popup_src = lv_obj_create(mks_src, NULL);
 	lv_obj_set_size(com_p1.com_popup_src ,350, 200);
 	lv_obj_set_pos(com_p1.com_popup_src, 80,50);

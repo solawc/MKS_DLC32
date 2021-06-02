@@ -109,6 +109,8 @@ bool can_park() {
 void protocol_main_loop() {
 
     static bool first_restart = true;
+    uint16_t re_cmd[] = {0x18}; // 复位命令
+
     client_reset_read_buffer(CLIENT_ALL);
     empty_lines();
     //uint8_t client = CLIENT_SERIAL; // default client
@@ -142,7 +144,13 @@ void protocol_main_loop() {
     // This is also where Grbl idles while waiting for something to do.
     // ---------------------------------------------------------------------------------
     MKS_GRBL_CMD_SEND("$x\n");   // 主动解锁
-    uint16_t re_cmd[] = {0x18};
+
+#if defined(USE_WIFI)
+    if(first_restart == true) {
+        MKS_GRBL_CMD_SEND("[ESP115]ON\n");   // 连接wifi
+    }
+#endif
+
     if(first_restart == true) {
       MKS_GRBL_CMD_SEND(re_cmd);  
       first_restart = false; 

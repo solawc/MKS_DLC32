@@ -5,16 +5,19 @@
 #define DISP_TASK_PRO               5
 #define DISP_TASK_CORE              1
 
+// #define USE_DelayUntil
+
+
 TaskHandle_t lv_disp_tcb = NULL;
 static void mks_page_data_updata(void);
 
 void lvgl_disp_task(void *parg) { 
 
+#if defined(USE_DelayUntil)
     TickType_t       xLastWakeTime;
-    const TickType_t xDisplayFrequency = 5;                  // in ticks (typically ms)
-    xLastWakeTime                      = xTaskGetTickCount();  // Initialise the xLastWakeTime variable with the current time.
-    // vTaskDelay(1000);
-
+    const TickType_t xDisplayFrequency = 5;                  
+    xLastWakeTime = xTaskGetTickCount();   
+#endif
     mks_lvgl_init();
     mks_draw_ready();
     mks_grbl.wifi_connect_enable = true;
@@ -23,8 +26,12 @@ void lvgl_disp_task(void *parg) {
     while(1) {
         lv_task_handler();
         mks_page_data_updata();
-        // vTaskDelay(5); // 5ms
-        vTaskDelayUntil(&xLastWakeTime, xDisplayFrequency);
+    
+#if defined(USE_DelayUntil)
+    vTaskDelayUntil(&xLastWakeTime, xDisplayFrequency); //使用相对延时，保证时间精准
+#else
+        vTaskDelay(5); // 5ms 绝对延时
+#endif   
     }
 }
 
@@ -70,7 +77,9 @@ static void mks_page_data_updata(void) {
 
                     if(mks_get_frame_status() == true) {
                         if(fram_count == 10) {
-                            frame_finsh_popup();
+                            if(mks_grbl.popup_1_flag != true){
+                                frame_finsh_popup();
+                            }
                             frame_ctrl.is_begin_run = false;
                             fram_count = 0;
                         }

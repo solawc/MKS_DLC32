@@ -38,7 +38,7 @@ typedef struct {
     lv_obj_t *label_line1;
     lv_obj_t *label_line2;
 
-    lv_obj_t *mux;                      // 做互斥用
+    bool mux;                      // 做互斥用
 
 }COMMON_POPUP_T;
 

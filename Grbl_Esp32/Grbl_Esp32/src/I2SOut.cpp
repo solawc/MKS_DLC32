@@ -923,7 +923,8 @@ int IRAM_ATTR i2s_out_init(i2s_out_init_t& init_param) {
                             "I2SOutTask",
                             4096,
                             NULL,
-                            1,
+                            // 1,
+                            5,
                             nullptr,
                             CONFIG_ARDUINO_RUNNING_CORE  // must run the task on same core
     );
