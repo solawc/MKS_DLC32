@@ -164,7 +164,8 @@ bool mks_get_wifi_status(void) {
     status = WiFiSTAClass::status();
     if(status == WL_CONNECTED) {
         return true;
-    }else {
+    }else 
+    {
         return false;
     }
 }

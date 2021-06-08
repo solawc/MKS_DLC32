@@ -52,7 +52,8 @@ void my_disp_flush(lv_disp_drv_t * disp, const lv_area_t * area, lv_color_t * co
 
     tft.startWrite();
     tft.setAddrWindow(area->x1, area->y1, w, h);
-    tft.pushColors(&color_p->full, w * h, true);
+    // tft.pushColors(&color_p->full, w * h, true);
+    tft.pushColorsDMA(&color_p->full, w * h, true);
     tft.endWrite();
     lv_disp_flush_ready(disp);
 }
@@ -97,13 +98,11 @@ void mks_grbl_parg_init(void) {
     mks_grbl.language = English;
     mks_grbl.light_status = GRBL_Light_Off;
     mks_grbl.move_dis = M_10_MM;
-    // mks_grbl.run_status = GRBL_STOP;
     mks_grbl.bl_status = BL_NONE;               
     mks_grbl.is_mks_ts35_flag = false;
     mks_grbl.wifi_check_status = false;
     mks_grbl.wifi_connect_status = false;
     mks_grbl.power_persen = P_0_PERSEN;
-    // mks_grbl.mks_sd_file_times = 1;
     mks_grbl.mks_sd_status = 0;
     mks_grbl.wifi_back_from = 0;
 

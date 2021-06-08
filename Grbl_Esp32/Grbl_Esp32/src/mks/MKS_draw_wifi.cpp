@@ -201,23 +201,6 @@ static void event_handler_wifi_kb_event(lv_obj_t* obj, lv_event_t event) {
             
         }else if(event == LV_EVENT_APPLY) {
             
-            // strcpy(wifi_send_username, mks_wifi.wifi_name_str[wifi_src.wifi_send_num]);
-            // strcpy(wifi_send_password, lv_ta_get_text(wifi_src.wifi_tb));
-
-            // strcat(username_cmd, mks_wifi.wifi_name_str[wifi_src.wifi_send_num-1]);
-            // strcat(password_cmd, lv_ta_get_text(wifi_src.wifi_tb));
-            // strcat(username_cmd,enter_cmd);
-            // strcat(password_cmd,enter_cmd);
-
-            // strcpy(wifi_send_username, username_cmd);
-            // strcpy(wifi_send_password, password_cmd);
-
-            // wifi_src.wifi_kb_flag = wifi_kb_send_wifi_username;
-         
-            // lv_obj_del(wifi_src.wifi_kb); // 删除键盘
-            // lv_obj_del(wifi_src.wifi_tb); // 删除文本框
-            // lv_obj_del(wifi_src.wifi_kb_src_1); // 删除键盘界面
-            
         }
         else if(event == LV_EVENT_CANCEL) {
             mks_lv_clean_ui();

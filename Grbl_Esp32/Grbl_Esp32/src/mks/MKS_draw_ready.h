@@ -68,4 +68,5 @@ typedef struct {
 
 void mks_draw_ready(void);
 void ready_data_updata(void);
+void mks_draw_logo(void);
 #endif

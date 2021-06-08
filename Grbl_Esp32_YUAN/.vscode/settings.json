@@ -1,0 +1,26 @@
+{
+    "files.associations": {
+        "atomic": "cpp",
+        "string": "cpp",
+        "tft_espi_esp32.c": "cpp",
+        "*.tcc": "cpp",
+        "exception": "cpp",
+        "fstream": "cpp",
+        "iosfwd": "cpp",
+        "new": "cpp",
+        "ostream": "cpp",
+        "sstream": "cpp",
+        "streambuf": "cpp",
+        "istream": "cpp",
+        "limits": "cpp",
+        "array": "cpp",
+        "deque": "cpp",
+        "unordered_map": "cpp",
+        "unordered_set": "cpp",
+        "vector": "cpp",
+        "memory": "cpp",
+        "random": "cpp",
+        "initializer_list": "cpp",
+        "cmath": "cpp"
+    }
+}

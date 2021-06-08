@@ -2,7 +2,7 @@
 
 
 #define DISP_TASK_STACK             4096*2
-#define DISP_TASK_PRO               5
+#define DISP_TASK_PRO               2
 #define DISP_TASK_CORE              1
 
 // #define USE_DelayUntil
@@ -18,15 +18,30 @@ void lvgl_disp_task(void *parg) {
     const TickType_t xDisplayFrequency = 5;                  
     xLastWakeTime = xTaskGetTickCount();   
 #endif
+
+    bool logo_flag = true;   
+    uint16_t logo_flag_count = 0; 
     mks_lvgl_init();
-    mks_draw_ready();
+    mks_draw_logo();
+    
     mks_grbl.wifi_connect_enable = true;
     LCD_BLK_OFF;
 
     while(1) {
-        lv_task_handler();
-        mks_page_data_updata();
-    
+
+        if(logo_flag == true) {
+            lv_task_handler();
+            logo_flag_count++;
+            if(logo_flag_count == 400) {
+                mks_lv_clean_ui();
+                mks_draw_ready();
+                logo_flag = false;
+            }
+        }else {
+            lv_task_handler();
+            mks_page_data_updata();
+        }
+
 #if defined(USE_DelayUntil)
     vTaskDelayUntil(&xLastWakeTime, xDisplayFrequency); //使用相对延时，保证时间精准
 #else

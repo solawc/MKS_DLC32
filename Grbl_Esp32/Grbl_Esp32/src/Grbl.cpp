@@ -140,6 +140,8 @@ static void reset_variables() {
     }
     mks_motor_unclock();
     spindle_check_init();
+
+    rb_init(&rb_sd);
 }
 
 void run_once() {

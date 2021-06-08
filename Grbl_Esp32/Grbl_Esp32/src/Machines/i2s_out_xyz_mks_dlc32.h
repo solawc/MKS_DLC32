@@ -33,6 +33,8 @@
 #endif
 #define N_AXIS 3
 
+#define HTTP_UPLOAD_BUFLEN 1024*10
+
 // #define USE_BL_TOUCH
 #if defined(USE_V_C)
     #define USE_WIFI

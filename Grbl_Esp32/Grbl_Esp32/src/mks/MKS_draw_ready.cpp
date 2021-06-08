@@ -14,6 +14,7 @@ LV_IMG_DECLARE(Z_POS);
 LV_IMG_DECLARE(wifi_status);	
 LV_IMG_DECLARE(me_status);	
 LV_IMG_DECLARE(M_pwr);	
+LV_IMG_DECLARE(mks_logo);	
 
 static void event_handler_Adjustment(lv_obj_t* obj, lv_event_t event) { 
 	
@@ -77,21 +78,25 @@ static void event_handler_none(lv_obj_t* obj, lv_event_t event) {
 	}
 }
 
-// char xpos_str[50] = "0.00";
-// char status_str[50];
-// char ypos_str[50] = "0.00";
-// char zpos_str[50] = "0.00";
-// char mpwr_str[50] = "100%";
-// char wifi_status_str[50];
-// char wifi_ip_str[100];
+lv_obj_t *logo;
+uint32_t logo_count = 0;
+void mks_draw_logo(void) {
+
+    mks_ui_page.mks_ui_page = MKS_UI_Logo;      
+
+    mks_src = lv_obj_create(NULL, NULL);
+	mks_src = lv_scr_act();
+
+    logo = mks_lvgl_img_set(mks_src, logo, &mks_logo, 0 ,0);
+}
 
 
 void mks_draw_ready(void) {
 
     mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
 
-    mks_src = lv_obj_create(NULL, NULL);
-	mks_src = lv_scr_act();
+    // mks_src = lv_obj_create(NULL, NULL);
+	// mks_src = lv_scr_act();
 
     ready_src.ready_src_1 = lv_obj_create(mks_src, NULL);
     lv_obj_set_size(ready_src.ready_src_1, READY_src1_x_size, READY_src1_y_size);

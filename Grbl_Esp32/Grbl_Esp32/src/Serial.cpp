@@ -123,7 +123,7 @@ void client_init() {
                             "clientCheckTask",  // name for task
                             4096*2,               // size of task stack
                             NULL,               // parameters
-                            1,                  // priority
+                            2,                  // priority
                             &clientCheckTaskHandle,
                             SUPPORT_TASK_CORE  // must run the task on same core
                                                // core

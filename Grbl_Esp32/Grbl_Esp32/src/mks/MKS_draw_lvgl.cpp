@@ -2,12 +2,6 @@
 
 lv_obj_t *mks_src;          // 主背景页
 
-// lv_obj_t *global_popup;     // 全局提示
-// lv_obj_t *global_popup_btn_sure;     
-// lv_obj_t *global_popup_label_sure;     
-// lv_obj_t *global_popup_label_text;  
-// lv_style_t p_global_popup_color;
-// lv_style_t p_global_popup_btn_color;
 
 COMMON_POPUP_T com_p1;
 COMMON_POPUP_T com_p2;
@@ -211,7 +205,7 @@ lv_obj_t* mks_lv_static_label(lv_obj_t* scr, lv_obj_t* lab, lv_coord_t x, lv_coo
 lv_obj_t* mks_lvgl_img_set(lv_obj_t *scr ,lv_obj_t *img, const void * src_img, lv_coord_t x_mod, lv_coord_t y_mod) {
     img = lv_img_create(scr, NULL);
     lv_img_set_src(img, src_img);
-    lv_obj_set_pos(img, x_mod, y_mod);
+    // lv_obj_set_pos(img, x_mod, y_mod);
     return img;
 }
 

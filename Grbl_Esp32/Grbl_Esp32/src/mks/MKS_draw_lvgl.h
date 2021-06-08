@@ -18,6 +18,7 @@
 #include "MKS_draw_config.h"
 #include "MKS_draw_wifi.h"
 #include "MKS_draw_frame.h"
+#include "mks_ringbuff.h"
 
 extern lv_obj_t *mks_src;
 

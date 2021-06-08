@@ -157,14 +157,41 @@ void protocol_main_loop() {
     }
     
     int c;
+    bool is_need_next = false;
     for (;;) {
+// #ifdef ENABLE_SD_CARD
+//         if (SD_ready_next) {
+//             char fileLine[255];
+//                 if (readFileLine(fileLine, 255)) {
+//                 SD_ready_next = false;
+//                 report_status_message(execute_line(fileLine, SD_client, SD_auth_level), SD_client);
+//                 } else {
+//                     char temp[50];
+//                     sd_get_current_filename(temp);
+//                     if (mks_grbl.is_mks_ts35_flag == true) { 
+//                         mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
+//                         mks_ui_page.wait_count = DEFAULT_UI_COUNT;
+//                         mks_draw_finsh_pupop(); // show print finsh 
+                        
+//                     }
+//                     grbl_notifyf("SD print done", "%s print is successful", temp);
+//                     closeFile();  // close file and clear SD ready/running flags
+//                 }
+//             // }
+//         }
+// #endif
 #ifdef ENABLE_SD_CARD
         if (SD_ready_next) {
             char fileLine[255];
                 if (readFileLine(fileLine, 255)) {
-                SD_ready_next = false;
-                report_status_message(execute_line(fileLine, SD_client, SD_auth_level), SD_client);
-                } else {
+                    if (is_rb_empty(&rb_sd) == true) {
+                        rb_write(&rb_sd, fileLine);
+                    }
+                    SD_ready_next = false;
+                    rb_read(&rb_sd, fileLine);
+                    report_status_message(execute_line(fileLine, SD_client, SD_auth_level), SD_client);
+                } 
+                else {
                     char temp[50];
                     sd_get_current_filename(temp);
                     if (mks_grbl.is_mks_ts35_flag == true) { 
@@ -176,7 +203,16 @@ void protocol_main_loop() {
                     grbl_notifyf("SD print done", "%s print is successful", temp);
                     closeFile();  // close file and clear SD ready/running flags
                 }
-            // }
+        }
+        else{
+                if(sys.state == State::Cycle) {
+                    if(is_rb_full(&rb_sd) == false) {
+                        char fileLine[255];
+                        if (readFileLine(fileLine, 255)) {
+                            rb_write(&rb_sd, fileLine);
+                        }
+                    }
+                }
         }
 #endif
         // Receive one line of incoming serial data, as the data becomes available.
