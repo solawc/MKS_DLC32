@@ -376,7 +376,6 @@ void mks_motor_unclock(void) {
     digitalWrite(BEEPER,LOW);
 }
 
-
 // void XPT2046_Rd_Addata(void) {
 //     uint16_t temp;
 //     //delay_ms(1);

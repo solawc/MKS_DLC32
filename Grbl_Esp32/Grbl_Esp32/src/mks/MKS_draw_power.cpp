@@ -121,6 +121,7 @@ static void event_handler_Back(lv_obj_t* obj, lv_event_t event) {
 
 void mks_draw_power(void) {
 
+#if defined(USE_RELASE)
 	power_page.p_scr1 = lv_obj_create(mks_src, NULL);
 	lv_obj_set_size(power_page.p_scr1, 460, 90);
     lv_obj_set_pos(power_page.p_scr1, 10, 10);
@@ -128,7 +129,20 @@ void mks_draw_power(void) {
 	power_page.p_scr2 = lv_obj_create(mks_src, NULL);
 	lv_obj_set_size(power_page.p_scr2, 460, 200);
     lv_obj_set_pos(power_page.p_scr2, 10, 110);
+#else 
+	mks_global.mks_src_1 = lv_obj_create(mks_global.mks_src, NULL);
+	lv_obj_set_size(mks_global.mks_src_1, 460, 90);
+    lv_obj_set_pos(mks_global.mks_src_1, 10, 10);
+		
+	mks_global.mks_src_2 = lv_obj_create(mks_global.mks_src, NULL);
+	lv_obj_set_size(mks_global.mks_src_2, 460, 200);
+    lv_obj_set_pos(mks_global.mks_src_2, 10, 110);
 
+	lv_obj_set_style(mks_global.mks_src_1, &mks_global.mks_src_1_style);
+	lv_obj_set_style(mks_global.mks_src_2, &mks_global.mks_src_2_style);
+#endif
+
+#if defined(USE_RELASE)
 	/* 设置背景样式 */
 	lv_style_copy(&power_page.p_bkl_color, &lv_style_scr);
     power_page.p_bkl_color.body.main_color = LV_COLOR_MAKE(0x1F, 0x23, 0x33); 
@@ -137,13 +151,19 @@ void mks_draw_power(void) {
     power_page.p_bkl_color.body.radius = 17;
     lv_obj_set_style(power_page.p_scr1, &power_page.p_bkl_color);
 	lv_obj_set_style(power_page.p_scr2, &power_page.p_bkl_color);
-
 	power_page.Back = lv_imgbtn_creat_mks(power_page.p_scr1, power_page.Back, &back, &back, LV_ALIGN_IN_LEFT_MID, 10, -10, event_handler_Back);
+
+#else 
+	power_page.Back = lv_imgbtn_creat_mks(mks_global.mks_src_1, power_page.Back, &back, &back, LV_ALIGN_IN_LEFT_MID, 10, -10, event_handler_Back);
+#endif
+
+	
 
 #if defined(USE_BL_TOUCH)
 	cailb = lv_imgbtn_creat_mks(p_scr1, cailb, &Calibration, &Calibration, LV_ALIGN_CENTER,150, -10, event_handler_cailb);
 #endif
 
+#if defined(USE_RELASE)
 	if(mks_grbl.power_persen == P_10_PERSEN) {
 		power_page.pwr_high = lv_imgbtn_creat_n_mks(power_page.p_scr2, power_page.pwr_high, &SPD_H_PRE, &SPD_H_PRE,PWR_IMGBTN_HIGH_X_POS, PWR_IMGBTN_HIGH_Y_POS, event_handler_pwr_h);
 		power_page.pwr_low = lv_imgbtn_creat_n_mks(power_page.p_scr2, power_page.pwr_low, &SP_L_UP, &SP_L_UP,PWR_IMGBTN_HIGH_X_POS+PWR_IMGBTN_OFFSET_X, PWR_IMGBTN_HIGH_Y_POS, event_handler_pwr_l);
@@ -160,6 +180,24 @@ void mks_draw_power(void) {
 	}
 
 	power_page.label_Back = mks_lvgl_long_sroll_label_with_wight_set_center(power_page.p_scr1, power_page.label_Back, 20,60, "Back", 50);
+#else
+	if(mks_grbl.power_persen == P_10_PERSEN) {
+		power_page.pwr_high = lv_imgbtn_creat_n_mks(mks_global.mks_src_2, power_page.pwr_high, &SPD_H_PRE, &SPD_H_PRE,PWR_IMGBTN_HIGH_X_POS, PWR_IMGBTN_HIGH_Y_POS, event_handler_pwr_h);
+		power_page.pwr_low = lv_imgbtn_creat_n_mks(mks_global.mks_src_2, power_page.pwr_low, &SP_L_UP, &SP_L_UP,PWR_IMGBTN_HIGH_X_POS+PWR_IMGBTN_OFFSET_X, PWR_IMGBTN_HIGH_Y_POS, event_handler_pwr_l);
+		power_page.pwr_off = lv_imgbtn_creat_n_mks(mks_global.mks_src_2, power_page.pwr_low, &SP_OFF, &SP_OFF, PWR_IMGBTN_HIGH_X_POS+PWR_IMGBTN_OFFSET_X*2, PWR_IMGBTN_HIGH_Y_POS, event_handler_pwr_on_off);
+	}
+	else if(mks_grbl.power_persen == P_1_PERSEN) {
+		power_page.pwr_high = lv_imgbtn_creat_n_mks(mks_global.mks_src_2, power_page.pwr_high, &SP_H_UP, &SP_H_UP,PWR_IMGBTN_HIGH_X_POS, PWR_IMGBTN_HIGH_Y_POS, event_handler_pwr_h);
+		power_page.pwr_low = lv_imgbtn_creat_n_mks(mks_global.mks_src_2, power_page.pwr_low, &SP_L_PRE, &SP_L_PRE,PWR_IMGBTN_HIGH_X_POS+PWR_IMGBTN_OFFSET_X, PWR_IMGBTN_HIGH_Y_POS, event_handler_pwr_l);
+		power_page.pwr_off = lv_imgbtn_creat_n_mks(mks_global.mks_src_2, power_page.pwr_low, &SP_OFF, &SP_OFF, PWR_IMGBTN_HIGH_X_POS+PWR_IMGBTN_OFFSET_X*2, PWR_IMGBTN_HIGH_Y_POS, event_handler_pwr_on_off);
+	}else if(mks_grbl.power_persen == P_0_PERSEN) {
+		power_page.pwr_high = lv_imgbtn_creat_n_mks(mks_global.mks_src_2, power_page.pwr_high, &SP_H_UP, &SP_H_UP,PWR_IMGBTN_HIGH_X_POS, PWR_IMGBTN_HIGH_Y_POS, event_handler_pwr_h);
+		power_page.pwr_low = lv_imgbtn_creat_n_mks(mks_global.mks_src_2, power_page.pwr_low, &SP_L_UP, &SP_L_UP,PWR_IMGBTN_HIGH_X_POS+PWR_IMGBTN_OFFSET_X, PWR_IMGBTN_HIGH_Y_POS, event_handler_pwr_l);
+		power_page.pwr_off = lv_imgbtn_creat_n_mks(mks_global.mks_src_2, power_page.pwr_low, &SP_ON, &SP_ON, PWR_IMGBTN_HIGH_X_POS+PWR_IMGBTN_OFFSET_X*2, PWR_IMGBTN_HIGH_Y_POS, event_handler_pwr_on_off);
+	}
+	power_page.label_Back = mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, power_page.label_Back, 20,60, "Back", 50);
+#endif
+	
 
 #if defined(USE_BL_TOUCH)
 	label_cailb = mks_lvgl_long_sroll_label_with_wight_set_center(p_scr1, label_cailb, 350, 60, "Z Home", 60);
@@ -176,14 +214,18 @@ void mks_draw_power(void) {
 static void event_handler_popup_sure_1(lv_obj_t* obj, lv_event_t event) { 
 
 	if(event == LV_EVENT_RELEASED) {
-
+#if defined(USR_RELASE)
 		lv_obj_del(power_page.p_popup);
+#else
+	common_popup_com_del();
+#endif
 	}
 }
 
 
 void draw_pwr_popup_1(const char *text) {
 
+#if defined(USR_RELASE)
 	// lv_obj_set_click(move_page.Back, false);
 	// lv_obj_set_click(move_page.m_unlock, false);
 	// lv_obj_set_click(move_page.home, false);
@@ -220,6 +262,10 @@ void draw_pwr_popup_1(const char *text) {
 
 	power_page.label_sure = mks_lvgl_long_sroll_label_with_wight_set_center(power_page.p_popup, power_page.label_sure, 90, 50, text, 200);
 	power_page.label_popup = mks_lvgl_long_sroll_label_with_wight_set_center(power_page.btn_sure, power_page.label_popup, 50, 0, "Yes",50);
+
+#else
+	mks_draw_common_popup_info_com("Warning", (char *)text, " ", event_handler_popup_sure_1);
+#endif
 }
 
 

@@ -25,22 +25,37 @@ extern lv_obj_t *mks_src;
 
 typedef struct {
 
-    lv_obj_t *com_popup_src;             //创建页面
+    // 页面显示
+    lv_obj_t *mks_src;      // 背景
+    lv_obj_t *mks_src_1;    // 基于背景的第一个界面
+    lv_obj_t *mks_src_2;    // 基于背景的第二个界面
+    lv_obj_t *mks_src_3;    // 基于背景的第三个界面 
 
+    // 样式定义
+    lv_style_t mks_src_style;
+    lv_style_t mks_src_1_style;
+    lv_style_t mks_src_2_style;
+    lv_style_t mks_src_3_style;
+    lv_style_t app_label_style;     // 应用图标的label
+    lv_style_t text_label_style;    // 文字显示
+    lv_style_t btn_style;           // 按键
+    lv_style_t wifi_btn_style;      // 主界面wifi按键
+}GLOBAL_OBJ_T;
+extern GLOBAL_OBJ_T mks_global;
+
+typedef struct {
+
+    lv_obj_t *com_popup_src;             //创建页面
     lv_style_t com_popup_sytle;
     lv_style_t com_btn_sytle;
-
     lv_obj_t *btn_yes;
     lv_obj_t *btn_cancle;            
-
     lv_obj_t *label_yes;
     lv_obj_t *label_cancle; 
     lv_obj_t *label_title;               //弹窗标题
     lv_obj_t *label_line1;
     lv_obj_t *label_line2;
-
     bool mux;                      // 做互斥用
-
 }COMMON_POPUP_T;
 
 extern COMMON_POPUP_T com_p1;

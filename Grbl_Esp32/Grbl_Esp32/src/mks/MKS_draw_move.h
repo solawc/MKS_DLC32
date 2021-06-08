@@ -22,12 +22,15 @@ typedef enum {
 
 typedef struct {
 
+#if defined(USR_RELASE)
     /* Screan Build */
     lv_obj_t* move_scr;
     lv_obj_t* dist_scr;
     lv_obj_t* tool_scr;
 
     lv_style_t mbk_color;
+    
+#endif
     lv_style_t btn_color;
 
     /* imgbtn */

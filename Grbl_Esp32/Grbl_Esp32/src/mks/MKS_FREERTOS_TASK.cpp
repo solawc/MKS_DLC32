@@ -22,6 +22,11 @@ void lvgl_disp_task(void *parg) {
     bool logo_flag = true;   
     uint16_t logo_flag_count = 0; 
     mks_lvgl_init();
+#if defined(USE_RELASE)
+    
+#else 
+    mks_global_style_init();
+#endif
     mks_draw_logo();
     
     mks_grbl.wifi_connect_enable = true;
