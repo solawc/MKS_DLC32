@@ -49,7 +49,8 @@ namespace WebUI {
         ~InputBuffer();
 
     private:
-        static const int RXBUFFERSIZE = 256;
+        // static const int RXBUFFERSIZE = 256;
+        static const int RXBUFFERSIZE = 512;
 
         uint8_t  _RXbuffer[RXBUFFERSIZE];
         uint16_t _RXbufferSize;

@@ -1,6 +1,8 @@
 #include "MKS_draw_lvgl.h"
 
+#if defined(USE_RELASE)
 lv_obj_t *mks_src;          // 主背景页
+#endif
 GLOBAL_OBJ_T mks_global;
 
 COMMON_POPUP_T com_p1;
@@ -51,55 +53,6 @@ lv_obj_t* mks_lvgl_label_set(lv_obj_t *scr, lv_obj_t *lab, lv_coord_t x, lv_coor
     return lab;
 }
 
-/* 
- * Author   :MKS
- * Describe :Set wrap label
- * Data     :2021/03/02
-*/
-lv_obj_t* mks_lvgl_label_set_align_center(lv_obj_t *scr, lv_obj_t *lab, lv_coord_t x, lv_coord_t y, const char *text, lv_coord_t w) {
-    lab = lv_label_create(scr, NULL);                                                          
-    lv_label_set_long_mode(lab, LV_LABEL_LONG_BREAK);                               
-    lv_obj_set_width(lab, w);
-    lv_obj_set_height(lab,20);
-    // lv_label_set_align(lab, LV_ALIGN_CENTER);
-    lv_obj_align(lab, scr, LV_ALIGN_CENTER, x, y);
-    // lv_obj_set_pos(lab, x, y);
-    lv_label_set_recolor(lab, true);                                                  
-    lv_label_set_text(lab, text);
-    return lab;
-}
-
-/* 
- * Author   :MKS
- * Describe :Set wrap label
- * Data     :2021/01/30
-*/
-lv_obj_t* mks_lvgl_label_with_long_set(lv_obj_t *scr, lv_obj_t *lab, lv_coord_t x, lv_coord_t y, const char *text, lv_coord_t w) {
-    lab = lv_label_create(scr, NULL);                                                          
-    lv_label_set_long_mode(lab, LV_LABEL_LONG_BREAK);                                    
-    lv_obj_set_width(lab, w);
-    lv_obj_set_height(lab,20);
-    lv_obj_set_pos(lab, x, y);
-    lv_label_set_recolor(lab, true);                                                  
-    lv_label_set_text(lab, text);
-    return lab;
-}
-
-/* 
- * Author   :MKS
- * Describe :Set the label to scroll back and forth
- * Data     :2021/01/30
-*/
-lv_obj_t* mks_lvgl_long_sroll_label_set(lv_obj_t* scr, lv_obj_t* lab, lv_coord_t x, lv_coord_t y, const char* text) {
-    lab = lv_label_create(scr, NULL);
-    lv_label_set_long_mode(lab, LV_LABEL_LONG_SROLL);
-    lv_obj_set_width(lab, 200);
-    lv_obj_set_height(lab, 20);
-    lv_obj_set_pos(lab, x, y);
-    lv_label_set_recolor(lab, true);
-    lv_label_set_text(lab, text);
-    return lab;
-}
 
 /* 
  * Author   :MKS
@@ -134,9 +87,6 @@ lv_obj_t* mks_lvgl_long_sroll_label_with_wight_set_center(lv_obj_t* scr, lv_obj_
     return lab;
 }
 
-
-
-
 /*
  * 用于显示文件名
 */
@@ -152,7 +102,6 @@ lv_obj_t* label_for_file(lv_obj_t* scr, lv_obj_t* lab, lv_coord_t x, lv_coord_t 
     return lab;
 }
 
-
 /*
  * 用于按键里面的文本
 */
@@ -165,7 +114,6 @@ lv_obj_t* label_for_app_name(lv_obj_t* scr, lv_obj_t* lab,lv_coord_t x, lv_coord
     lv_obj_align(lab, NULL, LV_ALIGN_CENTER, x, y);
     return lab;
 }
-
 
 /*
  * 用于文本显示
@@ -181,8 +129,6 @@ lv_obj_t* label_for_screen(lv_obj_t* scr, lv_obj_t* lab, lv_coord_t x, lv_coord_
     lv_obj_align(lab, scr, LV_ALIGN_CENTER, x, y);
     return lab;
 }
-
-
 
 lv_obj_t* mks_lv_static_label(lv_obj_t* scr, lv_obj_t* lab, lv_coord_t x, lv_coord_t y, const char* text, lv_coord_t w) {
 
@@ -283,13 +229,6 @@ lv_obj_t* mks_lv_btn_set_for_screen(lv_obj_t* scr, lv_obj_t* btn, lv_coord_t btn
     return btn;
 }
 
-// lv_obj_t* mks_lv_btn_style_set() { 
-
-
-//     return ;
-// }
-
-
 /* 
  * Author   :MKS
  * Describe :Create Bar
@@ -359,7 +298,6 @@ lv_obj_t* mks_lv_set_ta(lv_obj_t* scr, lv_obj_t *ta, lv_obj_t *kb) {
     return ta;
 }
 
-
 lv_obj_t* mks_lv_set_line(lv_obj_t* scr, lv_obj_t * line, lv_point_t *line_points) { 
 
     /*Copy the previous line and apply the new style*/
@@ -379,7 +317,6 @@ void mks_lv_clean_ui(void) {
     lv_obj_clean(mks_global.mks_src);
 #endif
 }
-
 
 static void event_handler_globel_popup_sure(lv_obj_t* obj, lv_event_t event) { 
 
@@ -402,7 +339,11 @@ void draw_global_popup(const char *text) {
     if(mks_grbl.popup_1_flag == true) return;
     mks_grbl.popup_1_flag = true;
 
+#if defined(USE_RELASE)
 	com_p2.com_popup_src = lv_obj_create(mks_src, NULL);
+#else 
+    com_p2.com_popup_src = lv_obj_create(mks_global.mks_src, NULL);
+#endif
 	lv_obj_set_size(com_p2.com_popup_src, move_popup_size_x, move_popup_size_y);
     lv_obj_set_pos(com_p2.com_popup_src, move_popup_x, move_popup_y);
 
@@ -442,6 +383,7 @@ void mks_draw_common_popup(char *title, char *line1, char *line2, lv_event_cb_t 
 #else 
     com_p1.com_popup_src = lv_obj_create(mks_global.mks_src, NULL);
 #endif
+
 	lv_obj_set_size(com_p1.com_popup_src ,350, 200);
 	lv_obj_set_pos(com_p1.com_popup_src, 80,50);
 
@@ -462,12 +404,14 @@ void mks_draw_common_popup(char *title, char *line1, char *line2, lv_event_cb_t 
 	com_p1.btn_yes = mks_lv_btn_set(com_p1.com_popup_src, com_p1.btn_yes, 100,40,10,130, event_cb_yes);
 	lv_btn_set_style(com_p1.btn_yes, LV_BTN_STYLE_REL, &com_p1.com_btn_sytle);
     lv_btn_set_style(com_p1.btn_yes,LV_BTN_STYLE_PR,&com_p1.com_btn_sytle);
-	mks_lvgl_long_sroll_label_with_wight_set_center(com_p1.btn_yes, com_p1.label_yes, 50, 0, "Yes",50);
+	// mks_lvgl_long_sroll_label_with_wight_set_center(com_p1.btn_yes, com_p1.label_yes, 50, 0, "Yes",50);
+    label_for_app_name(com_p1.btn_yes, com_p1.label_yes, 50, 0, "Yes");
 
 	com_p1.btn_cancle = mks_lv_btn_set(com_p1.com_popup_src, com_p1.btn_cancle, 100,40,240,130, event_cancle);
 	lv_btn_set_style(com_p1.btn_cancle, LV_BTN_STYLE_REL, &com_p1.com_btn_sytle);
     lv_btn_set_style(com_p1.btn_cancle,LV_BTN_STYLE_PR, &com_p1.com_btn_sytle);
-	mks_lvgl_long_sroll_label_with_wight_set_center(com_p1.btn_cancle, com_p1.label_cancle, 50, 0, "Cancel",50);
+	// mks_lvgl_long_sroll_label_with_wight_set_center(com_p1.btn_cancle, com_p1.label_cancle, 50, 0, "Cancel",50);
+    label_for_app_name(com_p1.btn_cancle, com_p1.label_cancle, 50, 0, "Cancel");
 
     label_for_screen(com_p1.com_popup_src, com_p1.label_title, 0, -60, title);
 	label_for_screen(com_p1.com_popup_src, com_p1.label_line1, 0, -20, line1);
@@ -475,11 +419,13 @@ void mks_draw_common_popup(char *title, char *line1, char *line2, lv_event_cb_t 
 }
 
 void mks_draw_common_pupup_info(char *title,char *line1, char *line2) {
+    
 #if defined(USE_RELASE)
     com_p_info.com_popup_src = lv_obj_create(mks_src, NULL);
 #else
     com_p_info.com_popup_src = lv_obj_create(mks_global.mks_src, NULL);
 #endif
+
 	lv_obj_set_size(com_p_info.com_popup_src ,350, 200);
 	lv_obj_set_pos(com_p_info.com_popup_src, 80,50);
 
@@ -502,6 +448,7 @@ void mks_draw_common_popup_info_com(char *title, char *line1, char *line2, lv_ev
 #else 
     com_p_info_com.com_popup_src = lv_obj_create(mks_global.mks_src, NULL);
 #endif
+
 	lv_obj_set_size(com_p_info_com.com_popup_src ,350, 200);
 	lv_obj_set_pos(com_p_info_com.com_popup_src, 80,50);
 
@@ -519,12 +466,12 @@ void mks_draw_common_popup_info_com(char *title, char *line1, char *line2, lv_ev
     com_p_info_com.com_btn_sytle.body.opa = LV_OPA_COVER; // 设置背景色完全不透明
     com_p_info_com.com_btn_sytle.text.color = LV_COLOR_WHITE;
 	
-	// com_p_info_com.btn_yes = mks_lv_btn_set(com_p_info_com.com_popup_src, com_p_info_com.btn_yes, 100,40,10,130, event_cb_yes);
     com_p_info_com.btn_yes = mks_lv_btn_set_for_screen(com_p_info_com.com_popup_src, com_p_info_com.btn_yes, 100, 40, 0, 60, event_cb_yes);
     
 	lv_btn_set_style(com_p_info_com.btn_yes, LV_BTN_STYLE_REL, &com_p_info_com.com_btn_sytle);
     lv_btn_set_style(com_p_info_com.btn_yes,LV_BTN_STYLE_PR,&com_p_info_com.com_btn_sytle);
-	mks_lvgl_long_sroll_label_with_wight_set_center(com_p_info_com.btn_yes, com_p_info_com.label_yes, 50, 0, "Yes",50);
+	// mks_lvgl_long_sroll_label_with_wight_set_center(com_p_info_com.btn_yes, com_p_info_com.label_yes, 50, 0, "Yes",50);
+    label_for_app_name(com_p_info_com.btn_yes, com_p_info_com.label_yes, 50, 0, "Yes");
 
     label_for_screen(com_p_info_com.com_popup_src, com_p_info_com.label_title, 0, -60, title);
 	label_for_screen(com_p_info_com.com_popup_src, com_p_info_com.label_line1, 0, -20, line1);

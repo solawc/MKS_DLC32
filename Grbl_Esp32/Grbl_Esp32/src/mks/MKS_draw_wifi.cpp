@@ -229,12 +229,12 @@ void mks_draw_wifi(void) {
     mks_ui_page.mks_ui_page = MKS_UI_Wifi; 
 }
 
-
 void mks_draw_wifi_scanf(void) { 
 #if defined(USE_RELASE)
     wifi_src.wifi_label_info = mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, wifi_src.wifi_label_scanf, 200, 150, "Wifi Scanf....", 0);
 #else 
     wifi_src.wifi_label_info = mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src, wifi_src.wifi_label_scanf, 200, 150, "Wifi Scanf....", 0);
+    
 #endif
     mks_wifi.wifi_scanf_status = wifi_scanf_begin;
 }

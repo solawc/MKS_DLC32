@@ -113,20 +113,6 @@ void mks_draw_inFile(char *fn) {
     lv_imgbtn_creat_mks(infile_page.inFile_src2, move_page.y_n, &Y_N, &Y_N, LV_ALIGN_CENTER, 0, -50, event_handler_y_n);
     lv_imgbtn_creat_mks(infile_page.inFile_src2, move_page.y_p, &Y_P, &Y_P, LV_ALIGN_CENTER, 0, 50, event_handler_y_p);
 
-
-
-
-	// infile_page.inFile_src = lv_obj_create(mks_src, NULL);
-	// lv_obj_set_size(infile_page.inFile_src, inFILE_SRC_SIZE_X, inFILE_SRC_SIZE_Y);
-    // lv_obj_set_pos(infile_page.inFile_src, inFILE_SRC_X, inFILE_SRC_Y);
-
-	// lv_style_copy(&infile_page.src_color, &lv_style_scr);
-    // infile_page.src_color.body.main_color = LV_COLOR_MAKE(0x1F, 0x23, 0x33); 
-    // infile_page.src_color.body.grad_color = LV_COLOR_MAKE(0x1F, 0x23, 0x33); 
-    // infile_page.src_color.text.color = LV_COLOR_WHITE;
-    // infile_page.src_color.body.radius = 17;
-	// lv_obj_set_style(infile_page.inFile_src, &infile_page.src_color);
-
 	/* 按键样式 */
 	lv_style_copy(&infile_page.btn_color, &lv_style_scr);
     infile_page.btn_color.body.main_color = LV_COLOR_MAKE(0x5C, 0xE6, 0x93);

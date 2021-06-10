@@ -32,7 +32,7 @@ lv_point_t tool_line_points[3][2] = {
 };
 
 LV_IMG_DECLARE(back);	
-LV_IMG_DECLARE(wifi_log);	
+LV_IMG_DECLARE(wifi_tool);	
 
 
 static void event_btn_tool_wifi(lv_obj_t* obj, lv_event_t event) {
@@ -80,12 +80,12 @@ void mks_draw_tool(void) {
 #if defined(USE_RELASE)
     lv_imgbtn_creat_mks(about_src1, tool_img_back, &back, &back, LV_ALIGN_IN_LEFT_MID, 10, -10, event_btn_tool_back);
 #if defined(USE_WIFI)
-    lv_imgbtn_creat_mks(about_src1, tool_img_wifi, &wifi_log, &wifi_log, LV_ALIGN_CENTER, 50, -10, event_btn_tool_wifi);
+    lv_imgbtn_creat_mks(about_src1, tool_img_wifi, &wifi_tool, &wifi_tool, LV_ALIGN_CENTER, 50, -10, event_btn_tool_wifi);
 #endif
 #else 
     lv_imgbtn_creat_mks(mks_global.mks_src_1, tool_img_back, &back, &back, LV_ALIGN_IN_LEFT_MID, 10, -10, event_btn_tool_back);
 #if defined(USE_WIFI)
-    lv_imgbtn_creat_mks(mks_global.mks_src_1, tool_img_wifi, &wifi_log, &wifi_log, LV_ALIGN_CENTER, 50, -10, event_btn_tool_wifi);
+    lv_imgbtn_creat_mks(mks_global.mks_src_1, tool_img_wifi, &wifi_tool, &wifi_tool, LV_ALIGN_CENTER, 50, -10, event_btn_tool_wifi);
 #endif
 #endif
 
@@ -93,13 +93,22 @@ void mks_draw_tool(void) {
     style_line.line.color = LV_COLOR_MAKE(0x00, 0x3b, 0x75);
     style_line.line.width = 1;
     style_line.line.rounded = 1;
+#if defined(USE_RELASE)
     tool_line1 = mks_lv_set_line(mks_src, tool_line1, tool_line_points[0]);
     lv_line_set_style(tool_line1, LV_LINE_STYLE_MAIN, &style_line);
     tool_line2 = mks_lv_set_line(mks_src, tool_line2, tool_line_points[1]);
     lv_line_set_style(tool_line2, LV_LINE_STYLE_MAIN, &style_line);
     // tool_line3 = mks_lv_set_line(mks_src, tool_line3, tool_line_points[2]);
     // lv_line_set_style(tool_line3, LV_LINE_STYLE_MAIN, &style_line);
-    
+#else
+    tool_line1 = mks_lv_set_line(mks_global.mks_src, tool_line1, tool_line_points[0]);
+    lv_line_set_style(tool_line1, LV_LINE_STYLE_MAIN, &style_line);
+    tool_line2 = mks_lv_set_line(mks_global.mks_src, tool_line2, tool_line_points[1]);
+    lv_line_set_style(tool_line2, LV_LINE_STYLE_MAIN, &style_line);
+    tool_line3 = mks_lv_set_line(mks_global.mks_src, tool_line3, tool_line_points[2]);
+    lv_line_set_style(tool_line3, LV_LINE_STYLE_MAIN, &style_line);
+#endif
+
 #if defined(USE_RELASE)    
     mks_lvgl_long_sroll_label_with_wight_set_center(about_src1, label_tool_back, 20, 60, "Back", 60);
 
@@ -129,7 +138,6 @@ void mks_draw_tool(void) {
         mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src, label_Firmware_version, 10, 170, "Firmware:MKS DLC32 V1.10 C", 400);
     #endif
 #endif
-
     mks_ui_page.mks_ui_page = MKS_UI_Tool; 
 }
 

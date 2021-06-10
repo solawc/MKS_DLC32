@@ -56,7 +56,7 @@
 */
 
 #include "Grbl.h"
-#include "mks/lcd_serial.h"
+// #include "mks/lcd_serial.h"
 
 // Define this to use the Arduino serial (UART) driver instead
 // of the one in Uart.cpp, which uses the ESP-IDF UART driver.

@@ -15,7 +15,20 @@ typedef enum {
 
 }ABOUT_XY_POS_t;
 
+typedef struct {
 
+    lv_obj_t *imgbtn_back;
+    lv_obj_t *imgbtn_wifi;
+
+    lv_obj_t *label_back;
+    lv_obj_t *label_wifi;
+
+    lv_obj_t *label_board_version;
+    lv_obj_t *label_fw_version;
+    lv_obj_t *label_CPU_INFO;       // CHIP ID, TEMP;
+
+
+}TOOL_PAGE_T;
 
 
 

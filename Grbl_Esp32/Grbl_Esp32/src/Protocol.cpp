@@ -180,6 +180,7 @@ void protocol_main_loop() {
 //             // }
 //         }
 // #endif
+
 #ifdef ENABLE_SD_CARD
         if (SD_ready_next) {
             char fileLine[255];
@@ -205,7 +206,7 @@ void protocol_main_loop() {
                 }
         }
         else{
-                if(sys.state == State::Cycle) {
+                if((sys.state == State::Cycle)) {
                     if(is_rb_full(&rb_sd) == false) {
                         char fileLine[255];
                         if (readFileLine(fileLine, 255)) {

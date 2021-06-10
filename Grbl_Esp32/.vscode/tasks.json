@@ -1,0 +1,14 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "build",
+			"label": "build: CMSIS",
+			"command": "cbuild.sh",
+			"args": [
+				"${command:keil-studio.getProgramFile}"
+			],
+			"problemMatcher": []
+		}
+	]
+}

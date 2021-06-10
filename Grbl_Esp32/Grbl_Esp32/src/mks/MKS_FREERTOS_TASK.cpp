@@ -39,7 +39,13 @@ void lvgl_disp_task(void *parg) {
             logo_flag_count++;
             if(logo_flag_count == 400) {
                 mks_lv_clean_ui();
-                mks_draw_ready();
+
+                if(mks_updata.updata_flag == UD_HAD_FILE) {
+                    mks_draw_updata();
+                }else {
+                   mks_draw_ready();
+                }
+                
                 logo_flag = false;
             }
         }else {
@@ -143,6 +149,22 @@ static void mks_page_data_updata(void) {
         count_updata = 0;
     }
     #endif
+    else if(mks_ui_page.mks_ui_page == MKS_UI_UPDATA) {
+        if(mks_updata.updata_flag == UD_UPDATA_ING) {
+            mks_cfg_find();
+        }
+        else if(mks_updata.updata_flag == UD_UPDATA_FINSH) {
+            // 更新完成弹窗
+            mks_draw_common_pupup_info("Info", "Update succeed", "Please restart!");
+            mks_cfg_rename(CFG_FILE_PATG2);
+            mks_updata.updata_flag = UD_NONE;
+        }
+        else if(mks_updata.updata_flag == UD_UPDATA_FAIL) {
+            // 更新失败弹窗
+            mks_draw_common_pupup_info("Error", "Update Fail", "Please Check mkscfg.txt or sdcard");
+            mks_updata.updata_flag = UD_NONE;
+        }
+    }
     count_updata++;
 }
 

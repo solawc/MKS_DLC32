@@ -125,6 +125,17 @@ void SdCard::readFile(const char* path)
 	file.close();
 }
 
+bool SdCard::file_check(const char* path) {
+
+	File file = SD.open(path);
+	if (!file) {
+		return false;
+	}
+	else {
+		return true;
+	}
+}
+
 String SdCard::readFileLine(const char* path, int num = 1)
 {
 	// Serial.printf("Reading file: %s line: %d\n", path, num);
@@ -333,7 +344,6 @@ int SdCard::Serch_data(const char* path, const char *str) {
 		line_num++;
 		p = readFileLine(path, line_num);
 		if(strcmp(p.c_str(), str) == 0) {
-			
 			serch_status = true;
 			break;
 		} 

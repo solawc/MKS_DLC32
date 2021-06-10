@@ -175,7 +175,6 @@ void protocol_main_loop() {
                     grbl_notifyf("SD print done", "%s print is successful", temp);
                     closeFile();  // close file and clear SD ready/running flags
                 }
-            // }
         }
 #endif
         // Receive one line of incoming serial data, as the data becomes available.

@@ -28,13 +28,13 @@
 
 #define MACHINE_NAME            "MKS DLC32 V1.10"
 
-
 #ifdef N_AXIS
     #undef N_AXIS
 #endif
 #define N_AXIS 3
 
 #define HTTP_UPLOAD_BUFLEN 1024*10
+// #define USR_Z_MOTOR
 
 // #define USE_BL_TOUCH
 #if defined(USE_V_C)
@@ -50,31 +50,40 @@
 // I2S (steppers & other output-only pins)
 #define USE_I2S_OUT
 #define USE_I2S_STEPS
-// #define DEFAULT_STEPPER ST_I2S_STREAM
 #define DEFAULT_STEPPER ST_I2S_STATIC
 
+// I2S pins set
 #define I2S_OUT_BCK                 GPIO_NUM_16
 #define I2S_OUT_WS                  GPIO_NUM_17
 #define I2S_OUT_DATA                GPIO_NUM_21
     
+// X I2S pin set    
 #define X_DISABLE_PIN               I2SO(0)
 #define X_DIRECTION_PIN             I2SO(2)
 #define X_STEP_PIN                  I2SO(1)
-    
+
+// Y I2S pin set
 #define Y_DISABLE_PIN               I2SO(0)
 #define Y_DIRECTION_PIN             I2SO(6)
 #define Y_STEP_PIN                  I2SO(5)
     
+// Z I2S pin set
+#if defined(USR_Z_MOTOR)
 // #define Z_DISABLE_PIN               I2SO(0)
 // #define Z_DIRECTION_PIN             I2SO(4)
 // #define Z_STEP_PIN                  I2SO(3)
+#endif
 
+// Laser pin set
 #define SPINDLE_TYPE                SpindleType::LASER // only one spindle at a time
 #define LASER_OUTPUT_PIN            GPIO_NUM_22
 
 #define X_LIMIT_PIN                 GPIO_NUM_36
 #define Y_LIMIT_PIN                 GPIO_NUM_35
+
+#if defined(USR_Z_MOTOR)
 // #define Z_LIMIT_PIN                 GPIO_NUM_34
+#endif
 
 #define PROBE_PIN                   GPIO_NUM_2     
 
@@ -101,21 +110,12 @@
 #define GRBL_SPI_SS 			    GPIO_NUM_15
 #define SDCARD_DET_PIN 			    GPIO_NUM_39
 // #define GRBL_SPI_FREQ 			    4000000
-#define GRBL_SPI_FREQ 			    800000000
+#define GRBL_SPI_FREQ 			    400000000
 
 // === Default settings
 // #define DEFAULT_STEP_PULSE_MICROSECONDS I2S_OUT_USEC_PER_PULSE
 #define DEFAULT_STEP_PULSE_MICROSECONDS 10
 
-// The default value in config.h is wrong for this controller
-//#ifdef INVERT_CONTROL_PIN_MASK
-//    #undef INVERT_CONTROL_PIN_MASK
-//#endif
-
-//#define INVERT_CONTROL_PIN_MASK B1110
-
-// #define DEFAULT_STEP_PULSE_MICROSECONDS     4
-// #define DEFAULT_STEPPER_IDLE_LOCK_TIME      255 //  255 = Keep steppers on
 
 #define DEFAULT_STEPPER_IDLE_LOCK_TIME      5
 

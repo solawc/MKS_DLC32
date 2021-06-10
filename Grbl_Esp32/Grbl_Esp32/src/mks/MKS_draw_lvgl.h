@@ -8,17 +8,15 @@
 #include "MKS_draw_ready.h"
 #include "MKS_draw_tool.h"
 #include "MKS_draw_carving.h"
-#include "MKS_draw_setting.h"
 #include "MKS_draw_inFile.h"
 #include "MKS_draw_move.h"
 #include "MKS_draw_power.h"
 #include "MKS_draw_language.h"
-#include "MKS_draw_about.h"
 #include "MKS_draw_print.h"
-#include "MKS_draw_config.h"
 #include "MKS_draw_wifi.h"
 #include "MKS_draw_frame.h"
 #include "mks_ringbuff.h"
+#include "mks_updata.h"
 
 extern lv_obj_t *mks_src;
 
@@ -44,7 +42,6 @@ typedef struct {
 extern GLOBAL_OBJ_T mks_global;
 
 typedef struct {
-
     lv_obj_t *com_popup_src;             //创建页面
     lv_style_t com_popup_sytle;
     lv_style_t com_btn_sytle;
@@ -69,17 +66,14 @@ lv_obj_t* mks_lvgl_draw_bk_both(lv_obj_t * scr, lv_style_t * dest_style, const l
 
 /* label settings */
 lv_obj_t* mks_lvgl_label_set(lv_obj_t *scr, lv_obj_t *lab, lv_coord_t x, lv_coord_t y, const char *text);
-lv_obj_t* mks_lvgl_label_with_long_set(lv_obj_t *scr, lv_obj_t *lab, lv_coord_t x, lv_coord_t y, const char *text, lv_coord_t w);
-lv_obj_t* mks_lvgl_long_sroll_label_set(lv_obj_t* scr, lv_obj_t* lab, lv_coord_t x, lv_coord_t y, const char* text);
 lv_obj_t* mks_lvgl_long_sroll_label_with_wight_set(lv_obj_t* scr, lv_obj_t* lab, lv_coord_t x, lv_coord_t y, const char* text, lv_coord_t w);
 lv_obj_t* mks_lvgl_long_sroll_label_with_wight_set_center(lv_obj_t* scr, lv_obj_t* lab, lv_coord_t x, lv_coord_t y, const char* text, lv_coord_t w);
-lv_obj_t* mks_lvgl_label_set_align_center(lv_obj_t *scr, lv_obj_t *lab, lv_coord_t x, lv_coord_t y, const char *text, lv_coord_t w);
 lv_obj_t* mks_lv_static_label(lv_obj_t* scr, lv_obj_t* lab, lv_coord_t x, lv_coord_t y, const char* text, lv_coord_t w);
 lv_obj_t* mks_lv_label_updata(lv_obj_t* lab, const char *str);
-
 lv_obj_t* label_for_file(lv_obj_t* scr, lv_obj_t* lab, lv_coord_t x, lv_coord_t y, const char* text, lv_coord_t w);
 lv_obj_t* label_for_screen(lv_obj_t* scr, lv_obj_t* lab, lv_coord_t x, lv_coord_t y, const char* text);
 lv_obj_t* label_for_app_name(lv_obj_t* scr, lv_obj_t* lab,lv_coord_t x, lv_coord_t y, const char* text);
+
 /* img settings */
 lv_obj_t* mks_lvgl_img_set(lv_obj_t *scr ,lv_obj_t *img, const void * src_img, lv_coord_t x_mod, lv_coord_t y_mod);
 

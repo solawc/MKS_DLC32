@@ -86,63 +86,30 @@ extern GRBL_CRTL mks_grbl;
 
 typedef enum {
 
-    MKS_UI_PAGE_LOADING,
-    MKS_UI_Logo,
-    MKS_UI_Ready,
-    MKS_UI_Adjust,
-    MKS_UI_Control,
-    MKS_UI_Caving,
-    MKS_UI_Pring,
-    MKS_UI_Tool,
-    MKS_UI_Wifi,
-    MKS_UI_WIFI_UNCONNECT,
-    MKS_UI_WIFI_CONNECT,
-    MKS_UI_Frame,
-    MKS_UI_inFile,
+    MKS_UI_PAGE_LOADING,        // 跳转页面时的标志
 
+    /* 页面标志 */
+    MKS_UI_Logo,    // logo显示
+    MKS_UI_Ready,   // 主界面
+    MKS_UI_Adjust,  // 功率调整界面
+    MKS_UI_Control, // 移动控制界面
+    MKS_UI_Caving,  // 雕刻界面
+    MKS_UI_Pring,   // 打印界面
+    MKS_UI_Tool,    // 工具界面
+    MKS_UI_Wifi,    // WIFI相关界面
+    MKS_UI_Frame,   // 巡边界面
+    MKS_UI_inFile,  // 打开文件后的界面
+    MKS_UI_UPDATA,  // 配置文件更新界面
 }mks_ui_page_t;
 
 
 #define DEFAULT_UI_COUNT    1
 typedef struct {
-
     mks_ui_page_t mks_ui_page;
     uint8_t wait_count;             // 等待LVGL事件生成缓冲，用于界面数据更新
-
 }LVGL_UI_PAGE_t;
 extern LVGL_UI_PAGE_t mks_ui_page;
 
-
-// typedef enum {
-
-//     ui_main_imgbtn_first_pos_x = -170,
-//     ui_main_imgbtn_first_pos_y = 0,
-
-//     ui_main_imgbtn_second_pos_x = 0,
-//     ui_main_imgbtn_second_pos_y = 0,
-
-//     ui_main_imgbtn_third_pos_x = 170,
-//     ui_main_imgbtn_third_pos_y = 0,
-
-// }MKS_UI_POS_t;
-
-// typedef struct {
-//     MKS_UI_POS_t ui_pos;
-
-
-// }MKS_LV_DRAW_UI_t;
-
-
-#define SD_FILE_NAME_LENGTH     64      //文件名长度
-#define SD_FILE_PAGE_NUM        6       //一页能显示的文件个数
-#define SD_FILE_PAGE            50*6    //允许最多50页，每页6个文件，允许总文件数为 50*6 = 300个 
-
-typedef struct {
-    char sd_file_name[SD_FILE_PAGE];                            //建立非文件夹二维数组
-    char sd_dir_num[255];                                       //文件夹下标（最大允许255个文件夹）
-    char sd_file_num;                                           //文件个数
-}MKS_SD_t;
-extern MKS_SD_t mks_sd;
 
 
 

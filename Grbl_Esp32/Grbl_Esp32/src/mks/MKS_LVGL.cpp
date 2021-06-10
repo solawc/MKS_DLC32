@@ -3,10 +3,9 @@
 // #include "lv_examples/lv_apps/demo/demo.h"
 // #include "lv_examples/lv_tests/lv_test_theme/lv_test_theme_1.h"
 
-#define LV_BUF_SIZE             20 * LV_HOR_RES_MAX
+#define LV_BUF_SIZE             10 * LV_HOR_RES_MAX
 
 GRBL_CRTL mks_grbl;
-MKS_SD_t mks_sd;
 LVGL_UI_PAGE_t mks_ui_page;
 
 static lv_disp_buf_t    disp_buf;

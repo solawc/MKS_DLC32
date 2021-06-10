@@ -22,7 +22,6 @@
 #include <WiFi.h>
 
 #include "mks/MKS_TS35.h"
-#include "mks/MKS_I2C.h"
 #include "mks/MKS_LVGL.h"
 #include "mks/MKS_draw_ready.h"
 #include "mks/MKS_ctrl.h"
@@ -128,6 +127,11 @@ static void reset_variables() {
      /*LCD---GUI*/
     if(!lcd_init_status) {
         lcd_init_status = true;
+
+        /* SD cfg updata */
+        mks_updata_init();
+
+        /* LCD */
         tft_TS35_init();
         disp_task_init();
         mks_grbl_parg_init();
@@ -137,7 +141,11 @@ static void reset_variables() {
         delay_ms(100);
         BLTOUCH_push_down();
 #endif
+        
     }
+
+
+
     mks_motor_unclock();
     spindle_check_init();
 
@@ -159,6 +167,7 @@ void __attribute__((weak)) display_init() {}
 void __attribute__((weak)) user_m30() {}
 
 void __attribute__((weak)) user_tool_change(uint8_t new_tool) {}
+
 /*
   setup() and loop() in the Arduino .ino implements this control flow:
 

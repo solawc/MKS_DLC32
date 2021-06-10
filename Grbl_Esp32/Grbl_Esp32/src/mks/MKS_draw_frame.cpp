@@ -33,26 +33,15 @@ void mks_draw_frame(void) {
     frame_page.frame_src_style.text.color = LV_COLOR_WHITE;
     frame_page.frame_src_style.body.radius = 17;
 
+#if defined(USE_RELASE)
     frame_page.frame_src = lv_obj_create(mks_src, NULL);
+#else
+    frame_page.frame_src = lv_obj_create(mks_global.mks_src, NULL);
+#endif
     lv_obj_set_size(frame_page.frame_src ,FRAME_SRC_SIZE_X, FRAME_SRC_SIZE_Y);
 	lv_obj_set_pos(frame_page.frame_src, FRAME_SRC_X, FRAME_SRC_Y);
 	lv_obj_set_style(frame_page.frame_src, &frame_page.frame_src_style);
 
-    // lv_imgbtn_creat_n_mks(frame_page.frame_src, 
-    //                     frame_page.label_cancle, 
-    //                     &back, &back, 
-    //                     // LV_ALIGN_IN_LEFT_MID, 
-    //                     FRAME_IMGBTN_X, 
-    //                     FRAME_IMGBTN_Y, 
-    //                     event_handler_cancle);
-    
-    // frame_page.label_cancle = mks_lvgl_long_sroll_label_with_wight_set_center(frame_page.frame_src, 
-    //                                                                         frame_page.label_cancle, 
-    //                                                                         FRAME_IMGBTN_X, 
-    //                                                                         FRAME_IMGBTN_Y+50, 
-    //                                                                         "Cancel", 
-    //                                                                         102);
-    
     frame_page.label_text = mks_lvgl_long_sroll_label_with_wight_set_center(frame_page.frame_src, 
                                                                             frame_page.label_text, 
                                                                             FRAME_LABEL_RUN_STATUS_X, 
@@ -62,7 +51,6 @@ void mks_draw_frame(void) {
     mks_ui_page.mks_ui_page = MKS_UI_Frame;
     mks_ui_page.wait_count = 1;
 }
-
 
 void frame_status_dis(FRAME_STATUS status) { 
     char buf[255];
@@ -102,6 +90,7 @@ void mks_openSDFile(char* parameter) {
     // if (path[0] != '/') {   // 为文件名添加'/'
     //     path = "/" + path;
     // }
+    
     SDState state = get_sd_state(true);
     if (state != SDState::Idle) {
         if (state == SDState::NotPresent) {
@@ -121,9 +110,6 @@ void mks_openSDFile(char* parameter) {
     }
 }
 
-
-// bool lb_flag = false;
-
 void polocte_cmd(char *str) {
     
     if(strstr(str ,"Bounds")) {
@@ -137,7 +123,6 @@ void polocte_cmd(char *str) {
         frame_ctrl.have_g1 = 1;
     }
 
-    
     while( *str != '\0' && frame_ctrl.safe_count < FRAME_BUFF_SIZE -1 ) {      
         if((frame_ctrl.have_g0 == 1)||(frame_ctrl.have_g1==1)) {
             
@@ -191,7 +176,6 @@ void polocte_cmd(char *str) {
                     while(*str !=' ' && *str!='\r' && *str!='\n') {
                         
                         *frame_ctrl.x_or_y = *str;
-
                         str++;
                         frame_ctrl.x_or_y++;
                     }
@@ -305,7 +289,7 @@ void mks_run_frame(char *parameter) {
             }
 
             point_last_num++;
-            if( point_last_num >= 3) {
+            if( point_last_num > 3) {
                 point_last_num = 1;
             } 
             point_count = 0;

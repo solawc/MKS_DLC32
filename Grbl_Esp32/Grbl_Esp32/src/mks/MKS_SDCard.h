@@ -6,10 +6,13 @@
 #include "FS.h"
 #include "SD.h"
 #include "SPI.h"
+
+#define FILE_SD_BUF			128
+
 class SdCard
 {
 private:
-	char buf[128];
+	char buf[FILE_SD_BUF];
 
 public:
 	void init();
@@ -40,7 +43,9 @@ public:
 
 	void writeBinToSd(const char* path, uint8_t* buf);
 
-	void fileIO(  const char* path);
+	void fileIO(const char* path);
+
+	bool file_check(const char* path);
 };
 
 extern SdCard tf;
