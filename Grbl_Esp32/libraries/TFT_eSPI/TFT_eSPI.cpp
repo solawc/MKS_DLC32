@@ -3491,9 +3491,8 @@ void TFT_eSPI::pushColorsDMA(uint16_t *data, uint32_t len, bool swap) {
     begin_tft_write();
     if (swap) {swap = _swapBytes; _swapBytes = true; }
 
-    // pushPixels(data, len);
     pushPixelsDMA(data, len);
-
+    
     _swapBytes = swap; // Restore old value
     end_tft_write();
 }

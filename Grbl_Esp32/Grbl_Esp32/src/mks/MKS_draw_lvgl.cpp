@@ -105,7 +105,7 @@ lv_obj_t* label_for_file(lv_obj_t* scr, lv_obj_t* lab, lv_coord_t x, lv_coord_t 
 /*
  * 用于按键里面的文本
 */
-lv_obj_t* label_for_app_name(lv_obj_t* scr, lv_obj_t* lab,lv_coord_t x, lv_coord_t y, const char* text) {
+lv_obj_t* label_for_btn_name(lv_obj_t* scr, lv_obj_t* lab,lv_coord_t x, lv_coord_t y, const char* text) {
     lab = lv_label_create(scr, NULL);
     lv_label_set_long_mode(lab, LV_LABEL_LONG_EXPAND);
     lv_label_set_recolor(lab, true);
@@ -116,7 +116,19 @@ lv_obj_t* label_for_app_name(lv_obj_t* scr, lv_obj_t* lab,lv_coord_t x, lv_coord
 }
 
 /*
- * 用于文本显示
+ * 用于图片按键的文本
+*/
+lv_obj_t* label_for_imgbtn_name(lv_obj_t* scr, lv_obj_t* lab, lv_obj_t* base, lv_coord_t x, lv_coord_t y, const char* text) {
+    lab = lv_label_create(scr, NULL);
+    lv_label_set_long_mode(lab, LV_LABEL_LONG_EXPAND);
+    lv_label_set_recolor(lab, true);
+    lv_label_set_text(lab, text);
+    // lv_label_set_align(lab ,LV_LABEL_ALIGN_CENTER);
+    lv_obj_align(lab, base, LV_ALIGN_OUT_BOTTOM_MID, x, y);
+    return lab;
+}
+
+/*
  * 用于提示框显示
 */
 lv_obj_t* label_for_screen(lv_obj_t* scr, lv_obj_t* lab, lv_coord_t x, lv_coord_t y, const char* text) {
@@ -129,6 +141,21 @@ lv_obj_t* label_for_screen(lv_obj_t* scr, lv_obj_t* lab, lv_coord_t x, lv_coord_
     lv_obj_align(lab, scr, LV_ALIGN_CENTER, x, y);
     return lab;
 }
+
+/*
+ * 用于信息显示
+ * 提供对齐选项
+*/
+lv_obj_t* label_for_text(lv_obj_t* scr, lv_obj_t* lab, lv_obj_t * base, lv_coord_t x, lv_coord_t y, lv_align_t align,  const char* text) {
+    lab = lv_label_create(scr, NULL);
+    lv_label_set_long_mode(lab, LV_LABEL_LONG_EXPAND);
+    lv_label_set_recolor(lab, true);
+    lv_label_set_text(lab, text);
+	lv_label_set_align(lab, LV_LABEL_ALIGN_CENTER);
+    lv_obj_align(lab, base, align, x, y);
+    return lab;
+}
+
 
 lv_obj_t* mks_lv_static_label(lv_obj_t* scr, lv_obj_t* lab, lv_coord_t x, lv_coord_t y, const char* text, lv_coord_t w) {
 
@@ -372,7 +399,7 @@ void draw_global_popup(const char *text) {
 	lv_btn_set_style(com_p2.btn_yes,LV_BTN_STYLE_PR, &com_p2.com_btn_sytle);
 
 	com_p2.label_line1 = label_for_screen(com_p2.com_popup_src, com_p2.label_line1, 0, -30, text);
-	com_p2.label_yes = label_for_app_name(com_p2.btn_yes, com_p2.label_yes, 0, 0, "Yes");
+	com_p2.label_yes = label_for_btn_name(com_p2.btn_yes, com_p2.label_yes, 0, 0, "Yes");
 }
 
 
@@ -405,13 +432,13 @@ void mks_draw_common_popup(char *title, char *line1, char *line2, lv_event_cb_t 
 	lv_btn_set_style(com_p1.btn_yes, LV_BTN_STYLE_REL, &com_p1.com_btn_sytle);
     lv_btn_set_style(com_p1.btn_yes,LV_BTN_STYLE_PR,&com_p1.com_btn_sytle);
 	// mks_lvgl_long_sroll_label_with_wight_set_center(com_p1.btn_yes, com_p1.label_yes, 50, 0, "Yes",50);
-    label_for_app_name(com_p1.btn_yes, com_p1.label_yes, 50, 0, "Yes");
+    label_for_btn_name(com_p1.btn_yes, com_p1.label_yes, 50, 0, "Yes");
 
 	com_p1.btn_cancle = mks_lv_btn_set(com_p1.com_popup_src, com_p1.btn_cancle, 100,40,240,130, event_cancle);
 	lv_btn_set_style(com_p1.btn_cancle, LV_BTN_STYLE_REL, &com_p1.com_btn_sytle);
     lv_btn_set_style(com_p1.btn_cancle,LV_BTN_STYLE_PR, &com_p1.com_btn_sytle);
 	// mks_lvgl_long_sroll_label_with_wight_set_center(com_p1.btn_cancle, com_p1.label_cancle, 50, 0, "Cancel",50);
-    label_for_app_name(com_p1.btn_cancle, com_p1.label_cancle, 50, 0, "Cancel");
+    label_for_btn_name(com_p1.btn_cancle, com_p1.label_cancle, 50, 0, "Cancel");
 
     label_for_screen(com_p1.com_popup_src, com_p1.label_title, 0, -60, title);
 	label_for_screen(com_p1.com_popup_src, com_p1.label_line1, 0, -20, line1);
@@ -471,7 +498,7 @@ void mks_draw_common_popup_info_com(char *title, char *line1, char *line2, lv_ev
 	lv_btn_set_style(com_p_info_com.btn_yes, LV_BTN_STYLE_REL, &com_p_info_com.com_btn_sytle);
     lv_btn_set_style(com_p_info_com.btn_yes,LV_BTN_STYLE_PR,&com_p_info_com.com_btn_sytle);
 	// mks_lvgl_long_sroll_label_with_wight_set_center(com_p_info_com.btn_yes, com_p_info_com.label_yes, 50, 0, "Yes",50);
-    label_for_app_name(com_p_info_com.btn_yes, com_p_info_com.label_yes, 50, 0, "Yes");
+    label_for_btn_name(com_p_info_com.btn_yes, com_p_info_com.label_yes, 50, 0, "Yes");
 
     label_for_screen(com_p_info_com.com_popup_src, com_p_info_com.label_title, 0, -60, title);
 	label_for_screen(com_p_info_com.com_popup_src, com_p_info_com.label_line1, 0, -20, line1);

@@ -52,33 +52,6 @@ void mks_draw_frame(void) {
     mks_ui_page.wait_count = 1;
 }
 
-void frame_status_dis(FRAME_STATUS status) { 
-    char buf[255];
-    switch(status) {
-
-        case FRAME_NONE:
-            sprintf(buf, "Wait draw frame...");
-        break;
-
-        case FRAWM_READ_SD:
-            sprintf(buf, "Reading file...");
-        break;
-
-        case FRAM_RUN:
-            sprintf(buf, "Machine run...");
-        break;
-
-        case FRAM_END:
-            sprintf(buf, "Finsh...");
-        break;
-
-        case FRAWM_READ_SD_BUSY:
-            sprintf(buf, "SDcard is busy..");
-        break;
-        mks_lv_label_updata(frame_page.label_text, buf);
-    }
-}
-
 void mks_openSDFile(char* parameter) {
     if (*parameter == '\0') {    // 用来判断文件名是否为空
 

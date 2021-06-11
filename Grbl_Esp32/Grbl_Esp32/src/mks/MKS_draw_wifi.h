@@ -2,7 +2,7 @@
 #define __mks_draw_wifi_h
 
 #include "mks_draw_lvgl.h"
-
+#include "../WebUI/WifiConfig.h"
 #if defined(USE_WIFI)
 
 extern char wifi_send_username[128];
@@ -109,14 +109,15 @@ typedef struct {
     lv_obj_t *wifi_label_username;
     lv_obj_t *wifi_label_password;
     lv_obj_t *wifi_label_connect;
-    lv_obj_t *wifi_label_riss;
+    lv_obj_t *wifi_label_rssi;
     lv_obj_t *wifi_label_ip;
     lv_style_t wifi_src_style;
 
     lv_obj_t *wifi_btn_up; 
     lv_obj_t *wifi_btn_next;
     lv_obj_t *wifi_btn_scanf; 
-    lv_obj_t *wifi_btn_disconnect;      // 断开连接
+    // lv_obj_t *wifi_btn_disconnect;      // 断开连接
+    lv_obj_t *wifi_imgbtn_disconnect;      // 断开连接
     lv_obj_t *wifi_imgbtn_back;
 
     lv_obj_t *wifi_label_line1;         // label
@@ -132,6 +133,7 @@ typedef struct {
     lv_obj_t *wifi_label_next;
     lv_obj_t *wifi_label_scanf; 
     lv_obj_t *wifi_label_back;
+    lv_obj_t *wifi_label_disconnect;
 
     lv_obj_t *wifi_label_info;
 }MKS_WIFI_PAGE_T;

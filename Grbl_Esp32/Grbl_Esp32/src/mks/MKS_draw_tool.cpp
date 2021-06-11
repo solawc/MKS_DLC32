@@ -17,6 +17,7 @@ lv_obj_t *label_tool_wifi;
 
 lv_obj_t* label_board_version;
 lv_obj_t* label_Firmware_version;
+lv_obj_t* label_cpu_info;
 
 lv_obj_t *tool_line1;
 lv_obj_t *tool_line2;
@@ -59,6 +60,8 @@ static void event_btn_tool_back(lv_obj_t* obj, lv_event_t event) {
 
 void mks_draw_tool(void) {
 
+    char cpu_info[128]="CPU:Freq:";
+
 #if defined(USE_RELASE)
     about_src1 = lv_obj_create(mks_src, NULL);
 	lv_obj_set_size(about_src1, about_src1_x_size, about_src1_y_size);
@@ -83,9 +86,9 @@ void mks_draw_tool(void) {
     lv_imgbtn_creat_mks(about_src1, tool_img_wifi, &wifi_tool, &wifi_tool, LV_ALIGN_CENTER, 50, -10, event_btn_tool_wifi);
 #endif
 #else 
-    lv_imgbtn_creat_mks(mks_global.mks_src_1, tool_img_back, &back, &back, LV_ALIGN_IN_LEFT_MID, 10, -10, event_btn_tool_back);
+    tool_img_back = lv_imgbtn_creat_mks(mks_global.mks_src_1, tool_img_back, &back, &back, LV_ALIGN_IN_LEFT_MID, 10, -10, event_btn_tool_back);
 #if defined(USE_WIFI)
-    lv_imgbtn_creat_mks(mks_global.mks_src_1, tool_img_wifi, &wifi_tool, &wifi_tool, LV_ALIGN_CENTER, 50, -10, event_btn_tool_wifi);
+    tool_img_wifi = lv_imgbtn_creat_mks(mks_global.mks_src_1, tool_img_wifi, &wifi_tool, &wifi_tool, LV_ALIGN_CENTER, 50, -10, event_btn_tool_wifi);
 #endif
 #endif
 
@@ -124,10 +127,12 @@ void mks_draw_tool(void) {
         mks_lvgl_long_sroll_label_with_wight_set_center(mks_src, label_Firmware_version, 10, 170, "Firmware:MKS DLC32 V1.10 C", 400);
     #endif
 #else
-    mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, label_tool_back, 20, 60, "Back", 60);
+    // mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, label_tool_back, 20, 60, "Back", 60);
+    label_for_imgbtn_name(mks_global.mks_src_1, label_tool_back, tool_img_back, 0, 0, "Back");
 
 #if defined(USE_WIFI)
-    mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, label_tool_wifi, 270, 60, "Wifi", 60);
+    // mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, label_tool_wifi, 270, 60, "Wifi", 60);
+    label_for_imgbtn_name(mks_global.mks_src_1, label_tool_wifi, tool_img_wifi, 0, 0, "Wifi");
 #endif
     mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src, label_board_version, 10, 120, "Board:MKS DLC32 V003", 400);
     #if defined(USE_V_A) 
@@ -138,6 +143,13 @@ void mks_draw_tool(void) {
         mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src, label_Firmware_version, 10, 170, "Firmware:MKS DLC32 V1.10 C", 400);
     #endif
 #endif
+
+    strcat(cpu_info, String(ESP.getCpuFreqMHz()).c_str());
+    strcat(cpu_info, "Mhz/ T:");
+    strcat(cpu_info, String(temperatureRead(), 1).c_str());
+    strcat(cpu_info, "C/ ID:");
+    strcat(cpu_info, String((uint16_t)(ESP.getEfuseMac() >> 32)).c_str());
+    mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src, label_cpu_info, 10, 220, cpu_info, 400);
     mks_ui_page.mks_ui_page = MKS_UI_Tool; 
 }
 

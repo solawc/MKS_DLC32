@@ -174,16 +174,16 @@ void mks_draw_ready(void) {
     lv_imgbtn_creat_n_mks(mks_src ,ready_src.ready_imgbtn_pwr,  &M_pwr,  &M_pwr, READY_FIRST_IMG_X+30, READY_FIRST_IMG_Y + 80, event_handler_none);
     lv_imgbtn_creat_n_mks(mks_src ,ready_src.ready_imgbtn_wifi_status, &wifi_status, &wifi_status, READY_FIRST_IMG_X+160, READY_FIRST_IMG_Y + 80, event_handler_none);
 #else 
-    lv_imgbtn_creat_mks(mks_global.mks_src_1, ready_src.ready_imgbtn_Adjustment, &Adjustment, &Adjustment, LV_ALIGN_CENTER, -150, -10, event_handler_Adjustment);
-    lv_imgbtn_creat_mks(mks_global.mks_src_1, ready_src.ready_imgbtn_Control, &Control, &Control, LV_ALIGN_CENTER,-50, -10, event_handler_Control);
-    lv_imgbtn_creat_mks(mks_global.mks_src_1, ready_src.ready_imgbtn_Sculpture, &Sculpture, &Sculpture, LV_ALIGN_CENTER, 50, -10, event_handler_Sculpture);
-    lv_imgbtn_creat_mks(mks_global.mks_src_1, ready_src.ready_imgbtn_Tool, &Tool, &Tool, LV_ALIGN_CENTER, 150, -10, event_handler_Tool);
+    ready_src.ready_imgbtn_Adjustment = lv_imgbtn_creat_mks(mks_global.mks_src_1, ready_src.ready_imgbtn_Adjustment, &Adjustment, &Adjustment, LV_ALIGN_CENTER, -150, -10, event_handler_Adjustment);
+    ready_src.ready_imgbtn_Control = lv_imgbtn_creat_mks(mks_global.mks_src_1, ready_src.ready_imgbtn_Control, &Control, &Control, LV_ALIGN_CENTER,-50, -10, event_handler_Control);
+    ready_src.ready_imgbtn_Sculpture = lv_imgbtn_creat_mks(mks_global.mks_src_1, ready_src.ready_imgbtn_Sculpture, &Sculpture, &Sculpture, LV_ALIGN_CENTER, 50, -10, event_handler_Sculpture);
+    ready_src.ready_imgbtn_Tool = lv_imgbtn_creat_mks(mks_global.mks_src_1, ready_src.ready_imgbtn_Tool, &Tool, &Tool, LV_ALIGN_CENTER, 150, -10, event_handler_Tool);
 
-    lv_imgbtn_creat_n_mks(mks_global.mks_src ,ready_src.ready_imgbtn_xpos, &X_POS,  &X_POS, READY_FIRST_IMG_X+30, READY_FIRST_IMG_Y + 40, event_handler_none);
-    lv_imgbtn_creat_n_mks(mks_global.mks_src ,ready_src.ready_imgbtn_ypos, &Y_POS,  &Y_POS, READY_FIRST_IMG_X+160, READY_FIRST_IMG_Y + 40, event_handler_none);
-    lv_imgbtn_creat_n_mks(mks_global.mks_src ,ready_src.ready_imgbtn_zpos, &Z_POS,  &Z_POS, READY_FIRST_IMG_X+290, READY_FIRST_IMG_Y + 40, event_handler_none);
-    lv_imgbtn_creat_n_mks(mks_global.mks_src ,ready_src.ready_imgbtn_pwr,  &M_pwr,  &M_pwr, READY_FIRST_IMG_X+30, READY_FIRST_IMG_Y + 80, event_handler_none);
-    lv_imgbtn_creat_n_mks(mks_global.mks_src ,ready_src.ready_imgbtn_wifi_status, &wifi_status, &wifi_status, READY_FIRST_IMG_X+160, READY_FIRST_IMG_Y + 80, event_handler_none);
+    ready_src.ready_imgbtn_xpos = lv_imgbtn_creat_n_mks(mks_global.mks_src ,ready_src.ready_imgbtn_xpos, &X_POS,  &X_POS, READY_FIRST_IMG_X+30, READY_FIRST_IMG_Y + 40, event_handler_none);
+    ready_src.ready_imgbtn_ypos = lv_imgbtn_creat_n_mks(mks_global.mks_src ,ready_src.ready_imgbtn_ypos, &Y_POS,  &Y_POS, READY_FIRST_IMG_X+160, READY_FIRST_IMG_Y + 40, event_handler_none);
+    ready_src.ready_imgbtn_zpos = lv_imgbtn_creat_n_mks(mks_global.mks_src ,ready_src.ready_imgbtn_zpos, &Z_POS,  &Z_POS, READY_FIRST_IMG_X+290, READY_FIRST_IMG_Y + 40, event_handler_none);
+    ready_src.ready_imgbtn_pwr  =lv_imgbtn_creat_n_mks(mks_global.mks_src ,ready_src.ready_imgbtn_pwr,  &M_pwr,  &M_pwr, READY_FIRST_IMG_X+30, READY_FIRST_IMG_Y + 80, event_handler_none);
+    ready_src.ready_imgbtn_wifi_status = lv_imgbtn_creat_n_mks(mks_global.mks_src ,ready_src.ready_imgbtn_wifi_status, &wifi_status, &wifi_status, READY_FIRST_IMG_X+160, READY_FIRST_IMG_Y + 80, event_handler_none);
 
 #endif
 
@@ -199,7 +199,7 @@ void mks_draw_ready(void) {
     lv_btn_set_style(ready_src.ready_btn_wifi,LV_BTN_STYLE_PR, &ready_src.ready_btn_wifi_style);
 
 #else
-    ready_src.ready_btn_wifi = mks_lv_btn_set(mks_global.mks_src, ready_src.ready_btn_wifi, 150, 30, READY_FIRST_LABEL_X+195, READY_FIRST_LABEL_Y+80, event_handler_wifi);
+    ready_src.ready_btn_wifi = mks_lv_btn_set(mks_global.mks_src, ready_src.ready_btn_wifi, 100, 30, READY_FIRST_LABEL_X+195, READY_FIRST_LABEL_Y+80, event_handler_wifi);
     lv_btn_set_style(ready_src.ready_btn_wifi, LV_BTN_STYLE_REL, &mks_global.wifi_btn_style);
     lv_btn_set_style(ready_src.ready_btn_wifi,LV_BTN_STYLE_PR, &mks_global.wifi_btn_style);
 #endif
@@ -216,26 +216,29 @@ void mks_draw_ready(void) {
     ready_src.ready_label_zpos = mks_lv_static_label(mks_src, ready_src.ready_label_zpos, READY_FIRST_LABEL_X+320,READY_FIRST_LABEL_Y+45, "0", 50);
     ready_src.ready_label_mpwr = mks_lv_static_label(mks_src, ready_src.ready_label_mpwr, READY_FIRST_LABEL_X+60, READY_FIRST_LABEL_Y+85, "0", 50);
 #else 
-    mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, ready_src.ready_label_Adjustment, 40, 80, "Adjustment", 100);
-    mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, ready_src.ready_label_Control,150, 80, "Control", 100);
-    mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, ready_src.ready_label_Sculpture, 250, 80, "Sculpture", 100);
-    mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, ready_src.ready_label_Tool, 360, 80, "Tool", 100);
+    label_for_imgbtn_name(mks_global.mks_src_1, ready_src.ready_label_Adjustment, ready_src.ready_imgbtn_Adjustment, 0, 0, "Adjustment");
+    label_for_imgbtn_name(mks_global.mks_src_1, ready_src.ready_label_Control, ready_src.ready_imgbtn_Control, 0, 0, "Control");
+    label_for_imgbtn_name(mks_global.mks_src_1, ready_src.ready_label_Sculpture, ready_src.ready_imgbtn_Sculpture, 0, 0, "Sculpture");
+    label_for_imgbtn_name(mks_global.mks_src_1, ready_src.ready_label_Tool, ready_src.ready_imgbtn_Tool, 0, 0, "Tool");
 
-    ready_src.ready_label_status = mks_lv_static_label(mks_global.mks_src, ready_src.ready_label_status, READY_FIRST_LABEL_X, READY_FIRST_LABEL_Y+110, " ", 50);
-    ready_src.ready_label_xpos = mks_lv_static_label(mks_global.mks_src, ready_src.ready_label_xpos, READY_FIRST_LABEL_X+60, READY_FIRST_LABEL_Y+45, "0", 50);
-    ready_src.ready_label_ypos = mks_lv_static_label(mks_global.mks_src, ready_src.ready_label_ypos, READY_FIRST_LABEL_X+190,READY_FIRST_LABEL_Y+45, "0", 50);
-    ready_src.ready_label_zpos = mks_lv_static_label(mks_global.mks_src, ready_src.ready_label_zpos, READY_FIRST_LABEL_X+320,READY_FIRST_LABEL_Y+45, "0", 50);
-    ready_src.ready_label_mpwr = mks_lv_static_label(mks_global.mks_src, ready_src.ready_label_mpwr, READY_FIRST_LABEL_X+60, READY_FIRST_LABEL_Y+85, "0", 50);
+    ready_src.ready_label_xpos = label_for_text(mks_global.mks_src,   ready_src.ready_label_xpos, ready_src.ready_imgbtn_xpos, 0, 0, LV_ALIGN_OUT_RIGHT_MID, "0");
+    ready_src.ready_label_ypos = label_for_text(mks_global.mks_src,   ready_src.ready_label_ypos, ready_src.ready_imgbtn_ypos, 0, 0, LV_ALIGN_OUT_RIGHT_MID, "0");
+    ready_src.ready_label_zpos = label_for_text(mks_global.mks_src,   ready_src.ready_label_zpos, ready_src.ready_imgbtn_zpos, 0, 0, LV_ALIGN_OUT_RIGHT_MID, "0");
+    ready_src.ready_label_mpwr = label_for_text(mks_global.mks_src,   ready_src.ready_label_mpwr, ready_src.ready_imgbtn_pwr , 0, 0, LV_ALIGN_OUT_RIGHT_MID, "0");
 
 #endif
     #if defined(USE_WIFI)
         if (mks_get_wifi_status() == false){ 
-            ready_src.ready_label_wifi_status = mks_lv_static_label(ready_src.ready_btn_wifi, ready_src.ready_label_wifi_status, 40, 0, "Disconnect", 110);
+            // ready_src.ready_label_wifi_status = mks_lv_static_label(ready_src.ready_btn_wifi, ready_src.ready_label_wifi_status, 40, 0, "Disconnect", 110);
+            ready_src.ready_label_wifi_status = label_for_btn_name(ready_src.ready_btn_wifi, ready_src.ready_label_wifi_status, 0, 0, "Disconnect");
+            
         }else {
-            ready_src.ready_label_wifi_status = mks_lv_static_label(ready_src.ready_btn_wifi, ready_src.ready_label_wifi_status, 40, 0, "Connect", 110);
+            // ready_src.ready_label_wifi_status = mks_lv_static_label(ready_src.ready_btn_wifi, ready_src.ready_label_wifi_status, 40, 0, "Connect", 110);
+            ready_src.ready_label_wifi_status = label_for_btn_name(ready_src.ready_btn_wifi, ready_src.ready_label_wifi_status, 40, 0, "Connect");
         }
     #else 
-        ready_src.ready_label_wifi_status = mks_lv_static_label(ready_src.ready_btn_wifi, ready_src.ready_label_wifi_status, 40, 0, "Disconnect", 110);
+        // ready_src.ready_label_wifi_status = mks_lv_static_label(ready_src.ready_btn_wifi, ready_src.ready_label_wifi_status, 40, 0, "Disconnect", 110);
+        ready_src.ready_label_wifi_status = label_for_btn_name(ready_src.ready_btn_wifi, ready_src.ready_label_wifi_status, 0, 0, "Disconnect");
     #endif
     mks_ui_page.mks_ui_page = MKS_UI_Ready;
     mks_ui_page.wait_count = 1;

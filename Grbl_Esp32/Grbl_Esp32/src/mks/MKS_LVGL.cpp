@@ -1,7 +1,5 @@
 #include "MKS_LVGL.h"
 #include "TFT_eSPI.h"
-// #include "lv_examples/lv_apps/demo/demo.h"
-// #include "lv_examples/lv_tests/lv_test_theme/lv_test_theme_1.h"
 
 #define LV_BUF_SIZE             10 * LV_HOR_RES_MAX
 
@@ -67,8 +65,10 @@ bool my_indev_touch(struct _lv_indev_drv_t * indev_drv, lv_indev_data_t * data) 
     if(touchX > 480) {
         touchX = 480;
     }
+
     touchX = 480 - touchX;
     touchY = 320 - touchY;
+    
     if( touched != false ) {
         last_x = touchX;
         last_y = touchY;

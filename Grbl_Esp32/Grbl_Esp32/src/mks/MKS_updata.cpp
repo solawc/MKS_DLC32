@@ -1,6 +1,5 @@
 #include "mks_updata.h"
 
-
 MKS_UPDATA_T mks_updata;
 UPDATA_PAGE_T updata_page;
 
@@ -67,7 +66,7 @@ void mks_cfg_find(void) {
 }
 
 void mks_cfg_rename(const char* path1) {
-    // tf.renameFile(CFG_FILE_PATG, path1);
+    tf.renameFile(CFG_FILE_PATG, path1);
 }
 
 void mks_draw_updata(void) {

@@ -615,7 +615,7 @@ void TFT_eSPI::pushPixelsDMA(uint16_t* image, uint32_t len)
   memset(&trans, 0, sizeof(spi_transaction_t));
 
   trans.user = (void *)1;
-  trans.tx_buffer = image;  //finally send the line data
+  trans.tx_buffer = image;        //finally send the line data
   trans.length = len * 16;        //Data length, in bits
   trans.flags = 0;                //SPI_TRANS_USE_TXDATA flag
 

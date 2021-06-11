@@ -280,7 +280,7 @@ void mks_draw_print(void) {
 #endif
 
     Label_print_file_name = mks_lvgl_long_sroll_label_with_wight_set_center(print_src.print_bar_print, Label_print_file_name, 10, 15, print_file_name, 400);
-    print_src.print_bar_print_percen = label_for_app_name(print_src.print_bar_print, print_src.print_bar_print_percen, 190, 0, "0%");
+    print_src.print_bar_print_percen = label_for_btn_name(print_src.print_bar_print, print_src.print_bar_print_percen, 190, 0, "0%");
 
     lv_refr_now(lv_refr_get_disp_refreshing());
 
@@ -420,7 +420,7 @@ void mks_draw_finsh_pupop(void) {
 
     // mks_lvgl_long_sroll_label_with_wight_set_center(btn_finsh_popup_sure, print_src.print_Label_popup_sure, 50, 0, "Yes", 50);
     // mks_lvgl_long_sroll_label_with_wight_set(print_src.print_finsh_popup, print_src.print_Label_popup, 100, 80, "File is print done!", 150);
-    label_for_app_name(btn_finsh_popup_sure, print_src.print_Label_popup_sure, 0, 0, "Yes");
+    label_for_btn_name(btn_finsh_popup_sure, print_src.print_Label_popup_sure, 0, 0, "Yes");
     label_for_screen(print_src.print_finsh_popup, print_src.print_Label_popup, 0, -20, "File is print done!");
     
 }
