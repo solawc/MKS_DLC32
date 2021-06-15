@@ -9,6 +9,7 @@ COMMON_POPUP_T com_p1;
 COMMON_POPUP_T com_p2;
 COMMON_POPUP_T com_p_info;
 COMMON_POPUP_T com_p_info_com;
+
 /* 
  * Author   :MKS
  * Describe :Set gradient background (support LVGL V6, can not use v7)

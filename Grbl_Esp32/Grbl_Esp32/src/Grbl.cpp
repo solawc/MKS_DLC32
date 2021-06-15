@@ -141,14 +141,9 @@ static void reset_variables() {
         delay_ms(100);
         BLTOUCH_push_down();
 #endif
-        
     }
-
-
-
     mks_motor_unclock();
     spindle_check_init();
-
     rb_init(&rb_sd);
 }
 

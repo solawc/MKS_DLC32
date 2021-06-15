@@ -419,7 +419,11 @@ void draw_pos_popup(const char *text) {
 	lv_obj_set_click(move_page.postivs, false);
 	lv_obj_set_click(move_page.hhome, false);
 
+#if defined(USE_RELASE)
 	move_popup_scr = lv_obj_create(mks_src, NULL);
+#else 
+	move_popup_scr = lv_obj_create(mks_global.mks_src, NULL);
+#endif
 	lv_obj_set_size(move_popup_scr, move_popup_size_x, move_popup_size_y);
     lv_obj_set_pos(move_popup_scr, move_popup_x, move_popup_y);
 
@@ -453,7 +457,11 @@ void draw_pos_popup_1(const char *text) {
 	lv_obj_set_click(move_page.postivs, false);
 	lv_obj_set_click(move_page.hhome, false);
 
+#if defined(USE_RELASE)
 	move_popup_scr = lv_obj_create(mks_src, NULL);
+#else 
+	move_popup_scr = lv_obj_create(mks_global.mks_src, NULL);
+#endif
 	lv_obj_set_size(move_popup_scr, move_popup_size_x, move_popup_size_y);
     lv_obj_set_pos(move_popup_scr, move_popup_x, move_popup_y);
 
@@ -493,7 +501,11 @@ void draw_pos_popup_2(const char *text) {
 	lv_obj_set_click(move_page.postivs, false);
 	lv_obj_set_click(move_page.hhome, false);
 
+#if defined(USE_RELASE)
 	move_popup_scr = lv_obj_create(mks_src, NULL);
+#else 
+	move_popup_scr = lv_obj_create(mks_global.mks_src, NULL);
+#endif
 	lv_obj_set_size(move_popup_scr, move_popup_size_x, move_popup_size_y);
     lv_obj_set_pos(move_popup_scr, move_popup_x, move_popup_y);
 

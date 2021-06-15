@@ -61,7 +61,7 @@ lv_obj_t* Label_popup_sure;
 lv_obj_t* Label_popup;
 lv_obj_t* Label_popup_file_name;
 
-// #define USE_TW_DRAW
+#define USE_TW_DRAW
 
 LV_IMG_DECLARE(Previous);		//先申明此图片
 LV_IMG_DECLARE(Next);			//先申明此图片

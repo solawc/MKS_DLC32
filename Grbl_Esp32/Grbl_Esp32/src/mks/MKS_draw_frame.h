@@ -26,6 +26,7 @@ typedef struct {
 
     lv_obj_t *frame_src;
     lv_style_t frame_src_style;
+    
     lv_obj_t *btn_cancle;
     lv_obj_t *label_cancle;
     lv_obj_t *label_text;

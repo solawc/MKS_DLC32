@@ -16,12 +16,8 @@ void mks_updata_init(void) {
 
     if(is_exit_file == true) {
         mks_updata.updata_flag = UD_HAD_FILE;   // exit cfg updata file
-        grbl_send(CLIENT_SERIAL, CFG_FILE_CHECK_SUCCEED);
-        grbl_send(CLIENT_SERIAL, "\n");
     }else {
         mks_updata.updata_flag = UD_NO_FILE;   // exit cfg updata file
-        grbl_send(CLIENT_SERIAL, CFG_FILE_CHECK_FAIL);
-        grbl_send(CLIENT_SERIAL, "\n");
     }
 }
 

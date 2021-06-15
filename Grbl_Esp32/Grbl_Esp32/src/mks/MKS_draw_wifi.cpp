@@ -48,8 +48,6 @@ LV_IMG_DECLARE(Next);			//先申明此图片
 LV_IMG_DECLARE(Previous);			//先申明此图片
 LV_IMG_DECLARE(icon_reconnect);
 
-
-
 static void event_handler_wifi_up(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
@@ -453,7 +451,7 @@ static void event_handler_wifi_connnect(lv_obj_t* obj, lv_event_t event) {
     char enter_cmd[2] = "\n";
     
 	if (event == LV_EVENT_RELEASED) {
-        
+    
         memset(mks_wifi.wifi_name_connect, 0, sizeof(mks_wifi.wifi_name_connect));
         memset(wifi_send_username, 0, sizeof(wifi_send_username));
         memset(wifi_send_password, 0, sizeof(wifi_send_password));

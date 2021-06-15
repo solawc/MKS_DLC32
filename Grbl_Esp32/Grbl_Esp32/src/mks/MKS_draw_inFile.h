@@ -30,7 +30,7 @@ typedef enum {
     inFILE_BTN_X = 30,
     inFILE_BTN_Y = 10,
     inFILE_BTN_SIZE_X = 120,
-    inFILE_BTN_SIZE_Y = 50,
+    inFILE_BTN_SIZE_Y = 55,
     inFILE_BTN_X_OFFSET = inFILE_BTN_SIZE_X + 0,
     inFILE_BTN_Y_OFFSET = inFILE_BTN_SIZE_Y + 10,
 }inFILE_XY_POS;
@@ -40,21 +40,25 @@ typedef enum {
 typedef struct {
 
     // lv_obj_t *inFile_src;
-
+#if defined(USE_RELASE)
     lv_obj_t *inFile_src1;          // 顶部
     lv_obj_t *inFile_src2;          // 左边
     lv_obj_t *inFile_src3;          // 右边
+#endif
 
     lv_obj_t *btn_pos;              // 定点
     lv_obj_t *btn_sure_print;       // 打印
     lv_obj_t *btn_frame;            // 巡边
     lv_obj_t *btn_cancle;           // 返回
+    lv_obj_t *btn_speed;            // 速度
+    lv_obj_t *btn_len;              // 步长
+    lv_obj_t *btn_set_move;              // 设置为移动
+    lv_obj_t *btn_set_carve;              // 设置为雕刻
 
     lv_obj_t *imgbtn_X_N;
     lv_obj_t *imgbtn_X_P;
     lv_obj_t *imgbtn_Y_N;
     lv_obj_t *imgbtn_Y_P;
-
 
     lv_style_t src_color;
     lv_style_t btn_color;
@@ -64,11 +68,14 @@ typedef struct {
     lv_obj_t *label_cancle;
     lv_obj_t *label_file_name;
     lv_obj_t *label_file_size;
+    lv_obj_t *label_speed;           // 速度
+    lv_obj_t *label_len;           // 步长
 
 }inFILE_PAGE_T;
 
 
 void mks_draw_inFile(char *fn);
-
-
+void mks_draw_freaure(void);
+void mks_draw_setting(void);
+void infile_clean_obj(lv_obj_t *obj_src);
 #endif
