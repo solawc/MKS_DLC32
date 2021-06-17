@@ -49,8 +49,14 @@ void my_disp_flush(lv_disp_drv_t * disp, const lv_area_t * area, lv_color_t * co
 
     tft.startWrite();
     tft.setAddrWindow(area->x1, area->y1, w, h);
-    // tft.pushColors(&color_p->full, w * h, true);
+    
+#if defined(USE_LCD_DMA)
     tft.pushColorsDMA(&color_p->full, w * h, true);
+#else 
+    tft.pushColors(&color_p->full, w * h, true);
+#endif
+    
+
     tft.endWrite();
     lv_disp_flush_ready(disp);
 }

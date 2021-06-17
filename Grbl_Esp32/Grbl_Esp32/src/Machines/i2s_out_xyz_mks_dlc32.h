@@ -24,7 +24,7 @@
 // #define USE_V_B
 #define USE_V_C
 
-// #define USE_RELASE
+#define USE_LCD_DMA
 
 #define MACHINE_NAME            "MKS DLC32 V1.10"
 
@@ -110,7 +110,7 @@
 #define GRBL_SPI_SS 			    GPIO_NUM_15
 #define SDCARD_DET_PIN 			    GPIO_NUM_39
 // #define GRBL_SPI_FREQ 			    4000000
-#define GRBL_SPI_FREQ 			    400000000
+#define GRBL_SPI_FREQ 			    40000000
 
 // === Default settings
 // #define DEFAULT_STEP_PULSE_MICROSECONDS I2S_OUT_USEC_PER_PULSE

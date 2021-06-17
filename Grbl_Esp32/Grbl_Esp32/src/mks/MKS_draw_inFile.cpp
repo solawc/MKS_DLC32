@@ -24,18 +24,34 @@ static void event_handler_cancle(lv_obj_t* obj, lv_event_t event) {
 	}
 }
 
+
+static void event_handler_frame_yes(lv_obj_t* obj, lv_event_t event) {
+
+
+}
+
+
+
+
+
 static void event_handler_frame(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
+
+		uint32_t file_size = mks_file_list.file_size[mks_file_list.file_choose];   
+
 		mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
-#if defined(USR_RELASE)
-		lv_obj_clean(mks_src);
-#else 
-		lv_obj_clean(mks_global.mks_src);
-#endif
-		mks_draw_frame();
-		lv_refr_now(lv_refr_get_disp_refreshing());
-		mks_run_frame(frame_ctrl.file_name);
+
+		if(file_size >= 1024*1024) {
+
+			mks_draw_common_popup();
+
+		}else {
+			lv_obj_clean(mks_global.mks_src);
+			mks_draw_frame();
+			lv_refr_now(lv_refr_get_disp_refreshing());
+			mks_run_frame(frame_ctrl.file_name);
+		}
 	}
 }
 
@@ -124,20 +140,7 @@ static void event_handler_carve_set(lv_obj_t* obj, lv_event_t event){
 
 void mks_draw_inFile(char *fn) {
 
-#if defined(USE_RELASE)
-	/* 背景层 */
-	infile_page.inFile_src1 = lv_obj_create(mks_src, NULL);
-	lv_obj_set_size(infile_page.inFile_src1, 460, 90);
-    lv_obj_set_pos(infile_page.inFile_src1, 10, 10);
 
-	infile_page.inFile_src2 = lv_obj_create(mks_src, NULL);
-	lv_obj_set_size(infile_page.inFile_src2, 270, 200);
-    lv_obj_set_pos(infile_page.inFile_src2, 10, 110);
-
-	infile_page.inFile_src3 = lv_obj_create(mks_src, NULL);
-	lv_obj_set_size(infile_page.inFile_src3, 180, 200);
-    lv_obj_set_pos(infile_page.inFile_src3, 290, 110);
-#else 
 	/* 背景层 */
 	mks_global.mks_src_1 = lv_obj_create(mks_global.mks_src, NULL);
 	lv_obj_set_size(mks_global.mks_src_1, 460, 90);
@@ -147,23 +150,9 @@ void mks_draw_inFile(char *fn) {
 	lv_obj_set_size(mks_global.mks_src_2, 270, 200);
     lv_obj_set_pos(mks_global.mks_src_2, 10, 110);
 
-#endif
 
-#if defined(USE_RELASE)
-
-	lv_style_copy(&infile_page.src_color, &lv_style_scr);
-    infile_page.src_color.body.main_color = LV_COLOR_MAKE(0x1F, 0x23, 0x33); 
-    infile_page.src_color.body.grad_color = LV_COLOR_MAKE(0x1F, 0x23, 0x33); 
-    infile_page.src_color.text.color = LV_COLOR_WHITE;
-    infile_page.src_color.body.radius = 17;
-
-    lv_obj_set_style(infile_page.inFile_src1, &infile_page.src_color);
-	lv_obj_set_style(infile_page.inFile_src2, &infile_page.src_color);
-	lv_obj_set_style(infile_page.inFile_src3, &infile_page.src_color);
-#else 
 	lv_obj_set_style(mks_global.mks_src_1, &mks_global.mks_src_1_style);
 	lv_obj_set_style(mks_global.mks_src_2, &mks_global.mks_src_2_style);
-#endif
 
 	lv_imgbtn_creat_mks(mks_global.mks_src_2, move_page.x_n, &X_N, &X_N, LV_ALIGN_CENTER, 90, 0, event_handler_x_n);
     lv_imgbtn_creat_mks(mks_global.mks_src_2, move_page.x_p, &X_P, &X_P, LV_ALIGN_CENTER, -90, 0, event_handler_x_p);

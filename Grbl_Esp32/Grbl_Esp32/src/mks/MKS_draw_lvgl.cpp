@@ -1,8 +1,6 @@
 #include "MKS_draw_lvgl.h"
 
-#if defined(USE_RELASE)
-lv_obj_t *mks_src;          // 主背景页
-#endif
+
 GLOBAL_OBJ_T mks_global;
 
 COMMON_POPUP_T com_p1;
@@ -339,11 +337,7 @@ lv_obj_t* mks_lv_set_line(lv_obj_t* scr, lv_obj_t * line, lv_point_t *line_point
 
 void mks_lv_clean_ui(void) { 
     mks_grbl.popup_1_flag = false;
-#if defined(USE_RELASE)
-    lv_obj_clean(mks_src);
-#else 
     lv_obj_clean(mks_global.mks_src);
-#endif
 }
 
 static void event_handler_globel_popup_sure(lv_obj_t* obj, lv_event_t event) { 
@@ -367,11 +361,8 @@ void draw_global_popup(const char *text) {
     if(mks_grbl.popup_1_flag == true) return;
     mks_grbl.popup_1_flag = true;
 
-#if defined(USE_RELASE)
-	com_p2.com_popup_src = lv_obj_create(mks_src, NULL);
-#else 
     com_p2.com_popup_src = lv_obj_create(mks_global.mks_src, NULL);
-#endif
+
 	lv_obj_set_size(com_p2.com_popup_src, move_popup_size_x, move_popup_size_y);
     lv_obj_set_pos(com_p2.com_popup_src, move_popup_x, move_popup_y);
 
@@ -406,11 +397,8 @@ void draw_global_popup(const char *text) {
 
 void mks_draw_common_popup(char *title, char *line1, char *line2, lv_event_cb_t event_cb_yes, lv_event_cb_t event_cancle) {
 
-#if defined(USE_RELASE)
-	com_p1.com_popup_src = lv_obj_create(mks_src, NULL);
-#else 
     com_p1.com_popup_src = lv_obj_create(mks_global.mks_src, NULL);
-#endif
+
 
 	lv_obj_set_size(com_p1.com_popup_src ,350, 200);
 	lv_obj_set_pos(com_p1.com_popup_src, 80,50);
@@ -448,11 +436,7 @@ void mks_draw_common_popup(char *title, char *line1, char *line2, lv_event_cb_t 
 
 void mks_draw_common_pupup_info(char *title,char *line1, char *line2) {
     
-#if defined(USE_RELASE)
-    com_p_info.com_popup_src = lv_obj_create(mks_src, NULL);
-#else
     com_p_info.com_popup_src = lv_obj_create(mks_global.mks_src, NULL);
-#endif
 
 	lv_obj_set_size(com_p_info.com_popup_src ,350, 200);
 	lv_obj_set_pos(com_p_info.com_popup_src, 80,50);
@@ -471,11 +455,7 @@ void mks_draw_common_pupup_info(char *title,char *line1, char *line2) {
 
 void mks_draw_common_popup_info_com(char *title, char *line1, char *line2, lv_event_cb_t event_cb_yes) {
 
-#if defined(USE_RELASE)
-	com_p_info_com.com_popup_src = lv_obj_create(mks_src, NULL);
-#else 
     com_p_info_com.com_popup_src = lv_obj_create(mks_global.mks_src, NULL);
-#endif
 
 	lv_obj_set_size(com_p_info_com.com_popup_src ,350, 200);
 	lv_obj_set_pos(com_p_info_com.com_popup_src, 80,50);

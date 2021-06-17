@@ -245,20 +245,6 @@ static void event_handler_back(lv_obj_t* obj, lv_event_t event) {
 
 void mks_draw_move(void) {
  
- #if defined(USE_RELASE)
-	/* 背景层 */
-	move_page.tool_scr = lv_obj_create(mks_src, NULL);
-	lv_obj_set_size(move_page.tool_scr, 460, 90);
-    lv_obj_set_pos(move_page.tool_scr, 10, 10);
-
-	move_page.move_scr = lv_obj_create(mks_src, NULL);
-	lv_obj_set_size(move_page.move_scr, 270, 200);
-    lv_obj_set_pos(move_page.move_scr, 10, 110);
-
-	move_page.dist_scr = lv_obj_create(mks_src, NULL);
-	lv_obj_set_size(move_page.dist_scr, 180, 200);
-    lv_obj_set_pos(move_page.dist_scr, 290, 110);
-#else 
 	mks_global.mks_src_1 = lv_obj_create(mks_global.mks_src, NULL);
 	lv_obj_set_size(mks_global.mks_src_1, 460, 90);
     lv_obj_set_pos(mks_global.mks_src_1, 10, 10);
@@ -270,36 +256,14 @@ void mks_draw_move(void) {
 	mks_global.mks_src_3 = lv_obj_create(mks_global.mks_src, NULL);
 	lv_obj_set_size(mks_global.mks_src_3, 180, 200);
     lv_obj_set_pos(mks_global.mks_src_3, 290, 110);
-#endif
+
 	/* 背景层样式 */
 
-#if defined(USE_RELASE)
-	lv_style_copy(&move_page.mbk_color, &lv_style_scr);
-    move_page.mbk_color.body.main_color = LV_COLOR_MAKE(0x1F, 0x23, 0x33); 
-    move_page.mbk_color.body.grad_color = LV_COLOR_MAKE(0x1F, 0x23, 0x33); 
-    move_page.mbk_color.text.color = LV_COLOR_WHITE;
-    move_page.mbk_color.body.radius = 17;
-    lv_obj_set_style(move_page.move_scr, &move_page.mbk_color);
-	lv_obj_set_style(move_page.dist_scr, &move_page.mbk_color);
-	lv_obj_set_style(move_page.tool_scr, &move_page.mbk_color);
-#else
 	lv_obj_set_style(mks_global.mks_src_1, &mks_global.mks_src_1_style);
 	lv_obj_set_style(mks_global.mks_src_2, &mks_global.mks_src_2_style);
 	lv_obj_set_style(mks_global.mks_src_3, &mks_global.mks_src_3_style);
-#endif
 
-#if defined(USE_RELASE)
-	move_page.Back = lv_imgbtn_creat_mks(move_page.tool_scr, move_page.Back, &back, &back, LV_ALIGN_IN_LEFT_MID, 10, -10 , event_handler_back);
-    move_page.m_unlock = lv_imgbtn_creat_mks(move_page.tool_scr, move_page.m_unlock, &Unlock, &Unlock, LV_ALIGN_CENTER, -10, -10, event_handler_unlock);
-	move_page.home = lv_imgbtn_creat_mks(move_page.tool_scr, move_page.home, &Home, &Home, LV_ALIGN_CENTER, 90, -10, event_handler_home);
-	move_page.postivs = lv_imgbtn_creat_mks(move_page.tool_scr, move_page.postivs, &Positionting, &Positionting, LV_ALIGN_CENTER, 190, -10, event_handler_pos);
-	move_page.hhome = lv_imgbtn_creat_mks(move_page.tool_scr, move_page.hhome, &Hhome, &Hhome, LV_ALIGN_CENTER, -110, -10, event_handler_hhome);
 
-	lv_imgbtn_creat_mks(move_page.move_scr, move_page.x_n, &X_N, &X_N, LV_ALIGN_CENTER, 90, 0, event_handler_x_n);
-    lv_imgbtn_creat_mks(move_page.move_scr, move_page.x_p, &X_P, &X_P, LV_ALIGN_CENTER, -90, 0, event_handler_x_p);
-    lv_imgbtn_creat_mks(move_page.move_scr, move_page.y_n, &Y_N, &Y_N, LV_ALIGN_CENTER, 0, -50, event_handler_y_n);
-    lv_imgbtn_creat_mks(move_page.move_scr, move_page.y_p, &Y_P, &Y_P, LV_ALIGN_CENTER, 0, 50, event_handler_y_p);
-#else
 	move_page.Back = lv_imgbtn_creat_mks(mks_global.mks_src_1, move_page.Back, &back, &back, LV_ALIGN_IN_LEFT_MID, 10, -10 , event_handler_back);
     move_page.m_unlock = lv_imgbtn_creat_mks(mks_global.mks_src_1, move_page.m_unlock, &Unlock, &Unlock, LV_ALIGN_CENTER, -10, -10, event_handler_unlock);
 	move_page.home = lv_imgbtn_creat_mks(mks_global.mks_src_1, move_page.home, &Home, &Home, LV_ALIGN_CENTER, 90, -10, event_handler_home);
@@ -310,7 +274,6 @@ void mks_draw_move(void) {
     lv_imgbtn_creat_mks(mks_global.mks_src_2, move_page.x_p, &X_P, &X_P, LV_ALIGN_CENTER, -90, 0, event_handler_x_p);
     lv_imgbtn_creat_mks(mks_global.mks_src_2, move_page.y_n, &Y_N, &Y_N, LV_ALIGN_CENTER, 0, -50, event_handler_y_n);
     lv_imgbtn_creat_mks(mks_global.mks_src_2, move_page.y_p, &Y_P, &Y_P, LV_ALIGN_CENTER, 0, 50, event_handler_y_p);
-#endif
 
 	/* 按键样式 */
 	lv_style_copy(&move_page.btn_color, &lv_style_scr);
@@ -323,13 +286,9 @@ void mks_draw_move(void) {
 	// move_page.btn_len = mks_lv_btn_set(move_page.dist_scr, move_page.btn_len, 120, 50, 40, 40, event_handler_len_set);
 	// move_page.btn_speed = mks_lv_btn_set(move_page.dist_scr, move_page.btn_speed, 120, 50, 40, 130, event_handler_speed);
 
-#if defined(USE_RELASE)
-	move_page.btn_len = mks_lv_btn_set_for_screen(move_page.dist_scr, move_page.btn_len, 120, 50, 0, -40, event_handler_len_set);
-	move_page.btn_speed = mks_lv_btn_set_for_screen(move_page.dist_scr, move_page.btn_speed, 120, 50, 0, 40, event_handler_speed);
-#else 
+
 	move_page.btn_len = mks_lv_btn_set_for_screen(mks_global.mks_src_3, move_page.btn_len, 120, 50, 0, -40, event_handler_len_set);
 	move_page.btn_speed = mks_lv_btn_set_for_screen(mks_global.mks_src_3, move_page.btn_speed, 120, 50, 0, 40, event_handler_speed);
-#endif
 
 	lv_btn_set_style(move_page.btn_len, LV_BTN_STYLE_REL, &move_page.btn_color);
 	lv_btn_set_style(move_page.btn_len, LV_BTN_STYLE_PR, &move_page.btn_color);
@@ -337,20 +296,11 @@ void mks_draw_move(void) {
 	lv_btn_set_style(move_page.btn_speed, LV_BTN_STYLE_REL, &move_page.btn_color);
 	lv_btn_set_style(move_page.btn_speed,LV_BTN_STYLE_PR,&move_page.btn_color);
 	
-#if defined(USE_RELASE)
-	mks_lvgl_long_sroll_label_with_wight_set_center(move_page.tool_scr, move_page.Label_back, 17, 65, "Back", 50);
-	mks_lvgl_long_sroll_label_with_wight_set_center(move_page.tool_scr, move_page.Label_unlock, 196, 65, "Unlock", 50);
-	mks_lvgl_long_sroll_label_with_wight_set_center(move_page.tool_scr, move_page.Label_home, 300, 65, "Home", 50);
-	mks_lvgl_long_sroll_label_with_wight_set_center(move_page.tool_scr, move_page.Label_postivs, 390, 65, "Position", 100);
-	mks_lvgl_long_sroll_label_with_wight_set_center(move_page.tool_scr, move_page.Label_unlock, 100, 65, "HHome", 80);
-#else
 	mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, move_page.Label_back, 17, 65, "Back", 50);
 	mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, move_page.Label_unlock, 196, 65, "Unlock", 50);
 	mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, move_page.Label_home, 300, 65, "Home", 50);
 	mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, move_page.Label_postivs, 390, 65, "Position", 100);
 	mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, move_page.Label_unlock, 100, 65, "HHome", 80);
-#endif
-
 
 	if(mks_grbl.move_dis == M_0_1_MM) {
 		move_page.label_len = mks_lvgl_long_sroll_label_with_wight_set_center(move_page.btn_len, move_page.label_len, 0, 0, "0.1mm", 50);
@@ -419,11 +369,8 @@ void draw_pos_popup(const char *text) {
 	lv_obj_set_click(move_page.postivs, false);
 	lv_obj_set_click(move_page.hhome, false);
 
-#if defined(USE_RELASE)
-	move_popup_scr = lv_obj_create(mks_src, NULL);
-#else 
 	move_popup_scr = lv_obj_create(mks_global.mks_src, NULL);
-#endif
+
 	lv_obj_set_size(move_popup_scr, move_popup_size_x, move_popup_size_y);
     lv_obj_set_pos(move_popup_scr, move_popup_x, move_popup_y);
 
@@ -457,11 +404,8 @@ void draw_pos_popup_1(const char *text) {
 	lv_obj_set_click(move_page.postivs, false);
 	lv_obj_set_click(move_page.hhome, false);
 
-#if defined(USE_RELASE)
-	move_popup_scr = lv_obj_create(mks_src, NULL);
-#else 
 	move_popup_scr = lv_obj_create(mks_global.mks_src, NULL);
-#endif
+
 	lv_obj_set_size(move_popup_scr, move_popup_size_x, move_popup_size_y);
     lv_obj_set_pos(move_popup_scr, move_popup_x, move_popup_y);
 
@@ -501,11 +445,8 @@ void draw_pos_popup_2(const char *text) {
 	lv_obj_set_click(move_page.postivs, false);
 	lv_obj_set_click(move_page.hhome, false);
 
-#if defined(USE_RELASE)
-	move_popup_scr = lv_obj_create(mks_src, NULL);
-#else 
 	move_popup_scr = lv_obj_create(mks_global.mks_src, NULL);
-#endif
+
 	lv_obj_set_size(move_popup_scr, move_popup_size_x, move_popup_size_y);
     lv_obj_set_pos(move_popup_scr, move_popup_x, move_popup_y);
 

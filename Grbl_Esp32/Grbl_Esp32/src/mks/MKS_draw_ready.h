@@ -31,13 +31,6 @@ typedef enum {
 
 typedef struct {
 
-#if defined(USE_RELASE)
-    lv_obj_t *ready_src_1;      //用于放应用选择
-
-    lv_style_t ready_src1_style;        //用于样式
-    lv_style_t ready_btn_wifi_style;
-#endif
-
     lv_obj_t* ready_imgbtn_Adjustment;  //用于创建图片按键
     lv_obj_t* ready_imgbtn_Control;
     lv_obj_t* ready_imgbtn_Sculpture;

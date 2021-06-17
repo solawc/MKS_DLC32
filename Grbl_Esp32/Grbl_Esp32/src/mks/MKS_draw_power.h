@@ -6,13 +6,6 @@
 
 typedef struct {
 
-#if defined(USE_RELASE)
-    lv_obj_t* p_scr1;
-    lv_obj_t* p_scr2;
-    lv_obj_t* p_popup;
-#endif
-    
-
     lv_obj_t* pwr_high;
     lv_obj_t* pwr_low;
     lv_obj_t* pwr_off;

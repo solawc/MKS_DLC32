@@ -119,16 +119,11 @@ uint32_t logo_count = 0;
 void mks_draw_logo(void) {
 
     mks_ui_page.mks_ui_page = MKS_UI_Logo;      
-#if defined(USE_RELASE)
-    mks_src = lv_obj_create(NULL, NULL);
-	mks_src = lv_scr_act();
-    logo = mks_lvgl_img_set(mks_src, logo, &mks_logo, 0 ,0);
-#else 
+
     mks_global.mks_src = lv_obj_create(NULL, NULL);
     mks_global.mks_src = lv_scr_act();
     lv_obj_set_style(mks_global.mks_src ,&mks_global.mks_src_style);
     logo = mks_lvgl_img_set(mks_global.mks_src, logo, &mks_logo, 0 ,0);
-#endif
 }
 
 
@@ -136,44 +131,14 @@ void mks_draw_ready(void) {
 
     mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
 
-#if defined(USE_RELASE)
-    ready_src.ready_src_1 = lv_obj_create(mks_src, NULL);
-    lv_obj_set_size(ready_src.ready_src_1, READY_src1_x_size, READY_src1_y_size);
-    lv_obj_set_pos(ready_src.ready_src_1, READY_src1_x, READY_src1_y);
 
-    lv_style_copy(&bkl_color, &lv_style_scr);
-    bkl_color.body.grad_color = LV_COLOR_MAKE(0x13, 0x12, 0x1a);
-	bkl_color.body.main_color = LV_COLOR_MAKE(0x13, 0x12, 0x1a);
-    bkl_color.text.color = LV_COLOR_WHITE;
-	lv_obj_set_style(mks_src ,&bkl_color);
-#endif
-
-#if defined(USE_RELASE)
-    lv_style_copy(&ready_src.ready_src1_style, &lv_style_scr);
-    ready_src.ready_src1_style.body.main_color = LV_COLOR_MAKE(0x1F, 0x23, 0x33); 
-    ready_src.ready_src1_style.body.grad_color = LV_COLOR_MAKE(0x1F, 0x23, 0x33); 
-    ready_src.ready_src1_style.text.color = LV_COLOR_WHITE;
-    ready_src.ready_src1_style.body.radius = 17;
-    lv_obj_set_style(ready_src.ready_src_1, &ready_src.ready_src1_style);
-#else 
     mks_global.mks_src_1 = lv_obj_create(mks_global.mks_src, NULL);
     lv_obj_set_size(mks_global.mks_src_1, READY_src1_x_size, READY_src1_y_size);
     lv_obj_set_pos(mks_global.mks_src_1, READY_src1_x, READY_src1_y);
     lv_obj_set_style(mks_global.mks_src_1 ,&mks_global.mks_src_1_style);
-#endif
 
-#if defined(USE_RELASE)
-    lv_imgbtn_creat_mks(ready_src.ready_src_1, ready_src.ready_imgbtn_Adjustment, &Adjustment, &Adjustment, LV_ALIGN_CENTER, -150, -10, event_handler_Adjustment);
-    lv_imgbtn_creat_mks(ready_src.ready_src_1, ready_src.ready_imgbtn_Control, &Control, &Control, LV_ALIGN_CENTER,-50, -10, event_handler_Control);
-    lv_imgbtn_creat_mks(ready_src.ready_src_1, ready_src.ready_imgbtn_Sculpture, &Sculpture, &Sculpture, LV_ALIGN_CENTER, 50, -10, event_handler_Sculpture);
-    lv_imgbtn_creat_mks(ready_src.ready_src_1, ready_src.ready_imgbtn_Tool, &Tool, &Tool, LV_ALIGN_CENTER, 150, -10, event_handler_Tool);
 
-    lv_imgbtn_creat_n_mks(mks_src ,ready_src.ready_imgbtn_xpos, &X_POS,  &X_POS, READY_FIRST_IMG_X+30, READY_FIRST_IMG_Y + 40, event_handler_none);
-    lv_imgbtn_creat_n_mks(mks_src ,ready_src.ready_imgbtn_ypos, &Y_POS,  &Y_POS, READY_FIRST_IMG_X+160, READY_FIRST_IMG_Y + 40, event_handler_none);
-    lv_imgbtn_creat_n_mks(mks_src ,ready_src.ready_imgbtn_zpos, &Z_POS,  &Z_POS, READY_FIRST_IMG_X+290, READY_FIRST_IMG_Y + 40, event_handler_none);
-    lv_imgbtn_creat_n_mks(mks_src ,ready_src.ready_imgbtn_pwr,  &M_pwr,  &M_pwr, READY_FIRST_IMG_X+30, READY_FIRST_IMG_Y + 80, event_handler_none);
-    lv_imgbtn_creat_n_mks(mks_src ,ready_src.ready_imgbtn_wifi_status, &wifi_status, &wifi_status, READY_FIRST_IMG_X+160, READY_FIRST_IMG_Y + 80, event_handler_none);
-#else 
+
     ready_src.ready_imgbtn_Adjustment = lv_imgbtn_creat_mks(mks_global.mks_src_1, ready_src.ready_imgbtn_Adjustment, &Adjustment, &Adjustment, LV_ALIGN_CENTER, -150, -10, event_handler_Adjustment);
     ready_src.ready_imgbtn_Control = lv_imgbtn_creat_mks(mks_global.mks_src_1, ready_src.ready_imgbtn_Control, &Control, &Control, LV_ALIGN_CENTER,-50, -10, event_handler_Control);
     ready_src.ready_imgbtn_Sculpture = lv_imgbtn_creat_mks(mks_global.mks_src_1, ready_src.ready_imgbtn_Sculpture, &Sculpture, &Sculpture, LV_ALIGN_CENTER, 50, -10, event_handler_Sculpture);
@@ -185,37 +150,10 @@ void mks_draw_ready(void) {
     ready_src.ready_imgbtn_pwr  =lv_imgbtn_creat_n_mks(mks_global.mks_src ,ready_src.ready_imgbtn_pwr,  &M_pwr,  &M_pwr, READY_FIRST_IMG_X+30, READY_FIRST_IMG_Y + 80, event_handler_none);
     ready_src.ready_imgbtn_wifi_status = lv_imgbtn_creat_n_mks(mks_global.mks_src ,ready_src.ready_imgbtn_wifi_status, &wifi_status, &wifi_status, READY_FIRST_IMG_X+160, READY_FIRST_IMG_Y + 80, event_handler_none);
 
-#endif
-
-#if defined(USE_RELASE)
-    lv_style_copy(&ready_src.ready_btn_wifi_style, &lv_style_scr); 
-    ready_src.ready_btn_wifi_style.body.main_color = LV_COLOR_MAKE(0x13, 0x12, 0x1A);
-    ready_src.ready_btn_wifi_style.body.grad_color = LV_COLOR_MAKE(0x13, 0x12, 0x1A);
-    ready_src.ready_btn_wifi_style.body.opa = LV_OPA_COVER;//设置背景色完全不透明
-    ready_src.ready_btn_wifi_style.text.color = LV_COLOR_WHITE;
-
-    ready_src.ready_btn_wifi = mks_lv_btn_set(mks_src, ready_src.ready_btn_wifi, 150, 30, READY_FIRST_LABEL_X+195, READY_FIRST_LABEL_Y+80, event_handler_wifi);
-    lv_btn_set_style(ready_src.ready_btn_wifi, LV_BTN_STYLE_REL, &ready_src.ready_btn_wifi_style);
-    lv_btn_set_style(ready_src.ready_btn_wifi,LV_BTN_STYLE_PR, &ready_src.ready_btn_wifi_style);
-
-#else
     ready_src.ready_btn_wifi = mks_lv_btn_set(mks_global.mks_src, ready_src.ready_btn_wifi, 100, 30, READY_FIRST_LABEL_X+195, READY_FIRST_LABEL_Y+80, event_handler_wifi);
     lv_btn_set_style(ready_src.ready_btn_wifi, LV_BTN_STYLE_REL, &mks_global.wifi_btn_style);
     lv_btn_set_style(ready_src.ready_btn_wifi,LV_BTN_STYLE_PR, &mks_global.wifi_btn_style);
-#endif
 
-#if defined(USE_RELASE)
-    mks_lvgl_long_sroll_label_with_wight_set_center(ready_src.ready_src_1, ready_src.ready_label_Adjustment, 40, 80, "Adjustment", 100);
-    mks_lvgl_long_sroll_label_with_wight_set_center(ready_src.ready_src_1, ready_src.ready_label_Control,150, 80, "Control", 100);
-    mks_lvgl_long_sroll_label_with_wight_set_center(ready_src.ready_src_1, ready_src.ready_label_Sculpture, 250, 80, "Sculpture", 100);
-    mks_lvgl_long_sroll_label_with_wight_set_center(ready_src.ready_src_1, ready_src.ready_label_Tool, 360, 80, "Tool", 100);
-
-    ready_src.ready_label_status = mks_lv_static_label(mks_src, ready_src.ready_label_status, READY_FIRST_LABEL_X, READY_FIRST_LABEL_Y+110, " ", 50);
-    ready_src.ready_label_xpos = mks_lv_static_label(mks_src, ready_src.ready_label_xpos, READY_FIRST_LABEL_X+60, READY_FIRST_LABEL_Y+45, "0", 50);
-    ready_src.ready_label_ypos = mks_lv_static_label(mks_src, ready_src.ready_label_ypos, READY_FIRST_LABEL_X+190,READY_FIRST_LABEL_Y+45, "0", 50);
-    ready_src.ready_label_zpos = mks_lv_static_label(mks_src, ready_src.ready_label_zpos, READY_FIRST_LABEL_X+320,READY_FIRST_LABEL_Y+45, "0", 50);
-    ready_src.ready_label_mpwr = mks_lv_static_label(mks_src, ready_src.ready_label_mpwr, READY_FIRST_LABEL_X+60, READY_FIRST_LABEL_Y+85, "0", 50);
-#else 
     label_for_imgbtn_name(mks_global.mks_src_1, ready_src.ready_label_Adjustment, ready_src.ready_imgbtn_Adjustment, 0, 0, "Adjustment");
     label_for_imgbtn_name(mks_global.mks_src_1, ready_src.ready_label_Control, ready_src.ready_imgbtn_Control, 0, 0, "Control");
     label_for_imgbtn_name(mks_global.mks_src_1, ready_src.ready_label_Sculpture, ready_src.ready_imgbtn_Sculpture, 0, 0, "Sculpture");
@@ -226,7 +164,7 @@ void mks_draw_ready(void) {
     ready_src.ready_label_zpos = label_for_text(mks_global.mks_src,   ready_src.ready_label_zpos, ready_src.ready_imgbtn_zpos, 0, 0, LV_ALIGN_OUT_RIGHT_MID, "0");
     ready_src.ready_label_mpwr = label_for_text(mks_global.mks_src,   ready_src.ready_label_mpwr, ready_src.ready_imgbtn_pwr , 0, 0, LV_ALIGN_OUT_RIGHT_MID, "0");
 
-#endif
+
     #if defined(USE_WIFI)
         if (mks_get_wifi_status() == false){ 
             // ready_src.ready_label_wifi_status = mks_lv_static_label(ready_src.ready_btn_wifi, ready_src.ready_label_wifi_status, 40, 0, "Disconnect", 110);

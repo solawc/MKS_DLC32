@@ -40,11 +40,6 @@ typedef enum {
 typedef struct {
 
     // lv_obj_t *inFile_src;
-#if defined(USE_RELASE)
-    lv_obj_t *inFile_src1;          // 顶部
-    lv_obj_t *inFile_src2;          // 左边
-    lv_obj_t *inFile_src3;          // 右边
-#endif
 
     lv_obj_t *btn_pos;              // 定点
     lv_obj_t *btn_sure_print;       // 打印

@@ -33,11 +33,8 @@ void mks_draw_frame(void) {
     frame_page.frame_src_style.text.color = LV_COLOR_WHITE;
     frame_page.frame_src_style.body.radius = 17;
 
-#if defined(USE_RELASE)
-    frame_page.frame_src = lv_obj_create(mks_src, NULL);
-#else
     frame_page.frame_src = lv_obj_create(mks_global.mks_src, NULL);
-#endif
+
     lv_obj_set_size(frame_page.frame_src ,FRAME_SRC_SIZE_X, FRAME_SRC_SIZE_Y);
 	lv_obj_set_pos(frame_page.frame_src, FRAME_SRC_X, FRAME_SRC_Y);
 	lv_obj_set_style(frame_page.frame_src, &frame_page.frame_src_style);

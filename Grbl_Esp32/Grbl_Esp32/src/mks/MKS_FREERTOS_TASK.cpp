@@ -22,11 +22,9 @@ void lvgl_disp_task(void *parg) {
     bool logo_flag = true;   
     uint16_t logo_flag_count = 0; 
     mks_lvgl_init();
-#if defined(USE_RELASE)
-    
-#else 
+
     mks_global_style_init();
-#endif
+
     mks_draw_logo();
     
     mks_grbl.wifi_connect_enable = true;
@@ -79,11 +77,14 @@ static void mks_page_data_updata(void) {
     else if(mks_ui_page.mks_ui_page == MKS_UI_Pring) { // 雕刻界面更新数据
 
         if((count_updata == 200) || (count_updata > 200) ) { // 200*5=1000ms = 1s
+
+            if(sys.state == State::Idle) {
+                MKS_GRBL_CMD_SEND("~");
+                // grbl_sendf(CLIENT_SERIAL,"printing idle, sd read:%d\n", SD_ready_next);
+            }
+
             if(SD_ready_next == false) {
                 mks_print_data_updata();
-                if(sys.state == State::Idle) {
-                    MKS_GRBL_CMD_SEND("~");
-                }
             } 
             count_updata = 0;
         }

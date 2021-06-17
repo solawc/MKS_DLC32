@@ -3,7 +3,7 @@
 
 #include "MKS_draw_lvgl.h"
 
-#define CFG_FILE_PATG           "/mks_cfg.txt"
+#define CFG_FILE_PATG           "/dlc_cfg.txt"
 #define CFG_FILE_PATG2          "/bkg_cfg.txt"
 
 #define CFG_FILE_CHECK_SUCCEED  "CFG is exit"
