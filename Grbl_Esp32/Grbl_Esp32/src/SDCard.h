@@ -36,6 +36,10 @@ extern bool                       SD_ready_next;  // Grbl has processed a line a
 extern uint8_t                    SD_client;
 extern WebUI::AuthenticationLevel SD_auth_level;
 
+// mks fix
+extern uint32_t                   sd_current_line_number;
+
+
 //bool sd_mount();
 SDState  get_sd_state(bool refresh);
 SDState  set_sd_state(SDState state);
@@ -48,5 +52,11 @@ float    sd_report_perc_complete();
 uint32_t sd_get_current_line_number();
 void     sd_get_current_filename(char* name);
 
-void mks_listDir(fs::FS& fs, const char* dirname, uint8_t levels); // mks
+
+
+
+// mks fix
+void mks_listDir(fs::FS& fs, const char* dirname, uint8_t levels); 
 bool sd_serch_x_y(char *str);
+bool sd_file_check(const char* path);
+boolean readFileBuff(uint8_t *buf, uint32_t size);

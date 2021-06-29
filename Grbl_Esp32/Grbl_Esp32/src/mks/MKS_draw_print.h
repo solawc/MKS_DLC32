@@ -156,21 +156,22 @@ typedef struct {
     float last_x_pos = 0;
     float last_y_pos = 0;
     float last_z_pos = 0;
-
-
 }MKS_PRINT_DATA_UPDATA_t;
 
 
-typedef struct {
 
+typedef enum {
+    CAVRE_START,
+    CAVRE_HOLD,
+}CARVE_STATUS;
+
+typedef struct {
     // 获取当前的值
     uint16_t cur_spindle_speed;
     uint16_t cur_spindle_pwr;
     bool _need_to_start_write;          // 需要按下开始才写入
-    
-
+    CARVE_STATUS carve_staus;           // 雕刻状态
 }MKS_PRINT_SETTING_T;
-
 
 typedef struct {
 
@@ -178,11 +179,13 @@ typedef struct {
     uint32_t time_h;        // 时
     uint32_t time_min;      // 分
     uint32_t time_s;        // 秒
-
 }MKS_PRINT_TIME_T;          // 时间管理控制器
+extern uint32_t ddxd;
 
 
-extern String ddxd;
+
+
+
 
 void mks_clear_print(void);
 void mks_draw_print(void);
@@ -194,4 +197,9 @@ void mks_draw_operation(void);
 void mks_print_pwr_set(void);
 void mks_print_speed_set(void);
 void mks_print_data_updata(void);
+void print_send(void);
+
+uint8_t get_print_speed(void);
+uint8_t get_print_power(void);
+
 #endif // !MKS_draw_print_h

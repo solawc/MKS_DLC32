@@ -129,7 +129,6 @@ void mks_listDir(fs::FS& fs, const char* dirname, uint8_t levels) {
 boolean openFile(fs::FS& fs, const char* path) {
     myFile = fs.open(path);
     if (!myFile) {
-        //report_status_message(Error::FsFailedRead, CLIENT_SERIAL);
         return false;
     }
     set_sd_state(SDState::BusyPrinting);
@@ -149,6 +148,21 @@ boolean closeFile() {
     SD.end();
     return true;
 }
+
+
+boolean mks_openFile(fs::FS& fs, const char* path) {
+    myFile = fs.open(path);
+    if (!myFile) {
+        return false;
+    }
+    return true;
+}
+
+boolean mks_closeFile(void) {
+
+    
+}
+
 
 /*
   read a line from the SD card
@@ -177,6 +191,20 @@ boolean readFileLine(char* line, int maxlen) {
     line[len] = '\0';
     return len || myFile.available();
 }
+
+boolean readFileBuff(uint8_t *buf, uint32_t size) {
+
+    if(!myFile) {
+        report_status_message(Error::FsFailedRead, SD_client);
+        return false;
+    }
+
+    myFile.read((uint8_t *)buf, size-1);
+
+    return true;
+}
+
+
 
 // return a percentage complete 50.5 = 50.5%
 float sd_report_perc_complete() {
@@ -227,6 +255,33 @@ SDState set_sd_state(SDState state) {
     return sd_state;
 }
 
+SDState write_file(const char* path, const char* message) {
+    
+
+}
+
+// void SdCard::writeFile(const char* path, const char* message)
+// {
+// 	// Serial.printf("Writing file: %s\n", path);
+
+// 	File file = SD.open(path, FILE_WRITE);
+
+// 	if (!file)
+// 	{
+// 		Serial.println("Failed to open file for writing");
+// 		return;
+// 	}
+// 	if (file.print(message))
+// 	{
+// 		// Serial.println("File written");
+// 	}
+// 	else
+// 	{
+// 		Serial.println("Write failed");
+// 	}
+// 	file.close();
+// }
+
 void sd_get_current_filename(char* name) {
     if (myFile) {
         strcpy(name, myFile.name());
@@ -234,4 +289,14 @@ void sd_get_current_filename(char* name) {
         name[0] = 0;
     }
 }
+
+bool sd_file_check(const char* path) {
+
+    if(!myFile)  return false;
+
+    if(!(SD.open(path))) return false;
+    else return true;
+}
+
+
 #endif  //ENABLE_SD_CARD

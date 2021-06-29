@@ -220,6 +220,7 @@ Error report_ngc(const char* value, WebUI::AuthenticationLevel auth_level, WebUI
     report_ngc_parameters(out->client());
     return Error::Ok;
 }
+
 Error home(int cycle) {
     if (homing_enable->get() == false) {
         return Error::SettingDisabled;

@@ -38,11 +38,14 @@ typedef enum {
     FRAWM_READ_SD,
     FRAWM_READ_SD_BUSY,
     FRAM_RUN,
+    FRAM_RUN_WAIT,
     FRAM_END,
 }FRAME_STATUS;
 
 
-#define FRAME_BUFF_SIZE             128
+#define FRAME_BUFF_SIZE             64
+#define FRAME_READ_FILE_BUFF        1024    // 读取1K数据
+
 typedef struct {
 
     FRAME_STATUS frame_starus;
@@ -61,9 +64,18 @@ typedef struct {
     char y_value[10];
     uint8_t cancle_enable;
 
-    bool is_finsh_run;          // 检测是否巡边完成
-    bool is_begin_run;          // 开始检测
+    bool is_finsh_run;                  // 检测是否巡边完成
+    bool is_begin_run;                  // 开始检测
+    bool is_read_file = false;          // 判断是否开始读文件巡边
     bool out;
+
+#if defined(USE_OLD_FRAME)
+
+#else 
+    uint32_t had_read_file_size;        // 已经读取的文件大小
+    uint32_t current_file_size;         // 当前文件大小
+    uint8_t readFileBuff[FRAME_READ_FILE_BUFF];
+#endif
 
     bool lb_flag;
     float x_first_pos;
@@ -74,10 +86,12 @@ typedef struct {
 }FRAME_CRTL_T;
 extern FRAME_CRTL_T frame_ctrl;
 
+extern SemaphoreHandle_t is_fram_need;
 
 void mks_draw_frame(void);
 void mks_run_frame(char *parameter);
 void mks_frame_init(void);
 bool mks_get_frame_status(void);
 void frame_finsh_popup(void);
+void frame_run(void);
 #endif

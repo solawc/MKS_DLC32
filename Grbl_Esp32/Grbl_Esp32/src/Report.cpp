@@ -48,6 +48,7 @@
 
 #include "Grbl.h"
 #include <map>
+#include "mks/MKS_draw_print.h"
 
 #ifdef REPORT_HEAP
 EspClass esp;
@@ -581,7 +582,7 @@ void report_echo_line_received(char* line, uint8_t client) {
 // requires as it minimizes the computational overhead and allows grbl to keep running smoothly,
 // especially during g-code programs with fast, short line segments and high frequency reports (5-20Hz).
 void report_realtime_status(uint8_t client) {
-    char status[200];
+    char status[256];
     char temp[MAX_N_AXIS * 20];
 
     strcpy(status, "<");
@@ -779,6 +780,12 @@ void report_realtime_status(uint8_t client) {
     sprintf(temp, "|Heap:%d", esp.getHeapSize());
     strcat(status, temp);
 #endif
+    // mks fix
+    /**/
+
+    sprintf(temp, "|PS:%d,PF:%d", get_print_speed(), get_print_power());
+    strcat(status, temp);
+
     strcat(status, ">\r\n");
     grbl_send(client, status);
 }

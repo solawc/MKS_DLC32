@@ -46,6 +46,8 @@ public:
 	void fileIO(const char* path);
 
 	bool file_check(const char* path);
+
+	void writeFile_line(const char* path, const char* message, uint32_t line_num);
 };
 
 extern SdCard tf;

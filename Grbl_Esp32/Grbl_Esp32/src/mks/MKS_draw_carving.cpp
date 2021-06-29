@@ -788,6 +788,7 @@ static void event_btn_cancle(lv_obj_t* obj, lv_event_t event) {
 void start_print(void) { 
 
 	char str_cmd[255] = "[ESP220]";
+	char line_num[50];
 	file_popup_select_flag = false;
 	// mks_grbl.run_status = GRBL_RUN;
 	mks_grbl.is_mks_ts35_flag = true;
@@ -796,7 +797,8 @@ void start_print(void) {
 	mks_ui_page.wait_count = DEFAULT_UI_COUNT;
  
 	ddxd = sd_get_current_line_number();
-	tf.writeFile("/PLA.txt", ddxd.c_str());
+	sprintf(line_num, "%d",ddxd);
+	tf.writeFile("/PLA.txt", line_num);
 
 	strcat(str_cmd,file_print_send);
 	strcat(str_cmd,"\n");
@@ -807,6 +809,7 @@ void start_print(void) {
 
 static void event_btn_sure(lv_obj_t* obj, lv_event_t event) {
 	char str_cmd[255] = "[ESP220]";
+	char line_num[50];
     if (event == LV_EVENT_RELEASED) {
 
 		file_popup_select_flag = false;
@@ -823,7 +826,8 @@ static void event_btn_sure(lv_obj_t* obj, lv_event_t event) {
 		mks_clear_craving();
 
 		ddxd = sd_get_current_line_number();
-        tf.writeFile("/PLA.txt", ddxd.c_str());
+		sprintf(line_num ,"%d", ddxd);
+        tf.writeFile("/PLA.txt", line_num);
 
 		strcat(str_cmd, file_print_send);
 		strcat(str_cmd,"\n");
@@ -848,7 +852,7 @@ static void event_fram_size_yes(lv_obj_t* obj, lv_event_t event) {
         mks_ui_page.wait_count = 1;
 		mks_draw_frame();
 		lv_refr_now(lv_refr_get_disp_refreshing());
-		mks_run_frame(frame_ctrl.file_name);
+		(frame_ctrl.file_name);
 		file_popup_select_flag = false;
 	}
 }

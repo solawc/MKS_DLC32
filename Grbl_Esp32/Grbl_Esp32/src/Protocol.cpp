@@ -131,7 +131,7 @@ void protocol_main_loop() {
         sys.state = State::Alarm;  // Ensure alarm state is set.
     } else {
         // Check if the safety door is open.
-        sys.state = State::Idle;
+        sys.state = State::Idle; 
         if (system_check_safety_door_ajar()) {
             sys_rt_exec_state.bit.safetyDoor = true;
             protocol_execute_realtime();  // Enter safety door mode. Should return as IDLE state.
@@ -184,28 +184,28 @@ void protocol_main_loop() {
 #ifdef ENABLE_SD_CARD
         if (SD_ready_next) {
             char fileLine[255];
-                if (readFileLine(fileLine, 255)) {
-                    if (is_rb_empty(&rb_sd) == true) {
-                        rb_write(&rb_sd, fileLine);
-                    }
-                    SD_ready_next = false;
-                    rb_read(&rb_sd, fileLine);
-                    report_status_message(execute_line(fileLine, SD_client, SD_auth_level), SD_client);
-                } 
-                else {
-                    char temp[50];
-                    sd_get_current_filename(temp);
-                    if (mks_grbl.is_mks_ts35_flag == true) { 
-                        mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
-                        mks_ui_page.wait_count = DEFAULT_UI_COUNT;
-                        mks_draw_finsh_pupop(); // show print finsh 
-                    }
-                    grbl_notifyf("SD print done", "%s print is successful", temp);
-                    closeFile();  // close file and clear SD ready/running flags
+            if (readFileLine(fileLine, 255)) {
+                if (is_rb_empty(&rb_sd) == true) {
+                    rb_write(&rb_sd, fileLine);
                 }
+                SD_ready_next = false;
+                rb_read(&rb_sd, fileLine);
+                report_status_message(execute_line(fileLine, SD_client, SD_auth_level), SD_client);
+            } 
+            else {
+                char temp[50];
+                sd_get_current_filename(temp);
+                if (mks_grbl.is_mks_ts35_flag == true) { 
+                    mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
+                    mks_ui_page.wait_count = DEFAULT_UI_COUNT;
+                    mks_draw_finsh_pupop(); // show print finsh 
+                }
+                grbl_notifyf("SD print done", "%s print is successful", temp);
+                closeFile();  // close file and clear SD ready/running flags
+            }
         }
         else {
-                if((sys.state == State::Cycle)) {   // sys.state = State::Idle
+                if((sys.state == State::Cycle)) {  
                     if(is_rb_full(&rb_sd) == false) {
                         char fileLine[255];
                         if (readFileLine(fileLine, 255)) {
@@ -473,7 +473,7 @@ void protocol_exec_rt_system() {
                 // Resume door state when parking motion has retracted and door has been closed.
                 if (sys.state == State::SafetyDoor && !(sys.suspend.bit.safetyDoorAjar)) {
                     if (sys.suspend.bit.restoreComplete) {
-                        sys.state = State::Idle;  // Set to IDLE to immediately resume the cycle.
+                        sys.state = State::Idle;  // Set to IDLE to immediately resume the cycle. 
                     } else if (sys.suspend.bit.retractComplete) {
                         // Flag to re-energize powered components and restore original position, if disabled by SAFETY_DOOR.
                         // NOTE: For a safety door to resume, the switch must be closed, as indicated by HOLD state, and
@@ -497,7 +497,7 @@ void protocol_exec_rt_system() {
                             st_wake_up();
                         } else {                    // Otherwise, do nothing. Set and resume IDLE state.
                             sys.suspend.value = 0;  // Break suspend state.
-                            sys.state         = State::Idle;
+                            sys.state         = State::Idle; 
                         }
                     }
                 }

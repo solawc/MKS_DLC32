@@ -14,7 +14,7 @@ typedef enum {
     READY_src1_x_size = 460,
     READY_src1_y_size = 110,
 
-    READY_FIRST_IMG_X = 60,
+    READY_FIRST_IMG_X = 30,
     READY_FIRST_IMG_Y = 10,
 
     READY_FIRST_LABEL_X = 60,

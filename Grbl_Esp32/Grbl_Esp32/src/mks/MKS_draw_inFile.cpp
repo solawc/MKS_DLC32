@@ -2,8 +2,6 @@
 
 inFILE_PAGE_T infile_page;
 
-
-
 LV_IMG_DECLARE(X_N);			
 LV_IMG_DECLARE(X_P);			
 LV_IMG_DECLARE(Y_N);			
@@ -27,12 +25,22 @@ static void event_handler_cancle(lv_obj_t* obj, lv_event_t event) {
 
 static void event_handler_frame_yes(lv_obj_t* obj, lv_event_t event) {
 
-
+	if (event == LV_EVENT_RELEASED) {
+		lv_obj_clean(mks_global.mks_src);
+		mks_draw_frame();
+		// lv_refr_now(lv_refr_get_disp_refreshing());
+		// mks_run_frame(frame_ctrl.file_name);
+	}
 }
 
+static void event_handler_frame_no(lv_obj_t* obj, lv_event_t event) {
 
+	if (event == LV_EVENT_RELEASED) {
+		
+		global_popup_del();
+	}
 
-
+}
 
 static void event_handler_frame(lv_obj_t* obj, lv_event_t event) {
 
@@ -43,14 +51,12 @@ static void event_handler_frame(lv_obj_t* obj, lv_event_t event) {
 		mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
 
 		if(file_size >= 1024*1024) {
-
-			mks_draw_common_popup();
-
+			mks_draw_common_popup("Warring", "File is more than 1M", "Do you want to continue?", event_handler_frame_yes, event_handler_frame_no);
 		}else {
 			lv_obj_clean(mks_global.mks_src);
 			mks_draw_frame();
-			lv_refr_now(lv_refr_get_disp_refreshing());
-			mks_run_frame(frame_ctrl.file_name);
+			// lv_refr_now(lv_refr_get_disp_refreshing());
+			// mks_run_frame(frame_ctrl.file_name);
 		}
 	}
 }
@@ -71,31 +77,93 @@ static void event_handler_sure(lv_obj_t* obj, lv_event_t event) {
 static void event_handler_x_n(lv_obj_t* obj, lv_event_t event){
 
 	if (event == LV_EVENT_RELEASED) {
-		MKS_GRBL_CMD_SEND("$J=G91X10F1000\n");
+		if(mks_grbl.move_dis == M_0_1_MM) {
+			if(mks_grbl.move_speed == LOW_SPEED) MKS_GRBL_CMD_SEND("$J=G91X0.1F500\n");
+			else if(mks_grbl.move_speed == MID_SPEED)	MKS_GRBL_CMD_SEND("$J=G91X0.1F1000\n");
+			else if(mks_grbl.move_speed == HIGHT_SPEED)	MKS_GRBL_CMD_SEND("$J=G91X0.1F2000\n");
+		}
+		else if (mks_grbl.move_dis == M_1_MM) {
+			if(mks_grbl.move_speed == LOW_SPEED) MKS_GRBL_CMD_SEND("$J=G91X1.0F500\n");
+			else if(mks_grbl.move_speed == MID_SPEED)	MKS_GRBL_CMD_SEND("$J=G91X1.0F1000\n");
+			else if(mks_grbl.move_speed == HIGHT_SPEED)	MKS_GRBL_CMD_SEND("$J=G91X1.0F2000\n");
+		}
+		else if (mks_grbl.move_dis == M_10_MM) {
+			if(mks_grbl.move_speed == LOW_SPEED) MKS_GRBL_CMD_SEND("$J=G91X10F500\n");
+			else if(mks_grbl.move_speed == MID_SPEED)	MKS_GRBL_CMD_SEND("$J=G91X10F1000\n");
+			else if(mks_grbl.move_speed == HIGHT_SPEED)	MKS_GRBL_CMD_SEND("$J=G91X10F2000\n");
+		}
+		// MKS_GRBL_CMD_SEND("$J=G91X10F1000\n");
 	}
 }
 
 static void event_handler_x_p(lv_obj_t* obj, lv_event_t event){
 
 	if (event == LV_EVENT_RELEASED) {
-		MKS_GRBL_CMD_SEND("$J=G91X-10F1000\n");
+		if(mks_grbl.move_dis == M_0_1_MM) {
+			if(mks_grbl.move_speed == LOW_SPEED) MKS_GRBL_CMD_SEND("$J=G91X-0.1F500\n");
+			else if(mks_grbl.move_speed == MID_SPEED)	MKS_GRBL_CMD_SEND("$J=G91X-0.1F1000\n");
+			else if(mks_grbl.move_speed == HIGHT_SPEED)	MKS_GRBL_CMD_SEND("$J=G91X-0.1F2000\n");
+		}
+		else if (mks_grbl.move_dis == M_1_MM) {
+			if(mks_grbl.move_speed == LOW_SPEED) MKS_GRBL_CMD_SEND("$J=G91X-1.0F500\n");
+			else if(mks_grbl.move_speed == MID_SPEED)	MKS_GRBL_CMD_SEND("$J=G91X-1.0F1000\n");
+			else if(mks_grbl.move_speed == HIGHT_SPEED)	MKS_GRBL_CMD_SEND("$J=G91X-1.0F2000\n");
+		}
+		else if (mks_grbl.move_dis == M_10_MM) {
+			if(mks_grbl.move_speed == LOW_SPEED) MKS_GRBL_CMD_SEND("$J=G91X-10F500\n");
+			else if(mks_grbl.move_speed == MID_SPEED)	MKS_GRBL_CMD_SEND("$J=G91X-10F1000\n");
+			else if(mks_grbl.move_speed == HIGHT_SPEED)	MKS_GRBL_CMD_SEND("$J=G91X-10F2000\n");
+		}
+		// MKS_GRBL_CMD_SEND("$J=G91X-10F1000\n");
 	}
 }
 
 static void event_handler_y_n(lv_obj_t* obj, lv_event_t event){
 
 	if (event == LV_EVENT_RELEASED) {
-		MKS_GRBL_CMD_SEND("$J=G91Y10F1000\n");
+		if(mks_grbl.move_dis == M_0_1_MM) {
+			// MKS_GRBL_CMD_SEND("$J=G91Y0.1F2000\n");
+			if(mks_grbl.move_speed == LOW_SPEED) MKS_GRBL_CMD_SEND("$J=G91Y0.1F500\n");
+			else if(mks_grbl.move_speed == MID_SPEED)	MKS_GRBL_CMD_SEND("$J=G91Y0.1F1000\n");
+			else if(mks_grbl.move_speed == HIGHT_SPEED)	MKS_GRBL_CMD_SEND("$J=G91Y0.1F2000\n");
+		}
+		else if (mks_grbl.move_dis == M_1_MM) {
+			// MKS_GRBL_CMD_SEND("$J=G91Y1.0F2000\n");
+			if(mks_grbl.move_speed == LOW_SPEED) MKS_GRBL_CMD_SEND("$J=G91Y1.0F500\n");
+			else if(mks_grbl.move_speed == MID_SPEED)	MKS_GRBL_CMD_SEND("$J=G91Y1.0F1000\n");
+			else if(mks_grbl.move_speed == HIGHT_SPEED)	MKS_GRBL_CMD_SEND("$J=G91Y1.0F2000\n");
+		}
+		else if (mks_grbl.move_dis == M_10_MM) {
+			// MKS_GRBL_CMD_SEND("$J=G91Y10.0F2000\n");
+			if(mks_grbl.move_speed == LOW_SPEED) MKS_GRBL_CMD_SEND("$J=G91Y10F500\n");
+			else if(mks_grbl.move_speed == MID_SPEED)	MKS_GRBL_CMD_SEND("$J=G91Y10F1000\n");
+			else if(mks_grbl.move_speed == HIGHT_SPEED)	MKS_GRBL_CMD_SEND("$J=G91Y10F2000\n");
+		}
+		// MKS_GRBL_CMD_SEND("$J=G91Y10F1000\n");
 	}
 }
 
 static void event_handler_y_p(lv_obj_t* obj, lv_event_t event){
 
 	if (event == LV_EVENT_RELEASED) {
-		MKS_GRBL_CMD_SEND("$J=G91Y-10F1000\n");
+		if(mks_grbl.move_dis == M_0_1_MM) {
+			if(mks_grbl.move_speed == LOW_SPEED) MKS_GRBL_CMD_SEND("$J=G91Y-0.1F500\n");
+			else if(mks_grbl.move_speed == MID_SPEED)	MKS_GRBL_CMD_SEND("$J=G91Y-0.1F1000\n");
+			else if(mks_grbl.move_speed == HIGHT_SPEED)	MKS_GRBL_CMD_SEND("$J=G91Y-0.1F2000\n");
+		}
+		else if (mks_grbl.move_dis == M_1_MM) {
+			if(mks_grbl.move_speed == LOW_SPEED) MKS_GRBL_CMD_SEND("$J=G91Y-1.0F500\n");
+			else if(mks_grbl.move_speed == MID_SPEED)	MKS_GRBL_CMD_SEND("$J=G91Y-1.0F1000\n");
+			else if(mks_grbl.move_speed == HIGHT_SPEED)	MKS_GRBL_CMD_SEND("$J=G91Y-1.0F2000\n");
+		}
+		else if (mks_grbl.move_dis == M_10_MM) {
+			if(mks_grbl.move_speed == LOW_SPEED) MKS_GRBL_CMD_SEND("$J=G91Y-10F500\n");
+			else if(mks_grbl.move_speed == MID_SPEED)	MKS_GRBL_CMD_SEND("$J=G91Y-10F1000\n");
+			else if(mks_grbl.move_speed == HIGHT_SPEED)	MKS_GRBL_CMD_SEND("$J=G91Y-10F2000\n");
+		}
+		// MKS_GRBL_CMD_SEND("$J=G91Y-10F1000\n");
 	}
 }
-
 
 static void event_handler_com_info(lv_obj_t* obj, lv_event_t event){
 
@@ -103,7 +171,6 @@ static void event_handler_com_info(lv_obj_t* obj, lv_event_t event){
 		common_popup_com_del();
 	}
 }
-
 
 static void event_handler_pos(lv_obj_t* obj, lv_event_t event) {
 
@@ -183,8 +250,6 @@ void mks_draw_inFile(char *fn) {
 	lv_btn_set_style(infile_page.btn_set_carve, LV_BTN_STYLE_PR, &infile_page.btn_color);
 	lv_btn_set_style(infile_page.btn_set_carve, LV_BTN_STYLE_REL, &infile_page.btn_color);
 	mks_draw_freaure();
-	
-	
 	
 	memset(frame_ctrl.file_name, 0, sizeof(frame_ctrl.file_name));
 	memcpy(frame_ctrl.file_name, fn, 128);

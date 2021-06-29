@@ -25,8 +25,9 @@
 #define USE_V_C
 
 #define USE_LCD_DMA
+// #define USE_OLD_FRAME
 
-#define MACHINE_NAME            "MKS DLC32 V1.10"
+#define MACHINE_NAME            "MKS DLC32 V1.20"
 
 #ifdef N_AXIS
     #undef N_AXIS
@@ -110,7 +111,7 @@
 #define GRBL_SPI_SS 			    GPIO_NUM_15
 #define SDCARD_DET_PIN 			    GPIO_NUM_39
 // #define GRBL_SPI_FREQ 			    4000000
-#define GRBL_SPI_FREQ 			    40000000
+#define GRBL_SPI_FREQ 			    80000000
 
 // === Default settings
 // #define DEFAULT_STEP_PULSE_MICROSECONDS I2S_OUT_USEC_PER_PULSE
@@ -120,7 +121,7 @@
 #define DEFAULT_STEPPER_IDLE_LOCK_TIME      5
 
 #define DEFAULT_STEPPING_INVERT_MASK    	0 // uint8_t
-#define DEFAULT_DIRECTION_INVERT_MASK   	2 // uint8_t
+#define DEFAULT_DIRECTION_INVERT_MASK   	1 // uint8_t
 #define DEFAULT_INVERT_ST_ENABLE        	0 // boolean
 #define DEFAULT_INVERT_LIMIT_PINS       	1 // boolean
 #define DEFAULT_INVERT_PROBE_PIN        	0 // boolean
