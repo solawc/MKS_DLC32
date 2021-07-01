@@ -32,6 +32,7 @@ typedef struct {
     
 #endif
     lv_style_t btn_color;
+    lv_style_t btn_color_press;
 
     /* imgbtn */
     lv_obj_t* x_n;			//+

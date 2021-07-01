@@ -353,7 +353,6 @@ static void stepper_pulse_func() {
 
 void stepper_init() {
     busy.store(false); 
-    
     // grbl_msg_sendf(CLIENT_SERIAL, MsgLevel::Info, "Axis count %d", number_axis->get());
     // grbl_msg_sendf(CLIENT_SERIAL, MsgLevel::Info, "%s", stepper_names[current_stepper]);
 

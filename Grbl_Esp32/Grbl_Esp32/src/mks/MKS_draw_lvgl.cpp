@@ -313,12 +313,11 @@ lv_obj_t* mks_lv_set_kb(lv_obj_t* scr, lv_obj_t *kb, lv_event_cb_t event_cb) {
     return kb;
 }
 
-lv_obj_t* mks_lv_set_ta(lv_obj_t* scr, lv_obj_t *ta, lv_obj_t *kb) { 
+lv_obj_t* mks_lv_set_ta(lv_obj_t* scr, lv_obj_t *ta, lv_obj_t *kb, lv_coord_t w, lv_coord_t h, lv_coord_t x, lv_coord_t y) { 
 
     ta = lv_ta_create(scr, NULL); 
-    // lv_obj_align(ta, NULL, LV_ALIGN_IN_TOP_MID, 0, 10);
-    lv_obj_set_pos(ta, 90, 30);
-    lv_obj_set_size(ta, 200, 20);
+    lv_obj_set_pos(ta, x, y);
+    lv_obj_set_size(ta, w, h);
     lv_ta_set_text(ta, "");
     lv_kb_set_ta(kb, ta);
     return ta;

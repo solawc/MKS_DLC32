@@ -8,6 +8,20 @@ LV_IMG_DECLARE(Y_N);
 LV_IMG_DECLARE(Y_P);
 LV_IMG_DECLARE(back);
 
+LV_IMG_DECLARE(png_infile_cave);
+LV_IMG_DECLARE(png_infile_pos);
+LV_IMG_DECLARE(png_infile_frame);
+
+	
+LV_IMG_DECLARE(png_m_up);
+LV_IMG_DECLARE(png_m_right);		
+LV_IMG_DECLARE(png_m_left);		
+LV_IMG_DECLARE(png_m_down);
+
+LV_IMG_DECLARE(png_infile_pos_pre);
+LV_IMG_DECLARE(png_infile_frame_pre);
+LV_IMG_DECLARE(png_infile_cave_pre);
+
 static void event_handler_cancle(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
@@ -207,7 +221,6 @@ static void event_handler_carve_set(lv_obj_t* obj, lv_event_t event){
 
 void mks_draw_inFile(char *fn) {
 
-
 	/* 背景层 */
 	mks_global.mks_src_1 = lv_obj_create(mks_global.mks_src, NULL);
 	lv_obj_set_size(mks_global.mks_src_1, 460, 90);
@@ -221,18 +234,29 @@ void mks_draw_inFile(char *fn) {
 	lv_obj_set_style(mks_global.mks_src_1, &mks_global.mks_src_1_style);
 	lv_obj_set_style(mks_global.mks_src_2, &mks_global.mks_src_2_style);
 
-	lv_imgbtn_creat_mks(mks_global.mks_src_2, move_page.x_n, &X_N, &X_N, LV_ALIGN_CENTER, 90, 0, event_handler_x_n);
-    lv_imgbtn_creat_mks(mks_global.mks_src_2, move_page.x_p, &X_P, &X_P, LV_ALIGN_CENTER, -90, 0, event_handler_x_p);
-    lv_imgbtn_creat_mks(mks_global.mks_src_2, move_page.y_n, &Y_N, &Y_N, LV_ALIGN_CENTER, 0, -50, event_handler_y_n);
-    lv_imgbtn_creat_mks(mks_global.mks_src_2, move_page.y_p, &Y_P, &Y_P, LV_ALIGN_CENTER, 0, 50, event_handler_y_p);
+	lv_imgbtn_creat_mks(mks_global.mks_src_2, move_page.x_n, &png_m_right, &X_N, LV_ALIGN_CENTER, 90, 0, event_handler_x_n);  
+    lv_imgbtn_creat_mks(mks_global.mks_src_2, move_page.x_p, &png_m_left, &X_P, LV_ALIGN_CENTER, -90, 0, event_handler_x_p);
+    lv_imgbtn_creat_mks(mks_global.mks_src_2, move_page.y_n, &png_m_up, &Y_N, LV_ALIGN_CENTER, 0, -50, event_handler_y_n);
+    lv_imgbtn_creat_mks(mks_global.mks_src_2, move_page.y_p, &png_m_down, &Y_P, LV_ALIGN_CENTER, 0, 50, event_handler_y_p);
+
+	infile_page.btn_pos = lv_imgbtn_creat_mks(mks_global.mks_src_1, infile_page.btn_pos, &png_infile_pos_pre, &png_infile_pos, LV_ALIGN_CENTER, 90,-15, event_handler_pos);
+	infile_page.btn_frame = lv_imgbtn_creat_mks(mks_global.mks_src_1, infile_page.btn_frame, &png_infile_frame_pre, &png_infile_frame, LV_ALIGN_CENTER, 0,-15, event_handler_frame);	
+	infile_page.btn_sure_print = lv_imgbtn_creat_mks(mks_global.mks_src_1, infile_page.btn_sure_print, &png_infile_cave_pre, &png_infile_cave, LV_ALIGN_CENTER, 180,-15, event_handler_sure);
 
 	/* 按键样式 */
 	lv_style_copy(&infile_page.btn_color, &lv_style_scr);
-    infile_page.btn_color.body.main_color = LV_COLOR_MAKE(0x5C, 0xE6, 0x93);
-    infile_page.btn_color.body.grad_color = LV_COLOR_MAKE(0x5C, 0xE6, 0x93);
+    infile_page.btn_color.body.main_color = LV_COLOR_MAKE(0x3f, 0x47, 0x66);
+    infile_page.btn_color.body.grad_color = LV_COLOR_MAKE(0x3f, 0x47, 0x66);
     infile_page.btn_color.body.opa = LV_OPA_COVER;//设置背景色完全不透明
-    infile_page.btn_color.text.color = LV_COLOR_BLACK;
+    infile_page.btn_color.text.color = LV_COLOR_MAKE(0x5C, 0xE6, 0x93);
 	infile_page.btn_color.body.radius = 10;
+
+	lv_style_copy(&infile_page.btn_press_color, &lv_style_scr);
+    infile_page.btn_press_color.body.main_color = LV_COLOR_MAKE(0x5C, 0xE6, 0x93);
+    infile_page.btn_press_color.body.grad_color = LV_COLOR_MAKE(0x5C, 0xE6, 0x93);
+    infile_page.btn_press_color.body.opa = LV_OPA_COVER;//设置背景色完全不透明
+    infile_page.btn_press_color.text.color = LV_COLOR_BLACK;
+	infile_page.btn_press_color.body.radius = 10;
 
 	infile_page.btn_cancle = lv_imgbtn_creat_mks(mks_global.mks_src_1, 
 									infile_page.btn_cancle, 
@@ -240,25 +264,19 @@ void mks_draw_inFile(char *fn) {
 									&back, 
 									LV_ALIGN_IN_LEFT_MID,
 									10, 
-									-10 , 
+									-15 , 
 									event_handler_cancle);
-	
-	infile_page.btn_set_move = mks_lv_btn_set_for_screen(mks_global.mks_src_2, infile_page.btn_set_move, 50, 50, -80, 70, event_handler_move_set);
-	infile_page.btn_set_carve = mks_lv_btn_set_for_screen(mks_global.mks_src_2, infile_page.btn_set_carve, 50, 50, 80, 70, event_handler_carve_set);
-	lv_btn_set_style(infile_page.btn_set_move, LV_BTN_STYLE_PR, &infile_page.btn_color);
-	lv_btn_set_style(infile_page.btn_set_move, LV_BTN_STYLE_REL, &infile_page.btn_color);
-	lv_btn_set_style(infile_page.btn_set_carve, LV_BTN_STYLE_PR, &infile_page.btn_color);
-	lv_btn_set_style(infile_page.btn_set_carve, LV_BTN_STYLE_REL, &infile_page.btn_color);
-	mks_draw_freaure();
+	mks_draw_setting();
 	
 	memset(frame_ctrl.file_name, 0, sizeof(frame_ctrl.file_name));
 	memcpy(frame_ctrl.file_name, fn, 128);
 
 	if(fn[0] == '/') fn[0] = ' ';
 	label_for_imgbtn_name(mks_global.mks_src_1, infile_page.label_cancle, infile_page.btn_cancle, 0, 0, "Cancel");
-	label_for_btn_name(infile_page.btn_set_move, infile_page.label_frame, 0, 0, "M");
-	label_for_btn_name(infile_page.btn_set_carve, infile_page.label_frame, 0, 0, "C");
-	label_for_screen(mks_global.mks_src_1, infile_page.label_file_name, 0, 0, fn);
+	label_for_imgbtn_name(mks_global.mks_src_1, infile_page.label_sure_print, infile_page.btn_sure_print, 0, 0, "Cavre");
+	label_for_imgbtn_name(mks_global.mks_src_1, infile_page.label_pos, infile_page.btn_pos, 0, 0, "Position");
+	label_for_imgbtn_name(mks_global.mks_src_1, infile_page.label_frame, infile_page.btn_frame, 0, 0, "Frame");
+	label_for_screen(mks_global.mks_src_1, infile_page.label_file_name, -100, 0, fn);
 
 	mks_ui_page.mks_ui_page = MKS_UI_inFile;
 }
@@ -306,10 +324,11 @@ void mks_draw_setting(void) {
 	infile_page.btn_len = mks_lv_btn_set_for_screen(mks_global.mks_src_3, infile_page.btn_len, 120, 50, 0, -40, event_handler_len_set);
 	infile_page.btn_speed = mks_lv_btn_set_for_screen(mks_global.mks_src_3, infile_page.btn_speed, 120, 50, 0, 40, event_handler_speed);
 	
-	lv_btn_set_style(infile_page.btn_len, LV_BTN_STYLE_PR, &infile_page.btn_color);
 	lv_btn_set_style(infile_page.btn_len, LV_BTN_STYLE_REL, &infile_page.btn_color);
-	lv_btn_set_style(infile_page.btn_speed, LV_BTN_STYLE_PR, &infile_page.btn_color);
+	lv_btn_set_style(infile_page.btn_len, LV_BTN_STYLE_PR, &infile_page.btn_press_color);  
+
 	lv_btn_set_style(infile_page.btn_speed, LV_BTN_STYLE_REL, &infile_page.btn_color);
+	lv_btn_set_style(infile_page.btn_speed, LV_BTN_STYLE_PR, &infile_page.btn_press_color);
 
 	if(mks_grbl.move_dis == M_0_1_MM) {
 		infile_page.label_len = label_for_btn_name(infile_page.btn_len, infile_page.label_len, 0, 0, "0.1mm");
@@ -334,43 +353,43 @@ void mks_draw_freaure(void) {
 	lv_obj_set_size(mks_global.mks_src_3, 180, 200);
     lv_obj_set_pos(mks_global.mks_src_3, 290, 110);
 	lv_obj_set_style(mks_global.mks_src_3, &mks_global.mks_src_3_style);
-
-	infile_page.btn_pos = mks_lv_btn_set(mks_global.mks_src_3, 
-									infile_page.btn_pos, 
-									inFILE_BTN_SIZE_X, 
-									inFILE_BTN_SIZE_Y, 
-									inFILE_BTN_X, 
-									inFILE_BTN_Y, 
-									event_handler_pos);  
 	
-	infile_page.btn_frame = mks_lv_btn_set(mks_global.mks_src_3, 
-									infile_page.btn_frame, 
-									inFILE_BTN_SIZE_X, 
-									inFILE_BTN_SIZE_Y, 
-									inFILE_BTN_X, 
-									inFILE_BTN_Y + inFILE_BTN_Y_OFFSET*1, 
-									event_handler_frame);
+	// infile_page.btn_pos = mks_lv_btn_set(mks_global.mks_src_3, 
+	// 								infile_page.btn_pos, 
+	// 								inFILE_BTN_SIZE_X, 
+	// 								inFILE_BTN_SIZE_Y, 
+	// 								inFILE_BTN_X, 
+	// 								inFILE_BTN_Y, 
+	// 								event_handler_pos);  
 	
-	infile_page.btn_sure_print = mks_lv_btn_set(mks_global.mks_src_3, 
-									infile_page.btn_sure_print, 
-									inFILE_BTN_SIZE_X, 
-									inFILE_BTN_SIZE_Y, 
-									inFILE_BTN_X, 
-									inFILE_BTN_Y + inFILE_BTN_Y_OFFSET*2, 
-									event_handler_sure);
+	// infile_page.btn_frame = mks_lv_btn_set(mks_global.mks_src_3, 
+	// 								infile_page.btn_frame, 
+	// 								inFILE_BTN_SIZE_X, 
+	// 								inFILE_BTN_SIZE_Y, 
+	// 								inFILE_BTN_X, 
+	// 								inFILE_BTN_Y + inFILE_BTN_Y_OFFSET*1, 
+	// 								event_handler_frame);
+	
+	// infile_page.btn_sure_print = mks_lv_btn_set(mks_global.mks_src_3, 
+	// 								infile_page.btn_sure_print, 
+	// 								inFILE_BTN_SIZE_X, 
+	// 								inFILE_BTN_SIZE_Y, 
+	// 								inFILE_BTN_X, 
+	// 								inFILE_BTN_Y + inFILE_BTN_Y_OFFSET*2, 
+	// 								event_handler_sure);
 
-	label_for_btn_name(infile_page.btn_frame, infile_page.label_frame, 0, 0, "Frame");
-	label_for_btn_name(infile_page.btn_sure_print, infile_page.label_cancle, 0, 0, "Crave");
-	label_for_btn_name(infile_page.btn_pos, infile_page.label_cancle, 0, 0, "Postive");
+	// label_for_btn_name(infile_page.btn_frame, infile_page.label_frame, 0, 0, "Frame");
+	// label_for_btn_name(infile_page.btn_sure_print, infile_page.label_cancle, 0, 0, "Crave");
+	// label_for_btn_name(infile_page.btn_pos, infile_page.label_cancle, 0, 0, "Postive");
 
-	lv_btn_set_style(infile_page.btn_frame, LV_BTN_STYLE_PR, &infile_page.btn_color);
-	lv_btn_set_style(infile_page.btn_frame, LV_BTN_STYLE_REL, &infile_page.btn_color);
+	// lv_btn_set_style(infile_page.btn_frame, LV_BTN_STYLE_PR, &infile_page.btn_color);
+	// lv_btn_set_style(infile_page.btn_frame, LV_BTN_STYLE_REL, &infile_page.btn_color);
 
-	lv_btn_set_style(infile_page.btn_sure_print, LV_BTN_STYLE_PR, &infile_page.btn_color);
-	lv_btn_set_style(infile_page.btn_sure_print, LV_BTN_STYLE_REL, &infile_page.btn_color);
+	// lv_btn_set_style(infile_page.btn_sure_print, LV_BTN_STYLE_PR, &infile_page.btn_color);
+	// lv_btn_set_style(infile_page.btn_sure_print, LV_BTN_STYLE_REL, &infile_page.btn_color);
 
-	lv_btn_set_style(infile_page.btn_pos, LV_BTN_STYLE_PR, &infile_page.btn_color);
-	lv_btn_set_style(infile_page.btn_pos, LV_BTN_STYLE_REL, &infile_page.btn_color);
+	// lv_btn_set_style(infile_page.btn_pos, LV_BTN_STYLE_PR, &infile_page.btn_color);
+	// lv_btn_set_style(infile_page.btn_pos, LV_BTN_STYLE_REL, &infile_page.btn_color);
 }
 
 void infile_clean_obj(lv_obj_t *obj_src) {

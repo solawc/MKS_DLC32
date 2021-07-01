@@ -13,6 +13,16 @@ LV_IMG_DECLARE(Y_N);
 LV_IMG_DECLARE(Y_P);			
 LV_IMG_DECLARE(Hhome);		
 
+LV_IMG_DECLARE(png_home_pre);
+LV_IMG_DECLARE(png_hhome_pre);		
+LV_IMG_DECLARE(png_unlock_pre);		
+LV_IMG_DECLARE(png_pos_pre);	
+LV_IMG_DECLARE(png_m_up);
+LV_IMG_DECLARE(png_m_right);		
+LV_IMG_DECLARE(png_m_left);		
+LV_IMG_DECLARE(png_m_down);
+LV_IMG_DECLARE(png_back_pre);	
+
 
 
 static void event_henadle_pupup_com(lv_obj_t* obj, lv_event_t event) { 
@@ -261,43 +271,58 @@ void mks_draw_move(void) {
 	lv_obj_set_style(mks_global.mks_src_3, &mks_global.mks_src_3_style);
 
 
-	move_page.Back = lv_imgbtn_creat_mks(mks_global.mks_src_1, move_page.Back, &back, &back, LV_ALIGN_IN_LEFT_MID, 10, -10 , event_handler_back);
-    move_page.m_unlock = lv_imgbtn_creat_mks(mks_global.mks_src_1, move_page.m_unlock, &Unlock, &Unlock, LV_ALIGN_CENTER, -10, -10, event_handler_unlock);
-	move_page.home = lv_imgbtn_creat_mks(mks_global.mks_src_1, move_page.home, &Home, &Home, LV_ALIGN_CENTER, 90, -10, event_handler_home);
-	move_page.postivs = lv_imgbtn_creat_mks(mks_global.mks_src_1, move_page.postivs, &Positionting, &Positionting, LV_ALIGN_CENTER, 190, -10, event_handler_pos);
-	move_page.hhome = lv_imgbtn_creat_mks(mks_global.mks_src_1, move_page.hhome, &Hhome, &Hhome, LV_ALIGN_CENTER, -110, -10, event_handler_hhome);
+	// move_page.Back = lv_imgbtn_creat_mks(mks_global.mks_src_1, move_page.Back, &back, &back, LV_ALIGN_IN_LEFT_MID, 10, -10 , event_handler_back);
+    // move_page.m_unlock = lv_imgbtn_creat_mks(mks_global.mks_src_1, move_page.m_unlock, &Unlock, &Unlock, LV_ALIGN_CENTER, -10, -10, event_handler_unlock);
+	// move_page.home = lv_imgbtn_creat_mks(mks_global.mks_src_1, move_page.home, &Home, &Home, LV_ALIGN_CENTER, 90, -10, event_handler_home);
+	// move_page.postivs = lv_imgbtn_creat_mks(mks_global.mks_src_1, move_page.postivs, &Positionting, &Positionting, LV_ALIGN_CENTER, 190, -10, event_handler_pos);
+	// move_page.hhome = lv_imgbtn_creat_mks(mks_global.mks_src_1, move_page.hhome, &Hhome, &Hhome, LV_ALIGN_CENTER, -110, -10, event_handler_hhome);
 
-	lv_imgbtn_creat_mks(mks_global.mks_src_2, move_page.x_n, &X_N, &X_N, LV_ALIGN_CENTER, 90, 0, event_handler_x_n);
-    lv_imgbtn_creat_mks(mks_global.mks_src_2, move_page.x_p, &X_P, &X_P, LV_ALIGN_CENTER, -90, 0, event_handler_x_p);
-    lv_imgbtn_creat_mks(mks_global.mks_src_2, move_page.y_n, &Y_N, &Y_N, LV_ALIGN_CENTER, 0, -50, event_handler_y_n);
-    lv_imgbtn_creat_mks(mks_global.mks_src_2, move_page.y_p, &Y_P, &Y_P, LV_ALIGN_CENTER, 0, 50, event_handler_y_p);
+	move_page.Back = lv_imgbtn_creat_mks(mks_global.mks_src_1, move_page.Back, &png_back_pre, &back, LV_ALIGN_IN_LEFT_MID, 10, -15 , event_handler_back);
+    move_page.m_unlock = lv_imgbtn_creat_mks(mks_global.mks_src_1, move_page.m_unlock, &png_unlock_pre, &Unlock, LV_ALIGN_IN_LEFT_MID, 100, -15, event_handler_unlock);
+	move_page.home = lv_imgbtn_creat_mks(mks_global.mks_src_1, move_page.home, &png_home_pre, &Home, LV_ALIGN_IN_LEFT_MID, 190, -15, event_handler_home);
+	move_page.postivs = lv_imgbtn_creat_mks(mks_global.mks_src_1, move_page.postivs, &png_pos_pre, &Positionting, LV_ALIGN_IN_LEFT_MID, 280, -15, event_handler_pos);
+	move_page.hhome = lv_imgbtn_creat_mks(mks_global.mks_src_1, move_page.hhome, &png_hhome_pre, &Hhome, LV_ALIGN_IN_LEFT_MID, 370, -15, event_handler_hhome);
+
+	lv_imgbtn_creat_mks(mks_global.mks_src_2, move_page.x_n, &png_m_right, &X_N, LV_ALIGN_CENTER, 90, 0, event_handler_x_n);
+    lv_imgbtn_creat_mks(mks_global.mks_src_2, move_page.x_p, &png_m_left, &X_P, LV_ALIGN_CENTER, -90, 0, event_handler_x_p);
+    lv_imgbtn_creat_mks(mks_global.mks_src_2, move_page.y_n, &png_m_up, &Y_N, LV_ALIGN_CENTER, 0, -50, event_handler_y_n);
+    lv_imgbtn_creat_mks(mks_global.mks_src_2, move_page.y_p, &png_m_down, &Y_P, LV_ALIGN_CENTER, 0, 50, event_handler_y_p);
 
 	/* 按键样式 */
 	lv_style_copy(&move_page.btn_color, &lv_style_scr);
-    move_page.btn_color.body.main_color = LV_COLOR_MAKE(0x5C, 0xE6, 0x93);
-    move_page.btn_color.body.grad_color = LV_COLOR_MAKE(0x5C, 0xE6, 0x93);
+    move_page.btn_color.body.main_color = LV_COLOR_MAKE(0x3f, 0x47, 0x66);
+    move_page.btn_color.body.grad_color = LV_COLOR_MAKE(0x3f, 0x47, 0x66);
     move_page.btn_color.body.opa = LV_OPA_COVER;//设置背景色完全不透明
-    move_page.btn_color.text.color = LV_COLOR_BLACK;
+    move_page.btn_color.text.color = LV_COLOR_MAKE(0x5C, 0xE6, 0x93);
 	move_page.btn_color.body.radius = 10;
 
-	// move_page.btn_len = mks_lv_btn_set(move_page.dist_scr, move_page.btn_len, 120, 50, 40, 40, event_handler_len_set);
-	// move_page.btn_speed = mks_lv_btn_set(move_page.dist_scr, move_page.btn_speed, 120, 50, 40, 130, event_handler_speed);
-
+	lv_style_copy(&move_page.btn_color_press, &lv_style_scr);
+	move_page.btn_color_press.body.main_color = LV_COLOR_MAKE(0x5C, 0xE6, 0x93);
+    move_page.btn_color_press.body.grad_color = LV_COLOR_MAKE(0x5C, 0xE6, 0x93);
+    move_page.btn_color_press.body.opa = LV_OPA_COVER;//设置背景色完全不透明
+    move_page.btn_color_press.text.color = LV_COLOR_BLACK;
+	move_page.btn_color_press.body.radius = 10;
 
 	move_page.btn_len = mks_lv_btn_set_for_screen(mks_global.mks_src_3, move_page.btn_len, 120, 50, 0, -40, event_handler_len_set);
 	move_page.btn_speed = mks_lv_btn_set_for_screen(mks_global.mks_src_3, move_page.btn_speed, 120, 50, 0, 40, event_handler_speed);
 
 	lv_btn_set_style(move_page.btn_len, LV_BTN_STYLE_REL, &move_page.btn_color);
-	lv_btn_set_style(move_page.btn_len, LV_BTN_STYLE_PR, &move_page.btn_color);
+	lv_btn_set_style(move_page.btn_len, LV_BTN_STYLE_PR, &move_page.btn_color_press);
 
 	lv_btn_set_style(move_page.btn_speed, LV_BTN_STYLE_REL, &move_page.btn_color);
-	lv_btn_set_style(move_page.btn_speed,LV_BTN_STYLE_PR,&move_page.btn_color);
+	lv_btn_set_style(move_page.btn_speed,LV_BTN_STYLE_PR,&move_page.btn_color_press);
 	
-	mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, move_page.Label_back, 17, 65, "Back", 50);
-	mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, move_page.Label_unlock, 196, 65, "Unlock", 50);
-	mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, move_page.Label_home, 300, 65, "Home", 50);
-	mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, move_page.Label_postivs, 390, 65, "Position", 100);
-	mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, move_page.Label_unlock, 100, 65, "HHome", 80);
+	// mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, move_page.Label_back, 17, 65, "Back", 50);
+	// mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, move_page.Label_unlock, 196, 65, "Unlock", 50);
+	// mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, move_page.Label_home, 300, 65, "Home", 50);
+	// mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, move_page.Label_postivs, 390, 65, "Position", 100);
+	// mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, move_page.Label_unlock, 100, 65, "HHome", 80);
+
+	label_for_imgbtn_name(mks_global.mks_src_1, move_page.Label_back, move_page.Back, 0, 0, "Back");
+	label_for_imgbtn_name(mks_global.mks_src_1, move_page.Label_back, move_page.m_unlock, 0, 0, "Unlock");
+	label_for_imgbtn_name(mks_global.mks_src_1, move_page.Label_back, move_page.home, 0, 0, "Home");
+	label_for_imgbtn_name(mks_global.mks_src_1, move_page.Label_back, move_page.postivs, 0, 0, "Position");
+	label_for_imgbtn_name(mks_global.mks_src_1, move_page.Label_back, move_page.hhome, 0, 0, "HHome");
 
 	if(mks_grbl.move_dis == M_0_1_MM) {
 		move_page.label_len = mks_lvgl_long_sroll_label_with_wight_set_center(move_page.btn_len, move_page.label_len, 0, 0, "0.1mm", 50);

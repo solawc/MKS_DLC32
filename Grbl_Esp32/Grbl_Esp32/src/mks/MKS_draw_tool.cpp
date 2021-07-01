@@ -34,7 +34,8 @@ lv_point_t tool_line_points[3][2] = {
 
 LV_IMG_DECLARE(back);	
 LV_IMG_DECLARE(wifi_tool);	
-
+LV_IMG_DECLARE(png_back_pre);
+LV_IMG_DECLARE(png_wifi_pre);
 
 static void event_btn_tool_wifi(lv_obj_t* obj, lv_event_t event) {
 
@@ -61,16 +62,14 @@ static void event_btn_tool_back(lv_obj_t* obj, lv_event_t event) {
 void mks_draw_tool(void) {
 
     char cpu_info[128]="CPU:Freq:";
-
-
     mks_global.mks_src_1 = lv_obj_create(mks_global.mks_src, NULL);
 	lv_obj_set_size(mks_global.mks_src_1, about_src1_x_size, about_src1_y_size);
     lv_obj_set_pos(mks_global.mks_src_1, about_src1_x, about_src1_y);
     lv_obj_set_style(mks_global.mks_src_1, &mks_global.mks_src_1_style);
 
-    tool_img_back = lv_imgbtn_creat_mks(mks_global.mks_src_1, tool_img_back, &back, &back, LV_ALIGN_IN_LEFT_MID, 10, -10, event_btn_tool_back);
+    tool_img_back = lv_imgbtn_creat_mks(mks_global.mks_src_1, tool_img_back, &png_back_pre, &back, LV_ALIGN_IN_LEFT_MID, 10, -15, event_btn_tool_back);
 #if defined(USE_WIFI)
-    tool_img_wifi = lv_imgbtn_creat_mks(mks_global.mks_src_1, tool_img_wifi, &wifi_tool, &wifi_tool, LV_ALIGN_CENTER, 50, -10, event_btn_tool_wifi);
+    tool_img_wifi = lv_imgbtn_creat_mks(mks_global.mks_src_1, tool_img_wifi, &png_wifi_pre, &wifi_tool, LV_ALIGN_IN_RIGHT_MID, -30, -15, event_btn_tool_wifi);
 #endif
 
 

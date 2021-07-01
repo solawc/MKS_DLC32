@@ -57,14 +57,16 @@ typedef struct {
 
     lv_style_t src_color;
     lv_style_t btn_color;
+    lv_style_t btn_press_color;
 
     lv_obj_t *label_sure_print;
+    lv_obj_t *label_pos;
     lv_obj_t *label_frame;
     lv_obj_t *label_cancle;
     lv_obj_t *label_file_name;
     lv_obj_t *label_file_size;
-    lv_obj_t *label_speed;           // 速度
-    lv_obj_t *label_len;           // 步长
+    lv_obj_t *label_speed;              // 速度
+    lv_obj_t *label_len;                // 步长
 
 }inFILE_PAGE_T;
 

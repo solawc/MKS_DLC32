@@ -33,6 +33,18 @@ void grbl_init() {
     LCD_BLK_ON;
     
 #ifdef USE_I2S_OUT
+
+    pinMode(I2S_OUT_BCK, OUTPUT);
+    pinMode(I2S_OUT_WS, OUTPUT);
+    pinMode(I2S_OUT_DATA, OUTPUT);
+
+    gpio_set_level(I2S_OUT_BCK, 0);
+    gpio_set_level(I2S_OUT_WS, 0);
+    gpio_set_level(I2S_OUT_DATA, 0);
+    // digitalWrite(I2S_OUT_BCK, HIGH);
+    // digitalWrite(I2S_OUT_WS, HIGH);
+    // digitalWrite(I2S_OUT_DATA, HIGH);
+
     i2s_out_init();  // The I2S out must be initialized before it can access the expanded GPIO port
 #endif
     WiFi.persistent(false);

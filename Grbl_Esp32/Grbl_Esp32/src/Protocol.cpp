@@ -146,11 +146,10 @@ void protocol_main_loop() {
     MKS_GRBL_CMD_SEND("$x\n");   // 主动解锁
 
 #if defined(USE_WIFI)
-    if(first_restart == true) {
-        MKS_GRBL_CMD_SEND("[ESP115]ON\n");   // 连接wifi
-    }
+    // if(first_restart == true) {
+    //     MKS_GRBL_CMD_SEND("[ESP115]ON\n");   // 连接wifi
+    // }
 #endif
-
     if(first_restart == true) {
       MKS_GRBL_CMD_SEND(re_cmd);  
       first_restart = false; 
@@ -159,7 +158,7 @@ void protocol_main_loop() {
     int c;
     bool is_need_next = false;
     for (;;) {
-#if 0
+#if 1
 #ifdef ENABLE_SD_CARD
         if (SD_ready_next) {
             char fileLine[255];

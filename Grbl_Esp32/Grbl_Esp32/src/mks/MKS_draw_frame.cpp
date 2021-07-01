@@ -105,9 +105,11 @@ void polocte_cmd(uint8_t *str) {
 #endif
 
 #if defined(USE_OLD_FRAME)
+
     if(strstr(str, "G0")) {
         frame_ctrl.have_g0 = 1;
     }
+
     else if(strstr(str, "G1")) {
         frame_ctrl.have_g1 = 1;
     }
@@ -127,9 +129,8 @@ void polocte_cmd(uint8_t *str) {
                 frame_ctrl.x_temp = atof(frame_ctrl.x_value);
                 
                 if(frame_ctrl.x_temp > frame_ctrl.x_max) frame_ctrl.x_max = frame_ctrl.x_temp;
-
                 if(frame_ctrl.x_temp < frame_ctrl.x_min) frame_ctrl.x_min = frame_ctrl.x_temp;
-                else if(frame_ctrl.x_min == 0) frame_ctrl.x_min = frame_ctrl.x_temp;
+                // else if(frame_ctrl.x_min == 0) frame_ctrl.x_min = frame_ctrl.x_temp;
             }
             
             if(*str == 'Y') {
@@ -145,9 +146,8 @@ void polocte_cmd(uint8_t *str) {
                 frame_ctrl.y_temp = atof(frame_ctrl.y_value);
 
                 if(frame_ctrl.y_temp > frame_ctrl.y_max) frame_ctrl.y_max = frame_ctrl.y_temp;
-
                 if(frame_ctrl.y_temp < frame_ctrl.y_min) frame_ctrl.y_min = frame_ctrl.y_temp;
-                else if(frame_ctrl.y_min == 0) frame_ctrl.y_min = frame_ctrl.y_temp;
+                // else if(frame_ctrl.y_min == 0) frame_ctrl.y_min = frame_ctrl.y_temp;
             }
         } // end
         str++;
@@ -238,18 +238,12 @@ void mks_run_frame(char *parameter) {
     frame_ctrl.cancle_enable = true;
     frame_ctrl.out = true;
 
-    // frame_ctrl.frame_starus = FRAME_NONE;
-
-    // grbl_send(CLIENT_SERIAL ,"run frame\n");
     if (sys.state != State::Idle && sys.state != State::Alarm) {    // 判断SD卡状态
         mks_lv_label_updata(frame_page.label_text, "SD is busy...");
         lv_refr_now(lv_refr_get_disp_refreshing());
         frame_ctrl.cancle_enable = true;
         return ;
     }
-
-    // mks_lv_label_updata(frame_page.label_text, "Loading file...");
-    // lv_refr_now(lv_refr_get_disp_refreshing());
 
     mks_openSDFile(parameter);
 
@@ -342,7 +336,12 @@ void mks_run_frame(char *parameter) {
 
     MKS_GRBL_CMD_SEND("M3 S5\n");
 
-    // if(!frame_ctrl.lb_flag) {
+    sprintf(frame_cmd, "G1 Y%f F1000\n", frame_ctrl.y_min); // point 0
+    MKS_GRBL_CMD_SEND(frame_cmd);
+
+    sprintf(frame_cmd, "G1 X%f F1000\n", frame_ctrl.x_min); // point 0
+    MKS_GRBL_CMD_SEND(frame_cmd);
+
     sprintf(frame_cmd, "G1 Y%f F1000\n",frame_ctrl.y_max);  // point 1
     MKS_GRBL_CMD_SEND(frame_cmd);
 
@@ -354,21 +353,9 @@ void mks_run_frame(char *parameter) {
 
     sprintf(frame_cmd, "G1 X%f F1000\n", frame_ctrl.x_min); // point 4 
     MKS_GRBL_CMD_SEND(frame_cmd);
-    // }else {
-
-    //     sprintf(frame_cmd, "G1 Y%f F1000\n",abs(frame_ctrl.y_max - frame_ctrl.y_min));  // point 1
-    //     MKS_GRBL_CMD_SEND(frame_cmd);
-
-    //     sprintf(frame_cmd, "G1 X%f F1000\n", abs(frame_ctrl.x_max - frame_ctrl.x_min));  // point 2
-    //     MKS_GRBL_CMD_SEND(frame_cmd);
-
-    //     sprintf(frame_cmd, "G1 Y%f F1000\n", -(abs(frame_ctrl.y_max - frame_ctrl.y_min))); // point 3
-    //     MKS_GRBL_CMD_SEND(frame_cmd);
-
-    //     sprintf(frame_cmd, "G1 X%f F1000\n", -(abs(frame_ctrl.x_max - frame_ctrl.x_min)));// point 4 
-    //     MKS_GRBL_CMD_SEND(frame_cmd);
-    // }
+    
     MKS_GRBL_CMD_SEND("M5\n");
+
     MKS_GRBL_CMD_SEND("G0 X0 Y0 F300\n");
     frame_ctrl.is_begin_run = true;
     frame_ctrl.cancle_enable = true;

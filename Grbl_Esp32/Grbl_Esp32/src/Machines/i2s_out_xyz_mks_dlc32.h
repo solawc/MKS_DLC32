@@ -25,7 +25,7 @@
 #define USE_V_C
 
 #define USE_LCD_DMA
-// #define USE_OLD_FRAME
+#define USE_OLD_FRAME
 
 #define MACHINE_NAME            "MKS DLC32 V1.20"
 

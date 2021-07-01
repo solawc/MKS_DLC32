@@ -69,6 +69,9 @@ LV_IMG_DECLARE(back);			//先申明此图片
 LV_IMG_DECLARE(file);			//先申明此图片
 LV_IMG_DECLARE(FileDir);		//先申明此图片
 
+LV_IMG_DECLARE(png_previous_pre);		
+LV_IMG_DECLARE(png_next_pre);
+LV_IMG_DECLARE(png_back_pre);
 char file_print_send[128];
 
 #define FILE_NUM		8
@@ -290,14 +293,17 @@ void mks_draw_craving(void) {
 	lv_obj_set_pos(mks_global.mks_src_1, caving_src1_x, caving_src1_y);
 	lv_obj_set_style(mks_global.mks_src_1, &mks_global.mks_src_1_style);
 
+	up = lv_imgbtn_creat_mks(mks_global.mks_src_1, up, &png_previous_pre, &Previous, LV_ALIGN_IN_RIGHT_MID, caving_up_x, caving_up_y, event_handler_up);
+	next = lv_imgbtn_creat_mks(mks_global.mks_src_1, next, &png_next_pre, &Next, LV_ALIGN_IN_RIGHT_MID, caving_next_x, caving_next_y, event_handler_next);
+	Cback = lv_imgbtn_creat_mks(mks_global.mks_src_1, Cback, &png_back_pre, &back, LV_ALIGN_IN_LEFT_MID, 10, -15, event_handler_cback);
 
-	lv_imgbtn_creat_mks(mks_global.mks_src_1, up, &Previous, &Previous, LV_ALIGN_IN_LEFT_MID, caving_up_x, caving_up_y, event_handler_up);
-	lv_imgbtn_creat_mks(mks_global.mks_src_1, next, &Next, &Next, LV_ALIGN_IN_LEFT_MID, caving_next_x, caving_next_y, event_handler_next);
-	lv_imgbtn_creat_mks(mks_global.mks_src_1, Cback, &back, &back, LV_ALIGN_IN_LEFT_MID, 10, -10, event_handler_cback);
+	label_for_imgbtn_name(mks_global.mks_src_1, label_up, up, 0, 0, "Up");
+	label_for_imgbtn_name(mks_global.mks_src_1, label_next, next, 0, 0, "Next");
+	label_for_imgbtn_name(mks_global.mks_src_1, label_Cback, Cback, 0, 0, "Back");
 
-	label_Cback = mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, label_Cback, caving_back_x,caving_back_y, "Back", 60);
-	label_up = mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, label_up, caving_up_x+20, caving_up_y+70, "UP", 60);
-	label_next = mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, label_next, caving_next_x, caving_next_y+70, "Next", 60);
+	// label_Cback = mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, label_Cback, caving_back_x,caving_back_y, "Back", 60);
+	// label_up = mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, label_up, caving_up_x+20, caving_up_y+70, "UP", 60);
+	// label_next = mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, label_next, caving_next_x, caving_next_y+70, "Next", 60);
 
 	// if(mks_readSD_Status() == SDState::NotPresent)  // check sdcard is work
 	if(state == SDState::NotPresent)
@@ -328,12 +334,10 @@ void draw_file_btmimg(void) {
 	char filename_dis_str[MKS_FILE_NUM][MKS_FILE_NAME_LENGTH];
 
 	for(uint8_t i=0; i<mks_file_list.file_begin_num; i++) {
-		// filename_dis_str[i][MKS_FILE_NAME_LENGTH];
 		strcpy(filename_dis_str[i], mks_file_list.filename_str[i]);
 		if(filename_dis_str[i][0] == '/') filename_dis_str[i][0] = ' ';
 	}
 	
-
 	if(mks_file_list.file_begin_num == 1) {
 		file_0 = lv_imgbtn_creat_mks(mks_global.mks_src, file_0, &file, &file, LV_ALIGN_CENTER, caving_first_file_x, caving_first_file_y, event_handler_file0);
 		Label_file_0 = label_for_file(mks_global.mks_src, Label_file_0, 

@@ -35,6 +35,8 @@ LV_IMG_DECLARE(SP_OFF);				//关
 
 LV_IMG_DECLARE(Calibration);			//Z回零
 LV_IMG_DECLARE(back);			//返回
+LV_IMG_DECLARE(png_back_pre);
+
 
 static void event_handler_pwr_on_off(lv_obj_t* obj, lv_event_t event) {
 	if (event == LV_EVENT_RELEASED) {
@@ -133,7 +135,7 @@ void mks_draw_power(void) {
 	lv_obj_set_style(mks_global.mks_src_1, &mks_global.mks_src_1_style);
 	lv_obj_set_style(mks_global.mks_src_2, &mks_global.mks_src_2_style);
 
-	power_page.Back = lv_imgbtn_creat_mks(mks_global.mks_src_1, power_page.Back, &back, &back, LV_ALIGN_IN_LEFT_MID, 10, -10, event_handler_Back);
+	power_page.Back = lv_imgbtn_creat_mks(mks_global.mks_src_1, power_page.Back, &png_back_pre, &back, LV_ALIGN_IN_LEFT_MID, 10, -10, event_handler_Back);
 
 
 	

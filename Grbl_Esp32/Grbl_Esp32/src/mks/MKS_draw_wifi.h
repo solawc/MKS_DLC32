@@ -112,6 +112,8 @@ typedef struct {
     lv_obj_t *wifi_label_rssi;
     lv_obj_t *wifi_label_ip;
     lv_style_t wifi_src_style;
+    lv_style_t wifi_kb_rel;
+    lv_style_t wifi_kb_pre;
 
     lv_obj_t *wifi_btn_up; 
     lv_obj_t *wifi_btn_next;

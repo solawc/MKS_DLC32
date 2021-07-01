@@ -11,7 +11,7 @@
 TaskHandle_t lv_disp_tcb = NULL;
 TaskHandle_t frame_task_tcb = NULL;
 
-// #define USE_DelayUntil
+#define USE_DelayUntil
 
 static void mks_page_data_updata(void);
 

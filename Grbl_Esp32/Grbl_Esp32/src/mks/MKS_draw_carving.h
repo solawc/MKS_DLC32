@@ -22,10 +22,10 @@ typedef enum {
     caving_back_x = 20,
     caving_back_y = 60,
 
-    caving_up_x = 230,
-    caving_up_y = -10,
-    caving_next_x = 350,
-    caving_next_y = -10,
+    caving_up_x = -120,
+    caving_up_y = -15,
+    caving_next_x = -30,
+    caving_next_y = -15,
 
     caving_first_file_x = -180,
     caving_first_file_y = 0,
