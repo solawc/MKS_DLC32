@@ -81,6 +81,7 @@ typedef struct{
     uint8_t                     wifi_back_from;     // 判断wifi界面是从哪里进去的 0=主界面， 1=关于界面
     bool                        wifi_connect_enable;// 允许wifi自动连接
     bool                        popup_1_flag;
+    bool                        is_need_ref_sd_file;
 }GRBL_CRTL;
 extern GRBL_CRTL mks_grbl;
 

@@ -97,15 +97,15 @@ static void event_handler_up(lv_obj_t* obj, lv_event_t event) {
 			}else {
 			mks_file_list.file_count = 0;
 				mks_file_list.file_page--;
-				mks_draw_file_loadig();
-				lv_refr_now(lv_refr_get_disp_refreshing());
+				// mks_draw_file_loadig();
+				// lv_refr_now(lv_refr_get_disp_refreshing());
 				// mks_del_file_obj_1(mks_file_list.file_begin_num);
 				mks_del_file_obj();
 				mks_file_list.file_begin_num = 0;
 				mks_listDir(SD, "/",MKS_FILE_DEEP);
-				draw_file_btmimg();
+				// draw_file_btmimg();
 				// draw_file_btmimg_1(mks_file_list.file_begin_num);
-				lv_obj_del(caving_read_file_src1);
+				// lv_obj_del(caving_read_file_src1);
 				SD.end();
 			}
 		}
@@ -129,13 +129,13 @@ static void event_handler_next(lv_obj_t* obj, lv_event_t event) {
 				if(mks_file_list.file_begin_num >= MKS_FILE_NUM) {
 					mks_file_list.file_count = 0;
 					mks_file_list.file_page++;
-					mks_draw_file_loadig();
-					lv_refr_now(lv_refr_get_disp_refreshing());
+					// mks_draw_file_loadig();
+					// lv_refr_now(lv_refr_get_disp_refreshing());
 					mks_del_file_obj();
 					mks_file_list.file_begin_num = 0;
 					mks_listDir(SD, "/",MKS_FILE_DEEP);
-					draw_file_btmimg();
-					lv_obj_del(caving_read_file_src1);
+					// draw_file_btmimg();
+					// lv_obj_del(caving_read_file_src1);
 					SD.end();
 				}
 			}
@@ -312,22 +312,119 @@ void mks_draw_craving(void) {
 
 		label_for_screen(mks_global.mks_src, Label_NoFile, 0, 0, "No SD Card");
 	}else {
+
+		
 		mks_file_list.file_begin_num = 0;
 		mks_file_list.file_count = 0;
 		mks_file_list.file_page = 1;
-
 		mks_grbl.mks_sd_status = 1; // sd had inserted
 
-		mks_draw_file_loadig();
-		lv_refr_now(lv_refr_get_disp_refreshing());
+		// mks_draw_file_loadig();
+		// lv_refr_now(lv_refr_get_disp_refreshing());
 		mks_listDir(SD, "/",MKS_FILE_DEEP);
-		draw_file_btmimg();
-		lv_obj_del(caving_read_file_src1);
+
+		// draw_file_btmimg();
+		// lv_obj_del(caving_read_file_src1);
 		SD.end();
 	}	
 	mks_ui_page.mks_ui_page = MKS_UI_Caving;
     mks_ui_page.wait_count = DEFAULT_UI_COUNT;
 }
+
+void draw_filexx(uint8_t num, char *name) {
+
+	if(name[0] == '/') name[0] = ' ';
+
+	switch(num) {
+		case 0:
+		file_0 = lv_imgbtn_creat_mks(mks_global.mks_src, file_0, &file, &file, LV_ALIGN_CENTER, caving_first_file_x, caving_first_file_y, event_handler_file0);
+		Label_file_0 = label_for_file(mks_global.mks_src, Label_file_0, 
+																	caving_first_file_label_x, 
+																	caving_first_file_label_y, 
+																	name,
+																	caving_file_name_show);
+		break;
+
+		case 1:
+		file_1 = lv_imgbtn_creat_mks(mks_global.mks_src, file_1, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 120, caving_first_file_y, event_handler_file1);
+		Label_file_1 = label_for_file(mks_global.mks_src, 
+										Label_file_1, 
+										caving_first_file_label_x + 120, 
+										caving_first_file_label_y, 
+										name,
+										caving_file_name_show);
+		break;
+		
+		case 2:
+		file_2 = lv_imgbtn_creat_mks(mks_global.mks_src, file_0, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 240, caving_first_file_y, event_handler_file2);
+		Label_file_2 = label_for_file(mks_global.mks_src, 
+										Label_file_2, 
+										caving_first_file_label_x + 240, 
+										caving_first_file_label_y, 
+										name,
+										caving_file_name_show);
+		break;
+
+		case 3:
+		file_3 = lv_imgbtn_creat_mks(mks_global.mks_src, file_3, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 360, caving_first_file_y, event_handler_file3);
+		Label_file_3 = label_for_file(mks_global.mks_src, 
+			Label_file_3, 
+			caving_first_file_label_x + 360, 
+			caving_first_file_label_y, 
+			name,
+			caving_file_name_show);
+		break;
+
+		case 4:
+		file_4 = lv_imgbtn_creat_mks(mks_global.mks_src, file_4, &file, &file, LV_ALIGN_CENTER, caving_first_file_x, caving_first_file_y + 105, event_handler_file4);
+		Label_file_4 = label_for_file(mks_global.mks_src, 
+			Label_file_4, 
+			caving_first_file_label_x, 
+			caving_first_file_label_y + 105, 
+			name,
+			caving_file_name_show);
+		break;
+
+		case 5:
+		file_5 = lv_imgbtn_creat_mks(mks_global.mks_src, file_5, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 120, caving_first_file_y + 105, event_handler_file5);
+		Label_file_5 = label_for_file(mks_global.mks_src, 
+				Label_file_5, 
+				caving_first_file_label_x + 120, 
+				caving_first_file_label_y + 105, 
+				// mks_file_list.filename_str[5], 
+				name,
+				caving_file_name_show);
+		break;
+
+		case 6:
+		file_6 = lv_imgbtn_creat_mks(mks_global.mks_src, file_6, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 240, caving_first_file_y + 105, event_handler_file6);
+		Label_file_6 = label_for_file(mks_global.mks_src, 
+				Label_file_6, 
+				caving_first_file_label_x + 240, 
+				caving_first_file_label_y + 105, 
+				// mks_file_list.filename_str[6], 
+				name,
+				caving_file_name_show);
+		break;
+
+		case 7:
+		file_7 = lv_imgbtn_creat_mks(mks_global.mks_src, file_7, &file, &file, LV_ALIGN_CENTER, caving_first_file_x + 360, caving_first_file_y + 105, event_handler_file7);
+		Label_file_7 = label_for_file(mks_global.mks_src, 
+				Label_file_7, 
+				caving_first_file_label_x + 360, 
+				caving_first_file_label_y + 105, 
+				// mks_file_list.filename_str[7], 
+				name,
+				caving_file_name_show);
+		break;
+	}
+
+	lv_refr_now(lv_refr_get_disp_refreshing());
+}
+
+
+
+
 
 void draw_file_btmimg(void) {
 

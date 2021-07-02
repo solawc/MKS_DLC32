@@ -174,6 +174,7 @@ void protocol_main_loop() {
                         mks_draw_finsh_pupop(); // show print finsh 
                     }
                     grbl_notifyf("SD print done", "%s print is successful", temp);
+                    grbl_send(CLIENT_ALL, "SD Print Finsh!\n");
                     closeFile();  // close file and clear SD ready/running flags
                 }
             // }

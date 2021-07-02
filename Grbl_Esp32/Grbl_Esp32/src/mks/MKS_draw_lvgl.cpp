@@ -128,6 +128,19 @@ lv_obj_t* label_for_imgbtn_name(lv_obj_t* scr, lv_obj_t* lab, lv_obj_t* base, lv
 }
 
 /*
+ * 用于图片按键的文本
+*/
+lv_obj_t* label_for_imgbtn_name_mid(lv_obj_t* scr, lv_obj_t* lab, lv_obj_t* base, lv_coord_t x, lv_coord_t y, const char* text) {
+    lab = lv_label_create(scr, NULL);
+    lv_label_set_long_mode(lab, LV_LABEL_LONG_EXPAND);
+    lv_label_set_recolor(lab, true);
+    lv_label_set_text(lab, text);
+    // lv_label_set_align(lab ,LV_LABEL_ALIGN_CENTER);
+    lv_obj_align(lab, base, LV_ALIGN_IN_RIGHT_MID, x, y);
+    return lab;
+}
+
+/*
  * 用于提示框显示
 */
 lv_obj_t* label_for_screen(lv_obj_t* scr, lv_obj_t* lab, lv_coord_t x, lv_coord_t y, const char* text) {

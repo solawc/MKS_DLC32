@@ -33,17 +33,20 @@ IRAM_ATTR void lvgl_disp_task(void *parg) {
 
     // 创建二值量
     is_fram_need = xSemaphoreCreateBinary();
-
     frame_task_init();
-    
     mks_grbl.wifi_connect_enable = true;
-    LCD_BLK_OFF;
+   
 
     while(1) {
 
         if(logo_flag == true) {
             lv_task_handler();
             logo_flag_count++;
+
+            if(logo_flag_count == 100) {
+                 LCD_BLK_ON;
+            }
+
             if(logo_flag_count == 400) {
                 mks_lv_clean_ui();
 
@@ -52,7 +55,6 @@ IRAM_ATTR void lvgl_disp_task(void *parg) {
                 }else {
                    mks_draw_ready();
                 }
-                
                 logo_flag = false;
             }
         }else {
@@ -226,3 +228,34 @@ IRAM_ATTR void frame_task_init(void ) {
     );
 }
 
+/*-------------------------------------------测试模式----------------------------------------------*/
+
+#define TEST_CODE_TASK_STACK                4096
+#define TEST_CODE_TASK_PRO                  3          
+#define TEST_CODE_TASK_CORE                 1
+
+TaskHandle_t test_code_handle = NULL;
+
+
+void dlc32_test_debug(void *parg) {
+
+    while(1) {
+        // tese_code();
+    }
+}
+
+void test_code_task_init() {
+
+    xTaskCreatePinnedToCore(dlc32_test_debug,             // task
+                            "Test code",           // name for task
+                            TEST_CODE_TASK_STACK,       // size of task stack
+                            NULL,                   // parameters
+                            TEST_CODE_TASK_PRO,         // priority
+                            // nullptr,
+                            &test_code_handle,
+                            TEST_CODE_TASK_CORE         // must run the task on same core
+                                                    // core
+    );
+
+
+}

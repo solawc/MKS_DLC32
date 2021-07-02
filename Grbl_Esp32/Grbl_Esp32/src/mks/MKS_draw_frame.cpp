@@ -336,11 +336,9 @@ void mks_run_frame(char *parameter) {
 
     MKS_GRBL_CMD_SEND("M3 S5\n");
 
-    sprintf(frame_cmd, "G1 Y%f F1000\n", frame_ctrl.y_min); // point 0
+    sprintf(frame_cmd, "G0 X%f Y%f 300\n",frame_ctrl.x_min, frame_ctrl.y_min); // point 0
     MKS_GRBL_CMD_SEND(frame_cmd);
 
-    sprintf(frame_cmd, "G1 X%f F1000\n", frame_ctrl.x_min); // point 0
-    MKS_GRBL_CMD_SEND(frame_cmd);
 
     sprintf(frame_cmd, "G1 Y%f F1000\n",frame_ctrl.y_max);  // point 1
     MKS_GRBL_CMD_SEND(frame_cmd);
@@ -368,7 +366,7 @@ void frame_run(void) {
     char frame_cmd[20];
 
     mks_lv_label_updata(frame_page.label_text, "Running...");
-    // lv_refr_now(lv_refr_get_disp_refreshing());
+    
     MKS_GRBL_CMD_SEND("M3 S5\n");
 
     sprintf(frame_cmd, "G1 Y%f F1000\n",frame_ctrl.y_max);  // point 1

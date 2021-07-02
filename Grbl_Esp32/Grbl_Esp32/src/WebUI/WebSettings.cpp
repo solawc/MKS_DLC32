@@ -426,6 +426,8 @@ namespace WebUI {
         webPrintln("CPU Temperature: ", String(temperatureRead(), 1) + "C");
         webPrintln("Free memory: ", ESPResponseStream::formatBytes(ESP.getFreeHeap()));
         webPrintln("SDK: ", ESP.getSdkVersion());
+        webPrintln("Board Version: ", "DLC32 V003"); // mks fix
+        webPrintln("Firmware: ", "DLC32 V1.10C"); // mks fix
         webPrintln("Flash Size: ", ESPResponseStream::formatBytes(ESP.getFlashChipSize()));
 
         // Round baudRate to nearest 100 because ESP32 can say e.g. 115201

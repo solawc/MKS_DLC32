@@ -60,6 +60,8 @@ void mks_del_file_obj(void);
 
 void draw_file_btmimg(void);
 void draw_file_btmimg_1(uint8_t num);
+void draw_filexx(uint8_t num, char *name);
+
 
 void mks_del_file_obj_1(uint8_t num);
 

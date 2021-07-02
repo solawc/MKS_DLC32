@@ -30,17 +30,17 @@
 void grbl_init() {
 
     pinMode(LCD_EN, OUTPUT);
-    LCD_BLK_ON;
+    LCD_BLK_OFF;
     
 #ifdef USE_I2S_OUT
 
-    pinMode(I2S_OUT_BCK, OUTPUT);
-    pinMode(I2S_OUT_WS, OUTPUT);
-    pinMode(I2S_OUT_DATA, OUTPUT);
+    // pinMode(I2S_OUT_BCK, OUTPUT);
+    // pinMode(I2S_OUT_WS, OUTPUT);
+    // pinMode(I2S_OUT_DATA, OUTPUT);
 
-    gpio_set_level(I2S_OUT_BCK, 0);
-    gpio_set_level(I2S_OUT_WS, 0);
-    gpio_set_level(I2S_OUT_DATA, 0);
+    // gpio_set_level(I2S_OUT_BCK, 0);
+    // gpio_set_level(I2S_OUT_WS, 0);
+    // gpio_set_level(I2S_OUT_DATA, 0);
     // digitalWrite(I2S_OUT_BCK, HIGH);
     // digitalWrite(I2S_OUT_WS, HIGH);
     // digitalWrite(I2S_OUT_DATA, HIGH);

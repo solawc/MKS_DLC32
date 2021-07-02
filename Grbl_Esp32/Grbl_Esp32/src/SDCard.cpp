@@ -43,9 +43,26 @@ static char                comment[LINE_BUFFER_SIZE];  // Line to be executed. Z
 
 bool filename_check(char *str, uint16_t num) {
 
+    char *p, *j, *k;
     if(num > 128) return false;
-    if(((str[num-1]=='c')||(str[num-1]='C')) && ((str[num-2] == 'n')||(str[num-2] == 'N'))) return true;
-    else return false;
+    // if(((str[num-1]=='c')||(str[num-1]='C')) && ((str[num-2] == 'n')||(str[num-2] == 'N'))) return true;  // .nc
+
+    p = strstr(str, ".nc");
+    if(p == NULL) p = strstr(str, ".NC");
+    else return true;
+        
+    j = strstr(str, ".gcode");
+    if(j == NULL) j = strstr(str, ".GCODE");
+    else return true;
+
+    k = strstr(str, ".gc");
+    if(k == NULL) k = strstr(str, ".GC");
+    else return true;
+
+    // if((p!=NULL)||(j!=NULL)||(k!=NULL)) return true;
+    // else return false;
+
+    return false;
 }
 
 char filename_check_str[255];
@@ -103,8 +120,6 @@ void mks_listDir(fs::FS& fs, const char* dirname, uint8_t levels) {
             }
         } else {
 
-            // strcpy(mks_filename_check_str, file.name());
-            // memset(mks_filename_check_str, 0, sizeof(mks_filename_check_str));
             memcpy(mks_filename_check_str, file.name(), 255);
             strcpy(mks_filename_check_str, file.name());
 
@@ -113,9 +128,8 @@ void mks_listDir(fs::FS& fs, const char* dirname, uint8_t levels) {
                     && (mks_file_list.file_count < (mks_file_list.file_page * MKS_FILE_NUM))) {
                     memset(mks_file_list.filename_str[mks_file_list.file_begin_num], 0, sizeof(mks_file_list.filename_str[mks_file_list.file_begin_num]));
                     strcpy(mks_file_list.filename_str[mks_file_list.file_begin_num], mks_filename_check_str);
-
                     mks_file_list.file_size[mks_file_list.file_begin_num] = file.size();
-                    
+                    draw_filexx(mks_file_list.file_begin_num, mks_file_list.filename_str[mks_file_list.file_begin_num]);
                     mks_file_list.file_begin_num++;
                 }
                 mks_file_list.file_count++;
@@ -157,12 +171,6 @@ boolean mks_openFile(fs::FS& fs, const char* path) {
     }
     return true;
 }
-
-boolean mks_closeFile(void) {
-
-    
-}
-
 
 /*
   read a line from the SD card
