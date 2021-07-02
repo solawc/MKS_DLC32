@@ -245,6 +245,9 @@ void mks_run_frame(char *parameter) {
         return ;
     }
 
+    grbl_sendf(CLIENT_SERIAL, "frame file:%s\n", frame_ctrl.file_name);
+
+    if(frame_ctrl.file_name[0] != '/') frame_ctrl.file_name[0] = '/';
     mks_openSDFile(parameter);
 
     char fileLine[255];

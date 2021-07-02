@@ -196,7 +196,6 @@ IRAM_ATTR void disp_task_init(void) {
 IRAM_ATTR void frame_task(void *parg) {
 
     grbl_send(CLIENT_SERIAL,"Creat frame task succeed\n");
-
     // 定义一个信号量返回值
     BaseType_t sem_receive = pdPASS;
 
