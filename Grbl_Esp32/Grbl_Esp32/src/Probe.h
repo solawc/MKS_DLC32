@@ -29,6 +29,25 @@ enum class Probe : uint8_t {
     Active = 1,  // Actively watching the input pin.
 };
 
+#define PROBE_READ_LOW    0
+#define PROBE_READ_HIGH   1
+#define PROBE_READ()      digitalRead(PROBE_PIN)
+
+ typedef enum{
+    PROBE_NONE,
+    PROBE_GET_STATUS,   // 没有触发，并正在测量
+    PROBE_IS_WRONG,     // 触发了警报
+    PROBE_WAIT_WRONG,   // 等待警报解除
+    PROBE_IS_OK,        // 解除报警
+ }PROBE_STATUS_T;
+
+
+typedef struct {
+  PROBE_STATUS_T status; 
+  bool is_probe_open;  
+}PROBE_CTRL_T;
+
+
 // Probe pin initialization routine.
 void probe_init();
 
@@ -41,3 +60,6 @@ bool probe_get_state();
 // Monitors probe pin state and records the system position when detected. Called by the
 // stepper ISR per ISR tick.
 void probe_state_monitor();
+
+void mks_probe_init(void);
+void mks_probe_check(void);

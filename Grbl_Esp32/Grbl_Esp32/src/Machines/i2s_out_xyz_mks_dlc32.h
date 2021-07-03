@@ -28,6 +28,8 @@
 #define USE_OLD_FRAME
 
 #define MACHINE_NAME            "MKS DLC32 V1.20"
+#define BOARD_NAME              "Board:MKS DLC32 V003"
+#define FW_NAME                 "Firmware:MKS DLC32 V1.10 C"
 
 #ifdef N_AXIS
     #undef N_AXIS

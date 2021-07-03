@@ -124,7 +124,8 @@ static void reset_variables() {
     spindle->stop();
     coolant_init();
     limits_init();
-    probe_init();
+    // probe_init();
+    mks_probe_init();
     plan_reset();  // Clear block buffer and planner variables
     st_reset();    // Clear stepper subsystem variables
     // Sync cleared gcode and planner positions to current system position.

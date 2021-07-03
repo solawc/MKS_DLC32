@@ -59,8 +59,8 @@ bool filename_check(char *str, uint16_t num) {
     if(k == NULL) k = strstr(str, ".GC");
     else return true;
 
-    // if((p!=NULL)||(j!=NULL)||(k!=NULL)) return true;
-    // else return false;
+    if((p!=NULL)||(j!=NULL)||(k!=NULL)) return true;
+    else return false;
 
     return false;
 }
@@ -206,9 +206,7 @@ boolean readFileBuff(uint8_t *buf, uint32_t size) {
         report_status_message(Error::FsFailedRead, SD_client);
         return false;
     }
-
     myFile.read((uint8_t *)buf, size-1);
-
     return true;
 }
 
@@ -222,8 +220,13 @@ float sd_report_perc_complete() {
     return (float)myFile.position() / (float)myFile.size() * 100.0f;
 }
 
+// mks fix
 uint32_t sd_get_current_line_number() {
     return sd_current_line_number;
+}
+
+void sd_set_current_line_number(uint32_t num) { 
+    sd_current_line_number = num;
 }
 
 SDState sd_state = SDState::Idle;

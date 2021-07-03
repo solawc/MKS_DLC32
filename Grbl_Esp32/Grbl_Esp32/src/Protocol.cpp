@@ -174,7 +174,8 @@ void protocol_main_loop() {
                         mks_draw_finsh_pupop(); // show print finsh 
                     }
                     grbl_notifyf("SD print done", "%s print is successful", temp);
-                    grbl_send(CLIENT_ALL, "SD Print Finsh!\n");
+                    grbl_send(CLIENT_ALL, "SD Print Finish!\n");
+                    MKS_GRBL_CMD_SEND("G0 X0 Y0 F300\n");
                     closeFile();  // close file and clear SD ready/running flags
                 }
             // }
@@ -268,7 +269,7 @@ void protocol_main_loop() {
             }
         }
         spindle_check();
-
+        mks_probe_check();
         if(mks_grbl.wifi_connect_enable == true) {
             grbl_send(CLIENT_SERIAL, "connect wifi\n");
             WebUI::wifi_config.begin();

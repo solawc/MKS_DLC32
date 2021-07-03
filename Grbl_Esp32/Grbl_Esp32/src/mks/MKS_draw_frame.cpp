@@ -70,10 +70,6 @@ void mks_openSDFile(char* parameter) {
     }
 
     String path = trim(parameter);
-
-    // if (path[0] != '/') {   // 为文件名添加'/'
-    //     path = "/" + path;
-    // }
     
     SDState state = get_sd_state(true);
     if (state != SDState::Idle) {
@@ -92,20 +88,11 @@ void mks_openSDFile(char* parameter) {
         
         return;
     }
-
-
 }
 
 uint8_t *p;
 
-#if defined(USE_OLD_FRAME)
 void polocte_cmd(char *str) {
-#else 
-void polocte_cmd(uint8_t *str) {
-#endif
-
-#if defined(USE_OLD_FRAME)
-
     if(strstr(str, "G0")) {
         frame_ctrl.have_g0 = 1;
     }
@@ -154,38 +141,11 @@ void polocte_cmd(uint8_t *str) {
     }
     frame_ctrl.have_g0 = 0;
     frame_ctrl.have_g1 = 0;
-#else 
+}
 
-    grbl_send(CLIENT_SERIAL ,"porocol_cmd\n");
+void lb_polocte_cmd(char *str) {
 
-    // while(p < &str[1024 - 1]) {
-
-    //     if(*p=='X') {
-    //         p++;
-    //         memset(frame_ctrl.x_value , 0, sizeof(frame_ctrl.x_value));
-    //         frame_ctrl.x_or_y =& frame_ctrl.x_value[0];
-    //         while(*p!=' ' && *p!='\r' && *p!='\n') {
-    //             *frame_ctrl.x_or_y++ = *p++;
-    //         }
-    //         frame_ctrl.x_temp = atof(&(frame_ctrl.x_value[0]));
-    //         if(frame_ctrl.x_temp > frame_ctrl.x_max) frame_ctrl.x_max = frame_ctrl.x_temp;
-    //         if(frame_ctrl.x_temp < frame_ctrl.x_min) frame_ctrl.x_min = frame_ctrl.x_temp;
-    //     }
-    //     if(*p=='Y') {
-    //         p++;
-    //         memset(frame_ctrl.y_value,0,sizeof(frame_ctrl.y_value));
-    //         frame_ctrl.x_or_y =& frame_ctrl.y_value[0];
-    //         while(*p!=' ' && *p!='\r' && *p!='\n') {
-    //             *frame_ctrl.x_or_y++ = *p++;
-    //         }
-    //         frame_ctrl.y_temp=atof(&(frame_ctrl.y_value[0]));
-    //         //DecStr2Float(x_y_value,&y_coordinates);
-    //         if(frame_ctrl.y_temp > frame_ctrl.y_max) frame_ctrl.y_max = frame_ctrl.y_temp;
-    //         if(frame_ctrl.y_temp < frame_ctrl.y_min) frame_ctrl.y_min = frame_ctrl.y_temp;
-    //     }
-    //     p++;
-    // }
-#endif
+    
 }
 
 void mks_frame_init(void) { 
@@ -253,10 +213,15 @@ void mks_run_frame(char *parameter) {
     char fileLine[255];
     uint8_t point_last_num = 1;
     uint32_t point_count = 0;
-
+    uint32_t get_current_line = sd_get_current_line_number(); // 获取当前
 #if defined(USE_OLD_FRAME)
     while (readFileLine(fileLine, 255)) {
 
+        if(get_current_line < 3) {
+            
+            
+            get_current_line = sd_get_current_line_number();
+        }
         // if(point_count == 255*6) {
         //     switch(point_last_num) {
         //     case 1: 
@@ -282,6 +247,8 @@ void mks_run_frame(char *parameter) {
         //     point_count = 0;
         // }
         // point_count++;
+
+
         polocte_cmd(fileLine);
     }
 #else 

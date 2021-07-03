@@ -276,7 +276,8 @@ void mks_draw_inFile(char *fn) {
 	label_for_imgbtn_name(mks_global.mks_src_1, infile_page.label_sure_print, infile_page.btn_sure_print, 0, 0, "Cavre");
 	label_for_imgbtn_name(mks_global.mks_src_1, infile_page.label_pos, infile_page.btn_pos, 0, 0, "Position");
 	label_for_imgbtn_name(mks_global.mks_src_1, infile_page.label_frame, infile_page.btn_frame, 0, 0, "Frame");
-	label_for_screen(mks_global.mks_src_1, infile_page.label_file_name, -100, 0, fn);
+	// label_for_screen(mks_global.mks_src_1, infile_page.label_file_name, -100, 0, fn);
+	label_for_infile_name(mks_global.mks_src_1, infile_page.label_file_name, -100, 0, fn);
 	mks_ui_page.mks_ui_page = MKS_UI_inFile;
 }
 

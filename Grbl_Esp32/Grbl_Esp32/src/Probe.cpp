@@ -22,9 +22,12 @@
 */
 
 #include "Grbl.h"
+#include "mks/MKS_draw_lvgl.h"
 
 // Inverts the probe pin state depending on user settings and probing cycle mode.
 static bool is_probe_away;
+
+PROBE_CTRL_T probe_ctrl;
 
 // Probe pin initialization routine.
 void probe_init() {
@@ -61,5 +64,82 @@ void probe_state_monitor() {
         sys_probe_state = Probe::Off;
         memcpy(sys_probe_position, sys_position, sizeof(sys_position));
         sys_rt_exec_state.bit.motionCancel = true;
+    }
+}
+
+
+static void event_probe_yes(lv_obj_t* obj, lv_event_t event) {
+
+    if(event == LV_EVENT_RELEASED) {
+        if(PROBE_READ() == PROBE_READ_LOW) {
+            grbl_send(CLIENT_SERIAL, "probe is low\n");
+        }else {
+            grbl_send(CLIENT_SERIAL, "probe is high\n");
+            
+            if(mks_ui_page.mks_ui_page != MKS_UI_Ready) {
+                mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
+                // lv_obj_del(mks_global.mks_src);
+                lv_obj_clean(mks_global.mks_src);
+                mks_draw_ready();
+            }else {
+                common_popup_com_del();
+            }
+            probe_ctrl.status = PROBE_GET_STATUS;
+        }
+    }
+}
+
+void mks_probe_init(void) { 
+
+    if (PROBE_PIN != UNDEFINED_PIN) { 
+        pinMode(PROBE_PIN, INPUT_PULLUP);
+        probe_ctrl.is_probe_open = true;
+        probe_ctrl.status = PROBE_GET_STATUS;
+    }
+} 
+
+void mks_probe_check(void) {
+
+    switch(probe_ctrl.status) {
+        
+        case PROBE_GET_STATUS: 
+            if(PROBE_READ() == PROBE_READ_LOW) {
+                probe_ctrl.status = PROBE_IS_WRONG;
+            }
+        break;
+
+        case PROBE_IS_WRONG:
+            if(PROBE_READ() == PROBE_READ_LOW) { // 再次确定触发了
+                if((sys.state == State::Cycle) || (sys.state == State::Hold))  {  // 正在打印中
+                    uint16_t buf_cmd[]={0x18};
+                    closeFile();
+                    MKS_GRBL_CMD_SEND(buf_cmd);
+                    // 弹窗
+                }else {
+                    // 弹窗
+                }
+                mks_draw_common_popup_info_com("ERROR", 
+                                                "Machine accident", 
+                                                "Please make sure the machine is normal",
+                                                event_probe_yes);
+                
+                probe_ctrl.status = PROBE_WAIT_WRONG;
+            }else {
+                probe_ctrl.status = PROBE_GET_STATUS;
+            }
+        break;
+
+        case PROBE_WAIT_WRONG:
+            MKS_GRBL_CMD_SEND("M3 S0\n");
+            if(PROBE_READ() == PROBE_READ_HIGH) {
+                probe_ctrl.status = PROBE_IS_OK;
+            }
+        break;
+
+        case PROBE_IS_OK:
+            if(PROBE_READ() == PROBE_READ_HIGH) {
+                probe_ctrl.status = PROBE_GET_STATUS;
+            }
+        break;
     }
 }

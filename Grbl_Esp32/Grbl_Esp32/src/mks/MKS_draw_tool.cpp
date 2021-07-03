@@ -93,15 +93,19 @@ void mks_draw_tool(void) {
     // mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, label_tool_wifi, 270, 60, "Wifi", 60);
     label_for_imgbtn_name(mks_global.mks_src_1, label_tool_wifi, tool_img_wifi, 0, 0, "Wifi");
 #endif
-    mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src, label_board_version, 10, 120, "Board:MKS DLC32 V003", 400);
+    // mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src, label_board_version, 10, 120, "Board:MKS DLC32 V003", 400);
+    mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src, label_board_version, 10, 120, BOARD_NAME, 400);
+
+    
 #if defined(USE_V_A) 
 	    mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src, label_Firmware_version, 10, 170, "Firmware:MKS DLC32 V1.10 A", 400);
 #elif defined(USE_V_B)
         mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src, label_Firmware_version, 10, 170, "Firmware:MKS DLC32 V1.10 B", 400);
 #else 
-        mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src, label_Firmware_version, 10, 170, "Firmware:MKS DLC32 V1.10 C", 400);
+        // mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src, label_Firmware_version, 10, 170, "Firmware:MKS DLC32 V1.10 C", 400);
+        mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src, label_Firmware_version, 10, 170, FW_NAME, 400);
+        
 #endif
-
 
     strcat(cpu_info, String(ESP.getCpuFreqMHz()).c_str());
     strcat(cpu_info, "Mhz/ T:");

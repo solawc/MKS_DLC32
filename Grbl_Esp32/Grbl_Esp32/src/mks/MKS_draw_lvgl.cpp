@@ -14,7 +14,6 @@ COMMON_POPUP_T com_p_info_com;
  * Data     :2021/01/30
 */
 lv_obj_t* mks_lvgl_draw_bk(lv_obj_t * scr, lv_style_t * dest_style, const lv_style_t * src_style, lv_color_t gcolor, lv_color_t mcolor) {
-
     lv_style_copy(dest_style, src_style);
 	dest_style->body.grad_color = gcolor;
 	dest_style->body.main_color = mcolor;
@@ -28,7 +27,6 @@ lv_obj_t* mks_lvgl_draw_bk(lv_obj_t * scr, lv_style_t * dest_style, const lv_sty
  * Data     :2021/01/30
 */
 lv_obj_t* mks_lvgl_draw_bk_both(lv_obj_t * scr, lv_style_t * dest_style, const lv_style_t * src_style, lv_color_t color) {
-
     lv_style_copy(dest_style, src_style);
 	dest_style->body.grad_color = color;
 	dest_style->body.main_color = color;
@@ -151,6 +149,21 @@ lv_obj_t* label_for_screen(lv_obj_t* scr, lv_obj_t* lab, lv_coord_t x, lv_coord_
     lv_label_set_text(lab, text);
 	lv_label_set_align(lab, LV_LABEL_ALIGN_CENTER);
     lv_obj_align(lab, scr, LV_ALIGN_CENTER, x, y);
+    return lab;
+}
+
+/*
+ * 用于提示框显示
+*/
+lv_obj_t* label_for_infile_name(lv_obj_t* scr, lv_obj_t* lab, lv_coord_t x, lv_coord_t y, const char* text) {
+
+    lab = lv_label_create(scr, NULL);
+    lv_label_set_long_mode(lab, LV_LABEL_LONG_SROLL_CIRC);
+    lv_label_set_recolor(lab, true);
+    lv_label_set_text(lab, text);
+	lv_label_set_align(lab, LV_LABEL_ALIGN_CENTER);
+    lv_obj_align(lab, scr, LV_ALIGN_CENTER, x, y);
+    lv_obj_set_size(lab, 100, 20);
     return lab;
 }
 
