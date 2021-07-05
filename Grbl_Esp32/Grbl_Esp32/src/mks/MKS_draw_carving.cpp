@@ -973,7 +973,7 @@ static void event_btn_frame(lv_obj_t* obj, lv_event_t event) {
 		lv_obj_del(caving_Popup);
 
 		if(file_size >= 1024*1024) {
-			mks_draw_common_popup("Warring!", 
+			mks_draw_common_popup("Warning!", 
 								"File size is too big",
 								"Do you want to connute?",
 								event_fram_size_yes,
@@ -982,7 +982,7 @@ static void event_btn_frame(lv_obj_t* obj, lv_event_t event) {
 			
 			mks_draw_frame();
 			lv_refr_now(lv_refr_get_disp_refreshing());
-			mks_run_frame(frame_ctrl.file_name);
+			// mks_run_frame(frame_ctrl.file_name);
 			file_popup_select_flag = false;
 		}
 	}

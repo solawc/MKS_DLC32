@@ -69,7 +69,6 @@ void probe_state_monitor() {
 
 
 static void event_probe_yes(lv_obj_t* obj, lv_event_t event) {
-
     if(event == LV_EVENT_RELEASED) {
         if(PROBE_READ() == PROBE_READ_LOW) {
             grbl_send(CLIENT_SERIAL, "probe is low\n");
@@ -118,7 +117,7 @@ void mks_probe_check(void) {
                 }else {
                     // 弹窗
                 }
-                mks_draw_common_popup_info_com("ERROR", 
+                mks_draw_common_popup_info_com("Error", 
                                                 "Machine accident", 
                                                 "Please make sure the machine is normal",
                                                 event_probe_yes);

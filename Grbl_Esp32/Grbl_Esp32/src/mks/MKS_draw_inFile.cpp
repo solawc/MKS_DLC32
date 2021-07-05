@@ -60,17 +60,16 @@ static void event_handler_frame(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
 
-		uint32_t file_size = mks_file_list.file_size[mks_file_list.file_choose];   
-
+		// uint32_t file_size = mks_file_list.file_size[mks_file_list.file_choose];   
 		mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
 
-		if(file_size >= 1024*1024) {
-			mks_draw_common_popup("Warring", "File is more than 1M", "Do you want to continue?", event_handler_frame_yes, event_handler_frame_no);
+		// if(file_size >= 1024*1024) {
+		if(frame_ctrl.file_size >= 1024*1024) {
+			mks_draw_common_popup("Warning", "File is more than 1M", "Do you want to continue?", event_handler_frame_yes, event_handler_frame_no);
 		}else {
+			frame_ctrl.is_use_same_file = false;
 			lv_obj_clean(mks_global.mks_src);
 			mks_draw_frame();
-			// lv_refr_now(lv_refr_get_disp_refreshing());
-			// mks_run_frame(frame_ctrl.file_name);
 		}
 	}
 }
@@ -268,15 +267,23 @@ void mks_draw_inFile(char *fn) {
 									event_handler_cancle);
 	mks_draw_setting();
 	
+	//	记录文件名
 	memset(frame_ctrl.file_name, 0, sizeof(frame_ctrl.file_name));
 	memcpy(frame_ctrl.file_name, fn, 128);
+	//	记录文件大小
+	frame_ctrl.file_size = mks_file_list.file_size[mks_file_list.file_choose]; 
 
+	// 显示label
 	if(fn[0] == '/') fn[0] = ' ';
 	label_for_imgbtn_name(mks_global.mks_src_1, infile_page.label_cancle, infile_page.btn_cancle, 0, 0, "Cancel");
 	label_for_imgbtn_name(mks_global.mks_src_1, infile_page.label_sure_print, infile_page.btn_sure_print, 0, 0, "Cavre");
 	label_for_imgbtn_name(mks_global.mks_src_1, infile_page.label_pos, infile_page.btn_pos, 0, 0, "Position");
 	label_for_imgbtn_name(mks_global.mks_src_1, infile_page.label_frame, infile_page.btn_frame, 0, 0, "Frame");
 	// label_for_screen(mks_global.mks_src_1, infile_page.label_file_name, -100, 0, fn);
+
+
+
+
 	label_for_infile_name(mks_global.mks_src_1, infile_page.label_file_name, -100, 0, fn);
 	mks_ui_page.mks_ui_page = MKS_UI_inFile;
 }

@@ -72,7 +72,6 @@ void mks_draw_tool(void) {
     tool_img_wifi = lv_imgbtn_creat_mks(mks_global.mks_src_1, tool_img_wifi, &png_wifi_pre, &wifi_tool, LV_ALIGN_IN_RIGHT_MID, -30, -15, event_btn_tool_wifi);
 #endif
 
-
     lv_style_copy(&style_line, &lv_style_plain);
     style_line.line.color = LV_COLOR_MAKE(0x00, 0x3b, 0x75);
     style_line.line.width = 1;
@@ -84,7 +83,6 @@ void mks_draw_tool(void) {
     lv_line_set_style(tool_line2, LV_LINE_STYLE_MAIN, &style_line);
     tool_line3 = mks_lv_set_line(mks_global.mks_src, tool_line3, tool_line_points[2]);
     lv_line_set_style(tool_line3, LV_LINE_STYLE_MAIN, &style_line);
-
 
     // mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_1, label_tool_back, 20, 60, "Back", 60);
     label_for_imgbtn_name(mks_global.mks_src_1, label_tool_back, tool_img_back, 0, 0, "Back");
@@ -104,11 +102,10 @@ void mks_draw_tool(void) {
 #else 
         // mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src, label_Firmware_version, 10, 170, "Firmware:MKS DLC32 V1.10 C", 400);
         mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src, label_Firmware_version, 10, 170, FW_NAME, 400);
-        
 #endif
 
     strcat(cpu_info, String(ESP.getCpuFreqMHz()).c_str());
-    strcat(cpu_info, "Mhz/ T:");
+    strcat(cpu_info, "MHz/ T:");
     strcat(cpu_info, String(temperatureRead(), 1).c_str());
     strcat(cpu_info, "C/ ID:");
     strcat(cpu_info, String((uint16_t)(ESP.getEfuseMac() >> 32)).c_str());

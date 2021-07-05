@@ -182,7 +182,7 @@ static void event_handler_pos(lv_obj_t* obj, lv_event_t event) {
 			mks_draw_common_popup_info_com("Info", "Positioning success", " ", event_henadle_pupup_com);
 		}else {
 			// draw_pos_popup("Please wait machine stop!");
-			mks_draw_common_popup_info_com("Warring", "Please wait machine stop!", " ", event_henadle_pupup_com);
+			mks_draw_common_popup_info_com("Warning", "Please wait machine stop!", " ", event_henadle_pupup_com);
 		}
 	}
 }
@@ -201,7 +201,7 @@ static void event_handler_hhome(lv_obj_t* obj, lv_event_t event) {
 		}
 		else {
 			// draw_pos_popup_2("No Enable Hard Homing...");
-			mks_draw_common_popup_info_com("Warring", "No Enable Hard Homing...", " ", event_henadle_pupup_com);
+			mks_draw_common_popup_info_com("Warning", "No Enable Hard Homing...", " ", event_henadle_pupup_com);
 		}
 	}
 }

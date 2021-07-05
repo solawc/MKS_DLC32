@@ -47,8 +47,8 @@ typedef enum {
     print_first_data_label_x = 10,
     print_first_data_label_y = 100,
 
-    print_src1_first_pic_x = 60,
-    print_src1_first_pic_y = -5,
+    print_src1_first_pic_x = 65,
+    print_src1_first_pic_y = 0,
 
     print_src2_first_pic_x = 70,
     print_src2_first_pic_y = 95,

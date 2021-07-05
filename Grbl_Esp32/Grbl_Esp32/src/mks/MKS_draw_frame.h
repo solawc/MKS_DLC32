@@ -48,40 +48,41 @@ typedef enum {
 
 typedef struct {
 
-    FRAME_STATUS frame_starus;
-    float x_max;
-    float y_max;
-    float x_min;
-    float y_min;
-    float x_temp;
-    float y_temp;
-    uint8_t have_g0;
-    uint8_t have_g1;
-    uint32_t safe_count;
-    char *x_or_y;
-    char file_name[128];
-    char x_value[10];
-    char y_value[10];
-    uint8_t cancle_enable;
+    FRAME_STATUS    frame_starus;
+    float           x_max;
+    float           y_max;
+    float           x_min;
+    float           y_min;
+    float           x_temp;
+    float           y_temp;
 
-    bool is_finsh_run;                  // 检测是否巡边完成
-    bool is_begin_run;                  // 开始检测
-    bool is_read_file = false;          // 判断是否开始读文件巡边
-    bool out;
+    // make sure is have g0 g1 g91
+    bool            have_g0;
+    bool            have_g1;
+    bool            have_G91;
 
-#if defined(USE_OLD_FRAME)
+    // 
+    uint32_t        safe_count;
+    char            *x_or_y;
 
-#else 
-    uint32_t had_read_file_size;        // 已经读取的文件大小
-    uint32_t current_file_size;         // 当前文件大小
-    uint8_t readFileBuff[FRAME_READ_FILE_BUFF];
-#endif
+    char            x_value[10];
+    char            y_value[10];
+    uint8_t         cancle_enable;
 
-    bool lb_flag;
-    float x_first_pos;
-    float y_first_pos;
-    float x_last_pos;
-    float y_last_pos;
+    bool            is_finsh_run;                  // 检测是否巡边完成
+    bool            is_begin_run;                  // 开始检测
+    bool            is_read_file = false;          // 判断是否开始读文件巡边
+    bool            is_use_lb = false;             // 
+    bool            out;
+
+    // 用于记录文件信息
+    uint32_t        file_size;
+    char            file_name[128];
+
+    uint32_t        current_file_size;
+    char            current_file_name[128];
+
+    bool            is_use_same_file = false;
 
 }FRAME_CRTL_T;
 extern FRAME_CRTL_T frame_ctrl;
@@ -94,4 +95,6 @@ void mks_frame_init(void);
 bool mks_get_frame_status(void);
 void frame_finsh_popup(void);
 void frame_run(void);
+void lb_polocte_cmd(char *str);
+void frame_run(bool is_lb);
 #endif

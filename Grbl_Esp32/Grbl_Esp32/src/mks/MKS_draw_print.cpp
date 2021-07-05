@@ -184,7 +184,7 @@ void mks_draw_print(void) {
     lv_imgbtn_creat_n_mks(mks_global.mks_src_2 ,print_src.print_icon_PWR,  &png_cave_pwr,  &png_cave_pwr, print_src2_first_pic_x, print_src2_first_pic_y, event_handler_none);
     lv_imgbtn_creat_n_mks(mks_global.mks_src_2 ,print_src.print_icon_SPEED,  &png_cave_speed,  &png_cave_speed, print_src2_first_pic_x, print_src2_first_pic_y+30, event_handler_none);
 
-    print_src.print_bar_print = mks_lv_bar_set(mks_global.mks_src_2, print_src.print_bar_print, 440, 40, print_bar_pic_x, print_bar_pic_y, 0);
+    print_src.print_bar_print = mks_lv_bar_set(mks_global.mks_src_2, print_src.print_bar_print, 440, 35, print_bar_pic_x, print_bar_pic_y, 0);
 
     lv_bar_set_style(print_src.print_bar_print, LV_BAR_STYLE_BG , &print_src.print_bar_bg_style);
     lv_bar_set_style(print_src.print_bar_print, LV_BAR_STYLE_INDIC , &print_src.print_bar_indic_style);
