@@ -160,8 +160,8 @@ void lb_polocte_cmd(char *str) {
 
     frame_ctrl.safe_count = 0;
     while (*str != '\n' && (frame_ctrl.safe_count < FRAME_BUFF_SIZE)) {
-        // grbl_send(CLIENT_SERIAL, "\n enter find buff");
-        // grbl_sendf(CLIENT_SERIAL, "safe_count=:%d\n", frame_ctrl.safe_count);
+        grbl_send(CLIENT_SERIAL, "\n enter find buff");
+        grbl_sendf(CLIENT_SERIAL, "safe_count=:%d\n", frame_ctrl.safe_count);
         if (*str == 'X') {
             str++;
             memset(frame_ctrl.x_value, '\0', sizeof(frame_ctrl.x_value));
@@ -214,10 +214,14 @@ void lb_polocte_cmd(char *str) {
 void mks_frame_init(void) { 
 
     frame_ctrl.frame_starus = FRAME_NONE;
-    frame_ctrl.x_max = 0;
-    frame_ctrl.x_min = 0;
-    frame_ctrl.y_max = 0;
-    frame_ctrl.y_min = 0;
+
+    if(frame_ctrl.is_use_same_file != true) {
+        frame_ctrl.x_max = 0;
+        frame_ctrl.x_min = 0;
+        frame_ctrl.y_max = 0;
+        frame_ctrl.y_min = 0;
+    }
+    
     frame_ctrl.y_temp = 0;
     frame_ctrl.x_temp = 0;
     frame_ctrl.have_g0 = false;
@@ -289,29 +293,33 @@ void mks_run_frame(char *parameter) {
             (frame_ctrl.is_read_file)       && 
             (frame_ctrl.is_use_same_file == false)) {
         
-        // grbl_send(CLIENT_SERIAL ,"enter while \n");
+        grbl_send(CLIENT_SERIAL ,"enter while \n");
         if(get_current_line < 10) {
             get_current_line = sd_get_current_line_number();
             b = strstr(fileLine, "Bounds");
             if(b != NULL) {
-                // grbl_send(CLIENT_SERIAL, "have Bounds\n");
-                // grbl_send(CLIENT_SERIAL, fileLine);
+                grbl_send(CLIENT_SERIAL, "have Bounds\n");
+                grbl_send(CLIENT_SERIAL, fileLine);
                 lb_polocte_cmd(fileLine);
                 frame_ctrl.is_read_file = false;
                 frame_ctrl.is_use_lb = true;
-                frame_ctrl.is_use_same_file = true;
+                // frame_ctrl.is_use_same_file = true;
                 break;
             }
         }
         polocte_cmd(fileLine);
-        frame_ctrl.is_use_same_file = true;
     }
-    
-    // grbl_sendf(CLIENT_SERIAL ,"(%.2f, %.2f), (%.2f, %.2f)", frame_ctrl.x_min, frame_ctrl.y_min, frame_ctrl.x_max, frame_ctrl.y_max);
+
+    frame_ctrl.is_use_same_file = true;
+
+    grbl_sendf(CLIENT_SERIAL ,"(%.2f, %.2f), (%.2f, %.2f)", 
+                                frame_ctrl.x_min, 
+                                frame_ctrl.y_min, 
+                                frame_ctrl.x_max, 
+                                frame_ctrl.y_max);
     closeFile();
     mks_lv_label_updata(frame_page.label_text, "Running...");
     lv_refr_now(lv_refr_get_disp_refreshing()); 
-
 
     MKS_GRBL_CMD_SEND("M3 S5\n");
 
@@ -366,9 +374,7 @@ void frame_run(bool is_lb) {
     }else {
 
         MKS_GRBL_CMD_SEND("M3 S5\n");
-
         // MKS_GRBL_CMD_SEND("G91\n");
-
         sprintf(frame_cmd, "G0 X%f Y%f 300\n",frame_ctrl.x_min, frame_ctrl.y_min); // point 0
         MKS_GRBL_CMD_SEND(frame_cmd);
 

@@ -82,6 +82,8 @@ typedef struct{
     bool                        wifi_connect_enable;// 允许wifi自动连接
     bool                        popup_1_flag;
     bool                        is_need_ref_sd_file;
+
+    uint32_t                    carve_times;        // 雕刻次数
 }GRBL_CRTL;
 extern GRBL_CRTL mks_grbl;
 

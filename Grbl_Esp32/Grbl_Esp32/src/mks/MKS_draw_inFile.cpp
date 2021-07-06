@@ -50,7 +50,6 @@ static void event_handler_frame_yes(lv_obj_t* obj, lv_event_t event) {
 static void event_handler_frame_no(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-		
 		global_popup_del();
 	}
 
@@ -67,7 +66,7 @@ static void event_handler_frame(lv_obj_t* obj, lv_event_t event) {
 		if(frame_ctrl.file_size >= 1024*1024) {
 			mks_draw_common_popup("Warning", "File is more than 1M", "Do you want to continue?", event_handler_frame_yes, event_handler_frame_no);
 		}else {
-			frame_ctrl.is_use_same_file = false;
+			// frame_ctrl.is_use_same_file = false;
 			lv_obj_clean(mks_global.mks_src);
 			mks_draw_frame();
 		}

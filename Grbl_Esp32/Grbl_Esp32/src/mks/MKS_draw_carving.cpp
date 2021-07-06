@@ -159,6 +159,7 @@ static void event_handler_file0(lv_obj_t* obj, lv_event_t event) {
 	mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
 	mks_lv_clean_ui();
 	get_print_file_name(mks_file_list.filename_str[0]);
+	frame_ctrl.is_use_same_file = false;
 	mks_draw_inFile(mks_file_list.filename_str[0]);
 #else
 	mks_draw_caving_popup(mks_file_list.file_begin_num, mks_file_list.filename_str[0]);
@@ -177,6 +178,7 @@ static void event_handler_file1(lv_obj_t* obj, lv_event_t event) {
 		mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
 		mks_lv_clean_ui();
 		get_print_file_name(mks_file_list.filename_str[1]);
+		frame_ctrl.is_use_same_file = false;
 		mks_draw_inFile(mks_file_list.filename_str[1]);
 #else
 		mks_draw_caving_popup(mks_file_list.file_begin_num, mks_file_list.filename_str[1]);
@@ -194,6 +196,7 @@ static void event_handler_file2(lv_obj_t* obj, lv_event_t event) {
 		mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
 		mks_lv_clean_ui();
 		get_print_file_name(mks_file_list.filename_str[2]);
+		frame_ctrl.is_use_same_file = false;
 		mks_draw_inFile(mks_file_list.filename_str[2]);
 #else
 		mks_draw_caving_popup(mks_file_list.file_begin_num, mks_file_list.filename_str[2]);
@@ -209,6 +212,7 @@ static void event_handler_file3(lv_obj_t* obj, lv_event_t event) {
 		mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
 		mks_lv_clean_ui();
 		get_print_file_name(mks_file_list.filename_str[3]);
+		frame_ctrl.is_use_same_file = false;
 		mks_draw_inFile(mks_file_list.filename_str[3]);
 #else
 		mks_draw_caving_popup(mks_file_list.file_begin_num, mks_file_list.filename_str[3]);
@@ -226,6 +230,7 @@ static void event_handler_file4(lv_obj_t* obj, lv_event_t event) {
 		mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
 		mks_lv_clean_ui();
 		get_print_file_name(mks_file_list.filename_str[4]);
+		frame_ctrl.is_use_same_file = false;
 		mks_draw_inFile(mks_file_list.filename_str[4]);
 #else
 		mks_draw_caving_popup(mks_file_list.file_begin_num, mks_file_list.filename_str[4]);
@@ -242,6 +247,7 @@ static void event_handler_file5(lv_obj_t* obj, lv_event_t event) {
 		mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
 		mks_lv_clean_ui();
 		get_print_file_name(mks_file_list.filename_str[5]);
+		frame_ctrl.is_use_same_file = false;
 		mks_draw_inFile(mks_file_list.filename_str[5]);
 #else
 		mks_draw_caving_popup(mks_file_list.file_begin_num, mks_file_list.filename_str[5]);
@@ -258,6 +264,7 @@ static void event_handler_file6(lv_obj_t* obj, lv_event_t event) {
 		mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
 		mks_lv_clean_ui();
 		get_print_file_name(mks_file_list.filename_str[6]);
+		frame_ctrl.is_use_same_file = false;
 		mks_draw_inFile(mks_file_list.filename_str[6]);
 #else 
 		mks_draw_caving_popup(mks_file_list.file_begin_num, mks_file_list.filename_str[6]);
@@ -274,6 +281,7 @@ static void event_handler_file7(lv_obj_t* obj, lv_event_t event) {
 		mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
 		mks_lv_clean_ui();
 		get_print_file_name(mks_file_list.filename_str[7]);
+		frame_ctrl.is_use_same_file = false;
 		mks_draw_inFile(mks_file_list.filename_str[7]);
 #else
 		mks_draw_caving_popup(mks_file_list.file_begin_num, mks_file_list.filename_str[7]);
@@ -307,7 +315,6 @@ void mks_draw_craving(void) {
 	if(state == SDState::NotPresent)
 	{
 		mks_grbl.mks_sd_status = 0;	// no sd insert
-
 		label_for_screen(mks_global.mks_src, Label_NoFile, 0, 0, "No SD Card");
 	}else {
 
@@ -895,11 +902,10 @@ void start_print(void) {
 	mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING; 
 	mks_ui_page.wait_count = DEFAULT_UI_COUNT;
  
-	ddxd = sd_get_current_line_number();
-	sprintf(line_num, "%d",ddxd);
-	tf.writeFile("/PLA.txt", line_num);
-
-	strcat(str_cmd,file_print_send);
+	// ddxd = sd_get_current_line_number();
+	// sprintf(line_num, "%d",ddxd);
+	// tf.writeFile("/PLA.txt", line_num);
+	strcat(str_cmd, file_print_send);
 	strcat(str_cmd,"\n");
 	MKS_GRBL_CMD_SEND(str_cmd);
 	grbl_send(CLIENT_SERIAL, str_cmd);
