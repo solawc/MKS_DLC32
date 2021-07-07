@@ -163,6 +163,15 @@ boolean closeFile() {
     return true;
 }
 
+boolean setFilePos(uint32_t pos) {
+    if (!myFile) {
+        return false;
+    }
+
+    sd_current_line_number = 0;
+    myFile.seek(pos);
+}
+
 
 boolean mks_openFile(fs::FS& fs, const char* path) {
     myFile = fs.open(path);

@@ -325,18 +325,23 @@ void mks_run_frame(char *parameter) {
 
     sprintf(frame_cmd, "G0 X%f Y%f 300\n",frame_ctrl.x_min, frame_ctrl.y_min); // point 0
     MKS_GRBL_CMD_SEND(frame_cmd);
+    grbl_send(CLIENT_SERIAL ,frame_cmd);
 
     sprintf(frame_cmd, "G1 Y%f F1000\n",frame_ctrl.y_max);  // point 1
     MKS_GRBL_CMD_SEND(frame_cmd);
+    grbl_send(CLIENT_SERIAL ,frame_cmd);
 
     sprintf(frame_cmd, "G1 X%f F1000\n", frame_ctrl.x_max); // point 2
     MKS_GRBL_CMD_SEND(frame_cmd);
+    grbl_send(CLIENT_SERIAL ,frame_cmd);
 
     sprintf(frame_cmd, "G1 Y%f F1000\n", frame_ctrl.y_min); // point 3
     MKS_GRBL_CMD_SEND(frame_cmd);
+    grbl_send(CLIENT_SERIAL ,frame_cmd);
 
     sprintf(frame_cmd, "G1 X%f F1000\n", frame_ctrl.x_min); // point 4 
     MKS_GRBL_CMD_SEND(frame_cmd);
+    grbl_send(CLIENT_SERIAL ,frame_cmd);
     
     MKS_GRBL_CMD_SEND("M5\n");
     MKS_GRBL_CMD_SEND("G0 X0 Y0 F300\n");
@@ -380,7 +385,7 @@ void frame_run(bool is_lb) {
 
         // MKS_GRBL_CMD_SEND("G90\n");
 
-        sprintf(frame_cmd, "G1 Y%f F1000\n",abs(frame_ctrl.y_max - frame_ctrl.y_min));  // point 1
+        sprintf(frame_cmd, "G1 Y%f F1000\n", abs(frame_ctrl.y_max - frame_ctrl.y_min));  // point 1
         MKS_GRBL_CMD_SEND(frame_cmd);
 
         sprintf(frame_cmd, "G1 X%f F1000\n", abs(frame_ctrl.x_max - frame_ctrl.x_min)); // point 2
@@ -397,13 +402,45 @@ void frame_run(bool is_lb) {
     }
 }
 
+
+static void event_handler_cave_yes(lv_obj_t* obj, lv_event_t event) {
+
+	if (event == LV_EVENT_RELEASED) {
+
+		mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
+		
+		#if defined(USR_RELASE)
+			lv_obj_clean(mks_src);
+		#else 
+			lv_obj_clean(mks_global.mks_src);
+		#endif
+			start_print();
+	}
+}
+
+static void event_handler_cave_no(lv_obj_t* obj, lv_event_t event) {
+
+	if (event == LV_EVENT_RELEASED) {
+		
+        cavre_popup_del();
+
+        lv_obj_clean(mks_global.mks_src);
+
+        mks_draw_inFile(frame_ctrl.file_name);
+	}
+}
+
+
 void frame_finsh_popup(void) {
 
-    mks_draw_common_popup("Info", 
-                        "Do you want to carve?",
-                        " ",
-                        event_handle_yes,
-                        event_handle_no);
+    // mks_draw_common_popup("Info", 
+    //                     "Do you want to carve?",
+    //                     " ",
+    //                     event_handle_yes,
+    //                     event_handle_no);
+
+    // mks_draw_cavre_popup(frame_ctrl.file_name);
+    mks_draw_cavre_popup(frame_ctrl.file_name, event_handler_cave_yes, event_handler_cave_no);
 }
 
 bool mks_get_frame_status(void) { 

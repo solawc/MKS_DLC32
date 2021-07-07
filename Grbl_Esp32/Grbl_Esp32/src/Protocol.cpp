@@ -166,17 +166,24 @@ void protocol_main_loop() {
                 SD_ready_next = false;
                 report_status_message(execute_line(fileLine, SD_client, SD_auth_level), SD_client);
                 } else {
-                    char temp[50];
-                    sd_get_current_filename(temp);
-                    if (mks_grbl.is_mks_ts35_flag == true) { 
-                        mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
-                        mks_ui_page.wait_count = DEFAULT_UI_COUNT;
-                        mks_draw_finsh_pupop(); // show print finsh 
+                
+                    if(mks_grbl.carve_times > 0) {
+                        setFilePos(0);
+                        grbl_sendf(CLIENT_SERIAL , "times:%d\n", mks_grbl.carve_times);
+                        mks_grbl.carve_times--;
+                    }else {
+                        char temp[50];
+                        sd_get_current_filename(temp);
+                        if (mks_grbl.is_mks_ts35_flag == true) { 
+                            mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
+                            mks_ui_page.wait_count = DEFAULT_UI_COUNT;
+                            mks_draw_finsh_pupop(); // show print finsh 
+                        }
+                        grbl_notifyf("SD print done", "%s print is successful", temp);
+                        grbl_send(CLIENT_ALL, "SD Print Finish!\n");
+                        MKS_GRBL_CMD_SEND("G0 X0 Y0 F300\n");
+                        closeFile();  // close file and clear SD ready/running flags
                     }
-                    grbl_notifyf("SD print done", "%s print is successful", temp);
-                    grbl_send(CLIENT_ALL, "SD Print Finish!\n");
-                    MKS_GRBL_CMD_SEND("G0 X0 Y0 F300\n");
-                    closeFile();  // close file and clear SD ready/running flags
                 }
             // }
         }

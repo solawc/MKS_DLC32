@@ -22,6 +22,31 @@ LV_IMG_DECLARE(png_infile_pos_pre);
 LV_IMG_DECLARE(png_infile_frame_pre);
 LV_IMG_DECLARE(png_infile_cave_pre);
 
+
+static void event_handler_cave_yes(lv_obj_t* obj, lv_event_t event) {
+
+	if (event == LV_EVENT_RELEASED) {
+
+		mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
+		
+		#if defined(USR_RELASE)
+			lv_obj_clean(mks_src);
+		#else 
+			lv_obj_clean(mks_global.mks_src);
+		#endif
+			start_print();
+	}
+}
+
+static void event_handler_cave_no(lv_obj_t* obj, lv_event_t event) {
+
+	if (event == LV_EVENT_RELEASED) {
+		// lv_obj_del(infile_page.cavre_popup);
+		cavre_popup_del();
+	}
+}
+
+
 static void event_handler_cancle(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
@@ -35,7 +60,6 @@ static void event_handler_cancle(lv_obj_t* obj, lv_event_t event) {
 		mks_draw_ready();
 	}
 }
-
 
 static void event_handler_frame_yes(lv_obj_t* obj, lv_event_t event) {
 
@@ -76,13 +100,15 @@ static void event_handler_frame(lv_obj_t* obj, lv_event_t event) {
 static void event_handler_sure(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
-		mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
-#if defined(USR_RELASE)
-		lv_obj_clean(mks_src);
-#else 
-		lv_obj_clean(mks_global.mks_src);
-#endif
-		start_print();
+// 		mks_ui_page.mks_ui_page = MKS_UI_PAGE_LOADING;
+// #if defined(USR_RELASE)
+// 		lv_obj_clean(mks_src);
+// #else 
+// 		lv_obj_clean(mks_global.mks_src);
+// #endif
+// 		start_print();
+		// mks_draw_cavre_popup(frame_ctrl.file_name);
+		mks_draw_cavre_popup(frame_ctrl.file_name, event_handler_cave_yes, event_handler_cave_no);
 	}
 }
 
@@ -216,7 +242,6 @@ static void event_handler_carve_set(lv_obj_t* obj, lv_event_t event){
 	}
 }
 
-
 void mks_draw_inFile(char *fn) {
 
 	/* 背景层 */
@@ -280,10 +305,7 @@ void mks_draw_inFile(char *fn) {
 	label_for_imgbtn_name(mks_global.mks_src_1, infile_page.label_frame, infile_page.btn_frame, 0, 0, "Frame");
 	// label_for_screen(mks_global.mks_src_1, infile_page.label_file_name, -100, 0, fn);
 
-
-
-
-	label_for_infile_name(mks_global.mks_src_1, infile_page.label_file_name, -100, 0, fn);
+	label_for_infile_name(mks_global.mks_src_1, infile_page.label_file_name, -120, 0, fn);
 	mks_ui_page.mks_ui_page = MKS_UI_inFile;
 }
 
@@ -359,47 +381,12 @@ void mks_draw_freaure(void) {
 	lv_obj_set_size(mks_global.mks_src_3, 180, 200);
     lv_obj_set_pos(mks_global.mks_src_3, 290, 110);
 	lv_obj_set_style(mks_global.mks_src_3, &mks_global.mks_src_3_style);
-	
-	// infile_page.btn_pos = mks_lv_btn_set(mks_global.mks_src_3, 
-	// 								infile_page.btn_pos, 
-	// 								inFILE_BTN_SIZE_X, 
-	// 								inFILE_BTN_SIZE_Y, 
-	// 								inFILE_BTN_X, 
-	// 								inFILE_BTN_Y, 
-	// 								event_handler_pos);  
-	
-	// infile_page.btn_frame = mks_lv_btn_set(mks_global.mks_src_3, 
-	// 								infile_page.btn_frame, 
-	// 								inFILE_BTN_SIZE_X, 
-	// 								inFILE_BTN_SIZE_Y, 
-	// 								inFILE_BTN_X, 
-	// 								inFILE_BTN_Y + inFILE_BTN_Y_OFFSET*1, 
-	// 								event_handler_frame);
-	
-	// infile_page.btn_sure_print = mks_lv_btn_set(mks_global.mks_src_3, 
-	// 								infile_page.btn_sure_print, 
-	// 								inFILE_BTN_SIZE_X, 
-	// 								inFILE_BTN_SIZE_Y, 
-	// 								inFILE_BTN_X, 
-	// 								inFILE_BTN_Y + inFILE_BTN_Y_OFFSET*2, 
-	// 								event_handler_sure);
-
-	// label_for_btn_name(infile_page.btn_frame, infile_page.label_frame, 0, 0, "Frame");
-	// label_for_btn_name(infile_page.btn_sure_print, infile_page.label_cancle, 0, 0, "Crave");
-	// label_for_btn_name(infile_page.btn_pos, infile_page.label_cancle, 0, 0, "Postive");
-
-	// lv_btn_set_style(infile_page.btn_frame, LV_BTN_STYLE_PR, &infile_page.btn_color);
-	// lv_btn_set_style(infile_page.btn_frame, LV_BTN_STYLE_REL, &infile_page.btn_color);
-
-	// lv_btn_set_style(infile_page.btn_sure_print, LV_BTN_STYLE_PR, &infile_page.btn_color);
-	// lv_btn_set_style(infile_page.btn_sure_print, LV_BTN_STYLE_REL, &infile_page.btn_color);
-
-	// lv_btn_set_style(infile_page.btn_pos, LV_BTN_STYLE_PR, &infile_page.btn_color);
-	// lv_btn_set_style(infile_page.btn_pos, LV_BTN_STYLE_REL, &infile_page.btn_color);
 }
 
-void infile_clean_obj(lv_obj_t *obj_src) {
 
+
+
+void infile_clean_obj(lv_obj_t *obj_src) {
 	lv_obj_clean(obj_src);
 }
 

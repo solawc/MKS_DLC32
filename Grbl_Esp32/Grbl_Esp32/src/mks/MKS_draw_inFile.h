@@ -40,6 +40,14 @@ typedef enum {
 typedef struct {
 
     // lv_obj_t *inFile_src;
+    lv_obj_t *cavre_popup;                   // 雕刻页面
+    lv_obj_t *popup_add;                // 雕刻次数加
+    lv_obj_t *popup_dec;                // 雕刻次数减
+    lv_obj_t *popup_sure;               // 确认雕刻     
+    lv_obj_t *popup_back;               // 返回雕刻
+    lv_obj_t *popup_label_count;        // 显示雕刻次数
+    lv_obj_t *popup_label_file;         // 文件名
+    lv_style_t popup_style;            
 
     lv_obj_t *btn_pos;              // 定点
     lv_obj_t *btn_sure_print;       // 打印
@@ -75,4 +83,5 @@ void mks_draw_inFile(char *fn);
 void mks_draw_freaure(void);
 void mks_draw_setting(void);
 void infile_clean_obj(lv_obj_t *obj_src);
+void mks_draw_cavre_popup(char *fn);
 #endif

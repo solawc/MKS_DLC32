@@ -43,10 +43,15 @@ extern GLOBAL_OBJ_T mks_global;
 
 typedef struct {
     lv_obj_t *com_popup_src;             //创建页面
+
     lv_style_t com_popup_sytle;
     lv_style_t com_btn_sytle;
+
     lv_obj_t *btn_yes;
-    lv_obj_t *btn_cancle;            
+    lv_obj_t *btn_cancle;     
+    lv_obj_t *btn_add;
+    lv_obj_t *btn_dec;
+
     lv_obj_t *label_yes;
     lv_obj_t *label_cancle; 
     lv_obj_t *label_title;               //弹窗标题
@@ -54,7 +59,6 @@ typedef struct {
     lv_obj_t *label_line2;
     bool mux;                      // 做互斥用
 }COMMON_POPUP_T;
-
 extern COMMON_POPUP_T com_p1;
 extern COMMON_POPUP_T com_p2;
 extern COMMON_POPUP_T com_p_info;
@@ -103,6 +107,7 @@ lv_obj_t* mks_lv_set_ta(lv_obj_t* scr, lv_obj_t *ta, lv_obj_t *kb, lv_coord_t w,
 lv_obj_t* mks_lv_set_line(lv_obj_t* scr, lv_obj_t * line, lv_point_t *line_points);
 
 // popup
+void mks_draw_cavre_popup(char *fn, lv_event_cb_t event_cb_yes, lv_event_cb_t event_cb_no);
 void draw_global_popup(const char *text);
 void mks_draw_common_popup(char *title, char *line1, char *line2, lv_event_cb_t event_cb_yes, lv_event_cb_t event_cancle);
 void mks_draw_common_pupup_info(char *title,char *line1, char *line2);
@@ -111,5 +116,8 @@ void common_pupup_info_del(void);
 void common_popup_del(void);
 void global_popup_del(void);
 void common_popup_com_del(void);
+void cavre_popup_del(void);
 void mks_lv_clean_ui(void);
+mks_ui_page_t get_current_page(void);
+void disable_btn(void);
 #endif 

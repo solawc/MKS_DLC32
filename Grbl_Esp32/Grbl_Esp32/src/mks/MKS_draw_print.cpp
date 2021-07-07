@@ -199,7 +199,6 @@ void mks_draw_print(void) {
     print_src.print_Label_p_power = label_for_imgbtn_name(mks_global.mks_src_1, print_src.print_Label_p_power, print_src.print_imgbtn_pwr ,0 ,0 ,"Power");
     print_src.print_Label_p_caveSpeed = label_for_imgbtn_name(mks_global.mks_src_1, print_src.print_Label_p_caveSpeed, print_src.print_imgbtn_speed ,0 ,0 ,"Speed");
 
-
     print_src.print_Label_x_pos = mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_2, print_src.print_Label_x_pos, print_first_data_label_x+300, print_first_data_label_y,    "0", 50);
     print_src.print_Label_y_pos = mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_2, print_src.print_Label_y_pos, print_first_data_label_x+300, print_first_data_label_y+30, "0", 50);
     print_src.print_Label_z_pos = mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_2, print_src.print_Label_z_pos, print_first_data_label_x+300, print_first_data_label_y+60, "0", 50);
@@ -207,7 +206,7 @@ void mks_draw_print(void) {
     print_src.print_Label_power = mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_2, print_src.print_Label_power, print_first_data_label_x + 100, print_first_data_label_y, "0", 50);
     print_src.print_Label_caveSpeed = mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_2, print_src.print_Label_caveSpeed, print_first_data_label_x + 100, print_first_data_label_y+30, "0", 50);
 
-    Label_print_file_name = mks_lvgl_long_sroll_label_with_wight_set_center(print_src.print_bar_print, Label_print_file_name, 10, 15, print_file_name, 400);
+    Label_print_file_name = mks_lvgl_long_sroll_label_with_wight_set_center(print_src.print_bar_print, Label_print_file_name, 10, 8, print_file_name, 400);
     print_src.print_bar_print_percen = label_for_btn_name(print_src.print_bar_print, print_src.print_bar_print_percen, 190, 0, "0%");
     // lv_refr_now(lv_refr_get_disp_refreshing());
 
@@ -853,7 +852,7 @@ void print_send(void) {
 }
 
 uint8_t get_print_speed(void) {
-
+    
     return sys_rt_f_override;
 }
 

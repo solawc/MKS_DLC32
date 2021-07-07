@@ -7,6 +7,12 @@ COMMON_POPUP_T com_p1;
 COMMON_POPUP_T com_p2;
 COMMON_POPUP_T com_p_info;
 COMMON_POPUP_T com_p_info_com;
+COMMON_POPUP_T cavre_pupop;
+
+LV_IMG_DECLARE(add);  // 加
+LV_IMG_DECLARE(confirm);  // 确认
+LV_IMG_DECLARE(s_return);  // 确认
+LV_IMG_DECLARE(reduce);  // 减
 
 /* 
  * Author   :MKS
@@ -511,6 +517,102 @@ void mks_draw_common_popup_info_com(char *title, char *line1, char *line2, lv_ev
     label_for_screen(com_p_info_com.com_popup_src, com_p_info_com.label_line2, 0, 0, line2);
 }
 
+
+static void event_handler_cave_add(lv_obj_t* obj, lv_event_t event) {
+
+	if (event == LV_EVENT_RELEASED) {
+		char buff[20];
+		mks_grbl.carve_times ++;
+		if(mks_grbl.carve_times > 99) {
+			mks_grbl.carve_times = 99;
+		}
+
+		sprintf(buff , "times:%d", mks_grbl.carve_times);
+		lv_label_set_text(cavre_pupop.label_line2, buff);
+	}
+}
+
+static void event_handler_cave_dec(lv_obj_t* obj, lv_event_t event) {
+
+	if (event == LV_EVENT_RELEASED) {
+		char buff[20];
+		mks_grbl.carve_times --;
+		if(mks_grbl.carve_times < 1) {
+			mks_grbl.carve_times = 1;
+		}
+		sprintf(buff , "times:%d", mks_grbl.carve_times);
+		lv_label_set_text(cavre_pupop.label_line2, buff);
+	}
+}
+
+void mks_draw_cavre_popup(char *fn, lv_event_cb_t event_cb_yes, lv_event_cb_t event_cb_no) {
+	
+	char buff[20];
+	mks_grbl.carve_times = 1;
+
+    cavre_pupop.com_popup_src = lv_obj_create(mks_global.mks_src, NULL);
+
+	lv_obj_set_size(cavre_pupop.com_popup_src ,350, 200);
+	lv_obj_set_pos(cavre_pupop.com_popup_src, 80,50);
+
+    lv_style_copy(&cavre_pupop.com_popup_sytle, &lv_style_scr);
+	cavre_pupop.com_popup_sytle.body.main_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
+    cavre_pupop.com_popup_sytle.body.grad_color = LV_COLOR_MAKE(0xCE, 0xD6, 0xE5); 
+	cavre_pupop.com_popup_sytle.text.color = LV_COLOR_BLACK;
+	cavre_pupop.com_popup_sytle.body.radius = 17;
+	lv_obj_set_style(cavre_pupop.com_popup_src, &cavre_pupop.com_popup_sytle);
+
+	cavre_pupop.btn_add = 
+	lv_imgbtn_creat_mks(cavre_pupop.com_popup_src, 
+						cavre_pupop.btn_add, 
+						&add, 
+						&add, 
+						LV_ALIGN_IN_LEFT_MID, 
+						print_pwr_popup_add_btn_x,
+						print_pwr_popup_add_btn_y, 
+						event_handler_cave_add);
+
+    cavre_pupop.btn_dec = 
+	lv_imgbtn_creat_mks(cavre_pupop.com_popup_src, 
+						cavre_pupop.btn_dec, 
+						&reduce, &reduce, 
+						LV_ALIGN_IN_LEFT_MID, 
+						print_pwr_popup_add_btn_x+80,
+						print_pwr_popup_add_btn_y, 
+						event_handler_cave_dec);
+
+    cavre_pupop.btn_yes = 
+	lv_imgbtn_creat_mks(cavre_pupop.com_popup_src, 
+                        cavre_pupop.btn_yes, 
+                        &confirm, 
+                        &confirm, 
+                        LV_ALIGN_IN_LEFT_MID, 
+                        print_pwr_popup_add_btn_x+160,
+                        print_pwr_popup_add_btn_y, event_cb_yes);
+    
+    cavre_pupop.btn_cancle = 
+	lv_imgbtn_creat_mks(cavre_pupop.com_popup_src, 
+                        cavre_pupop.btn_cancle, 
+                        &s_return, 
+                        &s_return, 
+                        LV_ALIGN_IN_LEFT_MID, 
+                        print_pwr_popup_add_btn_x+240,
+                        print_pwr_popup_add_btn_y, event_cb_no);
+	
+	label_for_screen(cavre_pupop.com_popup_src, 
+					 cavre_pupop.label_line1,
+					 0,
+					 -20,
+					 fn);
+
+	sprintf(buff, "times:%d", mks_grbl.carve_times);
+	cavre_pupop.label_line2 = label_for_screen(cavre_pupop.com_popup_src, 
+											cavre_pupop.label_line2,
+											0,
+											0,
+											buff);
+}
+
 void common_pupup_info_del(void) { 
     lv_obj_del(com_p_info.com_popup_src);
 }
@@ -527,7 +629,68 @@ void global_popup_del(void) {
     lv_obj_del(com_p1.com_popup_src);
 }
 
+void cavre_popup_del(void) { 
+    lv_obj_del(cavre_pupop.com_popup_src);
+}
 
+mks_ui_page_t get_current_page(void) {
+    return mks_ui_page.mks_ui_page;
+}
+
+void disable_btn(void) { 
+    mks_ui_page_t current_page;
+    current_page = get_current_page();
+    switch(current_page) {
+
+        case MKS_UI_Logo:
+
+        break;
+
+        case MKS_UI_Ready:
+
+        break;
+
+        case MKS_UI_Adjust:
+
+        break;
+
+        case MKS_UI_Control:
+
+        break;
+
+        case MKS_UI_Caving:
+
+        break;
+
+        case MKS_UI_Pring:
+
+        break;
+
+        case MKS_UI_Tool:
+
+        break;
+
+        case MKS_UI_Wifi:
+
+        break;
+
+        case MKS_UI_Frame:
+
+        break;
+
+        case MKS_UI_inFile:
+
+        break;
+
+        case MKS_UI_UPDATA:
+
+        break;
+
+        default:   // Loading
+
+        break;
+    }
+}
 
 
 

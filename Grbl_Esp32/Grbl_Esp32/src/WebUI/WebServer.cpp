@@ -1572,6 +1572,7 @@ namespace WebUI {
         switch (type) {
             case WStype_DISCONNECTED:
                 //USE_SERIAL.printf("[%u] Disconnected!\n", num);
+                grbl_send(CLIENT_SERIAL , "WebUI Disconnected!\n");
                 break;
             case WStype_CONNECTED: {
                 IPAddress ip = _socket_server->remoteIP(num);
@@ -1582,6 +1583,8 @@ namespace WebUI {
                 _socket_server->sendTXT(_id_connection, s);
                 s = "ACTIVE_ID:" + String(_id_connection);
                 _socket_server->broadcastTXT(s);
+
+                grbl_send(CLIENT_SERIAL , "WebUI connected!\n");
             } break;
             case WStype_TEXT:
                 //USE_SERIAL.printf("[%u] get Text: %s\n", num, payload);

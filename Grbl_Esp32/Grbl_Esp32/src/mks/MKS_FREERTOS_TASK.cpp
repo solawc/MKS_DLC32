@@ -112,6 +112,7 @@ static void mks_page_data_updata(void) {
                         if(fram_count == 10) {
                             if(mks_grbl.popup_1_flag != true){
                                 frame_finsh_popup();
+                                // void mks_draw_cavre_popup();
                             }
                             frame_ctrl.is_begin_run = false;
                             fram_count = 0;
