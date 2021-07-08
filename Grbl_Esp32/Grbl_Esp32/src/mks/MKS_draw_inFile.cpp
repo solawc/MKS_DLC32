@@ -108,7 +108,11 @@ static void event_handler_sure(lv_obj_t* obj, lv_event_t event) {
 // #endif
 // 		start_print();
 		// mks_draw_cavre_popup(frame_ctrl.file_name);
-		mks_draw_cavre_popup(frame_ctrl.file_name, event_handler_cave_yes, event_handler_cave_no);
+		char temp[128];
+		memset(temp, 0, sizeof(temp));
+		memcpy(temp, mks_file_list.filename_str[mks_file_list.file_choose], sizeof(temp));
+		if(temp[0]=='/') temp[0] = ' ';
+		mks_draw_cavre_popup(temp, event_handler_cave_yes, event_handler_cave_no);
 	}
 }
 
@@ -304,7 +308,6 @@ void mks_draw_inFile(char *fn) {
 	label_for_imgbtn_name(mks_global.mks_src_1, infile_page.label_pos, infile_page.btn_pos, 0, 0, "Position");
 	label_for_imgbtn_name(mks_global.mks_src_1, infile_page.label_frame, infile_page.btn_frame, 0, 0, "Frame");
 	// label_for_screen(mks_global.mks_src_1, infile_page.label_file_name, -100, 0, fn);
-
 	label_for_infile_name(mks_global.mks_src_1, infile_page.label_file_name, -120, 0, fn);
 	mks_ui_page.mks_ui_page = MKS_UI_inFile;
 }

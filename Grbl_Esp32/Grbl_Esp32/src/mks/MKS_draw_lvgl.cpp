@@ -633,12 +633,12 @@ void cavre_popup_del(void) {
     lv_obj_del(cavre_pupop.com_popup_src);
 }
 
-mks_ui_page_t get_current_page(void) {
+uint8_t get_current_page(void) {
     return mks_ui_page.mks_ui_page;
 }
 
 void disable_btn(void) { 
-    mks_ui_page_t current_page;
+    uint8_t current_page;
     current_page = get_current_page();
     switch(current_page) {
 

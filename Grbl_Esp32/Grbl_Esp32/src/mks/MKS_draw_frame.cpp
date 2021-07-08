@@ -347,7 +347,6 @@ void mks_run_frame(char *parameter) {
     MKS_GRBL_CMD_SEND("G0 X0 Y0 F300\n");
 
     // frame_run(frame_ctrl.is_use_lb);
-
     frame_ctrl.is_begin_run = true;
     frame_ctrl.cancle_enable = true;
     grbl_send(CLIENT_SERIAL ,"frame finsh\n");
@@ -421,26 +420,28 @@ static void event_handler_cave_yes(lv_obj_t* obj, lv_event_t event) {
 static void event_handler_cave_no(lv_obj_t* obj, lv_event_t event) {
 
 	if (event == LV_EVENT_RELEASED) {
+
+        char temp[128];
 		
         cavre_popup_del();
 
         lv_obj_clean(mks_global.mks_src);
 
-        mks_draw_inFile(frame_ctrl.file_name);
+        memset(temp, 0, sizeof(temp));
+        memcpy(temp, mks_file_list.filename_str[mks_file_list.file_choose], sizeof(temp));
+        if(temp[0] == '/') temp[0] = ' ';
+        mks_draw_inFile(temp);
+        // mks_draw_inFile(mks_file_list.filename_str[mks_file_list.file_choose]);
 	}
 }
 
 
 void frame_finsh_popup(void) {
-
-    // mks_draw_common_popup("Info", 
-    //                     "Do you want to carve?",
-    //                     " ",
-    //                     event_handle_yes,
-    //                     event_handle_no);
-
-    // mks_draw_cavre_popup(frame_ctrl.file_name);
-    mks_draw_cavre_popup(frame_ctrl.file_name, event_handler_cave_yes, event_handler_cave_no);
+    char temp[128];
+    memset(temp, 0, sizeof(temp));
+    memcpy(temp, mks_file_list.filename_str[mks_file_list.file_choose], sizeof(temp));
+    if(temp[0] == '/') temp[0] = ' ';
+    mks_draw_cavre_popup(temp, event_handler_cave_yes, event_handler_cave_no);
 }
 
 bool mks_get_frame_status(void) { 

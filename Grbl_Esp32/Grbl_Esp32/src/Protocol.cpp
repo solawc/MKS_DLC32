@@ -166,11 +166,10 @@ void protocol_main_loop() {
                 SD_ready_next = false;
                 report_status_message(execute_line(fileLine, SD_client, SD_auth_level), SD_client);
                 } else {
-                
+                    mks_grbl.carve_times--;
                     if(mks_grbl.carve_times > 0) {
                         setFilePos(0);
                         grbl_sendf(CLIENT_SERIAL , "times:%d\n", mks_grbl.carve_times);
-                        mks_grbl.carve_times--;
                     }else {
                         char temp[50];
                         sd_get_current_filename(temp);
@@ -185,7 +184,6 @@ void protocol_main_loop() {
                         closeFile();  // close file and clear SD ready/running flags
                     }
                 }
-            // }
         }
 #endif
 #else

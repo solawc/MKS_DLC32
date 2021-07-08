@@ -116,6 +116,7 @@ typedef struct {
     /* Label*/
     lv_obj_t* print_Label_power;
     lv_obj_t* print_Label_caveSpeed;
+    lv_obj_t* print_Label_caveTimes;
 
     lv_obj_t* print_Label_p_suspend;
     lv_obj_t* print_Label_p_stop;
@@ -138,6 +139,7 @@ typedef struct {
     lv_obj_t* print_icon_Z;
     lv_obj_t* print_icon_PWR;
     lv_obj_t* print_icon_SPEED;
+    lv_obj_t* print_icon_TIMES;
     
 }MKS_PRINT_PAGE_t;
 extern MKS_PRINT_PAGE_t print_src;
@@ -149,6 +151,7 @@ typedef struct {
     char print_zpos_str[10];
     char print_pwr_str[10];
     char print_speed_str[10];
+    char print_times_str[10]; // 雕刻次数
     
     float x_pos = 0;
     float y_pos = 0;
@@ -157,6 +160,8 @@ typedef struct {
     float last_x_pos = 0;
     float last_y_pos = 0;
     float last_z_pos = 0;
+
+    uint8_t times;
 }MKS_PRINT_DATA_UPDATA_t;
 
 

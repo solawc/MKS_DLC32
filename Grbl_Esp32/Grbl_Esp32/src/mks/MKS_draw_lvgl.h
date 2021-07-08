@@ -118,6 +118,6 @@ void global_popup_del(void);
 void common_popup_com_del(void);
 void cavre_popup_del(void);
 void mks_lv_clean_ui(void);
-mks_ui_page_t get_current_page(void);
+uint8_t get_current_page(void);
 void disable_btn(void);
 #endif 

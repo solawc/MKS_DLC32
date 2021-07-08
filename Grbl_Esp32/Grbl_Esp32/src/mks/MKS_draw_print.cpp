@@ -97,12 +97,15 @@ static void event_handler_none(lv_obj_t* obj, lv_event_t event) {
 
 void mks_draw_print(void) {
 	
-    char power_str[20];
-    char x_pos_str[30];
-    char y_pos_str[30];
-    char cave_s_str[50];
-    char move_s_str[50];
+    // char power_str[20];
+    // char x_pos_str[30];
+    // char y_pos_str[30];
+    // char cave_s_str[50];
+    // char move_s_str[50];
+    // char cavre_times[20];
+
     char print_file_name[128];
+    
 
     print_setting.cur_spindle_pwr = sys_rt_s_override;
     print_setting.cur_spindle_speed = sys_rt_f_override;
@@ -128,7 +131,6 @@ void mks_draw_print(void) {
     lv_obj_set_style(mks_global.mks_src_1, &mks_global.mks_src_1_style);
     lv_obj_set_style(mks_global.mks_src_2, &mks_global.mks_src_2_style);
 
-    
     /* 进度条背景样式 */
     lv_style_copy(&print_src.print_bar_bg_style, &lv_style_plain_color);
     print_src.print_bar_bg_style.body.main_color = LV_COLOR_MAKE(0x3F,0x46,0x66);
@@ -183,6 +185,8 @@ void mks_draw_print(void) {
     lv_imgbtn_creat_n_mks(mks_global.mks_src_2 ,print_src.print_icon_Z, &png_cave_zpos,  &png_cave_zpos, print_src2_first_pic_x+200, print_src2_first_pic_y + 60, event_handler_none);
     lv_imgbtn_creat_n_mks(mks_global.mks_src_2 ,print_src.print_icon_PWR,  &png_cave_pwr,  &png_cave_pwr, print_src2_first_pic_x, print_src2_first_pic_y, event_handler_none);
     lv_imgbtn_creat_n_mks(mks_global.mks_src_2 ,print_src.print_icon_SPEED,  &png_cave_speed,  &png_cave_speed, print_src2_first_pic_x, print_src2_first_pic_y+30, event_handler_none);
+    lv_imgbtn_creat_n_mks(mks_global.mks_src_2 ,print_src.print_icon_TIMES,  &png_cave_speed,  &png_cave_speed, print_src2_first_pic_x, print_src2_first_pic_y+60, event_handler_none);
+
 
     print_src.print_bar_print = mks_lv_bar_set(mks_global.mks_src_2, print_src.print_bar_print, 440, 35, print_bar_pic_x, print_bar_pic_y, 0);
 
@@ -199,12 +203,13 @@ void mks_draw_print(void) {
     print_src.print_Label_p_power = label_for_imgbtn_name(mks_global.mks_src_1, print_src.print_Label_p_power, print_src.print_imgbtn_pwr ,0 ,0 ,"Power");
     print_src.print_Label_p_caveSpeed = label_for_imgbtn_name(mks_global.mks_src_1, print_src.print_Label_p_caveSpeed, print_src.print_imgbtn_speed ,0 ,0 ,"Speed");
 
+
     print_src.print_Label_x_pos = mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_2, print_src.print_Label_x_pos, print_first_data_label_x+300, print_first_data_label_y,    "0", 50);
     print_src.print_Label_y_pos = mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_2, print_src.print_Label_y_pos, print_first_data_label_x+300, print_first_data_label_y+30, "0", 50);
     print_src.print_Label_z_pos = mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_2, print_src.print_Label_z_pos, print_first_data_label_x+300, print_first_data_label_y+60, "0", 50);
-
     print_src.print_Label_power = mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_2, print_src.print_Label_power, print_first_data_label_x + 100, print_first_data_label_y, "0", 50);
     print_src.print_Label_caveSpeed = mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_2, print_src.print_Label_caveSpeed, print_first_data_label_x + 100, print_first_data_label_y+30, "0", 50);
+    print_src.print_Label_caveTimes = mks_lvgl_long_sroll_label_with_wight_set_center(mks_global.mks_src_2, print_src.print_Label_caveTimes, print_first_data_label_x + 100, print_first_data_label_y+60, "0", 50);
 
     Label_print_file_name = mks_lvgl_long_sroll_label_with_wight_set_center(print_src.print_bar_print, Label_print_file_name, 10, 8, print_file_name, 400);
     print_src.print_bar_print_percen = label_for_btn_name(print_src.print_bar_print, print_src.print_bar_print_percen, 190, 0, "0%");
@@ -808,6 +813,9 @@ void mks_print_data_updata(void) {
 
     sprintf(print_data_updata.print_speed_str, "%2d%%", sys_rt_f_override);
     print_src.print_Label_caveSpeed = mks_lv_label_updata(print_src.print_Label_caveSpeed, print_data_updata.print_speed_str);
+
+    sprintf(print_data_updata.print_times_str, "%2d", mks_grbl.carve_times);
+    print_src.print_Label_caveTimes = mks_lv_label_updata(print_src.print_Label_caveTimes, print_data_updata.print_times_str);
 
     if( (print_data_updata.x_pos != print_data_updata.last_x_pos) || 
         (print_data_updata.y_pos != print_data_updata.last_y_pos) ) {
