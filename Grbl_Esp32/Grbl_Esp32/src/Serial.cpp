@@ -192,6 +192,9 @@ void clientCheckTask(void* pvParameters) {
                     if (data == '\r' || data == '\n') {
                         grbl_sendf(client, "error %d\r\n", Error::AnotherInterfaceBusy);
                         grbl_msg_sendf(client, MsgLevel::Info, "SD card job running");
+                        if(sys.state == State::Idle) {
+                            set_sd_state(SDState::Idle);
+                        }
                     }
                 }
 #endif  //ENABLE_SD_CARD

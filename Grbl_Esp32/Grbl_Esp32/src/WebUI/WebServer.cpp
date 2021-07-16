@@ -246,8 +246,8 @@ namespace WebUI {
         String contentType = getContentType(path);
         String pathWithGz  = path + ".gz";
         //if have a index.html or gzip version this is default root page
-        if ((SPIFFS.exists(pathWithGz) || SPIFFS.exists(path)) && !_webserver->hasArg("forcefallback") &&
-            _webserver->arg("forcefallback") != "yes") {
+        if ((SPIFFS.exists(pathWithGz) || SPIFFS.exists(path)) && !_webserver->hasArg("index") &&  // forcefallback
+            _webserver->arg("index") != "yes") {
             if (SPIFFS.exists(pathWithGz)) {
                 path = pathWithGz;
             }

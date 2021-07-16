@@ -12,6 +12,8 @@ LV_IMG_DECLARE(png_infile_cave);
 LV_IMG_DECLARE(png_infile_pos);
 LV_IMG_DECLARE(png_infile_frame);
 
+LV_IMG_DECLARE(Positionting);
+LV_IMG_DECLARE(png_pos_pre);
 	
 LV_IMG_DECLARE(png_m_up);
 LV_IMG_DECLARE(png_m_right);		
@@ -266,7 +268,7 @@ void mks_draw_inFile(char *fn) {
     lv_imgbtn_creat_mks(mks_global.mks_src_2, move_page.y_n, &png_m_up, &Y_N, LV_ALIGN_CENTER, 0, -50, event_handler_y_n);
     lv_imgbtn_creat_mks(mks_global.mks_src_2, move_page.y_p, &png_m_down, &Y_P, LV_ALIGN_CENTER, 0, 50, event_handler_y_p);
 
-	infile_page.btn_pos = lv_imgbtn_creat_mks(mks_global.mks_src_1, infile_page.btn_pos, &png_infile_pos_pre, &png_infile_pos, LV_ALIGN_CENTER, 90,-15, event_handler_pos);
+	infile_page.btn_pos = lv_imgbtn_creat_mks(mks_global.mks_src_1, infile_page.btn_pos, &png_pos_pre, &Positionting, LV_ALIGN_CENTER, 90,-15, event_handler_pos);
 	infile_page.btn_frame = lv_imgbtn_creat_mks(mks_global.mks_src_1, infile_page.btn_frame, &png_infile_frame_pre, &png_infile_frame, LV_ALIGN_CENTER, 0,-15, event_handler_frame);	
 	infile_page.btn_sure_print = lv_imgbtn_creat_mks(mks_global.mks_src_1, infile_page.btn_sure_print, &png_infile_cave_pre, &png_infile_cave, LV_ALIGN_CENTER, 180,-15, event_handler_sure);
 
